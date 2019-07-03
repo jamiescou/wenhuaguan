@@ -1,0 +1,82 @@
+<section class="center-head">
+    <div class="g-content">
+        <div class="user-profile">
+                <a href="/user/setprofile" >
+            <img src="<%=user.pic%>" class="avator"   onerror="this.onerror=null;this.src='/images/portrait.png'" data-type='portrait'/>
+           </a>
+            <div class="user-name">
+
+                <a href="/user/setprofile" class="set-btn">
+                    <%= user.nickname %>
+                    <!-- <i class="iconfont icon-edit"></i> -->
+                </a>
+            </div>
+           <% if(user.identifyStatus=='Not'||user.identifyStatus=='Fail'){%>
+                 <span class="auth-info j-setbtn" style="cursor:pointer" href='#authModal'><%= user.identifyName %></span>
+            <%} else {%>
+                <span class="auth-info"><%= user.identifyName %></span>
+            <%}%>
+
+
+            <% if(user.roles&&user.roles.length){%>
+                <% if(user.roles.join(',').indexOf('teacher')>=0){%>
+                    <span class="auth-info">老师</span>
+                <%}%>
+                <% if(user.roles.join(',').indexOf('volunteerPersonal')>=0){%>
+                    <span class="auth-info">个人志愿者</span>
+                    <%}%>
+                <% if(user.roles.join(',').indexOf('volunteerTeam')>=0){%>
+                    <span class="auth-info">团队志愿者</span>
+                    <%}%>
+              
+            <%}%>
+           
+        </div>
+        <ul class="nav-justified">
+            <li class="active" data-status="user">
+                <a href="/user">我的活动</a>
+            </li>
+            <li data-status="myvenues">
+                <a href="/user/myvenues">我的场馆</a>
+            </li>
+            <li data-status="mytrain">
+                <a href="/user/mytrain">我的培训</a>
+            </li>
+            <li data-status="myfavorite">
+                <a href="/user/myfavorite">我的收藏</a>
+            </li>
+            <li data-status="myworks">
+                <a href="/user/myworks">我的作品</a>
+            </li>
+            <li data-status="myvolunteer">
+                <a href="/user/myvolunteer">志愿活动</a>
+            </li>
+            <!-- <li data-status="mycomment">
+                <a href="/user/mycomment">我的评论</a>
+            </li> -->
+            <!-- <li data-status="mymail">
+                <a href="/user/mymail">我的消息</a>
+            </li> -->
+            <!-- <li data-status="feedback">
+                <a href="/user/feedback">意见反馈</a>
+            </li> -->
+        </ul>
+    </div>
+</section>
+
+<% if( user.identifyStatus=="Not" || user.identifyStatus == "Fail" ) { %>
+    <%-include('./auth-modal.ejs') %>
+<% } %>
+<link href="/javascripts/libs/webuploader/webuploader.css">
+<script type="text/javascript" src="/javascripts/libs/webuploader/webuploader.min.js"></script>
+<script> 
+    var index = window.location.pathname.lastIndexOf('\/');
+    var curModel =  window.location.pathname.substring(index + 1);
+    curModel = curModel || 'user'
+    $('.nav-justified>li').each(function(index) {
+        $(this).removeClass('active');
+        if ($(this).attr('data-status') == curModel) {
+            $(this).addClass('active');
+        }
+    })
+</script>

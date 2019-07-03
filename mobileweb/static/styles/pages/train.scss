@@ -1,0 +1,264 @@
+@import '../libs/px2rem.scss';
+@import '../base/_variable';
+@import '../base/mixins';
+//.reserve-tip {
+.train-detail {
+    font-size: $f-size12;
+    .remain-type {
+        font-size: $f-size;
+        color: #999;
+    }
+    .remain {
+        color: $color-999;
+    }
+    .remain-num {
+        font-size: $f-size18;
+        color: $color-org;
+    }
+    
+    .card-title {
+        width: px2rem(580);
+    }
+}
+
+.card-scan {
+    font-size: $f-size10;
+    color: #999;
+    line-height: $card-title-lineheight;
+    position: absolute;
+    right: px2rem(36);
+    top: px2rem(20);
+    .iconNew-scan {
+        font-size: px2rem(26);
+        color: #999;
+        position: relative;
+        top: px2rem(4);
+        margin-right: px2rem(8);
+    }
+}
+
+.train-container {
+    .favorite-reserve {
+        padding-top: px2rem(20);
+        line-height: px2rem(40);
+        .icon {
+            vertical-align: top;
+        }
+        .reserve-tip {
+            text-align: right;
+        }
+    }
+    .list-wraper .card {
+        margin-bottom: px2rem(20);
+        padding: px2rem(20) px2rem(20) px2rem(36);
+        .card-info+.card-info {
+            margin-top: px2rem(15);
+        }
+    }
+}
+
+// 培训详情
+.train-detail {
+    .base-info {
+        .card-bd {
+            padding: px2rem(20) 0 px2rem(20) px2rem(36);
+        }
+        .card-title {
+            font-size: $f-size16;
+            padding-right: px2rem(8);
+        }
+    }
+    .brief {
+        padding: px2rem(30) px2rem(40) px2rem(30) px2rem(36);
+        overflow: hidden;
+        background-color: $content-bg;
+    }
+    .btn {
+        display: block;
+        width: 100%;
+        border-radius: 0;
+    }
+    .btn.end {
+        background-color: $color-999;
+        border-color: darken($color-999, 5%);
+    }
+}
+
+// 课程表
+.train-schedule-container {
+    padding: px2rem(20) px2rem(30);
+    .month-schedules {
+        position: relative;
+        margin-bottom: px2rem(20);
+        border-radius: px2rem(20);
+        background-color: lighten($color-red, 15%);
+        .month {
+            padding: 0 px2rem(24);
+            color: $color-fff;
+            font-size: $f-size16;
+            text-align: center;
+            font-weight: 400;
+        }
+        .schedules {
+            padding-left: px2rem(10);
+            background-color: $content-bg;
+        }
+    }
+    .schedule-itm {
+        height: px2rem(90);
+        line-height: px2rem(90);
+        padding-left: px2rem(20);
+        border-bottom: 1px solid $border-color;
+        font-size: $f-size;
+        color: $color-666;
+        span+span {
+            margin-left: px2rem(20);
+        }
+        &.overdue {
+            color: $color-bf;
+        }
+    }
+}
+
+// 培训报名
+.train-pre {
+    padding: px2rem(25) px2rem(30) px2rem(120);
+    .detail {
+        background-color: $color-fff;
+        .media-bd {
+            height: px2rem(160);
+        }
+        .media-object>img {
+            width: px2rem(240);
+            height: px2rem(160);
+        }
+        .media-title {
+            margin-bottom: px2rem(20);
+            @extend %singleline-ellipsis;
+        }
+        .icon {
+            font-size: inherit;
+        }
+        p {
+            margin: 0;
+        }
+        p+p {
+            margin-top: px2rem(8);
+        }
+    }
+    .txt-right {
+        text-align: right;
+    }
+    .members {
+        // 选择人员
+        // padding: 0 px2rem(20);
+        background: $content-bg;
+        width: 100%;
+        .members-content {
+            position: relative;
+            height: px2rem(350);
+            overflow: hidden;
+            .scroll-content {
+                display: inline-block;
+            }
+        }
+        .member {
+            padding: px2rem(30) 0;
+            font-size: $f-size16;
+            line-height: px2rem(36);
+            text-align: center;
+        }
+        .checked {
+            width: px2rem(80);
+            height: px2rem(30);
+            .icon {
+                font-size: $f-size18;
+                color: $color-999;
+                &.checked {
+                    color: $color-red;
+                }
+            }
+        }
+        .profile {
+            width: px2rem(100);
+        }
+        .limit {
+            font-size: $f-size12;
+            color: $color-999;
+        }
+        .add-member {
+            display: block;
+            text-align: center;
+            padding: px2rem(30);
+            color: $color-666;
+            box-shadow: 0px -1px 9px 0px rgba(0, 0, 0, 0.1);
+            .icon {
+                font-size: px2rem(32);
+                color: inherit;
+            }
+        }
+        .operations {
+            padding: px2rem(30);
+            .btn {
+                width: 100%;
+            }
+        }
+    }
+    .protocol-wrapper {
+        width: 100%;
+        height: 100%;
+        padding: 0 px2rem(20) px2rem(30) px2rem(20);
+        color: $color-666;
+        font-size: $f-size12;
+        background-color: $content-bg;
+        .block-heading {
+            border: 0;
+            margin-bottom: px2rem(20);
+        }
+        li {
+            list-style: none;
+            margin-bottom: px2rem(20);
+        }
+    }
+}
+
+// 签到
+.sign-container {
+    $sign-btn-size: 180;
+    padding-bottom: px2rem($sign-btn-size + 20);
+    .schedule-itm {
+        height: auto;
+    }
+    .train-info {
+        background-color: $content-bg;
+    }
+    .media-bd {
+        height: px2rem(160);
+    }
+    .media-object {
+        margin-left: 0;
+        margin-right: px2rem(20);
+        &>img {
+            display: block;
+            width: px2rem(240); // height: px2rem(160);
+        }
+    }
+    .media-title {
+        margin-bottom: px2rem(20);
+        @include text-line(2);
+    }
+    .btn {
+        min-height: auto;
+        width: px2rem(105);
+        height: px2rem(44);
+        line-height: px2rem(44);
+        margin-left: px2rem(20);
+        padding: 0 px2rem(15);
+        font-size: $f-size12;
+        background-color: lighten($color-red, 10%);
+        &.end {
+            background-color: $btn-disabed;
+            border-color: darken($btn-disabed, 5%);
+        }
+    }
+}

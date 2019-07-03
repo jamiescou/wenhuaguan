@@ -1,0 +1,103 @@
+@import '../libs/px2rem.scss';
+@import '../base/_variable';
+@import '../base/mixins';
+.brand-container {
+    .list-wraper .card {
+        margin-bottom: px2rem(20);
+        padding: px2rem(20) px2rem(20) px2rem(36);
+        .card-info+.card-info {
+            margin-top: px2rem(15);
+        }
+        .card-hd {
+            height: px2rem(218);
+        }
+        .desc {
+            @include text-line(2);
+            line-height: px2rem(36);
+        }
+        img[lazy=loading] {
+            width: 100%;
+            height: px2rem(218);
+            margin: auto;
+        }
+    }
+}
+
+// 品牌详情
+.brand-detail {
+    .base-info {
+        .card-hd {
+            height: px2rem(250);
+        }
+        .card-bd {
+            padding: px2rem(20) px2rem(36);
+        }
+        .card-title {
+            font-size: $f-size16;
+        }
+    }
+    .brief {
+        padding: px2rem(30) px2rem(40) px2rem(30) px2rem(36);
+        overflow: hidden;
+        background-color: $content-bg;
+    }
+    .media-box {
+        background-color: $color-fff;
+        .media-bd {
+            height: px2rem(160);
+        }
+        .media-object>img {
+            width: px2rem(240);
+            height: px2rem(160);
+        }
+    }
+    .more {
+        background: $content-bg;
+        padding: px2rem(32) 0;
+        line-height: px2rem(36);
+        font-size: px2rem(28);
+        letter-spacing: 1px;
+        color: $color-999;
+        text-align: center;
+    }
+    .project-nav {
+        position: relative;
+        z-index: 10;
+    }
+    .project-content {
+        position: relative;
+        background-color: $content-bg;
+        z-index: 1;
+    }
+    .digitals {
+        padding: px2rem(15) px2rem(40) 0 px2rem(36);
+        overflow: hidden;
+        background: $content-bg;
+        .card-col-2 {
+            @include make-grid-columns(2, 30px);
+        }
+        .card {
+            padding-top: px2rem(30);
+            .card-hd img,
+            .card-hd video,
+            .card-bd audio {
+                width: 100%;
+                height: px2rem(220);
+            }
+            .card-title {
+                text-align: center;
+            }
+        }
+        .img-card {
+            &>img {
+                width: 100%;
+                height: px2rem(220);
+            }
+            .card-title {
+                height: px2rem(50);
+                line-height: px2rem(50);
+                padding: 0;
+            }
+        }
+    }
+}

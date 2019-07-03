@@ -1,0 +1,203 @@
+<div class="header clearfix">
+    <div class="g-content content clearfix" >
+        <a href="/?curl=home" class="logo" title="首页">
+            <img src="/images/logo.png" alt="省馆logo" />
+        </a>
+        <div class="nav">
+            <div class="menu-container"  >
+                <div class="navlist">
+                    <a data-status="" href="/">首页</a>
+                    <a data-status="issue" href="/issue">资讯</a>
+                    <a data-status="vod" href="/vod">直播点播</a>
+                    <a data-status="exhibition" href="/exhibition">数字展览</a>
+                    <a data-status="activity" class="fourItem" href="/activity">文化服务</a>
+                    <a class="photographic">湖南省艺术摄影学会</a>
+                    <a class="navmore"></a>
+                </div>
+                <div class="photographic_more">
+                    <a data-status="photographic" href="/photographic/xhjj">关于学会</a>
+                    <a data-status="newsflash" href="/issue?flag=news">资讯快报</a>
+                    <a data-status="eventActivities" href="/eventActivities">赛事活动</a>
+                    <a data-status="memberWorks" href="/memberWorks">会员作品</a>
+                </div>
+                <div class="listmore">
+                    <a data-status="collect" href="/collect">作品征集</a>
+                    <a data-status="team" href="/team">文艺团队</a>
+                    <a data-status="heritage" href="/heritage">文化非遗</a>
+                    <a data-status="volunteer" href="/volunteer">志愿服务</a>
+                    <a data-status="brand" href="/brand">文化品牌</a>
+                </div>
+            </div>
+        </div>
+        <div class="head-right clearfix">
+          
+            <div class="search-area">
+                <div class="searchInput">
+                    <div style="width: 230px">
+                        <span class="closeInput">>></span>
+                        <input id="searchcontent" type="text" placeholder="请输入关键词">
+                    </div>
+                </div>
+                
+                <button id="search" title="点击搜索">
+                    <i class="iconfont icon-search"></i>
+                </button>
+            </div>
+          
+            <span class="login" style="float: left;">
+                <% if(locals.user){%>
+                    <a href='/user'>
+                            <img class='userimg' src='<%= user.pic %>' data-type='portrait'  onerror="this.onerror=null;this.src='/images/portrait.png'">
+                            <span>
+                                <%=(user.nickname.substring(0,5))%>
+                            </span>
+                           
+                    </a>
+                    <a href="/login/login-on">[ 注销 ]</a>
+                    <%} else {%>
+                        <a href="/login">登录</a>|
+                        <a href="/login/register">注册</a>
+                    <%}%>
+            </span>
+            <div class="head-nav" style="float: left;">
+                    <a href='/about/gwgk'>关于我们</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    //用于第三方鉴权
+    var token =<%-JSON.stringify(token)%>;
+     if(token){
+           window.sessionStorage.setItem('token',token);
+     }else{
+        window.sessionStorage.removeItem('token');
+     }
+    
+    $(document).ready(function () {
+        var curModel = window.location.pathname.split('/')[1];
+        console.log('curModel===>>', curModel);
+        $('.navlist a,.listmore a, .photographic_more a').each(function (index) {
+            $(this).removeClass('active'); 
+            if ($(this).attr('data-status') == curModel) {
+                $(this).addClass('active');
+            }
+            if (curModel === 'venues' || curModel === 'train' || curModel === 'cultural') {
+                $('.fourItem').addClass('active')
+            }
+        });
+        $('.navlist a').mouseover(function(){
+            if(!$(this).hasClass('navmore')){
+                $('.navmore').removeClass('open')
+                $('.listmore').hide('fast');
+            }
+        })
+         $('.navlist a').mouseover(function(){
+            if(!$(this).hasClass('photographic') ){
+                $('.photographic').removeClass('open')
+                $('.photographic_more').hide('fast');
+            }
+        })
+        $('.menu-container').mouseleave(function(){
+            $('.navmore').removeClass('open')
+            $('.photographic').removeClass('open')
+            $('.listmore').hide('fast');
+            $('.photographic_more').hide('fast');
+        })
+
+        $('.photographic').mouseover(function(){
+            if($('.photographic_more').is(':hidden')){
+                $(this).addClass("open");
+                // $('#square').removeClass('squareleft').toggleClass('squarebot');
+                 $('.photographic_more').show('fast');
+            }else{
+                // $('#square').removeClass('squarebot').toggleClass('squareleft');
+                $(this).removeClass("open");
+                 $('.photographic_more').hide('fast');
+            }
+        })
+
+        $('.photographic_more').on('mouseleave',function(){
+               $('.photographic_more').hide('slow',function(){
+               });
+               $('.photographic').removeClass('open');
+                // $('#square').removeClass('squarebot').toggleClass('squareleft');
+               
+        })
+
+        
+        $('.navmore').mouseover(function(){
+            if($('.listmore').is(':hidden')){
+                $(this).addClass("open");
+                // $('#square').removeClass('squareleft').toggleClass('squarebot');
+                 $('.listmore').show('fast');
+            }else{
+                // $('#square').removeClass('squarebot').toggleClass('squareleft');
+                $(this).removeClass("open");
+                 $('.listmore').hide('fast');
+            }
+        })
+
+        $('.listmore').on('mouseleave',function(){
+               $('.listmore').hide('slow',function(){
+               });
+               $('.navmore').removeClass('open');
+                // $('#square').removeClass('squarebot').toggleClass('squareleft');
+               
+        })
+
+        $('#searchcontent').bind('keypress', function (event) {
+            if (event.keyCode == "13") {
+                search();
+            }
+        });
+
+        $('#search').click(function () {
+            if ($(this).hasClass("open")) {
+                search();
+            } else {
+                $(this).addClass("open").siblings(".searchInput").show().stop().animate({left:'-230px',width:'230px'},"slow");
+                $(".nav").attr('style','width:460px;overflow:hidden;');
+            }
+        });
+        $('.closeInput').click(function (){
+            $('#search').removeClass("open").siblings(".searchInput").stop().fadeOut('slow').animate({left:'0px',width:'0px'},"slow");
+            $(".nav").attr('style','width:600px');
+        });
+        function search() {
+            var searchcontent = $('#searchcontent').val();
+            if (searchcontent != "") {
+                window.location.href = "/search?srchkey=" + searchcontent
+            } else {
+                assist.showMsg('内容不能为空');
+            }
+        }
+        $(".log-on").click(function () {
+
+        })
+
+        $('.site-select').change(function (evt, val) {
+            var unitTxt = $(this).find('option:selected').text();
+            var unitId = $(this).find('option:selected').val();
+            var site = $(this).find('option:selected').data('site');
+            window.location.href = 'http://' + site;
+            document.title = unitTxt;
+            //   $.get({
+            //       url:'/sitechange',
+            //       data:{
+            //           unitId:unitId
+            //       },
+            //       success:function(res){   
+            //           if(res.success){
+            //               assist.showMsg('即将切换到【'+unitTxt+'】','success');
+            //               window.location.location.href=site;
+            //           }
+            //       }
+            //   })
+        })
+    })
+</script>
+ 

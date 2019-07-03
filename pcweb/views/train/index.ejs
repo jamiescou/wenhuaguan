@@ -1,0 +1,183 @@
+<%
+var type = query.type ? '&type=' + query.type : '';
+var region = query.region ? '&region=' + query.region : '';
+var artType = query.artType ? '&artType=' + query.artType : '';
+var traType = query.traType ? '&traType=' + query.traType : '';
+var sortType = query.sortType ? '&sortType=' + query.sortType : '';
+var timeType = query.time ? '&time=' + query.time : '';
+
+var timePage='/train?'+type+artType+region;
+var regionPage = '/train?' + artType + traType + timeType;
+var artTypePage = '/train?' + traType + region + timeType;
+var traTypePage = '/train?' + artType + region + timeType;
+var sortTypePage = '/train?' + artType + region+traType + timeType;
+var paginatorPage = '/train?'  + artType + traType + region+traType + timeType;
+timePage=timePage.replace('?&','?');
+regionPage=regionPage.replace('?&','?');
+artTypePage=artTypePage.replace('?&','?');
+traTypePage=traTypePage.replace('?&','?');
+sortTypePage=sortTypePage.replace('?&','?');
+paginatorPage=paginatorPage.replace('?&','?');
+%>
+  <!DOCTYPE html>
+  <html>
+
+  <head>
+    <title>
+      培训
+    </title>
+    <% include ../common/head %>
+      <link rel='stylesheet' href='/styles/train.min.css' />
+      <link rel='stylesheet' href="/javascripts/libs/datarangepicker/daterangepicker.min.css" />
+      <script src="/javascripts/libs/datarangepicker/moment.min.js"></script>
+      <script src="/javascripts/libs/datarangepicker/jquery.daterangepicker.min.js"></script>
+  </head>
+
+  <body>
+    <header>
+      <% include ../common/header %>
+    </header>
+    <div class="g-content">
+      <div class="crumbs">
+          <ul>
+              <li>
+                <a href="">首页&nbsp;&nbsp;></a>
+              </li>
+              <li>
+                <a href="">文化服务</a>
+              </li>
+            </ul>
+     </div>
+     <%- include('../common/culture-sever-tab.ejs', {type: 'train'}) %>
+
+      <div class="m-filter-pannel">
+        <div class="m-search-lst">
+          <%- include('../common/queryRegion.ejs', {query :query, regions: rootchildren, reTypePage : regionPage}) %>
+            <div class="item">
+              <h4 class="tag-hd">艺术类别：</h4>
+              <div class="tag-wrap">
+                <a class="tag-item <% if(!query.artType){ %>active<% } %>" href="<%- artTypePage %>">全部</a>
+                <% artists.forEach(function (type) { %>
+                  <a class="tag-item <% if(query.artType&&query.artType===type.code){ %>active<% } %>" href="<%- artTypePage %>&artType=<%=type.code%>">
+                    <%= type.value%>
+                  </a>
+                  <% }) %>
+              </div>
+            </div>
+            <div class="item">
+                <h4 class="tag-hd">活动时间:</h4>
+                <div class="tag-wrap time-select"> 
+                     <a class="tag-item <% if(!query.time){ %> active <% } %>" href="<%- timePage %>">不限</a>
+                    <input class="tag-item timeselect" id='daterange' placeholder="时间选择"> <i class="iconfont icon-xiajianhao"></i></input>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="sortWrap m-search-lst clearfix">
+        <div class="item">
+            <div class="tag-wrap">
+          <a class="tag-item <% if(!query.sortType||query.sortType=='default'){ %>active<% } %>" href="<%-sortTypePage%>&sortType=default">全部</a>
+          <a class="tag-item <% if(query.sortType=='canenroll'){ %>active<% } %>" href="<%-sortTypePage%>&sortType=canenroll">可报名</a>
+          <a class="tag-item <% if(query.sortType=='notstart'){ %>active<% } %>" href="<%-sortTypePage%>&sortType=notstart">即将开始</a>
+          <a class="tag-item <% if(query.sortType=='closure'){ %>active<% } %>" href="<%-sortTypePage%>&sortType=closure">已经结束</a>
+        </div></div>
+
+        <div class="search-area">
+          <input id="keysearchcontent" type="text" placeholder="关键词搜索..." value='<%=query.key%>'>
+          <button id="keysearch" title="点击搜索">
+            <i class="iconfont icon-search"></i>
+          </button>
+        </div>
+      </div>
+      <div class="list-content">
+        <div class="content">
+          <% if(data.content.length>0) {%>
+            <% data.content.forEach(function (item) { %>
+              <div class="card col-4 border">
+                <a class="card-head" href="/train/detail/<%= item.id %>">
+                  <img class="img-top" src="<%=item.picture%>" alt="活动图片">
+                  <span class="card-tag">
+                    <%=item.tag%>
+                  </span>
+                </a>
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <%= item.title %>
+                  </h5>
+                  <div class="card-info">
+                    <p>
+                      <i class="icon iconfont icon-time"></i>
+                      <span>
+                        <%= item.startDate %>&nbsp至&nbsp
+                          <%= item.endDate %>
+                      </span>
+                    </p>
+                    <p>
+                      <i class="icon iconfont icon-location"></i>
+                      <span>
+                        <%= item.address %>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+              <% })} else { %>
+                <%- include('../common/nodata.ejs') %>
+                  <%}%>
+
+        </div>
+      </div>
+
+
+
+      <%- include('../common/paginator.ejs', {page : data.number + 1, totalPages : data.totalPages, pageUrl : paginatorPage, totalElements: data.totalElements}) %>
+    </div>
+    <div class="place-space"></div>
+    <footer>
+      <% include ../common/footer %>
+    </footer>
+  </body>
+  <script>
+    $(function() {
+      var options = {
+          language: 'cn',
+          separator: ' ~ '
+
+      }
+      var time = '<%=query.time%>';
+      if (time) {
+          var stime = time.split('~')[0];
+          var etime = time.split('~')[1];
+
+          if ($.trim(etime) == 'Invalid date') {
+              time = stime;
+          }
+      }
+
+      var timeSelectUrl = '<%=timePage%>';
+      $('#daterange').dateRangePicker(options).bind('datepicker-apply', function(evt, timeobj) {
+
+          if (timeobj.date1 == 'Invalid Date' || timeobj.value.split('~')[0].trim() ==
+              '1970-01-01') {
+              return;
+          }
+          window.location.href = timeSelectUrl + '&time=' + timeobj.value;
+
+      });
+      $('#daterange').val(time);
+      $('#keysearch').click(function() {
+        var key = $('#keysearchcontent').val();
+        var paginatorPage = '<%=paginatorPage%>';
+        //  if(key){
+        window.location.href = paginatorPage + '&key=' + key;
+        //  }else {
+        //      assist.showMsg('关键词不能为空')
+        //  }
+
+      })
+
+    })
+  </script>
+
+  </html>

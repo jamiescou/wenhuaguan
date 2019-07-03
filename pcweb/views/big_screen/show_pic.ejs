@@ -1,0 +1,22 @@
+<div class="swiper-container recomment-data-group" id="picSwiper">
+    <div class="swiper-wrapper">
+        <% if(picList.length > 0){ %>
+        <% picList.forEach(function (group) { %>
+        <div class="swiper-slide recomment-data-container">
+            <div class="row">
+                <% group.forEach(function(item){%>
+                <div class="col-4">
+                    <div class="slide-item">
+                        <div class="title">
+                            <%=item.title %>
+                        </div>
+                        <img src="<%= item.pic%>" alt="图片">
+                    </div>
+                </div>
+                <% })%>
+            </div>
+        </div>
+        <%})}%>
+    </div>
+</div>
+<div class="swiper-pagination" id="picP"></div>

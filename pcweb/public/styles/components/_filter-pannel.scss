@@ -1,0 +1,136 @@
+@charset "UTF-8";
+@import '../base/variables';
+@import './_search.scss';
+.m-filter-pannel {
+    background: $body-bg; // 筛选列表
+    .fold-down {
+        width: 20px;
+        @include arrow(6px, $color: $filter-pannel-color, $position: bottom);
+        margin-bottom: 8px;
+    }
+    .fold-up {
+        width: 20px;
+        @include arrow(6px, $color: $filter-pannel-color, $position: top);
+        margin-bottom: 8px;
+    }
+    .m-search-lst {
+        position: relative;
+        padding: 12px 30px;
+        margin-bottom: 20px;
+        background-color: #fff;
+        text-align: left; // @include box-shadow(0 1px 2px rgba(0, 0, 0, 0.075));
+        .item {
+            position: relative;
+            display: table;
+            width: 100%;
+            padding: 3px 0;
+           
+            &.border {
+                border-bottom: 1px solid $filter-pannel-border;
+            }
+            .fold-icon {
+                $size: 16px;
+                display: block;
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: $size;
+                height: $size;
+                cursor: pointer;
+                .down {
+                    @include arrow($size / 2, $color: $filter-pannel-color, $position: bottom);
+                }
+                .up {
+                    @include arrow($size / 2, $color: $filter-pannel-color, $position: top);
+                }
+            }
+            .tag-hd,
+            .tag-wrap {
+                display: table-cell;
+            }
+            .tag-hd {
+                width: 90px;
+                padding-left: 10px;
+                margin-right: 15px;
+                font-size: 14px;
+                color: $filter-pannel-tag-hd-color;
+                font-weight: bold;
+            }
+            .u-tags {
+                font-size: 0;
+                line-height: 0;
+            }
+            .u-tags.u-close {
+                height: (24px + 5px + 5px);
+                overflow: hidden;
+            }
+        }
+        .tag-item {
+            overflow: visible;
+            display: inline-block;
+            padding: 0 10px;
+            margin: 5px 10px;
+            font-size: 14px;
+            color: $filter-pannel-color;
+            line-height: 24px;
+            border-radius: 4px;
+            font-weight:600;
+            cursor: pointer;
+            &.active {
+                &,
+                &:focus,
+                &:hover {
+                    background-color: $filter-pannel-active;
+                    color: #fff;
+                }
+            }
+            &:focus,
+            &:hover {
+                background-color: $filter-pannel-hover-bg;
+            }
+            &.haschild:hover {
+                .child,.icon-arrow {
+                    opacity: 1;
+                    z-index: 100;
+                }
+            }
+            &.haschild {
+                .icon-arrow{
+                    position: relative;
+                    opacity: 0;
+                    width: 100%;
+                    display: block;
+                }
+                .arrow {
+                    @include arrow-outline($bd-width: 1px, $bd-color:#e5e5e5, $arrow-size:4px, $arrow-color:#f8f8f8, $position:top, $positionVal:50%, $scale:1)
+                }
+            }
+        }
+        .child {
+            position: absolute;
+            opacity: 0;
+            top: 31px;
+            left: 0;
+            width: 100%;
+            transition:all ease-in .5s;
+            padding:10px;
+            border: 1px solid #e5e5e5;
+            background-color: #f8f8f8;
+            z-index: -1;
+        }
+        .search-area {
+            @include search-group(38px, 22px, $color: #999, $border-color:$gray-999, $bg:white);
+            position: absolute;
+            bottom:10px;
+            right:20px;
+            #keysearch{
+                cursor: pointer;
+                &:hover{
+                    color:darken($color:$gray-999, $amount: 0)
+                }
+            }
+         }
+         
+    }
+
+}

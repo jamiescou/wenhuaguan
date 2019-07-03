@@ -1,0 +1,45 @@
+// ------------------------------------------------
+// head
+$head-height: 50px !default;
+$logo-height: 40px !default;
+$head-brand-fs: 18px !default;
+$head-fs: 14px !default;
+$head-bg: #173951 !default;
+$head-boder-color: #173931 !default;
+$head-fc: #fff !default;
+$head-zindex:1111 !default;
+// side
+$left-sidebar-zindex:110 !default;
+$left-sidebar-w:200px !default;
+$left-sidebar-w-c:64px !default;
+$side-bg: $head-bg !default;
+$side-zoom-bg:#26577A !default;
+$sideMenu-b-bottom-color: #173951 !default;
+$sideMenu-b-top-color: #6ab4ec !default;
+$side-fc: #fff !default;
+$side-fs: 14px !default;
+$side-leaf-menu-bg: #183F5C !default;
+$side-menu-item-active-bg:#20a0ff !default;
+// Login和sendPwd
+$lg-bg-color: #314b62 !default;
+$placeholder-color: #757575 !default;
+$input-bg: #fff !default;
+$input-b-color: #ddd !default;
+$input-fc: #333 !default;
+$login-form-w:350px !default;
+// ------------------------------------------------------------
+// ** 图片裁剪
+// 内部填充
+$imgcropper-padding-lr: 30px !default;
+$imgcropper-padding: 30px $imgcropper-padding-lr 0 !default;
+// 容器宽度
+$imgcropper-container-width: 525px !default;
+// 图片容器高度
+$imgcropper-imgbox-height: 350px !default;
+// 预览图宽度
+$preview-width: 255px !default;
+$preview-height: 170px !default;
+// 预览图  大图大小
+$imgcropper-preview-lg-w: 224px !default;
+$imgcropper-preview-lg-h: 126px !default;
+// 预览图最大留白

@@ -1,0 +1,27 @@
+<div class="modal fade heritage" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div style="width: 60%" class="modal-dialog" role="document">
+                <div class="modal-content">
+                <span class="close" aria-hidden="true" data-dismiss="modal" aria-label="Close" >&times;</span>
+                <div class="modal-body">
+                <img style="width:100%;height:450px" src="" alt="">
+                </div>
+                <div class="heritagecontent">
+                <h3></h3>
+                <p></p>
+                </div>
+                </div>
+        </div>
+</div>
+<script>
+        $('.heritageImg').each(function (index){
+                var self = this;
+                $(self).click(function(){
+                var imgSrc =  $(self).find('img').attr('src');
+                var title = $(self).find('.itemHeader').html();
+                var content = $(self).find('.itemInfo').html();
+                $('.modal-body').find('img').attr('src',imgSrc);
+                $('.heritagecontent').find('h3').html(title);
+                $('.heritagecontent').find('p').html(content);
+                })
+        })                
+</script>

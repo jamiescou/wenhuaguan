@@ -1,0 +1,46 @@
+<div class="myModal" style='display:none'>
+    <div class="modal-content-wrapper" id='actModal'  >
+            <div class="block-heading border">
+                    <h4 class="title">添加主创人员</h4>
+            </div>
+            <form method="post" id="actForm"  class="actForm"  onsubmit = "return false">
+                 <div class="modal-item">
+                     <label>姓名</label><input name='actname' class='actname' >
+                 </div>     
+                 <div class="modal-item" >
+                     <label>性别</label>  
+                      <select name='actsex' class="actsex" >
+                        <option value='male'>男</option>
+                        <option value='female'>女</option>
+                        <option value='unkown'>未知</option>
+                      </select>
+                 </div>  
+                 <div class="modal-item">
+                    <label>年龄</label><input name='actage' class="actage" >
+                </div>     
+                 <div class="modal-item">
+                    <label>角色</label>
+                    <div class="ckb">
+                        <label><input  type='checkbox' name='scenarist' value='编剧/编导/改编'>编剧/编导/改编</label>
+                        <label><input type='checkbox'  name='director' value='导演'>导演</span></label>
+                        <label><input type='checkbox'  name='words' value='作词'> 作词</label>
+                        <label><input type='checkbox'  name='compose' value='作曲'> 作曲</label>
+                        <label><input type='checkbox'  name='guidance' value='辅导'> 辅导</label>
+                    </div>
+                    <input name='roles' class="roles" >
+                </div>
+                <div class="modal-item">
+                    <label>工作单位</label><input name='actunit' class="actunit">
+                </div>
+                    <div class="operate-btns">
+                        <button class="btn u-btn" >添加</button>  
+                    </div>
+                    <div class="tips">
+                        <p>1）舞蹈类原创作品要求至少包含：编导、作曲、辅导；</p>   
+                        <p>2）音乐（声乐、器乐）类原创作品要求至少包含：作词、作曲、辅导；</p>
+                        <p>3）小戏小品曲艺类型原创作品要求至少包含：编剧、导演、作曲；</p>
+                        <p>4）学演、改编节目类要求至少包含：改编、辅导</p>
+                    </div>
+                  </form>
+    </div>
+</div>

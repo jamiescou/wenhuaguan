@@ -1,0 +1,23 @@
+// 单行超出，显示省略号
+@mixin singleline-ellipsis($substract:0) {
+    //`$substract`单位为% 
+    display: inherit;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100% - $substract;
+}
+
+%singleline-ellipsis {
+    @include singleline-ellipsis;
+}
+
+// 超出指定行数，显示省略号
+@mixin text-line($lineH: 1) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: $lineH;
+    -webkit-box-orient: vertical;
+    white-space:normal; 
+}

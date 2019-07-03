@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        志愿者报名
+    </title>
+    <% include ../common/head %>
+        <link rel='stylesheet' href='/styles/volunrecruit.min.css' />
+        <link href="/javascripts/libs/webuploader/webuploader.css">
+        <script type="text/javascript" src="/javascripts/libs/webuploader/webuploader.min.js"></script>
+        <script src="/javascripts/libs/validate/jquery.validate.min.js"></script>
+        <script src="/javascripts/libs/validate/messages_zh.js"></script>
+        <script src="/javascripts/commons/custom-validate.js"></script>
+        <script src="/javascripts/libs/validate/additional-methods.min.js"></script>
+        <script type="text/javascript" src="/javascripts/libs/distpicker/distpicker.data.js"></script>
+        <script type="text/javascript" src="/javascripts/libs/distpicker/distpicker.js"></script>
+</head>
+
+<body>
+    <header>
+        <% include ../common/header %>
+
+    </header>
+    <div class="g-content">
+        <div class="crumbs">
+            <ul>
+                <li>
+                    <a href="/">首页&nbsp;&nbsp;></a>
+                </li>
+                <li>
+                    <a href="/volunteer">志愿服务&nbsp;&nbsp;></a>
+                </li>
+                <li class="active">
+                    <a href="#">加入志愿者</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--第一步-->
+    <div class="g-content" id="uict-setup1panel">
+        <div class="m-volunteer-step">
+            <div class="step-content">
+                <div class="step-item active">
+                    <span class="step-dot"></span>
+                    <p class="step-txt">编辑报名信息</p>
+                </div>
+                <div class="bar"></div>
+                <div class="step-item">
+                    <span class="step-dot"></span>
+                    <p class="step-txt">确认报名信息</p>
+                </div>
+                <div class="bar"></div>
+                <div class="step-item">
+                    <span class="step-dot"></span>
+                    <p class="step-txt">信息提交完成</p>
+                </div>
+            </div>
+        </div>
+        <div class="place-space"></div>
+        <form method="post" enctype="multipart/form-data" id="regist">
+            <% if(type!='team'){%>
+                <input type="hidden" name="birthDay">
+                <input type="hidden" name="sex">
+                <%}%>
+                    <input type="hidden" name="idNumber" maxlength="18" placeholder="请输入身份证号码" value="<%= user.idNumber%>" required>
+                    <input type="hidden" name="serviceTypes">
+                    <div class="booking-enlist">
+                        <div class="enlist-title">
+                            <p>基本信息</p>
+                        </div>
+                        <div class="enlist-content">
+                            <!--<div class="room-booking-info">-->
+                            <!--<label>志愿者类型</label>-->
+                            <!--<select id="volunteer-type" name="volunteerType">-->
+                            <!--<option value="personal">个人</option>-->
+                            <!--<option value="team" >团队</option>-->
+                            <!--</select>-->
+                            <!--</div>-->
+                            <div class="room-booking-info">
+                                <label>
+                                    <%= type == "team" ? "团队LOGO" : "志愿者头像"%>
+                                </label>
+                                <input type="text" style="display:none" id="imgfile" name="avatar" value="">
+                                <a href="javascript:void(0)" class="select-file" id='workbtn'>选择文件</a>
+                                <span class="file-msg" id="fileName"></span>
+                                <span class="file-msg">请上传20M以内 格式为jpg/png/gif的图片</span>
+                            </div>
+                            <div class="room-booking-info">
+                                <label>
+                                    <%= type == "team" ? "团队名称" : "志愿者姓名"%>
+                                </label>
+                                <input type="text" name="name" maxlength="16" placeholder="请输入" required>
+                            </div>
+                            <div class="room-booking-info">
+                                <label>服务类型</label>
+                                <ul class="change-list" id="change-list">
+                                    <% if(serviceTypes && serviceTypes.length > 0){
+                                      serviceTypes.forEach(function (type) { %>
+                                        <span data-volunteerServiceType="<%= type.code%>">
+                                            <i class="iconfont icon-jiaobiao"></i>
+                                            <%= type.value %>
+                                        </span>
+                                        <%})}%>
+                                            <!--<span data-volunteerServiceType="1">文化义演</span>-->
+                                            <!--<span data-volunteerServiceType="2">场地执行</span>-->
+                                            <!--<span data-volunteerServiceType="3">场馆服务</span>-->
+                                            <!--<span data-volunteerServiceType="4">艺术培训</span>-->
+                                            <!--<span data-volunteerServiceType="5">爱心能量</span>-->
+                                </ul>
+                            </div>
+                            <% if(type == "team"){%>
+                                <div class="room-booking-info">
+                                    <label>人数</label>
+                                    <input type="text" name="teamCount" maxlength="4" placeholder="请输入招募人数">
+                                </div>
+                                <%}%>
+                                    <div class="room-booking-info">
+                                        <label>
+                                            <%= type == "team" ? "手机号码" : "手机号码"%>
+                                        </label>
+                                        <input type="text" name="telephone" maxlength="11" placeholder="请输入手机号码" required>
+                                    </div>
+                                    <div class="room-booking-info" data-toggle="distpicker" id="distpicker">
+                                        <label>所属区域</label>
+                                        <select data-province="湖南省" name="s_province"></select>&nbsp;
+                                        <select data-city="长沙市" name="s_city"></select>&nbsp;
+                                        <select data-district="岳麓区" name="s_county"></select>&nbsp;
+                                    </div>
+                                    <div class="room-booking-info">
+                                        <label style="display: inline-block">&nbsp;</label>
+                                        <input type="text" name="address" placeholder="请输入详细地址" style="width: 616px" required>
+                                    </div>
+                                    <div class="room-booking-info">
+                                        <label>
+                                            <%= type == "team" ? "籍贯" : "籍贯"%>
+                                        </label>
+                                        <input type="text" name="holdAddress" maxlength="18" placeholder="请输入籍贯">
+                                    </div>
+                                    <div class="room-booking-info">
+                                        <label>
+                                            <%= type == "team" ? "邮箱" : "邮箱"%>
+                                        </label>
+                                        <input type="text" name="email" maxlength="30" placeholder="请输入邮箱地址">
+                                    </div>
+                                    <div class="room-booking-info">
+                                        <label>
+                                            <%= type == "team" ? "学历" : "学历"%>
+                                        </label>
+                                        <!--<input type="text" name="education" maxlength="30" placeholder="请输入最高学历">-->
+                                        <select name="education">
+                                            <% if(education && education.length > 0){
+                        education.forEach(function (type) { %>
+                                                <option value="<%= type.code%>">
+                                                    <%= type.value %>
+                                                </option>
+                                                <%})}%>
+                                        </select>
+                                    </div>
+                                    <div class="room-booking-info">
+                                        <label>
+                                            <%= type == "team" ? "职业" : "职业"%>
+                                        </label>
+                                        <!--<input type="text" name="occupation" maxlength="30" placeholder="请输入当前职业">-->
+                                        <select name="occupation">
+                                            <% if(occupation && occupation.length > 0){
+                        occupation.forEach(function (type) { %>
+                                                <option value="<%= type.code%>">
+                                                    <%= type.value %>
+                                                </option>
+                                                <%})}%>
+                                        </select>
+                                    </div>
+                                    <div class="room-booking-info">
+                                        <label>
+                                            <%= type == "team" ? "政治面貌" : "政治面貌"%>
+                                        </label>
+                                        <!--<input type="text" name="politicalStatus" maxlength="30" placeholder="请输入政治面貌">-->
+                                        <select name="politicalStatus">
+                                            <% if(politicalStatus && politicalStatus.length > 0){
+                        politicalStatus.forEach(function (type) { %>
+                                                <option value="<%= type.code%>">
+                                                    <%= type.value %>
+                                                </option>
+                                                <%})}%>
+                                        </select>
+                                    </div>
+                                    <div class="room-booking-info">
+                                        <label>
+                                            <%= type == "team" ? "团队" : "志愿者"%>介绍</label>
+                                        <textarea style="width:616px" name="brief" required></textarea>
+                                    </div>
+                        </div>
+                    </div>
+                    <div class="booking-enlist">
+                        <div class="enlist-title">
+                            <p>报名须知</p>
+                        </div>
+                        <div class="enlist-content">
+                            <div class="enlist-row">
+                                <p class="booking-notice">
+                                    本平台文化志愿者/团体在平台内享有如下权利和义务：<br/>
+                                    1、按平台要求参加志愿服务活动；<br/>
+                                    2、履行志愿服务承诺，完成志愿服务任务，传播志愿服务理念；<br/>
+                                    3、自觉维护文化志愿者/团体的形象；<br/>
+                                    4、在文化志愿者职责范围内，自觉维护服务对象的合法权益；<br/>
+                                    5、自觉抵制任何以志愿者身份从事的赢利活动或其他违背社会公德的活动（行为）；<br/>
+                                    6、依法应当享受的其他权利和应当承担的其他义务。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="protocol">
+                        <p>
+                            <input class="submit-1 none" type="submit">
+                            <a href="javascript:void(0)" id="nextstup">下一步</a>
+                        </p>
+                    </div>
+        </form>
+    </div>
+    <!--第二步-->
+    <div class="g-content" id="uict-setup2panel" style="display: none">
+        <div class="m-volunteer-step">
+            <div class="step-content">
+                <div class="step-item active">
+                    <span class="step-dot"></span>
+                    <p class="step-txt">编辑报名信息</p>
+                </div>
+                <div class="bar"></div>
+                <div class="step-item active">
+                    <span class="step-dot"></span>
+                    <p class="step-txt">确认报名信息</p>
+                </div>
+                <div class="bar"></div>
+                <div class="step-item">
+                    <span class="step-dot"></span>
+                    <p class="step-txt">信息提交完成</p>
+                </div>
+            </div>
+        </div>
+        <div class="place-space"></div>
+        <div class="booking-enlist">
+            <div class="enlist-title">
+                <p>报名信息</p>
+            </div>
+            <div class="enlist-content" style="margin-top:30px;">
+                <div class="confirm-row">
+                    <span class="row-title">
+                        <%= type == "team" ? "团队名称：" : "志愿者姓名："%>
+                    </span>
+                    <span class="name"></span>
+                </div>
+                <div class="confirm-row">
+                    <span class="row-title">服务类型：</span>
+                    <span class="serviceTypes"></span>
+                </div>
+                <% if(type != "team"){ %>
+                    <div class="confirm-row">
+                        <span class="row-title">身份证：</span>
+                        <span class="idNumber"></span>
+                    </div>
+                    <%}%>
+                        <% if(type == "team"){ %>
+                            <div class="confirm-row">
+                                <span class="row-title">人数：</span>
+                                <span class="teamCount"></span>
+                            </div>
+                            <%}%>
+                                <div class="confirm-row">
+                                    <span class="row-title">手机号码：</span>
+                                    <span class="telephone"></span>
+                                </div>
+                                <div class="confirm-row">
+                                    <span class="row-title">所在地址：</span>
+                                    <span class="address"></span>
+                                </div>
+                                <div class="confirm-row">
+                                    <span class="row-title">籍贯：</span>
+                                    <span class="holdAddress"></span>
+                                </div>
+                                <div class="confirm-row">
+                                    <span class="row-title">邮箱：</span>
+                                    <span class="email"></span>
+                                </div>
+                                <div class="confirm-row">
+                                    <span class="row-title">学历：</span>
+                                    <span class="education"></span>
+                                </div>
+                                <div class="confirm-row">
+                                    <span class="row-title">职业：</span>
+                                    <span class="occupation"></span>
+                                </div>
+                                <div class="confirm-row">
+                                    <span class="row-title">政治面貌：</span>
+                                    <span class="politicalStatus"></span>
+                                </div>
+                                <div class="confirm-row">
+                                    <span class="row-title">
+                                        <%= type == "team" ? "团队" : "志愿者"%>介绍：</span>
+                                    <span class="brief"></span>
+                                </div>
+            </div>
+        </div>
+        <div class="booking-enlist">
+            <div class="enlist-title">
+                <p>报名须知</p>
+            </div>
+            <div class="enlist-content">
+                <div class="enlist-row">
+                    <p class="booking-notice">
+                        1、全年为入场票数达10张，将被取消当年预定资格；
+                        <br/> 2、如需退票，请至“我的空间-活动管理”，退票截止至活动前一天（活动当天不可退票）；
+                        <br/> 3、如因不可控因素导致活动无法进行，举办方有权延期或取消活动，并以短信方式通知订票人；
+                        <br/> 4、如参加区图书馆、群众艺术馆活动的市民，由于停车位有限，建议读者搭乘公共交通前往；
+                        <br/> 5、活动最终解释权归举办方所有。
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="protocol">
+            <p>
+                <a href="javascript:void(0)" id="edit-btn">修改信息</a>
+                <a href="javascript:void(0)" id="submitorder">确认报名</a>
+            </p>
+        </div>
+    </div>
+    <!--第三步-->
+    <div class="g-content" id="uict-setup3panel" style="display:none">
+        <div class="m-volunteer-step">
+            <div class="step-content">
+                <div class="step-item active">
+                    <span class="step-dot"></span>
+                    <p class="step-txt">编辑报名信息</p>
+                </div>
+                <div class="bar"></div>
+                <div class="step-item active">
+                    <span class="step-dot"></span>
+                    <p class="step-txt">确认报名信息</p>
+                </div>
+                <div class="bar"></div>
+                <div class="step-item active">
+                    <span class="step-dot"></span>
+                    <p class="step-txt">信息提交完成</p>
+                </div>
+            </div>
+        </div>
+        <div class="place-space"></div>
+
+
+        <div id='step3' class="success">
+            <p class="iconfont icon-success"></p>
+            <h3>您的志愿者报名成功</h3>
+            <h3>正在审核中，审核完成后将以电话或短信的形式通知您！您可以：</h3>
+            <p>
+                <a href="/volunteer">返回志愿者列表</a>
+            </p>
+        </div>
+
+    </div>
+    <footer>
+        <% include ../common/footer %>
+    </footer>
+</body>
+<script type="text/javascript">
+    var userstr = <%- JSON.stringify(user) %>;
+    // userstr = JSON.parse(userstr);
+    var params = {};
+    var fileName;
+    var type = '<%-type%>';
+
+
+    $("#distpicker").distpicker({
+        placeholder: false
+    });
+
+    $().ready(function () {
+
+        $("#change-list span").on('click', function () {
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+            } else {
+                $(this).addClass('active');
+            }
+        });
+
+
+        // if (userstr.identifyStatus != "Yes") {
+        //     assist.showMsg('请实名认证', 'error');
+        //     setTimeout(function () {
+        //         window.location.href = "/volunteer"
+        //     }, 1500)
+        //     return;
+        // }
+        var flag = true;
+        if (userstr.roles && userstr.roles.length) {
+            for (var i in userstr.roles) {
+                if (userstr.roles[i] === 'volunteer') {
+                    flag = false;
+                    break;
+                }
+            }
+        }
+        if (flag == false) {
+            assist.showMsg('你已经是志愿者', 'error');
+            setTimeout(function () {
+                window.location.href = "/volunteer"
+            }, 1500)
+            return;
+        }
+
+        $("#volunteer-type option").each(function () {
+            if ($(this).val() === type) {
+                $(this).prop("selected", 'selected');
+            }
+        })
+        $("#volunteer-type").change(function () {
+            window.location.href = '/volunteer/booking/' + $(this).val();
+        });
+    })
+    var upload_flag = 0;
+    $("#regist").validate({
+        debug: true,
+        errorElement: "em",
+        onkeyup: false,
+        errorPlacement: function (error, element) {
+            
+              assist.showMsg((error).eq(0).text())
+        },
+        rules: {
+            telephone: "phoneType",
+            idNumber: "userCode"
+        },
+        messages: {
+            name: {
+                required: "请输入名称"
+            },
+            telephone: {
+                required: "请输入手机号码"
+            },
+            address: {
+                required: "请输入详细地址"
+            },
+            brief: {
+                required: "请输入志愿者介绍"
+            }
+        },
+        submitHandler: function () {
+            if (!$('#imgfile').val()) {
+                assist.showMsg('请上传头像')
+                return false;
+            }
+            if (type != 'team') {
+                if ($("input[name='idNumber']").val()) {
+                    var result = assist.getBirthday($("input[name='idNumber']").val());
+                    $("input[name='sex']").val(result.sex);
+                    $("input[name='birthDay']").val(result.birthday);
+                }
+            }
+            var serviceTypes = [];
+            $("#change-list .active").each(function (i) {
+                serviceTypes[i] = $(this).attr('data-volunteerServiceType');
+            })
+            if(serviceTypes.length==0){
+                assist.showMsg('请选择服务类型')
+                return;
+            }
+            $("input[name='serviceTypes']").val(serviceTypes);
+            var regist = document.getElementById("regist");
+            var form = new FormData(regist);
+            var temp_list = $("#regist [name]").serializeArray();
+            var address = '';
+            for (var i in temp_list) {
+                if (temp_list[i].name === 's_province') address += temp_list[i].value;
+                if (temp_list[i].name === 's_city') address += temp_list[i].value;
+                if (temp_list[i].name === 's_county') address += temp_list[i].value;
+                if (temp_list[i].name === 'address') {
+                    address += temp_list[i].value; $('.' + temp_list[i].name).text(address);
+                } else {
+                    $('.' + temp_list[i].name).text(temp_list[i].value)
+                }
+                if (temp_list[i].name === 'education' || temp_list[i].name === 'occupation' || temp_list[i]
+                    .name === 'politicalStatus') {
+                    $('.' + temp_list[i].name).text($("select[name=" + temp_list[i].name + "]").find(
+                        "option:selected").text())
+                }
+                if ($.trim(temp_list[i].value)) {
+                    params[temp_list[i].name] = $.trim(temp_list[i].value);
+                }
+                if (temp_list[i].name === 'serviceTypes') {
+                  
+                    var service_list = $('input[name=serviceTypes]').val().split(',');
+                    var text = "";
+                    for (var j in service_list) {
+                        text += $('span[data-volunteerServiceType=' + service_list[j] + ']').text() +
+                            "&nbsp;&nbsp;&nbsp;";
+                    }
+                    $('.' + temp_list[i].name).html(text);
+                }
+            }
+          
+            $("#uict-setup1panel").hide();
+            $("#uict-setup2panel").fadeIn();
+
+        }
+    })
+
+
+    $("#edit-btn").click(function () {
+        upload_flag = 0;
+        $("#uict-setup2panel").hide();
+        $("#uict-setup1panel").fadeIn();
+    })
+
+    $("#nextstup").on("click", function () {
+        var img = $('#imgfile').val()
+        if (img) {
+            $(".submit-1").click();
+        } else {
+            assist.showMsg('请上传文件', 'error');
+            flag = false;
+        }
+    });
+
+
+
+    $("#submitorder").on("click", function () {
+        var templist = $("#regist [name]").serializeArray();
+        var userInfo = [];
+        var detailAddress = "";
+        $.each(templist, function (i, user) {
+            if (user.name == "address") {
+                detailAddress += user.value;
+            }
+            if (user.name == "s_city" || user.name == "s_province" || user.name == "s_county") {
+                detailAddress += user.value;
+                return
+            } else {
+                userInfo.push(user);
+            }
+        });
+        userInfo.push({
+            name: 'region',
+            value: detailAddress
+        });
+        userInfo.push({
+            name: 'type',
+            value: type
+        });
+      
+        $.ajax({
+            url: '/volunteer/enroll',
+            type: 'post',
+            data: userInfo,
+            success: function (res) {
+                if (res && res.id) {
+                    $("#uict-setup2panel").hide();
+                    $("#uict-setup3panel").fadeIn();
+                } else {
+                    assist.showMsg('申请失败', 'error');
+                }
+            },
+            failure: function (err) {
+                assist.showMsg('申请失败', 'error');
+            }
+        })
+    });
+
+
+    function uploaderFile() {
+        var uploader = WebUploader.create({
+            // swf文件路径
+            swf: '/javascripts/libs/webuploader/Uploader.swf',
+            // 文件接收服务端。
+            server: '/uploadfile',
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            pick: '#workbtn',
+            // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+            resize: false,
+            // 只允许选择图片文件。
+            // accept: {
+            //         title: 'Images',
+            //         extensions: 'gif,jpg,jpeg,bmp,png',
+            //         mimeTypes: 'image/*'
+            // }
+        });
+
+        $('#workbtn').find('input').css('display', 'none');
+        $('#workbtn').one('click', function () {
+            $('#workbtn').find('input').css('display', 'none');
+            uploader.refresh();
+            $('#workbtn').find('input').click()
+        })
+        //当文件被加入队列之前触发，此事件的handler返回值为false，则此文件不会被添加进入队列。
+        uploader.on('beforeFileQueued', function (file) {
+
+            uploading = false;
+            if (file.ext === 'jpg' || file.ext === 'png' || file.ext === 'gif' || file.ext === 'jpeg') {
+
+            } else {
+                assist.showMsg('请选择正确的图片格式');
+                return false;
+            }
+            var fileSize = file.size / 1024 / 1024;
+            if (fileSize >= 10) {
+                assist.showMsg('文件过大');
+
+                return false;
+            }
+            uploader.reset();
+        })
+        var canReview = true;
+        // 当有文件被添加进队列的时候
+        uploader.on('fileQueued', function (file) {
+
+            uploader.makeThumb(file, function (error, src) {
+                if (error) {
+                    assist.showMsg('不能预览');
+                    canReview = false;
+                    return;
+                }
+
+                $('.import-btn .icon-upload').hide();
+                $('#img').attr('src', src);
+
+            }, 547, 365);
+            uploader.upload();
+        });
+        // 文件上传过程中创建进度条实时显示。
+        uploader.on('uploadProgress', function (file, percentage) {
+            // assist.showMsg('上传中')
+        });
+
+        uploader.on('uploadComplete', function (file) {
+
+            $(".dialog-wrap").remove();
+        });
+
+        uploader.on('uploadSuccess', function (file, response) {
+
+            if (response.code == 0) {
+                var src = response.res;
+                $('#fileName').text(response.fileName);
+                $("#imgfile").val(src);
+                // $('#regist').valid();
+
+            } else {
+
+                assist.showMsg('上传失败');
+            }
+        });
+    }
+
+    uploaderFile();
+</script>
+
+</html>

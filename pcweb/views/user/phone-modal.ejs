@@ -1,0 +1,124 @@
+<div class="myModal" style='display:none'>
+  <div class="modal-content-wrapper" id='phoneModal'>
+    <div class="block-heading border">
+      <h4 class="title">修改手机号</h4>
+    </div>
+    <form method="post" id="changePhoneForm">
+      <div class="detail-block modal-form">
+        <dl class="block-item">
+          <dt class="b-i-title">手机号：</dt>
+          <dd class="b-i-cotent">
+            <div class="u-input-group">
+                <input type="text" name="mobileNum" id="mobileNum" class="u-form-control" placeholder="请输入新手机号" required maxlength="11">
+                <span class="u-group-btn">
+                    <button class="btn" id="codeBtn" type="button">获取验证码</button>
+                </span>
+              </div>
+          </dd>
+        </dl>
+        <dl class="block-item">
+          <dt class="b-i-title">验证码：</dt>
+          <dd class="b-i-cotent">
+              <input type="text" class="u-form-control" id="recode" name="recode" placeholder="验证码" maxlength="6" minlength="6" required>
+          </dd>
+        </dl>
+      </div>
+      <div class="operate-btns">
+        <input type="submit" id="submitPhone" style="display:none;">
+        <button class="btn u-btn" id="submitPhoneBtn">
+          <i class="iconfont icon-edit"></i>确认修改</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  $(function() {
+    // 修改提交
+    $('#submitPhoneBtn').on('click', function(event) {
+      event.stopPropagation();
+      event.preventDefault();
+
+      $("#submitPhone").click();
+    });
+
+    // 验证规则
+    $('#changePhoneForm').validate({
+      errorElement: 'div',
+      errorClass: 'v-error',
+      rules: {
+        mobileNum: "phoneType"  //  手机格式验证【/javascripts/commons/custom-validate.js】
+      },
+      messages: {
+        mobileNum: {
+          required: "请输入你的手机验证码"
+        },
+        recode: {
+          required: "请输入验证码"
+        }
+      },
+      submitHandler: function(form) { // 验证成功后的处理
+        var data = {
+          mobileNum: $('#mobileNum').val(),
+          recode: $('#recode').val(),
+        };
+
+        $.ajax({
+          url: '/user/mobilephone',
+          type: 'post',
+          data: data,
+          success: function(res) {
+            if (res.success) {
+            
+              assist.showMsg(res.msg);
+             
+              window.location.reload();
+            } else {
+              assist.showMsg(res.msg);
+            }
+          }
+        })
+      }
+    });
+
+    // 发送验证码
+    $('#codeBtn').click(function() {
+      var result = $('#mobileNum').valid();
+      if (!result) return;
+
+      var $btn = $(this);
+      if ($btn.hasClass('js_pause')) return;
+      if ($btn.hasClass('disabled')) return;
+      $btn.addClass('js_pause');
+      var mobile = $('#mobileNum').val()
+      var signStr = `mobile=${mobile}&flag=register`
+      $.ajax({
+        url: '/login/vcodes',
+        type: 'post',
+        data: {
+          mobile: mobile,
+          state:'newMobile',
+          signStr: md5(signStr) // 加密串
+        },
+        success: function(res) {
+        
+        $btn.removeClass('js_pause');
+        if (res.status==200) {
+          assist.count_down('#codeBtn', 60000);
+        } else {
+          $btn.removeClass('disabled');
+         
+        } 
+        assist.showMsg(res.message);
+      },
+      failure: function(err) {
+       
+        alert('ll')
+        // assist.showMsg('验证码发送失败');
+        $btn.removeClass('js_pause disabled');
+      }
+      })
+    });
+
+  })
+</script>

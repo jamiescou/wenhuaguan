@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        资讯详情
+    </title>
+    <% include ../common/head %>
+        <link rel='stylesheet' href='/styles/issue.min.css' />
+        <link rel='stylesheet' href='/javascripts/libs/swiper/swiper.min.css' />
+        <script src="/javascripts/libs/swiper/swiper.min.js"></script>
+    <style type="text/css">
+    .btn.angle {
+	    background-color: #4d4d4d;
+	    border: none;
+	    padding: 0;
+	    margin: 0;
+	    color: white;
+	    display: inline-block;
+	    vertical-align: middle;
+	    margin-left: 20px;
+	    cursor: pointer;
+	    line-height: 21px;
+	    height: 21px;
+	    font-size: 14px;
+	    width: 106px;
+	    text-align: left;
+    }
+    .btn.angle:after {
+    	display: none;
+    }
+    .btn.angle .iconfont.icon-favor, .btn.angle .iconfont.icon-favorfill {
+    	width: 30px;
+    	height: 21px;
+    	line-height: 21px;
+	    display: inline-block;
+	    background: #e94e58;
+	    text-align: center;
+	    font-size: 14px;
+	    color: #fff;
+	    text-align: center;
+	    padding-right: 0;
+	    position: relative;
+	    top: -1px;
+    }
+    .btn.angle .iconfont.icon-favor:before, .btn.angle .iconfont.icon-favorfill:before {
+    	content: "\e7e4";
+    	position: absolute;
+    	left: 85px;
+    	top: 0;
+    }
+    .btn.angle .iconfont.icon-favor:after, .btn.angle .iconfont.icon-favorfill:after {
+    	content: '藏';
+    	display: inline-block;
+    }
+    .carousel-atlas-page-button .fav-share > div {
+    	vertical-align: middle;
+    }
+    </style>
+</head>
+
+<body>
+    <header>
+        <% include ../common/header %>
+        <script type="text/javascript" charset="utf-8"src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=3&amp;lang=zh"></script>
+        <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+    </header>
+
+    <div class="g-content">
+        <div class="crumbs">
+            <ul>
+                <li>
+                    <a href="/">首页&nbsp;&nbsp;></a>
+                </li>
+                <li>
+                    <a href="/issue">文化资讯&nbsp;&nbsp;></a>
+                </li>
+                <li>
+                    <a>资讯详情</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="carousel-atlas">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <% if(data&&data.picList.length){ %>
+                    <% data.picList.forEach( function(item,index) { %>
+                        <div class="carousel-atlas-pic-info swiper-slide clearfix">
+                            <div class="carousel-atlas-pic">
+                                <img src="<%= item.pictureFile %>" alt="<%= item.pictureFile %>" onerror="this.src='/img/err.jpg'">
+                            </div>
+                            <div class="carousel-atlas-info">
+                                <div class="atlas-info-title">
+                                    <div class="atlas-time-title clearfix">
+                                        <div class="atlas-time">
+                                            <span class="time-month">
+                                                <%= index+1 %>
+                                            </span>
+                                            <span class="time-day">
+                                                <%= data.picList.length %>
+                                            </span>
+                                        </div>
+                                        <div class="atlas-title">
+                                            <h3>
+                                                <%= data.title %>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    <div class="atlas-source-author">
+                                        <p class="atlas-source">来源：
+                                            <%= data.source %>
+                                        </p>
+                                        <p class="atlas-author">作者：
+                                            <%= data.author %>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="atlas-info-content">
+                                    <div class="atlas-inner-content">
+                                         <%= item.content %>
+                                    </div>
+                                       
+                                        <span class="atlas-publishTime">
+                                            <%= data.publishTime %>
+                                        </span>
+                                        <span class="atlas-pageView">
+                                                阅读量：<%= data.pageView%> 
+                                        </span>
+                                </div>
+                            </div>
+                        </div>
+                        <%})%>
+                <%}%>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="place-space"></div>
+
+    <div class="carousel-atlas-page-button">
+            <div class="atlas-changePage">
+                <p class="changePage">点击箭头可翻页</p>
+                <div class="swiper-button-next"><img src="/images/changeNext.jpg" alt="下一张"></div>
+                <div class="swiper-button-prev" ><img src="/images/changePre.jpg" alt="上一张"></div>
+          
+              <div class="fav-share" style="width: 400px;">
+                
+                <%- include('../common/favoritedBtn.ejs',{ objectId:data.id,type:'Information',favorited:data.favorited }) %>
+                <div id='comments'  href='#commentModal'><span class="txt ">评</span><span class="txt2"><%=comments.totalElements%></span><span class="iconfont icon-collapse"></span></div>
+                   
+              	<div id="openShareBox"> <span class="txt ">转</span><span class="txt2">分享到</span><span class="iconfont icon-collapse"></span></div>
+                  
+                    <div class="bshare-custom icon-medium-plus sharePanel" style="display: none;margin-left:135px;margin-top:3px" data-type="1">
+                        <div class="bsPromo bsPromo2"></div>
+                        <a title="分享到QQ空间" class="bshare-qzone"></a>
+                        <a title="分享到新浪微博" class="bshare-sinaminiblog"></a>
+                        <a title="分享到微信" class="bshare-weixin"></a>
+                    </div>
+                
+              </div>
+           </div> 
+             
+            <div class="place20"></div>
+
+            <div class="swiper-pagination atlas-button-rectangle">
+           
+            </div>
+        </div>
+
+
+    <div class="place-space"></div>
+    <footer>
+        <% include ../common/footer %>
+        <% include ../common/comment-modal %>
+    </footer>
+
+
+</body>
+<script>
+    var mySwiper = new Swiper('.swiper-container', {
+        direction:"horizontal",
+        loop: true,
+        pagination: '.atlas-button-rectangle',
+        paginationClickable: true,
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+        simulateTouch : false,
+        autoplayDisableOnInteraction: true
+    });
+    $('.swiper-button-prev').on('click',function(e){
+        e.preventDefault();
+        mySwiper.swipePrev();
+    });
+
+    $('.swiper-button-next').on('click',function(e) {
+        e.preventDefault();
+        mySwiper.swipeNext();
+    });
+ 
+    $('.atlas-button-rectangle').on('click', 'span', function () {
+        $(this).addClass('active').siblings().removeClass('active');
+    });
+
+    $('#comments').on('click',function(){
+        
+        $("#comments").colorbox({inline:true,slideshow:true,width:1100,height:600, closeButton:false,overlayClose:true});
+    })
+ 
+   
+</script>
+
+ 
+ <script type="text/javascript">
+     $().ready(function () {
+         $("#openShareBox,.sharePanel").on('mouseover', function () {
+             var that = $(".sharePanel");
+             if(that.data('type') == "1"){
+                 that.stop(1,0).fadeIn();
+                 that.data('type',"0");
+             }
+         })
+         $("#openShareBox,.sharePanel").on('mouseout', function () {
+             var that = $(".sharePanel");
+             if(that.data('type') == "0"){
+                 that.stop(1,0).fadeOut();
+                 that.data('type',"1");
+             }
+         })
+     })
+ </script>
+
+</html>

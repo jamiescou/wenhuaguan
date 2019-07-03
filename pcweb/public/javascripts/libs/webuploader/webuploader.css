@@ -1,0 +1,72 @@
+.uploader{
+	float: left;
+}
+.webuploader-container {
+	position: relative;
+	float: left;
+}
+div.select-file{
+	position: relative;
+	float: left;
+	cursor: pointer;
+	background: #00b7ee;
+	padding: 0px 15px;
+	color: #fff;
+	text-align: center;
+	border-radius: 3px;
+	overflow: hidden;
+	margin-left: 10px;
+}
+.webuploader-element-invisible {
+	position: absolute !important;
+	clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+    clip: rect(1px,1px,1px,1px);
+}
+.webuploader-pick {
+	position: relative;
+	float: left;
+	cursor: pointer;
+	background: #00b7ee;
+	padding: 0px 15px;
+	color: #fff;
+	text-align: center;
+	border-radius: 3px;
+	overflow: hidden;
+}
+.webuploader-pick-hover {
+	background: #00a2d4;
+}
+
+.webuploader-pick-disable {
+	opacity: 0.6;
+	pointer-events:none;
+}
+div.file-list{
+
+}
+div.file-list div.item p{
+	/*display: none;*/
+	float: left;
+	margin-left: 15px;
+}
+div.file-list div.item h4{
+	float: left;
+	margin-left: 15px;
+	color: #f65a32;
+}
+div.file-list div.item .progress{
+	float: left;
+	width: 200px;
+	height: 20px;
+	margin-left: 15px;
+	text-align: center;
+	color: #fff;
+	line-height: 20px;
+	font-size: 14px;
+	margin-top: 7px;
+	border: solid 1px #00a2d4;
+}
+div.file-list div.item .progress .progress-bar{
+	height: 20px;
+	background: #00a2d4;
+}

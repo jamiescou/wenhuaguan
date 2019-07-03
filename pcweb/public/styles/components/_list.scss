@@ -1,0 +1,115 @@
+.list,
+.list-bullet {
+    .list-item {
+        position: relative;
+        display: block;
+        color: $list-color;
+        cursor: pointer;
+        text-align: left;
+    }
+    .title {
+        position: relative;
+        font-size: $list-fs;
+        line-height: 24px;
+    }
+    .time {
+        display: inline-block;
+        // line-height: 24px;
+        font-size: $font-size12;
+        color: $list-time-color;
+    }
+}
+
+// 带点的列表，标题占空间75%，超出显示省略号；
+.list-bullet {
+    .list-item {
+        height: $list-bullet-height;
+        line-height: $list-bullet-height;
+        // border-bottom: $list-bullet-border;
+        cursor: pointer;
+        &:before {
+            content: $list-bullet-type;
+            display: inline-block;
+            padding: 0 10px;
+            color: $list-bullet-type-color;
+        }
+        &:hover {
+            color: darken($gray-666, 100%);
+        }
+    }
+    &.highlight-type {
+        .list-item:before,
+        {
+            color: $list-active;
+        }
+    }
+    &.highlight {
+        .list-item:hover {
+            &,
+            &:before,
+            & .time {
+                color: $list-active;
+            }
+        }
+    }
+    .title {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        @include singleline-ellipsis(25%);
+    }
+    .time {
+        display: inline-block;
+        padding-left: 20px;
+        padding-right: 10px;
+    }
+}
+
+.list {
+    .list-item {
+        padding: 0 15px;
+        font-size: $list-fs;
+        &:hover {
+            &,
+            &:before,
+            & .time {
+                color: darken($list-active, 20%);
+            }
+        }
+        &.active,
+        &.active:hover {
+            &,
+            &:before,
+            & .time {
+                color: $list-active;
+            }
+        }
+        .title {
+            display: block;
+            @include singleline-ellipsis;
+        }
+        .time {
+            display: block;
+            padding-left: 0;
+        }
+    }
+    .list-item+.list-item {
+        margin-top: 20px;
+    }
+    &.dot {
+        .list-item {
+            padding: 0 10px 0 26px;
+        }
+        .list-item:before {
+            position: absolute;
+            top: $list-fs / 2;
+            width: 16px;
+            height: 16px;
+            margin-top: -8px;
+            content: $list-bullet-type;
+            display: block;
+            padding: 0 10px;
+            left: 0;
+        }
+    }
+}

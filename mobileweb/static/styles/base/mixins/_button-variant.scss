@@ -1,0 +1,58 @@
+// ** 按钮多样性
+@mixin button-variant($color, $background, $border, $bgChange:false, $gradient:false) {
+    $focus-bgc: $background; // focus
+    $focus-border-c: $border;
+    $hover-bgc: $background; // hover
+    $hover-border-c: $border;
+    /**/
+    color: $color;
+    background-color: $background;
+    border: 1px solid $border;
+    @if($bgChange) {
+        // 颜色变化
+        $focus-bgc: darken($background, 10%);
+        $focus-border-c: darken($border, 25%);
+        $hover-bgc: darken($background, 10%);
+        $hover-border-c: darken($border, 12%);
+    }
+    @if($gradient) {
+        @include gradient($background, darken($background, 20%))
+    }
+    &:focus,
+    &.focus {
+        background-color: inherit;
+        border-color: inherit;
+        outline: 0;
+        @if($bgChange) {
+            color: $color;
+            background-color: $focus-bgc;
+            border-color: $focus-border-c;
+        }
+    }
+    &:hover {
+        background-color: inherit;
+        border-color: inherit;
+        @if($bgChange) {
+            color: $color;
+            background-color: $hover-bgc;
+            border-color: $hover-border-c;
+        }
+    }
+    &.disabled,
+    &[disabled],
+    fieldset[disabled] & {
+        @include opacity(65);
+        cursor: not-allowed;
+        &.focus,
+        &:focus,
+        &:hover {
+            background-color: $background;
+            border-color: $border;
+             
+        }
+    }
+    .badge {
+        color: $background;
+        background-color: $color;
+    }
+}

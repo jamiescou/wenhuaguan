@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    培训详情
+  </title>
+  <% include ../common/head %>
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+  <div class="uict-content2">
+    <ol class="breadcrumb">
+      <li>
+        <a href="/">首页</a>
+      </li>
+      <li>
+        <a href="/artexperts">文艺人才</a>
+      </li>
+      <li class="active">人才详情</li>
+    </ol>
+   
+    <div class="artexperts-media">
+      <div class="media-left">
+          <img src="<%= data.coverPic %>" alt="人才头像" />
+      </div>
+      <div class="media-body">
+          <h4 class="u-title">
+              <%= data.name %>
+          </h4>
+         <div><p><label>艺术分类：</label><%= data.artTypeStr %></p><p><label>所属机构:</label><%= data.artStr %></p></div>
+         <div><p><label>头衔：</label><%= data.honor %></p><p><label>毕业院校:</label> <%= data.school %></p></div>
+      </div>
+  </div>
+
+    <div class="uict-acvitity">
+      <div class="uict-activityl">
+        <div class="uict-adetail martb_15">
+          <h2 class="uict-tjh2">人才简介</h2>
+          <div class="uict-d-content"><%-data.brief%></div>
+        </div>
+      </div>
+      </div>
+      
+      <%-include('../common/comments',{comments:comments,commentUrl:'/artexperts/artexperts/comments/' + data.id,pagingUrl:'/artexperts/artexpertsdetail/' + data.id+'' }) %>
+    </div>
+  </div>
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+
+</html>

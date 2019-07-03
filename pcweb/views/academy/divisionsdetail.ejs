@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    活动详情
+  </title>
+  <% include ../common/head %>
+
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+
+  <div class="uict-content2">
+   
+      <ol class="breadcrumb">
+        <li>
+          <a href="/">首页</a>
+        </li>
+         <li  class=""><a href='/academy'>群文学会</a></li>
+       
+         <li class="active">学会详情</li>
+      </ol>
+
+      <div class="media card-media activity-media">
+       <div class="media-left">
+        <img src="<%= data.coverPic %>" alt="资讯图片" />
+       </div>
+      <div class="media-body">
+        <h4 class="u-title">
+            <%= data.name %>
+        </h4>
+        <div class="u-remark">
+            <i class="iconfont icon-leader"></i>负责人：<%=data.leader%>
+        </div>
+        <div class="u-remark">
+            <i class="iconfont icon-phone"></i>电话：
+            <%= data.mobile %>
+        </div>
+         <div class="u-remark f-nowrap" >
+            <i class="iconfont icon-email"></i>邮箱：
+            <%= data.email %>
+        </div>
+         <div class="u-remark f-nowrap" >
+          <i class="iconfont icon-attachments"></i> 
+            <a href='/images/nodata.png' style='text-decoration:underline'>湖南省艺术摄影学会入会申请表</a>
+             <p style='font-size:16px;margin-left:30px;color:#e94e58;margin-top:10px;'>* 请下载并填写入会申请表后，发送至上述电子邮箱申请入会 </p>
+        </div>
+      </div>
+   </div>
+
+       <div class="uict-content2 marginTop20 collectInfo">
+           <div class="header">品牌概述</div>
+           <div class="content"><%-data.brief%></div>
+      </div>
+  </div>
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+<script>
+
+
+
+</script>
+
+</html>

@@ -1,0 +1,30 @@
+.media {
+    overflow: hidden;
+    &.fixed-h {
+        height: $media-height;
+    }
+    .media-left,
+    .media-center,
+    .media-right {
+        display: table-cell;
+        vertical-align: top;
+        max-width: 100%;
+    }
+    .media-left {
+        padding-right: 15px;
+    }
+    .media-center {
+        width: 10000px;
+        overflow: hidden;
+        zoom: 1;
+        height: inherit; // height: 100%;
+        .media-center-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .media-right {
+        padding-left: 15px;
+    }
+}

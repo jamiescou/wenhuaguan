@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<%
+var year = query.year || new Date().getFullYear();
+var typePage = '/magazine/issueslist/' + magazineId;
+%>
+
+<html>
+
+<head>
+    <title>
+        期刊列表
+    </title>
+    <% include ../common/head %>
+    <link rel='stylesheet' href='/styles/magazine.min.css'/>
+</head>
+
+<body>
+<header>
+    <% include ../common/header %>
+</header>
+<div class="g-content">
+    <div class="crumbs">
+        <ul>
+            <li><a href="/">首页&nbsp;&nbsp;></a></li>
+            <li><a href="/magazine">杂志列表&nbsp;&nbsp;></a></li>
+            <li><a href="javascript:void(0)">期刊列表</a></li>
+        </ul>
+    </div>
+</div>
+<div class="g-content">
+    <div class="m-filter-pannel">
+        <div class="m-search-lst">
+            <div class="item">
+                <h4 class="tag-hd">期刊年份：</h4>
+                <div class="tag-wrap">
+
+                    <% years.forEach(function (type, index) { %>
+                    <a class="tag-item <% if(query.year && query.year == type.code || (!query.year && index == 0)){ %>active<% } %>"
+                       href="<%- typePage %>?year=<%= type.code %>">
+                        <%= type.value %>
+                    </a>
+                    <% }) %>
+                </div>
+            </div>
+        </div>
+  <% if(data && data.content.length > 0){ %>
+        <div class="uict-magazine-issues clearfix">
+          
+            <% data.content.forEach(function(item){ %>
+            <div>
+                <a href='/magazine/issueview/<%= magazineId %>/<%= item.id %>'>
+                    <img src="<%= item.coverPic %>" onerror="noImg()" alt="杂志封面">
+                </a>
+                <p><%= item.year + '年' + item.seqno + '期' %> </p>
+            </div>
+            <% }) %>  </div>
+            <% }else { %>
+            <%- include('../common/nodata', {tip : '暂无杂志' }) %>
+            <% } %>
+      
+    </div>
+</div>
+<footer>
+    <% include ../common/footer %>
+</footer>
+</body>
+<script>
+
+
+</script>
+
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    个人中心
+  </title>
+  <% include ../common/head %>
+  <link rel='stylesheet' href='/styles/user-center.min.css' />
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+    <div class="place-space"></div>
+    <div class="g-content user-center-content">
+      <div class="tab-wrapper">
+        <ul class="nav nav-tabs" id="userTabs">
+          <li class="<% if(!query.type){ %>active<% } %>">
+            <a href="#base">基本信息</a>
+          </li>
+          <li class="<% if(query.type === 'auth' ){ %>active<% } %>">
+            <a href="#auth">常用联系人</a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane fade <% if(!query.type){ %>in active<% } %>" id="base">
+            <div class="user-avator"> 
+              <img src="<%= data.pic %>"  onerror="this.onerror=null;this.src='/images/portrait.png'" class="avator" />
+              <button class="btn set-btn j-setbtn" href="#avatorModal">
+                <i class="iconfont icon-camera"></i>
+              </button>
+            </div>
+            <div class="base-info">
+              <p class="info-item">
+                <label class="info-title pull-left">用户昵称</label>
+                <span class="info-content pull-right">
+                  <%= data.nickname %> 
+                  <button type="button" class="btn j-setbtn" href='#nickNameModal'>
+                      <i class="iconfont icon-edit"></i>编辑</button>
+                </span>
+              </p>
+              <%if(data.mobile){%>
+              <p class="info-item">
+                <label class="info-title pull-left">用户密码</label>
+                <span class="info-content pull-right">
+                  **********
+                  <button type="button" class="btn j-setbtn" href='#resetPwdModal'>
+                      <i class="iconfont icon-edit"></i>修改</button>
+                </span>
+              </p>
+              <% } %>
+              <p class="info-item">
+                <label class="info-title pull-left">手机号码</label>
+                <span class="info-content pull-right">
+                  <%= data.mobile ? data.mobile : '您还没有绑定手机号码～～！' %>
+                  <button type="button" class="btn j-setbtn" href="<%= data.mobile ? '#phoneModal' : '#bindModal' %>">
+                      <i class="iconfont icon-edit"></i><%= data.mobile ? '修改' : '绑定' %></button>
+                </span>
+              </p>
+              <% if(data.mobile&&data.mobile!=''){%>
+                <p class="info-item">
+                  <label class="info-title pull-left">微信号</label>
+                  <span class="info-content pull-right">
+                    <%= data.weixin %>
+                    <button type="button" class="btn j-setbtn" href="<%= data.bindWeixin?'#unbindModal':'#bindWModal' %>">
+                        <i class="iconfont icon-edit"></i><%= data.bindWeixin?'解绑':'绑定' %>
+                      </button>
+                  </span>
+                </p>
+              <%}%>
+           
+                 <p class="info-item">
+                <label class="info-title pull-left">认证信息</label>
+                <span class="info-content pull-right">
+                  <% if(data.mobile){%>
+                  <%= data.identifyName %>
+                  <% if( data.identifyStatus=="Not" || data.identifyStatus == "Fail" ) { %>
+                      <button type="button" class="btn j-setbtn" href='#authModal'>
+                      <i class="iconfont icon-edit"></i>认证</button>
+                  <% } %>
+                  <%} else {%>
+                      请先绑定手机号
+                  <%}%>
+                  
+                </span>
+              </p>
+            
+           
+            </div>
+            <!-- <div class="operate-btns">
+              <button type="button" class="btn u-btn">
+                <i class="iconfont icon-edit"></i>编辑</button>
+            </div> -->
+          </div>
+          <div class="tab-pane <% if(query.type === 'auth' ){ %>in active<% } %>" id="auth">
+            <%if(contact && contact.length) { %>
+              <table class="contacts-table">
+                <thead>
+                  <tr>
+                    <th>姓名</th>
+                    <th>关系</th>
+                    <th>手机号码</th>
+                    <th>身份证</th>
+                    <th>审核状态</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <% contact.forEach(function(member){ %>
+                    <tr class="coninfo">
+                      <td>
+                        <%= member.name %>
+                      </td>
+                      <td src="<%=member.relation %>">
+                        <%= member.relationName %>
+                      </td>
+                      <td>
+                        <%= member.mobile %>
+                      </td>
+                      <td>
+                        <%= member.idNumber %>
+                      </td>
+                      <td>
+                        <%= member.identifyName %>
+
+                        <% if(member.identifyStatus=='Fail'){%>
+                            <i class="iconfont icon-warning red" title='<%=member.auditComment%>'></i> 
+                         <%}%>
+                      </td>
+                      <td>
+                            <a class='btn' href="/user/delmember/<%=member.idNumber %>">删除</a>
+                      </td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+              </table>
+              <% } %>
+                <div class="operate-btns">
+                  <button type="button"  class="btn u-btn j-setbtn" href="#contactModal">
+                    <i class="iconfont icon-adduser"></i>&nbsp&nbsp添加常用联系人</button>
+                </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%-include('./avator-modal.ejs') %>
+    <%-include('./nick-modal.ejs') %>
+    <% if(data.mobile){ %>
+      <%-include('./reset-modal.ejs') %>
+    <% } %>
+    <% if(data.mobile) { %>
+      <%-include('./phone-modal.ejs') %>
+    <% } else { %>
+      <%-include('./bind-modal.ejs') %>
+    <% } %>
+    <%-include('./wexin-modal.ejs') %>
+    <% if( data.identifyStatus=="Not" || data.identifyStatus == "Fail" ) { %>
+      <%-include('./auth-modal.ejs') %>
+    <% } %>  
+    <%-include('./contact-modal.ejs') %>
+    <footer>
+      <% include ../common/footer %>
+    </footer>
+    <link href="/javascripts/libs/webuploader/webuploader.css">
+    <script type="text/javascript" src="/javascripts/libs/webuploader/webuploader.min.js"></script>
+    <script src="/javascripts/libs/validate/jquery.validate.min.js"></script>
+    <script src="/javascripts/libs/validate/additional-methods.min.js"></script>
+    <script src="/javascripts/libs/validate/messages_zh.js"></script>
+    <script src="/javascripts/commons/custom-validate.js"></script>
+    <script>
+      $(function() {
+
+        var bind= '<%=bind%>';
+        if(bind){
+           if(bind==0){
+            assist.showMsg('绑定失败 ')
+           }else if(bind==1){
+            assist.showMsg('绑定成功 ')
+           }else if(bind==-1){
+            assist.showMsg('绑定失败，该微信号已绑定其他账号 ')
+           }
+        }
+
+
+         //姓名中文
+        $.validator.addMethod("userName", function(value) {
+          var reg = /^[\u4e00-\u9fa5]*$/;
+          return reg.test(value);
+        }, '姓名必须为中文');
+
+        //身份证格式
+        $.validator.addMethod("userCode", function(value) {
+    
+          var check = assist.getBirthday(value);
+          return !check.error;
+        }, '请输入正确的身份证号码');
+    
+        // tab切换
+        $('#userTabs').on('click', 'li>a', function(event) {
+          event.preventDefault();
+          var $parentNode = $(this).parent();
+          var activeClass = 'active';
+          if ($parentNode.hasClass(activeClass)) {
+            return;
+          }
+
+          $parentNode.siblings().removeClass(activeClass);
+          $parentNode.addClass(activeClass);
+          var selector = $(this).attr('href');
+          $(selector).addClass('in ' + activeClass);
+          $(selector).siblings().removeClass('in ' + activeClass);
+        });
+
+        function showColorBox(element){
+          element.colorbox({inline:true,slideshow:true, closeButton:false,overlayClose:true,
+            onClosed:function(){ 
+                $('#bindForm').hide();
+                $('#bindPhoneForm').show();
+                $('.icon-upload').show();
+                window.location.reload();
+                // 重置表单
+                var forms = document.getElementsByTagName('form');
+                  for (var i = 0; i < forms.length; i++) {
+                    var element = forms[i];
+                    element.reset();
+                    $(element).validate().resetForm();
+                    $(element).find('input').removeClass('v-error');
+                    $(element).find('.import-btn>img').attr('src','/images/IDCard3.png');
+                  }
+           }
+          });
+        }
+
+        // 弹窗
+        $('#base,#auth').on('click','.j-setbtn',function(event){
+          event.preventDefault();
+          showColorBox($(this));
+        });
+      });
+    </script>
+</body>
+
+</html>

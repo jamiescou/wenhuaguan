@@ -1,0 +1,206 @@
+@import '../base/variables';
+@import '../base/mixins';
+@import '../components/index';
+.list-content {
+    background-color: $container-bg;
+    .content {
+        @include make-grid-columns(4);
+    }
+    .card {
+        .img-top {
+            height: 186px;
+        }
+        .card-title {
+            @extend %singleline-ellipsis;
+        }
+    }
+    .report-item{
+        padding: 10px 14px;
+        margin-top: -1px;
+        margin-left: -1px;
+        border:1px solid $gray-f8;
+        .img-card{
+            width:100%;
+            height:200px;
+        }
+    }
+}
+.nav-tabs{
+    float: initial;
+}
+@include step('m-activity-step');
+// 我的活动
+.activity.media {
+    background-color: $container-bg;
+    padding: 20px 20px 20px;
+    .news-title {
+        // 标题
+        font-size: 20px;
+        line-height: 24px;
+        color: $font-color;
+        margin: 0 0 40px;
+    }
+    .activity-img {
+        // 图片
+        width: 250px;
+        height: 167px;
+        display: block;
+    }
+    .describe {
+        // 地址等描述信息
+        color: $gray-666;
+        font-size: 14px;
+        .iconfont {
+            color: $red;
+            margin-right: 8px;
+        }
+        span {
+            margin: 0 5px;
+        }
+    }
+    .describe+.describe {
+        margin-top: 10px;
+    }
+}
+
+.detail-block .block-item.presetNumsWrap{
+    .b-i-title{
+        vertical-align: baseline;
+    }
+}
+// 预定信息
+.detail-block .preset-content,
+.detail-block .preset-confirm {
+    padding: 0 20px 0;
+    overflow: hidden;
+    .group-wrapper {
+        display: inline-block;
+        vertical-align: middle;
+    }
+   
+    .itms {
+        // 场次
+        .itm-tag {
+            display: inline-block;
+            height: 28px;
+            line-height: 28px;
+            padding: 0 20px;
+            border: 1px solid #D2D2D2;
+            margin: 0 8px 0 0;
+            color: #666;
+            cursor: pointer;
+            &.disabled {
+                background-color: #E5E5E5;
+            }
+            &.active {
+                color: #fff;
+                background: $red;
+            }
+        }
+        &.itms-dt .itm-tag {
+            &.current {
+                color: $red;
+            }
+        }
+    }
+    .tick-hint {
+        margin-bottom: 30px;
+        font-size: 16px;
+        .icon {
+            color: $red;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+    }
+    .selected-seats {
+        margin-top: 10px;
+        .selected-itm {
+            display: inline-block;
+            height: 34px;
+            line-height: 34px;
+            margin: 0 8px 8px 0;
+            padding: 0 10px;
+            border: 1px dashed $red;
+            color: $red;
+            cursor: pointer;
+        }
+    }
+}
+
+// 协议
+.protocol {
+    margin: 18px 15px 50px;
+    color: #666;
+    .strong {
+        color: $red;
+        font-style: normal;
+        text-decoration: none;
+    }
+}
+.time-select{  
+     position: relative;
+     
+    i{
+        position: absolute;
+        left:300px;
+        top:4px;
+        color:$gray-999;
+    }
+    .timeselect{
+    width:240px;
+ 
+    }
+}
+
+ 
+    .apply-btn{
+        color:white !important;
+    background: $red !important;
+    border:$red !important;
+}
+ 
+.chencked{
+    background-color: lighten($color: $red, $amount: 30%) important;
+}
+
+
+// 操作按钮
+.operate-btns {
+    text-align: center;
+    margin: 50px auto;
+    overflow: hidden;
+    .u-btn {
+        border-radius: 0px;
+        overflow: hidden;
+        // padding: 10px 30px;
+        background-color: $red;
+        border-color: $red;
+        color: white;
+    }
+}
+
+.step-panel {
+    margin-bottom: 120px;
+}
+
+// 问卷调查
+.research-form {
+    padding: 0px 20px 20px 20px;
+    font-size: $font-size;
+    color: $gray-666;
+    .qitem {
+        padding: 5px 0;
+        margin-bottom: 15px;
+    }
+    .q-title {
+        padding-bottom: 10px;
+        font-weight: bold;
+    }
+    .q-content {
+        .q-option-item {
+            margin-left: 10px;
+            cursor: pointer;
+            font-weight: normal;
+        }
+    }
+}

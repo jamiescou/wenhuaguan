@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    培训详情
+  </title>
+  <% include ../common/head %>
+  <link rel='stylesheet' href='/styles/train.min.css' />
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+  <div class="g-content">
+    <div class="crumbs">
+      <ul>
+        <li>
+          <a href="">首页&nbsp;&nbsp;></a>
+        </li>
+        <li>
+          <a href="/train">培训列表&nbsp;&nbsp;></a>
+        </li>
+        <li>
+            <a href='#'>培训详情</a>
+        </li>
+      </ul>
+    </div>
+    <%- include('./train_info.ejs', {data: data}) %>
+      <div class="place-space"></div>
+      <div class="detail-block">
+        <div class="block-heading border">
+          <h4 class="title">培训详情</h4>
+        </div>
+        <div class="detail-content cimg">
+          <%-data.introduce%>
+        </div>
+      </div>
+      <div class="place-space"></div>
+      <div class="detail-block">
+        <div class="block-heading border">
+          <h4 class="title">培训课程</h4>
+        </div>
+        <div class="detail-content">
+           <table class="clsTb">
+             <tr><th >日期</th><th >课时段</th></tr>
+             <% for(var p in clsObj){%>
+                <tr><td class="cdate"><%= p%></td><td class="ctime"><%= clsObj[p].join('  ;  ') %></td></tr>
+             <%}%>
+           </table>
+        </div>
+      </div>
+      <div class="place-space"></div>
+      <div class="detail-block">
+        <div class="block-heading border">
+          <h4 class="title">推荐培训</h4>
+          <% if ( tjdata.totalPages > 1 ) { %>
+            <div class="more">
+              <a href='#'>更多>></a>
+            </div>
+            <% } %>
+        </div>
+        <div class="detail-content list-content">
+          <% if ( tjdata.content.length ) { %>
+            <div class="content">
+              <% tjdata.content.forEach(function (item) { %>
+                <div class="card col-4 border">
+                  <a class="card-head" href="/train/detail/<%= item.id %>">
+                    <img class="img-top" src="<%=item.picture%>" alt="活动图片">
+                    <span class="card-tag"><%=item.tag%></span>
+                  </a>
+
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <%= item.title %>
+                    </h5>
+                    <div class="card-info">
+                      <p>
+                        <i class="icon iconfont icon-time"></i>
+                        <span>
+                          <%= item.startDate %>&nbsp至&nbsp
+                            <%= item.endDate %>
+                        </span>
+                      </p>
+                      <p>
+                        <i class="icon iconfont icon-location"></i>
+                        <span>
+                          <%= item.address %>
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+    
+                </div>
+                <% }) %>
+            </div>
+            <% } else { %>
+              <% include ../common/nodata %>
+                <% } %>
+        </div>
+      </div>
+     
+      <div class="place-space"></div>
+      <%-include('../common/comments',{comments:comments,type:'Train',objId:data.id,pagingUrl:'/train/detail/' + data.id+'' }) %>
+      <div class="place-space"></div>
+  </div>
+
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+
+</html>

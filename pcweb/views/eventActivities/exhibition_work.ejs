@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    征集活动详情
+  </title>
+  <% include ../common/head %>
+    <link rel='stylesheet' href='/styles/collect.min.css' />
+    <script src='/javascripts/libs/datarangepicker/laydate.js'></script>
+</head>
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+
+  <div class="g-content collectdetail">
+    <div class="crumbs">
+      <ul>
+        <li>
+          <a href="/">首页&nbsp;&nbsp;></a>
+        </li>
+        <li>
+          <a href="/eventActivities/offlineAct">作品征集&nbsp;&nbsp;></a>
+        </li>
+        <li>
+          <a href="">活动详情</a>
+        </li>
+      </ul>
+    </div>
+    <div class="brief-media">
+      <div class="media">
+        <div class="media-left">
+          <img src="<%= data.coverPic %>" alt="活动图片" class="brief-img" />
+        </div>
+        <div class="media-center">
+          <h3 class="name">
+            <%= data.name %>
+          </h3>
+
+          <p class="describe f-nowrap">
+            <i class="iconfont icon-clstime"></i>报名时间：
+            <%= data.signStartTime.substring(0,16) %>&nbsp; 至 &nbsp;
+              <%= data.signEndTime.substring(0,16) %>
+          </p>
+
+          <p class="describe f-nowrap">
+            <i class="iconfont icon-clstime"></i>活动时间：
+            <%= data.startDate.substring(0,16) %>&nbsp; 至 &nbsp;
+              <%= data.endDate.substring(0,16) %>
+          </p>
+
+          <p class="describe f-nowrap">
+            <i class="iconfont icon-homepage"></i>组织机构:
+            <%= data.organizer %>
+          </p>
+
+          <p class="describe f-nowrap">
+            <i class="iconfont icon-team"></i>活动对象:
+            <%= data.actObject %>
+          </p>
+
+          <p class="describe f-nowrap">
+            <i class="iconfont icon-type3"></i>活动类型:
+            <%= data.type=='stageArts'?'舞台艺术':'展览' %>
+          </p>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="detail">
+      <div class="title">填写作品信息</div>
+      <div class="desc oflActWork">
+        <form method="post" enctype="multipart/form-data" id="regist">
+
+          <div class="item">
+            <label>作品名称:</label>
+            <input name='name' id='name' required>
+          </div>
+
+          <div class="item size">
+            <label>作品尺寸(框边):</label>
+            <div>
+              <span>宽(cm)</span>
+              <input name='workWidth' id='workWidth'   required>
+            </div>
+            <div>
+              <span>高(cm)</span>
+              <input name='workHeight' id='workHeight'   required>
+            </div>
+          </div>
+
+          <div class="item">
+            <label>创作时间:</label>
+            <input name='createDate' id='createDate' type='text' required>
+          </div>
+          <div class="item">
+            <label>作者姓名:</label>
+            <input name='contact' id='contact' type='text' required>
+          </div>
+          <div class="item">
+            <label>联系电话:</label>
+            <input name='telephone' id='telephone' required>
+          </div>
+          <div class="item">
+            <label>身份证号:</label>
+            <input name='idNumber' id='idNumber' type='text' required>
+          </div>
+          <div class="item">
+            <label>详细地址:</label>
+            <input name='address' id='address' type='text' required>
+          </div>
+          <div class="item topAlign">
+            <label>艺术简历:</label>
+            <textarea rows=4 name='workBrief' id='workBrief' required></textarea>
+          </div>
+          
+          <div class="item">
+            <label class="notrequired">其他附件:</label>
+            <div class="img-upload">
+              <div class="btn import-btn" id='workbtn'>点击上传</div>
+              <input type='text' class="whitebg" disabled id='attachName' name='attachName'></input>
+              <input type="text" id="attach" name='attach' class="sr-only"></input>
+            </div>
+            <p class="attachtip"> * 可上传作品相关图片，若需上传多个文件，请采用压缩包格式上传。</p>
+          </div>
+          <div class="opbtn">
+            <span class="btn outline" id='back'>返 回</span>
+            <input class="btn" type="submit"></input>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="place-space"></div>
+  </div>
+
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+<script src="/javascripts/libs/validate/jquery.validate.min.js"></script>
+<script src="/javascripts/libs/validate/additional-methods.min.js"></script>
+<script src="/javascripts/libs/validate/messages_zh.js"></script>
+<script src="/javascripts/commons/custom-validate.js"></script>
+<link href="/javascripts/libs/webuploader/webuploader.css">
+<script type="text/javascript" src="/javascripts/libs/webuploader/webuploader.min.js"></script>
+<script>
+  laydate.render({
+    elem: '#createDate' //指定元素
+  });
+   var actId= '<%=actId%>';
+    //身份证格式
+    $.validator.addMethod("userCode", function(value) {
+        var check = assist.getBirthday(value);
+        return !check.error;
+      }, '请输入正确的身份证号码');
+   
+   $('#back').on('click',function(){
+     window.location.href='/collect/offlineActDetail/'+actId
+   })
+
+ function uploaderFile() {
+    var uploader = WebUploader.create({
+      // swf文件路径
+      swf: '/javascripts/libs/webuploader/Uploader.swf',
+      // 文件接收服务端。
+      server: '/uploadfile',
+      // 选择文件的按钮。可选。
+      // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+      pick: '#workbtn',
+      // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+      resize: false,
+    });
+
+
+    $('#workbtn').one('click', function() {
+      $('#workbtn').find('input').css('display', 'none');
+      uploader.refresh();
+      $('#workbtn').find('input').click()
+    })
+    //当文件被加入队列之前触发，此事件的handler返回值为false，则此文件不会被添加进入队列。
+    uploader.on('beforeFileQueued', function(file) {
+      var fileSize = file.size / 1024 / 1024;
+      if (fileSize >= 500) {
+        assist.showMsg('文件过大')
+        return false;
+      }
+      uploader.reset();
+    })
+
+    uploader.on('fileQueued', function(file) {
+      uploader.upload();
+    });
+    // 文件上传过程中创建进度条实时显示。
+    uploader.on('uploadProgress', function(file, percentage) {
+      // assist.showMsg('上传中')
+    });
+
+    uploader.on('uploadComplete', function(file) {
+      $(".dialog-wrap").remove();
+    });
+
+    uploader.on('uploadSuccess', function(file, response) {
+      if (response.code == 0) {
+        var src = response.res;
+        $("#attach").val(src);
+        $("#attachName").val(response.fileName);
+        uploading = true;
+      } else {
+        uploading = false;
+        assist.showMsg('上传失败');
+      }
+    });
+  }
+  uploaderFile();
+
+  $(document).ready(function(){
+   
+    $("#regist").validate({
+      errorElement: 'div',
+      errorClass: 'v-error',
+      rules: {
+        idNumber: 'userCode',
+        telephone: "phoneType"
+      },
+        messages: {
+            name: {
+                required: "请输入名称"
+            },
+            workWidth: {
+                required: "请输入产品宽度"
+            },
+            workHeight: {
+                required: "请输入产品高度"
+            },
+            telephone:{
+              required:'请输入正确的电话号码'
+            },
+            createDate:{
+               required:'请输入创建时间'
+            },
+            contact:{
+              required:'请输入作者姓名'
+            },
+            idNumber:{
+              required:'请输入正确身份证号'
+            },
+            address: {
+                required: "请输入详细地址"
+            },
+            workBrief: {
+                required: "请输入志愿者介绍"
+            }
+        },
+        submitHandler: function () {
+          var workInfo= $("#regist").serializeArray();
+          var workObj={};
+            for(var i=0;i<workInfo.length;i++){
+                workObj[workInfo[i].name]=workInfo[i].value;
+            }
+            workObj.type='exhibition';
+            workObj.attachName=$('#attachName').val();
+            $.ajax({
+              url:'/collect/offlineAct/work',
+              data:{'activityId':actId,works:workObj},
+              type:'post',
+              success:function(res){
+                if(res&&res.id){
+                  assist.showMsg('提交成功','success');
+                  $("#regist")[0].reset();
+                }else {
+                  assist.showMsg('提交失败','error');
+                }
+              },
+              failure:function(){
+                assist.showMsg('提交失败','error');
+              }
+            })
+        }
+    })
+
+
+
+
+
+
+
+
+
+
+  })
+</script>
+
+</html>

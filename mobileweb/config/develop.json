@@ -1,0 +1,30 @@
+{
+    "apiServer": "http://139.196.160.251:4412",
+    "prefix": "/api/v1",
+    "port": 3109,
+    "SITE_PREFIX": "/api",
+    "SITE_ROOT_URL": "http://h.hn.fm918.top:3109",
+    "token": {
+        "username": "mobileweb-client",
+        "pwd": "123",
+        "grant": "client_credentials"
+    },
+    "wechat": {
+        "appID": "wx8f296dba80aa077c",
+        "appSecret": "1940528aa4ec8973b29eb6020785e500",
+        "token": ""
+    },
+    "redis": {
+        "port": 6379,
+        "host": "192.168.0.123",
+        "db": 12,
+        "options": {
+            "return_buffers": false,
+            "auth_pass": ""
+        }
+    },
+    "cloudinary": {
+        "image": "http://119.23.14.134:8001/",
+        "filePath": "/data/filestorage"
+    }
+}

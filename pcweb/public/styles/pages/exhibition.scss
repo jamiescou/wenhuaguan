@@ -1,0 +1,265 @@
+@import '../base/variables';
+@import '../base/mixins';
+@import '../components/index';
+.border-top {
+  border-top: solid 1px $card-border-color;
+}
+
+.list-content {
+  background-color: $container-bg;
+  .m-filter-pannel {
+    margin: 0 0 -1px;
+    border-bottom: solid 1px $card-border-color;
+    border-top: solid 1px $card-border-color;
+  }
+  .content {
+    @include make-grid-columns(4);
+  }
+  .content4 {
+    @include make-grid-columns(4, 10px);
+    padding: 20px;
+    .col-4 {
+      padding-top: 10px;
+    }
+    .img-card {
+      cursor: pointer;
+      height: 188px;
+      img{
+        width: auto;
+        display: block;
+        margin: 0 auto;
+        max-height: 100%;
+        max-width: 100%;
+      }
+    }
+  }
+  .card {
+    display: block;
+    height: 306px;
+    .card-body {
+      .card-text {
+        @include text-line(2);
+        height: 40px;
+      }
+    }
+  }
+}
+
+#cboxCurrent {
+  display: none !important;
+}
+
+.exhibition-media {
+  position: relative;
+  background: $container-bg;
+  .media-left {
+    padding-right: 20px;
+  }
+  .exhibition-img {
+    display: block;
+    width: 400px;
+    height: 267px;
+  }
+  .name {
+    // 活动室名称
+    padding-top: 25px;
+    margin: 0;
+    font-size: $font-size24;
+    line-height: 24px;
+    color: $font-color;
+    font-weight: 400;
+  }
+  .intro {
+    //简介
+    margin-top: 30px;
+    color: $gray-666;
+    font-size: $font-size;
+    padding-right: 100px;
+    height: 168px;
+    @include text-line(8);
+  }
+  .opres {
+    // 分享等操作
+    position: absolute;
+    top: 30%;
+    right: -6px;
+    .btn {
+      display: block;
+    }
+    .btn+.btn {
+      margin-top: 15px;
+    }
+  }
+}
+
+.exhibit-content {
+  background: $container-bg;
+}
+
+.exhibition>.exhibition-swiper {
+  height: 400px;
+  .swiper-pagination {
+    position: absolute;
+    z-index: 20;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+  }
+  .swiper-pagination-switch {
+    display: inline-block;
+    background: $exhibition-swiper-bullet-bg;
+    opacity: 1;
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    margin: 0 8px;
+  }
+  .swiper-active-switch {
+    width: 18px;
+    height: 8px;
+    background-color: $exhibition-swiper-bullet-active;
+  }
+}
+
+.exhibition-swiper .swiper-slide {
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: cover;
+}
+
+.margin25px {
+  margin-bottom: 25px;
+}
+
+.exhibition-swiper img {
+  cursor: pointer;
+}
+
+.block-heading>.more {
+  color: $font-strong-color;
+  font-weight: bold;
+}
+
+// 展厅作品详情
+.exhibition-detail {
+  width: 800px;
+  margin: 20px auto;
+  img {
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+  }
+  div.info {
+    margin: 10px 0;
+    div._header {
+      span#header {
+        font-size: 18px;
+        font-weight: bold;
+      }
+      span#curIndex {
+        font-size: 16px;
+        margin-left: 10px;
+        i {
+          font-size: 22px;
+          font-style: normal;
+        }
+      }
+    }
+    div.descrip {
+      font-size: 14px;
+      line-height: 25px;
+      color: $gray-666;
+      height: 100px;
+      overflow-y: auto;
+    }
+  }
+}
+
+// 展厅页面，图集轮播
+.book-swiper {
+  $swiper-w: 1100px;
+  $book-swiper-book-width: 120px;
+  width: $swiper-w;
+  padding: $book-swiper-padding;
+  margin: 0 auto;
+  background-color: $book-swiper-bg;
+  .book-swiper-content {
+    position: relative;
+    width: $book-swiper-content-width;
+    margin: 0 10px;
+  }
+  .swiper-container {
+    position: relative;
+    width: $book-swiper-content-container;
+    height: 100px;
+  }
+  .swiper-slide {
+    width: 150px;
+    height: 100%;
+    padding-right: 10px;
+    img {
+      display: block;
+      height: 100%;
+      width: 100%;
+    }
+  }
+  .swiper-button {
+    position: absolute;
+    z-index: 2;
+    top:50%;
+    width: 30px;
+    height: 56px;
+    margin-top: -(56px / 2);
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-size: 27px 40px;
+    background-position: center;
+    &.btn-next {
+        right: 0;
+        background-image: url("../../images/arrow-right.png");
+    }
+    &.btn-prev {
+        left: 0;
+        background-image: url("../../images/arrow-left.png");
+    }
+}
+  .picture-book,
+  .book-swiper-content {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .picture-book {
+    position: relative;
+    top: 6px;
+    width: $book-swiper-book-width;
+    .stack {
+      width: $book-swiper-book-stackimg-width;
+      @include stack-OneSide($book-swiper-book-stackimg-border);
+    }
+    &.right {
+      .stack {
+        @include stack-OneSide($book-swiper-book-stackimg-border, $position: topRight);
+      }
+    }
+    h6 {
+      margin: 0;
+      font-size: $book-swiper-fs;
+      font-weight: normal;
+      line-height: 24px;
+      color: $book-swiper-color;
+    }
+  }
+}
+
+.nopadding {
+  padding-top: 0 !important;
+}
+
+.nopaddingB {
+  padding-bottom: 0 !important;
+}
+.img-top{
+  max-width: 100%;
+  max-height:100%;
+}
+ 

@@ -1,0 +1,461 @@
+@import '../base/variables';
+@import '../base/mixins';
+@import '../components/media'; // media类型卡片配合brief使用
+
+// (1920 * 6)/(1080 *2) = 1920 / 360
+$scale-num: 1;
+$screen-w:11520px / $scale-num;
+$screen-h:2160px/ $scale-num;
+$screen-bg: url('/images/big_screen/bg.jpg');
+
+// == heading
+$heading-h:364px/ $scale-num;
+$heading-logo: url('/images/big_screen/logo.png');
+$heading-logo-size: (923px / $scale-num) (230px / $scale-num);
+$heading-logo-left:140px / $scale-num;
+$heading-padding-lr: 192px / $scale-num;
+$heading-fs:40px / $scale-num;
+$heading-time-fs:144px / $scale-num;
+$heading-time-margin-right:40px / $scale-num;
+$heading-dt-padding-top:120px / $scale-num;
+
+$container-padding:0 198px/ $scale-num;
+// == module heading
+$module-h:1680px / $scale-num;
+$module-padding-lr:26px / $scale-num;
+$module-padding-tb:60px / $scale-num;
+$module-margin-right:84px / $scale-num;
+$module-heading-w:800px / $scale-num;
+$module-heading-h:140px / $scale-num;
+$module-heading-fs:72px / $scale-num;
+$module-heading-padding-lr:84px / $scale-num;
+
+
+// statistics  统计
+$statistics-w:2516px / $scale-num;
+$statistics-bg:url('/images/big_screen/statistics-bg.png');
+$statistics-padding:(60px / $scale-num) (260px / $scale-num);
+$statistics-item-row-gutter: 84px / $scale-num;
+$statistics-item-col-gutter: 180px / $scale-num;
+$statistics-item-bg: url('/images/big_screen/1.png');
+$statistics-item-h: 364px / $scale-num;
+$statistics-item-padding-top: 120px / $scale-num;
+$statistics-title-fs:40px / $scale-num;
+$statistics-content-fs:60px / $scale-num;
+
+// looppics  轮播
+$loop-w:3175px / $scale-num;
+$loop-bg:url('/images/big_screen/loop-bg.png');
+$loop-heading-w:760px / $scale-num;
+$loop-block:584px / $scale-num;
+$loop-block-padding-top:78px / $scale-num;
+$loop-swiper-slide-padding:104px / $scale-num;
+$loop-title-h: 96px / $scale-num;
+$loop-title-fs: 40px / $scale-num;
+$loop-title-padding-lr:40px/ $scale-num;
+$loop-item-w: 680px / $scale-num;
+$loop-item-h: 408px/ $scale-num;
+$loop-item-border-radius: 8px;
+$loop-item-border:2px solid #2d577b;
+$loop-item-gutter:60px / $scale-num;
+$loop-pagination-margin:40px / $scale-num;
+$loop-pagination-size:22px / $scale-num;
+
+// chart  图表
+$chart-w:2004px / $scale-num;
+$chart-bg:url('/images/big_screen/chart-bg.png');
+$chart-block-h:606px / $scale-num;
+$chart-block-padding-top:60px / $scale-num;
+$chart-bar-h : 416px / $scale-num;
+
+// 大屏展示
+$exhibition-w:3636px / $scale-num;
+$exhibition-bg:url('/images/big_screen/module-bg.png');
+$exhibition-margin-right:108px / $scale-num;
+$exhibition-padding-tb: 86px / $scale-num;
+$exhibition-block-h:1186px / $scale-num;
+$exhibition-row-gutter:60px / $scale-num;
+$exhibition-loop-item-w: 804px / $scale-num;
+$exhibition-loop-item-h: 484px/ $scale-num;
+$exhibition-news-item-w: 1680px/ $scale-num;
+$exhibition-news-item-h: 480px/ $scale-num;
+$exhibition-news-row-gutter:40px / $scale-num;
+$exhibition-news-padding:50px / $scale-num;
+$exhibition-news-content-w:950px / $scale-num;
+$exhibition-news-title-fs:60px / $scale-num;
+$exhibition-news-title-lineheight:84px / $scale-num;
+$exhibition-news-img-w:576px / $scale-num;
+$exhibition-news-img-h:380px / $scale-num;
+$exhibition-news-img-padding:60px / $scale-num;
+$exhibition-news-brief-fs:40px / $scale-num;
+
+/*渐变(从上到下）*/
+@mixin gradient-title-bg($direction:bottom, $color1:transparent, $color2:#306eff, $color3:transparent, $color4:transparent) {
+    background: -webkit-linear-gradient($direction, $color1 0%, $color2 30%, $color3 60%, $color4 100%);
+    /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient($direction, $color1 0%, $color2 30%, $color3 60%, $color4 100%);
+    /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient($direction, $color1 0%, $color2 30%, $color3 60%, $color4 100%);
+    /* Firefox 3.6 - 15 */
+    background: linear-gradient(to $direction, $color1 0%, $color2 30%, $color3 60%, $color4 100%);
+    /* 标准的语法 */
+
+}
+
+body {
+    overflow: auto;
+}
+
+.bigScreen-frame {
+    position: relative;
+    width: $screen-w;
+    height: $screen-h;
+    text-align: center;
+    background: $screen-bg no-repeat 50% 50%;
+    background-size: cover;
+
+    .header {
+        width: 100%;
+        height: $heading-h;
+        padding: 0 $heading-padding-lr;
+        overflow: hidden;
+        text-align: right;
+        font-size: $heading-fs;
+        color: #fff;
+        box-sizing: border-box;
+        background: $heading-logo no-repeat $heading-logo-left 50%;
+        background-size: $heading-logo-size;
+        // background-size: contain;
+
+
+        .head-right {
+
+            .time,
+            .dt {
+                display: inline-block;
+                vertical-align: top;
+            }
+
+            .dt {
+                height: $heading-h;
+                padding-top: $heading-dt-padding-top;
+                text-align: left;
+            }
+
+            .time {
+                font-size: $heading-time-fs;
+                line-height: $heading-h;
+                letter-spacing: 5px;
+                margin-right: $heading-time-margin-right;
+                font-weight: 700;
+                text-shadow: 0px 0px 80px rgba(#25d8d3, .5);
+                // text-shadow:0px 0px 8px #fff, 0px 0px 42px #8df, 0px 0px 72px #8ff,0px 0px 150px #eff;
+            }
+
+        }
+    }
+
+    .main-container {
+        @include clearfix;
+        padding: $container-padding;
+
+        .data-container {
+            float: left;
+            height: $module-h;
+            padding: $module-padding-tb $module-padding-lr;
+            box-sizing: border-box;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: 50% 50%;
+            vertical-align: top;
+
+            .heading {
+                line-height: $module-heading-h;
+                width: $module-heading-w;
+                height: $module-heading-h;
+                padding: 0 $module-heading-padding-lr;
+                margin: 0;
+                color: #fff;
+                text-align: left;
+                font-weight: 400;
+                font-size: $module-heading-fs;
+            }
+
+            // 统计
+            &.statistics {
+                width: $statistics-w;
+                background-image: $statistics-bg;
+                margin-right: $module-margin-right;
+
+                .heading {
+                    @include gradient-title-bg(right, rgba(249, 40, 40, 0.8), rgba(252, 111, 29, 0.8), rgba(255, 182, 18, 0.5));
+                }
+            }
+
+            // 轮播
+            &.loop {
+                width: $loop-w;
+                background-image: $loop-bg;
+                margin-right: $module-margin-right;
+
+                .heading {
+                    @include gradient-title-bg(right, rgba(94, 1, 247, 0.8), rgba(68, 41, 251, 0.8), rgba(41, 81, 255, 0.8));
+                }
+
+                &.loop2 {
+                    .heading {
+                        @include gradient-title-bg(right, rgba(103, 12, 228, 0.8), rgba(179, 15, 179, 0.8), rgba(255, 18, 129, 0.8));
+                    }
+                }
+            }
+
+            // 图表
+            &.chart {
+                width: $chart-w;
+                background-image: $chart-bg;
+
+                .heading {
+                    @include gradient-title-bg(right, rgba(1, 152, 247, 0.8), rgba(26, 183, 229, 0.8), rgba(51, 213, 211, 0.8));
+                }
+
+                .block-content {
+                    position: relative;
+                    height: $chart-block-h;
+                    padding-top: $chart-block-padding-top;
+                }
+
+                .bar-wrapper {
+                    width: 100%;
+                    height: $chart-bar-h;
+                }
+            }
+
+            &.exhibition-loop {
+                padding-top: $exhibition-padding-tb;
+                width: $exhibition-w;
+                background-image: $exhibition-bg;
+
+                .heading {
+                    @include gradient-title-bg(right, rgba(94, 1, 247, 0.8), rgba(68, 41, 251, 0.8), rgba(41, 81, 255, 0.8));
+
+                    &.pic {
+                        @include gradient-title-bg(right, rgba(1, 152, 247, 0.8), rgba(33, 191, 238, 0.8), rgba(65, 230, 228, 0.8));
+                    }
+
+                    &.atlas {
+                        @include gradient-title-bg(right, rgba(249, 40, 40, 0.8), rgba(252, 111, 29, 0.8), rgba(255, 182, 18, 0.8));
+                    }
+                }
+            }
+        }
+
+        .exhibition-loop+.exhibition-loop {
+            margin-left: $exhibition-margin-right;
+        }
+    }
+}
+
+// 统计
+.statistics {
+    .state-wrapper {
+        padding: $statistics-padding;
+
+        .row {
+            overflow: hidden;
+            margin-bottom: $statistics-item-row-gutter;
+            @include make-grid-columns(4, $statistics-item-col-gutter);
+        }
+
+        .col-4 {
+            height: $statistics-item-h;
+            background: $statistics-item-bg no-repeat 50% 50%;
+            background-size: contain;
+            color: #fff;
+
+            h3 {
+                margin: 0;
+                padding-top: $statistics-item-padding-top;
+                font-size: $statistics-title-fs;
+                color: #2bf9eb;
+                font-weight: 400;
+            }
+
+            p {
+                font-size: $statistics-content-fs;
+                color: #ffbe0f;
+            }
+        }
+    }
+}
+
+// 轮播图
+.loop {
+    .block-content {
+        position: relative;
+        height: $loop-block;
+        padding-top: $loop-block-padding-top;
+    }
+
+    .recomment-data-group {
+        height: $loop-item-h;
+        overflow: hidden;
+    }
+
+    .recomment-data-container {
+        padding: 0 $loop-swiper-slide-padding;
+
+        .row {
+            overflow: hidden;
+            margin-bottom: $statistics-item-row-gutter;
+            @include make-grid-columns(4, $loop-item-gutter);
+        }
+
+        .col-4 {
+            .slide-item {
+                width: $loop-item-w;
+                height: $loop-item-h;
+            }
+        }
+    }
+
+
+}
+
+// 大屏展示轮播
+.exhibition-loop {
+    .block-content {
+        position: relative;
+        padding-top: $loop-block-padding-top;
+    }
+
+    .recomment-data-group,
+    .atlas-data-group {
+        height: $exhibition-block-h;
+        overflow: hidden;
+    }
+
+    .recomment-data-container {
+        padding: 0 $loop-swiper-slide-padding;
+
+        .row {
+            overflow: hidden;
+            @include make-grid-columns(4, $loop-item-gutter);
+        }
+
+        .col-4 {
+            .slide-item {
+                width: $exhibition-loop-item-w;
+                height: $exhibition-loop-item-h;
+                margin-bottom: $exhibition-row-gutter;
+            }
+        }
+    }
+
+    .atlas-data-container {
+        padding: 0 $loop-swiper-slide-padding;
+
+        .row {
+            overflow: hidden;
+            @include make-grid-columns(2, $loop-item-gutter);
+        }
+
+        .col-2 {
+            .news.media {
+                width: $exhibition-news-item-w;
+                height: $exhibition-news-item-h;
+                margin-bottom: $exhibition-news-row-gutter;
+                background-color: #1c2965;
+                padding: $exhibition-news-padding;
+                color: #e6e6e6;
+
+                .media-left {
+                    padding-right: $exhibition-news-img-padding;
+                }
+                .media-center{
+                    position: relative;
+                    width: $exhibition-news-content-w;
+                    height: 100%;
+                }
+
+                .news-img {
+                    display: block;
+                    width: $exhibition-news-img-w;
+                    height: $exhibition-news-img-h;
+                    border: $loop-item-border;
+                    border-radius: $loop-item-border-radius;
+                    box-sizing: content-box;
+                }
+
+                .news-title {
+                    line-height: $exhibition-news-title-lineheight;
+                    text-align: left;
+                    font-size: $exhibition-news-title-fs;
+                    font-weight: 400;
+                    margin:0;
+                    @include text-line(2)
+                }
+
+                .info-brief {
+                    position: absolute;
+                    bottom:0;
+                    font-size: $exhibition-news-brief-fs;
+                    @include text-line(1);
+                    color:#ccc;
+                }
+            }
+        }
+    }
+}
+
+// 轮播项样式
+.recomment-data-container {
+    .col-4 {
+        color: #fff;
+
+        .slide-item {
+            position: relative;
+            border: $loop-item-border;
+            border-radius: $loop-item-border-radius;
+            overflow: hidden;
+
+            &>img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+
+        .title {
+            z-index: 0;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: $loop-title-h;
+            line-height: $loop-title-h;
+            padding: 0 $loop-title-padding-lr;
+            text-align: left;
+            color: #fff;
+            font-size: $loop-title-fs;
+            font-weight: 400;
+            background-color: rgba(0, 0, 0, .5);
+        }
+    }
+}
+
+.swiper-pagination {
+    width: 100%;
+    bottom: 0;
+
+    .swiper-pagination-bullet {
+        margin: 0 $loop-pagination-margin;
+        width: $loop-pagination-size;
+        height: $loop-pagination-size;
+        background-color: #5bb7da;
+        opacity: 1;
+    }
+
+    .swiper-pagination-bullet-active {
+        background-color: #fff;
+    }
+}

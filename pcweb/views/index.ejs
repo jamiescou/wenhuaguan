@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%=curUnit.name%>
+    </title>
+    <% include ./common/head %>
+        <link rel='stylesheet' href='/styles/index.min.css' />
+        <link rel='stylesheet' href='/javascripts/libs/swiper/swiper.min.3.4.2.css' />
+        <script src="/javascripts/libs/swiper/swiper.min3.4.2.js"></script>
+        <script src="/javascripts/libs/video.min.js"></script>
+        <link rel="stylesheet" href="/styles/libs/video-js.css">
+</head>
+
+<body>
+    <header class="headerWrap">
+        <% include ./common/header %>
+    </header>
+    <div class="adver">
+        <% adverList.forEach(function (item,index) { %>
+            <div class="item">
+                <i class="close"></i>
+                <a href="<%= item.url %>"><img src="<%= item.coverPic %>"></a>
+            </div>
+        <% }) %>
+    </div>
+    <ul id="menu" class="nav-floor">
+        <li id="code">
+            <p><img src="/images/nav2.png"></p>
+            <div class="erCode"><img src="/images/code.png"></div>
+            <!-- <a href="#page2">二维码</a> -->
+        </li>
+        <li>
+            <p><img src="/images/nav3.png"></p>
+            <a href="#page3">资讯</a>
+        </li>
+        <li>
+            <p><img src="/images/nav4.png"></p>
+            <a href="#page4">直播点播</a>
+        </li>
+        <li>
+            <p><img src="/images/nav5.png"></p>
+            <a href="#page5">数字展览</a>
+        </li>
+        <li>
+            <p><img src="/images/nav6.png"></p>
+            <a href="#page6">文化服务</a>
+        </li>
+        <li class="backTop">
+            <p><img src="/images/nav1.png" aria-hidden="true"></p>
+            <a href="#page1">回到顶部</a>
+        </li>
+    </ul>
+    <div id="dowebok" class="index">
+        <!-- 轮播图 -->
+        <div id="carousel-example-generic page1" class="carousel slide section" data-ride="carousel" style="height:700px;">
+            <div class="swiper-container index-swiper" id="indexSwiper">
+                <!-- Additional required wrapper -->
+                <div class="swiper-wrapper">
+                    <!-- Slides -->
+                    <% figure.forEach(function (item,index) { %>
+                        <div class="swiper-slide brand-img" style="background: url('<%=item.coverPic%>') center;background-size:cover">
+                            <a href="<%=item.url%>" style="display:block;height:100%;">&nbsp;</a>
+                        </div>
+                    <% }) %>
+                </div>
+                <div class="pagination swiperbtn j-brand-pagination"></div>
+
+            </div>
+            <!-- <div class="downmore"  >
+                <i class="iconfont icon-dmore"></i>
+            </div> -->
+        </div>
+        <div class="section" style="background-color: #fff;overflow: hidden;" id="page3">
+            <div class="g-content cultural">
+                <div class="block-heading fp-heading" style="border: none;">
+                    <h4 class="title big-title">资讯</h4>
+                    <div class="more big-more">
+                        <a href='/issue'><img src="/images/more.png"></a>
+                    </div>
+                </div>
+
+                <%if(newsSwipter.length>0){ %>
+                    <div class="bigWrap clearfix" id="zxInfo">
+                        <a href="/issue/detail/<%=newsSwipter[0].id %>" class="clearfix" style="display: block;">
+                            <div class="char">
+                                <h1 class="num">01</h1>
+                                <h2 class="name"><%= newsSwipter[0].title %></h2>
+                                <div class="info"><%= newsSwipter[0].brief %></div>
+                                <span class="time"><%= newsSwipter[0].publishTime %></span>
+                                <span class="more">更多>></span>
+                            </div>
+                            <div class="img"><img src="<%= newsSwipter[0].coverPic %>" width="648" height="430"></div>
+                        </a>
+                    </div>
+                    <div class="zxWrap">
+                        <div class="swiper-container picList">
+                            <ul class="swiper-wrapper clearfix">
+                                <%newsSwipter.forEach(function(item,index){%>
+                                    <li class="swiper-slide clearfix" data-id="<%= '0' + (index+1) %>" data-src="/issue/detail/<%=item.id%>" data-title="<%= item.title %>" data-brief="<%= item.brief %>" data-time="<%= item.publishTime %>" data-img="<%= item.coverPic %>">
+                                        <div class="img">
+                                            <img  src="<%= item.coverPic %>" width="250" height="168">
+                                        </div>
+                                        <div class="char clearfix">
+                                            <p class="tit">
+                                                <% if(item.title.length>=19){ %>
+                                                    <%= (item.title.substring(0,19)) +'…' %>
+                                                <% } else { %>
+                                                    <%= item.title %>
+                                                <% } %>
+                                             </p>
+                                        </div>
+                                    </li>
+                                <%})%>
+                            </ul>
+                        </div>
+                        <div class="pagination hd"></div>
+                        <% if(newsSwipter.length>4){%>
+                        <img class="prev" src="/images/prevBtn.png">
+                        <img class="next" src="/images/nextBtn.png">
+                        <% }%>
+                    </div>
+                <%}%>
+            </div>
+        </div>
+        <div class="section" style="background-color: #f6f1eb;" id="page4">
+            <div class="team">
+                <div class=" g-content">
+                    <div class="block-heading fp-heading" style="border:none;">
+                        <h4 class="title big-title">直播点播</h4>
+                        <div class="more big-more">
+                            <a href='/vod'><img src="/images/more.png"></a>
+                        </div>
+                    </div>
+                    <div class="resources">
+                        <% if(demand.length>0){%>
+                            <div class="teamright video">
+                                <div class="title"><%=demand[0].name%></div>
+
+                                <video id="my-video" class="video-js" controls preload="auto" width="896" height="506" data-setup="{}">
+                                    <source src="<%=demand.length>0? demand[0].path:''%>">
+                                    <p class="vjs-no-js">
+                                        当前浏览器不支持h5视频播放，请升级浏览器
+                                        <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+                                    </p>
+                                </video>
+                            </div>
+                            <div class="teamleft">
+                                <% demand.forEach(function (item,index) { %>
+                                    <div class="card2">
+                                        <img src="<%=item.coverPic%>">
+                                        <div class="center active">
+                                            <span class="box-content" data-src="<%=item.path%>" data-id='<%=item.id%>'>
+                                                <%=item.name%>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <% }) %>
+                            </div>
+
+                            <%} else {%>
+                                <%- include('common/nodata', {tip : '暂无数据' })%>
+                                    <%}%>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="section" style="position:relative;background-color: #fff;overflow: hidden;" id="page5">
+            <div class="g-content exhibition">
+                <div class="block-heading fp-heading" style="border: none;">
+                    <h4 class="title big-title">数字展览</h4>
+                    <div class="more big-more">
+                        <a href='/exhibition'><img src="/images/more.png"></a>
+                    </div>
+                </div>
+                <div id="uictimgindex" class="exhibition-list clearfix" style="width: 1220px">
+                    <%if(digitalRes&&digitalRes.length!=0){%>
+                        <% digitalRes.forEach(function (item,index) { %>
+                            <%if(index==0){%>
+                                <a class="col-3" href="/exhibition/detail/<%= item.id %>">
+                                    <div class="img-card" ><img src="<%=item.coverPic%>"></div>
+                                    <div class="card-char">
+                                        <p class="title"><%=item.title%></p>
+                                        <p class="info"><%=item.brief%></p>
+                                    </div>
+                                </a>
+                            <%}else{%>
+                                <a class="col-3" href="/exhibition/detail/<%= item.id %>">
+                                    <div class="img-card" ><img src="<%=item.coverPic%>"></div>
+                                    <div class="card-char">
+                                        <p class="title"><%=item.title%></p>
+                                        <div class="state clearfix">
+                                            <%if (item.pageView==null) {%>
+                                                <span class="view">0</span>
+                                            <%}else{%>
+                                                <span class="view"><%=item.pageView%></span>
+                                            <%}%>
+                                            <span class="college"><%=item.favoriteCount%></span>
+                                        </div>
+                                    </div>
+                                    <div class="cardInfo">
+                                        <p class="title"><%=item.title%></p>
+                                        <p class="info"><%=item.brief%></p>
+                                    </div>
+                                </a>
+                            <% } %>
+                        <% }) %>
+                        <%}else{%>
+                            <%- include('common/nodata', {tip : '暂无数据' })%>
+                                <%}%>
+                                    <div class="place-space-60"></div>
+                </div>
+            </div>
+        </div>
+        <div class="section" style="background-color: #f6f1eb;" id="page6">
+            <div class="act">
+                <div class="g-content">
+                    <div class="block-heading fp-heading" style="border: none;">
+                        <h4 class="title big-title">文化服务</h4>
+                        <ul class="menuTab clearfix">
+                            <li class="cur" data-url="/activity"><a href="javascripts:;">活动预约</a></li>
+                            <li data-url="/venues"><a href="javascripts:;">场馆预订</a></li>
+                            <li data-url="/train"><a href="javascripts:;">培训报名</a></li>
+                            <li data-url="/cultural"><a href="javascripts:;">文化配送</a></li>
+                        </ul>
+                        <div class="more big-more">
+                            <a href='/activity'><img src="/images/more.png"></a>
+                        </div>
+                    </div>
+                   <div class="tabList">
+                         <!-- 活动预约 -->
+                        <div class="exhibition-list act-list clearfix cur" style="width: 1220px;" id='act-list'>
+                            <%if(data.length!=0){%>
+                                <% data.forEach(function (item,index) { %>
+                                    <%if(index==0){%>
+                                        <a class="col-3" href="/activity/detail/<%= item.id %>">
+                                            <div class="img-card" ><img src="<%=item.coverPic%>"></div>
+                                            <div class="card-char">
+                                                <p class="title"><%=item.name%></p>
+                                                <p class="info"><%=item.brief%></p>
+                                            </div>
+                                        </a>
+                                    <%}else{%>
+                                        <a class="col-3" href="/activity/detail/<%= item.id %>">
+                                            <div class="img-card" ><img src="<%=item.coverPic%>"></div>
+                                            <div class="card-char">
+                                                <div class="charTop">
+                                                    <p class="title"><%=item.name%></p>
+                                                    <p class="p">
+                                                        时间：
+                                                        <% if(item.holdStartDate==item.holdEndDate){%>
+                                                            <span><%= item.holdStartDate %></span>
+                                                            <%} else {%>
+                                                            <span><%= item.holdStartDate %>&nbsp; 至 &nbsp;<%= item.holdEndDate %></span>
+                                                        <%}%>
+                                                    </p>
+                                                    <p class="p">
+                                                        地点：
+                                                        <span>
+                                                            <%= item.address %>
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                                <div class="state clearfix">
+                                                    <% if (item.reserve === 1) {%>
+                                                        <p class="ticket gray">余票：<em><%=item.remainTicket%></em></p>
+                                                        <p class="tag">立即报名</p>
+                                                    <%}else if (item.reserve === 2){%>
+                                                        <p class="ticket gray">余票：<em><%=item.remainTicket%></em></p>
+                                                        <p class="tag">直接前往</p>
+                                                    <%}else if (item.reserve === -1){%>
+                                                        <p class="ticket gray">余票：<em><%=item.remainTicket%></em></p>
+                                                        <p class="tag gray">活动结束</p>
+                                                    <%}else if (item.reserve === -1){%>
+                                                        <p class="ticket gray">余票：<em><%=item.remainTicket%></em></p>
+                                                        <p class="tag gray">已订完</p>
+                                                    <%}else if (item.reserve === -1){%>
+                                                        <p class="ticket gray">余票：<em><%=item.remainTicket%></em></p>
+                                                        <p class="tag">未开始</p>
+                                                    <% } %>
+                                                </div>
+                                            </div>
+                                            <div class="cardInfo">
+                                                <p class="title"><%=item.name%></p>
+                                                <p class="info"><%=item.brief%></p>
+                                            </div>
+                                        </a>
+                                    <% } %>
+                                <% }) %>
+                                <%}else{%>
+                                    <%- include('common/nodata', {tip : '暂无数据' })%>
+                                        <%}%>
+                                <div class="place-space-60"></div>
+                        </div>
+                        <!-- 场馆预订 -->
+                        <div class="exhibition-list act-list clearfix" style="width: 1220px;" id='venue-list'>
+                            <%if(venueRoom.length!=0){%>
+                                <% venueRoom.forEach(function (item,index) { %>
+                                    <%if(index==0){%>
+                                        <a class="col-3" href="/venues/roomdetail/<%= item.id %>">
+                                            <div class="img-card" ><img src="<%=item.coverPic%>"></div>
+                                            <div class="card-char">
+                                                <p class="title"><%=item.name%></p>
+                                                <p class="info"><%=item.brief%></p>
+                                            </div>
+                                        </a>
+                                    <%}else{%>
+                                        <a class="col-3" href="/venues/roomdetail/<%= item.id %>">
+                                            <div class="img-card" ><img src="<%=item.coverPic%>"></div>
+                                            <div class="card-char">
+                                                <div class="charTop">
+                                                    <p class="title"><%=item.name%></p>
+                                                    <p class="p">
+                                                        地址：
+                                                            <span><%= item.venue.address %></span>
+                                                    </p>
+                                                    <p class="p">
+                                                        电话：
+                                                        <span>
+                                                            <%= item.telephone %>
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                                <div class="state clearfix">
+                                                    <% if (item.itmDef.isEnable) {%>
+                                                        <p class="tag">立即预约</p>
+                                                    <%}else{%>
+                                                        <p class="tag gray">不可预约</p>
+                                                    <% } %>
+
+                                                </div>
+                                            </div>
+                                            <div class="cardInfo">
+                                                <p class="title"><%=item.name%></p>
+                                                <p class="info"><%=item.brief%></p>
+                                            </div>
+                                        </a>
+                                    <% } %>
+                                <% }) %>
+                                <%}else{%>
+                                    <%- include('common/nodata', {tip : '暂无数据' })%>
+                                        <%}%>
+                                <div class="place-space-60"></div>
+                        </div>
+                        <!-- 培训报名 -->
+                        <div class="exhibition-list act-list clearfix" style="width: 1220px;" id='px-list'>
+                            <%if(pxList.length!=0){%>
+                                <% pxList.forEach(function (item,index) { %>
+                                    <%if(index==0){%>
+                                        <a class="col-3" href="/train/detail/<%= item.id %>">
+                                            <div class="img-card" ><img src="<%=item.coverPic%>"></div>
+                                            <div class="card-char">
+                                                <p class="title"><%=item.title%></p>
+                                                <p class="info"><%=item.brief%></p>
+                                            </div>
+                                        </a>
+                                    <%}else{%>
+                                        <a class="col-3" href="/train/detail/<%= item.id %>">
+                                            <div class="img-card" ><img src="<%=item.coverPic%>"></div>
+                                            <div class="card-char">
+                                                <div class="charTop">
+                                                    <p class="title"><%=item.title%></p>
+                                                    <p class="p">
+                                                        地址：
+                                                            <span><%= item.address %></span>
+                                                    </p>
+                                                    <p class="p">
+                                                        时间：
+                                                        <span><%= item.startDate %>&nbsp至&nbsp<%= item.endDate %></span>
+                                                    </p>
+                                                </div>
+                                                <div class="state clearfix">
+                                                    <p class="tag"><%= item.tag%></p>
+                                                </div>
+                                            </div>
+                                            <div class="cardInfo">
+                                                <p class="title"><%=item.title%></p>
+                                                <p class="info"><%=item.brief%></p>
+                                                <p class="tag"><%= item.tag%></p>
+                                            </div>
+                                        </a>
+                                    <% } %>
+                                <% }) %>
+                                <%}else{%>
+                                    <%- include('common/nodata', {tip : '暂无数据' })%>
+                                        <%}%>
+                                <div class="place-space-60"></div>
+                        </div>
+                        <!-- 文化配送 -->
+                        <div class="exhibition-list act-list clearfix" style="width: 1220px;" id='ps-list'>
+                            <%if(psList.length!=0){%>
+                                <% psList.forEach(function (item,index) { %>
+                                    <%if(index==0){%>
+                                        <a class="col-3" href="/train/detail/<%= item.id %>">
+                                            <div class="img-card" ><img src="<%=item.coverPic%>"></div>
+                                            <div class="card-char">
+                                                <p class="title"><%=item.title%></p>
+                                                <p class="info"><%=item.site%></p>
+                                            </div>
+                                        </a>
+                                    <%}else{%>
+                                        <a class="col-3" href="/cultural/detail/<%= item.id %>">
+                                            <div class="img-card" ><img src="<%=item.coverPic%>"></div>
+                                            <div class="card-char">
+                                                <div class="charTop">
+                                                    <p class="title"><%=item.title%></p>
+                                                    <p class="p">
+                                                        电话：
+                                                            <span><%= item.contactPhone %></span>
+                                                    </p>
+                                                    <p class="p">
+                                                        服务时长：
+                                                        <span><%= item.serveTime %></span>
+                                                    </p>
+                                                </div>
+                                                <div class="state clearfix">
+                                                    <!-- <p class="tag">服务团队：<%= item.teamName%></p> -->
+                                                </div>
+                                            </div>
+                                            <div class="cardInfo">
+                                                <p class="title"><%=item.title%></p>
+                                                <p class="info"><%=item.site%></p>
+                                            </div>
+                                        </a>
+                                    <% } %>
+                                <% }) %>
+                                <%}else{%>
+                                    <%- include('common/nodata', {tip : '暂无数据' })%>
+                                        <%}%>
+                                <div class="place-space-60"></div>
+                        </div>
+                   </div>
+                </div>
+            </div>
+            <div class="linkWrap">
+                <div class="g-content">
+                    <div class="block-heading fp-heading" style="border: none;line-height: 100px">
+                        <h4 class="title big-title">友情链接</h4>
+                         <div class="link_other clearfix">
+                            <div class="link_item" onclick="linkToFp('https://www.mct.gov.cn/')"><img src="../../images/linkicon/guojiawenlv1.jpg" /></div>
+                            <div class="link_item" onclick="linkToFp('http://www.culturedc.cn/')"><img src="../../images/linkicon/guojiawenhua2.jpg" /></div>
+                            <div class="link_item" onclick="linkToFp('http://www.hnswht.gov.cn/')"><img src="../../images/linkicon/shengwenlv3.jpg" /></div>
+                            <div class="link_item" onclick="linkToFp('http://lfw.hunan.gov.cn')"><img src="../../images/linkicon/shengwenzuo4.jpg" /></div>
+                            <div class="link_item" onclick="linkToFp('http://www.csqyg.com/')"><img src="../../images/linkicon/changshaqy5.jpg" /></div>
+                            <div class="link_item" onclick="linkToFp('http://www.changshalib.cn/')"><img src="../../images/linkicon/changshats6.jpg" /></div>
+                            <div class="link_item" onclick="linkToFp('http://wgxj.changsha.gov.cn/')"><img src="../../images/linkicon/changshawg7.jpg" /></div>
+                            <div class="link_item" onclick="linkToFp('http://www.hnzzwhg.com/zzs/user_index')"><img src="../../images/linkicon/zhuzhou8.jpg" /></div>
+                            <div class="link_item" onclick="linkToFp('http://www.xtqyg.com/')"><img src="../../images/linkicon/xiangtan9.jpg" /></div>
+                            <div class="link_item" onclick="linkToFp('http://www.hy15.com/2014/index.asp')"><img src="../../images/linkicon/hengyang10.jpg" /></div>
+                            <div class="link_item" onclick="linkToFp('http://www.yysszwhg.com/hy')"><img src="../../images/linkicon/yueyang11.jpg" /></div>
+                            <div class="link_item" onclick="linkToFp('http://cdqyg.changde.gov.cn/')"><img src="../../images/linkicon/changde12.jpg" /></div>
+                            <div class="link_item" onclick="linkToFp('http://www.qyg.czs.gov.cn/qyg/')"><img src="../../images/linkicon/chenzhou13.jpg" /></div>
+                            <div class="link_item" onclick="linkToFp('http://www.yzqunyi.com/')"><img src="../../images/linkicon/yongzhou14.jpg" /></div>
+                            <div class="link_item" onclick="linkToFp('http://www.hncdbwg.cn/')"><img src="../../images/linkicon/changdebw15.jpg" /></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="index-footer">
+                <% include  ./common/footerindex.ejs %>
+            </footer>
+        </div>
+    </div>
+</body>
+<script>
+    function stopBubble(e) {
+
+        // 如果提供了事件对象，则这是一个非IE浏览器
+
+        if ( e && e.stopPropagation ) {
+
+            // 因此它支持W3C的stopPropagation()方法
+
+            e.stopPropagation();
+
+        } else {
+
+            // 否则，我们需要使用IE的方式来取消事件冒泡
+
+            window.event.cancelBubble = true;
+
+        }
+
+    }
+    //楼梯
+    (function(){
+        var Stair={ 
+        stair:$("#menu"),
+        bindEvent:function(){
+            var me=this
+            $(window).scroll(function(){
+                for(var i=0;i<$("#dowebok>div").size();i++){
+                    //console.log(Math.abs($(window).scrollTop()-$("#container>div").eq(i).offset().top))
+                        if(Math.abs($(window).scrollTop()-$("#dowebok>div").eq(i).offset().top)<=300){
+                            me.changeColor(i);
+                        }
+                    }
+            });
+
+            this.stair.find("li").on("click",function(){  
+                console.log($(this).index());
+                if($(this).index()==5){
+                    $("html,body").animate({"scrollTop":0},200);
+                    // $(this).find('a').hide();
+                    $(this).addClass("active").siblings().removeClass("active");
+                }else if($(this).index()==0){
+                    return;
+                }else{
+                    $(this).addClass("active").siblings().removeClass("active");
+                    // var scrollvalue=$("#dowebok>div").eq($(this).index()).offset().top-$(window).height();
+                    $("html,body").animate({"scrollTop":$("#dowebok>div").eq($(this).index()).offset().top-40},200)
+                }
+            })
+        },
+        changeColor:function(i){
+            console.log(i);
+            switch(i)
+            {
+                case 0:$("#menu>li").eq(5).find('a').hide().end().siblings().removeClass("active");break;
+                default:$("#menu>li").eq(i).addClass("active").siblings().removeClass("active"); break;
+            }
+            
+        }
+    }
+    Stair.bindEvent()
+    })();
+    $(function() {
+        $('.adver .close').click(function(){
+            $(this).parent().remove();
+        });
+        $('#activityTabs').on('click', 'li>a', function(event) {
+            event.preventDefault()
+            var $parentNode = $(this).parent();
+            var activeClass = 'active';
+            if ($parentNode.hasClass(activeClass)) {
+                return;
+            }
+
+            $parentNode.siblings().removeClass(activeClass);
+            $parentNode.addClass(activeClass);
+            var selector = $(this).attr('href');
+            $(selector).addClass('in ' + activeClass);
+            $(selector).siblings().removeClass('in ' + activeClass);
+        });
+
+
+        // $('#dowebok').fullpage({
+        //     sectionsColor: ['', '#fff', '#f6f1eb', '#fff', '#f6f1eb'],
+        //     anchors: ['page1', 'page2', 'page3', 'page4', 'page5'],
+        //     menu: '#menu',
+        //     scrollOverflow: true,
+        //     afterLoad: function(anchorLink, index) {
+        //         // console.log(anchorLink+index);
+        //     }
+        // });
+
+        $('#code').on('mouseover',function() {
+            $('#code').addClass("active");
+            $(this).find('.erCode').stop().fadeIn();
+        });
+        $('#code').on('mouseout',function() {
+            $('#code').removeClass("active");
+            $(this).find('.erCode').stop().fadeOut();
+        });
+
+        // $('.downmore').on('click',function(){
+        //       $.fn.fullpage.moveTo(2);
+        // })
+
+        $('.menuTab').on('click','li',function () {
+            $(this).addClass('cur').siblings().removeClass('cur');
+            var url = $(this).attr('data-url');
+            $(this).parent().siblings('.big-more').find('a').attr('href',url);
+            $('.tabList .exhibition-list').eq($(this).index()).addClass('cur').siblings().removeClass('cur');
+        })
+        function afterLoad(anchorLink, index) {
+            if (index == 5) {
+                verticalCentered: false
+            }
+        };
+        // 资讯详情
+        $('.zxWrap .swiper-slide').each(function(index) {
+            var that = this;
+            $(that).click(function() {
+                var id = $(that).attr("data-id");         //序号
+                var src = $(that).attr("data-src");       //地址
+                var title = $(that).attr("data-title");   //标题
+                var brief = $(that).attr("data-brief");   //简介
+                var time = $(that).attr("data-time");   //发布时间
+                var img = $(that).find(".img img").attr("src");   //图片地址
+                console.log(img);
+                $("#zxInfo").html(' <a href=\"'+src+'\">'+
+                                    '<div class="char">'+
+                                        '<h1 class="num">'+id+'</h1>'+
+                                        '<h2 class="name">'+title+'</h2>'+
+                                        '<div class="info">'+brief+'</div>'+
+                                        '<span class="time">'+time+'</span>'+
+                                        '<span class="more">更多>></span>'+
+                                    '</div>'+
+                                    '<div class="img"><img src=\"'+ img +'\" width="648" height="430"></div></a>');
+
+            });
+
+        })
+
+        // 视频详情
+        $('.teamleft .card2').each(function(index) {
+            var self = this;
+            // var fristsrc = $('.teamleft .card2').eq(0).find('span').attr('data-src');
+            // var title = $('.teamleft .card2').eq(0).find('span').html();
+            // $('#my-video video').attr("src", fristsrc);
+            // $('.video .title').html(title);
+            // $('.teamleft .card2').eq(0).find(".center").hide()
+            $(self).click(function() {
+                var src = $(self).find('span').attr('data-src');
+                var id = $(self).find('span').data('id');
+
+                var title1 = $(self).find('span').html();
+                $('.teamleft .card2').find(".center").show();
+                $(self).find(".center").hide()
+                $('.video .title').html(title1);
+                $('.video .link').attr('href', '/vod/detail/' + id + '?type=demands');
+
+                $('#my-video video').attr("src", src);
+                $('#my-video video').load();
+
+            })
+
+        })
+
+        // $('.teamleft .card2').first()[0].click();
+        var zxWrap = new Swiper('.zxWrap .swiper-container', {
+            slidesPerView : '4',
+            pagination: '.zxWrap .pagination',
+            paginationClickable: true,
+            prevButton:'.prev',
+            nextButton:'.next',
+        });
+        var indexSwiper = new Swiper('#indexSwiper', {
+            autoplay: 5000, // 可选选项，自动滑动
+            loop: true, //可选选项，开启循环
+            pagination: '.j-brand-pagination',
+            paginationClickable: true
+        });
+        var culutralSwiper = new Swiper('#culutralSwiper', {
+            autoplay: 5000, // 可选选项，自动滑动
+            loop: true,
+            pagination: '.j-new-pagination',
+            paginationClickable: true
+        });
+    })
+
+    // setInterval(function() {
+ 
+    //     if ($('.downmore').css('opacity') == '1') {
+    //         $('.downmore').animate({
+    //             // bottom: '90px',
+    //             opacity: 0.5
+    //         }, 600);
+    //     } else if ($('.downmore').css('opacity') == '0.5')  {
+    //         $('.downmore').animate({
+    //             // bottom: '120px',
+    //             opacity: 1
+    //         }, 600);
+    //     }
+
+    //     // if ($('.downmore').css('bottom') == '120px') {
+    //     //     $('.downmore').animate({
+    //     //         bottom: '90px',
+    //     //         opacity: 1
+    //     //     }, 300);
+    //     // } else if ($('.downmore').css('bottom') == '90px')  {
+    //     //     $('.downmore').animate({
+    //     //         bottom: '120px',
+    //     //         opacity: 0.5
+    //     //     }, 300);
+    //     // }
+
+    // }, 100)
+    function linkToFp(link) {
+        window.open(link)
+    }
+</script>
+<style>
+    .uict-titlet2 {
+        opacity: 0.6
+    }
+    .link_other{
+        display: flex;
+        flex-flow: row wrap;
+        width: 100%;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    .link_item{
+        width: 20%;
+        height: 70px;
+    }
+    .link_item :hover {
+        cursor:pointer
+    }
+</style>
+
+</html>

@@ -1,0 +1,87 @@
+<%
+var region = query.region ? '&region=' + query.region : '';
+var type = query.type ? '&type=' + query.type : '';
+
+var typePage = '/memberWorks?' + region;
+var regionPage = '/memberWorks?' + type;
+var paginatorPage = '/memberWorks?' + type + region;
+paginatorPage=paginatorPage.replace('?&','?');
+%>
+  <!DOCTYPE html>
+  <html>
+
+  <head>
+    <title>
+     会员作品
+    </title>
+    <% include ../common/head %>
+    <link rel='stylesheet' href='/styles/team.min.css' />   
+  </head>
+  <body>
+    <header>
+      <% include ../common/header %>
+    </header>
+    <div class="g-content">
+        <div class="crumbs">
+            <ul>
+                    <li>
+                       <a href="/">首页&nbsp;&nbsp;></a>
+                    </li>
+                    <li>
+                       <a href="">会员作品</a>
+                    </li>
+            </ul>
+       </div>
+         <div class="list-content">
+             <% if(data.content.length>0){%>
+          <div  class="content">
+            <% data.content.forEach(function (item) { %>
+                <div class="card col-4 border">
+                       <a class="card-head" href="/memberWorks/teamdetail/<%= item.id %>">
+                         <img class="img-top" src="<%=item.coverPic%>">
+                        </a>
+                    <div class="card-body">
+                        <h5 class="card-title" > <%= item.name %></h5>
+                        <div class="card-info">
+                            <p>
+                                <i class="iconfont icon-phone"></i>
+                                <span>  <%= item.contactPhone %></span>
+                            </p>
+                            <p>
+                                <i class="iconfont icon-location"></i>
+                                <span>  <%= item.address %></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+           
+          </div>
+          <%} else {%>
+            <%- include('../common/nodata', {tip : '暂无数据' })  %> 
+        <%}%>
+        </div>
+          <%- include('../common/paginator.ejs', {page : data.number + 1, totalPages : data.totalPages, pageUrl :paginatorPage, totalElements: data.totalElements}) %>
+   
+      <div class="place-space"></div>
+    </div>
+
+    <footer>
+      <% include ../common/footer %>
+    </footer>
+  </body>
+  <script>
+    $(function() {
+      $('#myStateButton').on('click', 'label', function() {
+        var status = $(this).find('input').data('status');
+      })
+
+      $('#keysearch').click(function(){
+           var key=$('#keysearchcontent').val();
+           var paginatorPage='<%=paginatorPage%>';
+              window.location.href=paginatorPage+'&key='+key; 
+       })
+    });
+  </script>
+
+  </html>

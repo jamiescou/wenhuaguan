@@ -1,0 +1,194 @@
+@import '../libs/px2rem.scss';
+@import '../base/_variable';
+@import '../base/mixins';
+.venue-detail {
+    .card-title {
+        width: px2rem(580);
+    }
+}
+.card-scan {
+    font-size: $f-size10;
+    color: #999;
+    line-height: $card-title-lineheight;
+    position: absolute;
+    right: px2rem(36);
+    top: px2rem(20);
+    .iconNew-scan {
+        font-size: px2rem(26);
+        color: #999;
+        position: relative;
+        top: px2rem(4);
+        margin-right: px2rem(8);
+    }
+}
+.venue-container {
+    .favorite-reserve {
+        padding-top: px2rem(20);
+        line-height: $f-size24;
+        .icon {
+            vertical-align: top;
+        }
+    }
+    .list-wraper .card {
+        margin-bottom: px2rem(20);
+        padding: px2rem(20) px2rem(20) px2rem(36);
+        .card-info+.card-info {
+            margin-top: px2rem(15);
+        }
+        .desc {
+            @include text-line(2);
+            line-height: px2rem(36);
+        }
+        .tag.red {
+            background: rgba($color-red, .8);
+        }
+    }
+}
+
+// 活动室详情
+.venue-detail {
+    .base-info {
+        .card-bd {
+            padding: px2rem(20) 0 px2rem(20) px2rem(36);
+        }
+        .card-title {
+            font-size: $f-size16;
+            padding-right: px2rem(8);
+        }
+    }
+    .brief {
+        padding: px2rem(30) px2rem(40) px2rem(30) px2rem(36);
+        overflow: hidden;
+        background-color: $content-bg;
+    }
+    .btn {
+        display: block;
+        width: 100%;
+        border-radius: 0;
+    }
+    .btn.end {
+        background-color: $color-999;
+        border-color: darken($color-999, 5%);
+    }
+}
+
+// 预定场次
+.pre-schedule {
+    background-color: $content-bg;
+    width: 100%;
+    height: px2rem(650);
+    .operations {
+        .btn {
+            width: 100%;
+            color: $color-fff;
+            background-color: $active-color;
+        }
+    }
+    .curDate {
+        padding: px2rem(30);
+        font-size: px2rem(32);
+        font-weight: 400;
+        color: $color-333;
+        text-align: center;
+    }
+    .date-wrapper {
+        margin: 0 px2rem(45);
+        overflow: hidden;
+        .dt-item {
+            margin-bottom: px2rem(30);
+            line-height: px2rem(70);
+            font-size: $f-size16;
+            font-weight: 400;
+            text-align: center;
+            &.current .date {
+                color: $color-fff;
+                background: $color-red;
+            }
+            .week {
+                color: $color-999;
+                margin: 0;
+            }
+            .date {
+                width: px2rem(60);
+                height: px2rem(60);
+                margin: 0 auto;
+                border-radius: 100%;
+                color: $color-666;
+                line-height: px2rem(60);
+            }
+        }
+    }
+    .time-wrapper {
+        margin: px2rem(30) px2rem(45);
+        height: px2rem(230);
+        overflow: hidden;
+    } // 预定时间段
+    .time-items {
+        display: block;
+        @include make-grid-columns(3, 15px);
+        .item {
+            margin: px2rem(20) 0;
+            height: px2rem(50);
+            line-height: px2rem(50);
+            border-radius: px2rem(25);
+            font-size: $f-size;
+            color: $color-666;
+            border: 1px solid $border-color;
+            background-color: $color-e6;
+            text-align: center;
+            &.reserve {
+                color: $color-ccc;
+            }
+            &.active {
+                color: $color-fff;
+                background-color: $active-color;
+                border: 1px solid $active-color;
+            }
+        }
+    }
+}
+
+// 活动室预定确定
+.venues-pre {
+    padding: px2rem(25) px2rem(30) px2rem(120);
+    .detail {
+        background-color: $color-fff;
+        .media-bd {
+            height: px2rem(160);
+        }
+        .media-object>img {
+            width: px2rem(240);
+            height: px2rem(160);
+        }
+        .media-title {
+            margin-bottom: px2rem(20);
+        }
+        .brief {
+            @include text-line(2);
+        }
+    }
+    .pre-item-title {
+        flex: 0 0 px2rem(200);
+        align-self: center;
+        -webkit-box-flex: 0;
+        align-self: flex-start;
+    }
+    .pre-item-value {
+        padding: 5px px2rem(30);
+        &>div {
+            height: px2rem(80);
+            line-height: px2rem(80);
+        }
+    }
+    .itms,
+    .pre-info {
+        background-color: $content-bg;
+        padding: 0 px2rem(20);
+    }
+    .operations {
+        padding: px2rem(30);
+        .btn {
+            width: 100%;
+        }
+    }
+}

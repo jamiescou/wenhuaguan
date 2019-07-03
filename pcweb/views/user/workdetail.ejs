@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        活动详情
+    </title>
+    <% include ../common/head %>
+        <link rel='stylesheet' href='/styles/user-center.min.css' />
+</head>
+
+<body>
+    <header>
+        <% include ../common/header %>
+    </header>
+    <div class="g-content">
+        <div class="crumbs">
+            <ul>
+                <li>
+                    <a href="/">首页&nbsp;&nbsp;></a>
+                </li>
+                <li>
+                    <a href="/user/myworks">我的作品&nbsp;&nbsp;></a>
+                </li>
+                <li>
+                    <a href="">作品详情</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="media work">
+            <div class="media-left">
+                <img src="<%= data.actCoverPic %>" alt="" class="work-act-img">
+            </div>
+            <div class="media-center">
+                <a class="work-act-title" href="/collect/offlineActDetail/<%= data.activityId %>">
+                    <%= data.actName %>
+                </a>
+                <p class="describe f-nowrap">
+                    <i class="iconfont icon-time"></i>
+                    <span>活动时间：
+                        <%= data.actDt %>
+                    </span>
+                </p>
+                <p class="describe f-nowrap">
+                    <i class="iconfont icon-type1"></i>
+                    <span>活动类型：
+                        <%= data.actTypeName %>
+                    </span>
+                </p>
+                <p class="news-from clearfix">
+                </p>
+            </div>
+        </div>
+        <div class="place-space"></div>
+        <div class="detail-block">
+            <div class="block-heading border">
+                <h4 class="title">作品信息</h4>
+            </div>
+            <div class="detail-content work-content">
+                <dl class="block-item">
+                    <dt class="b-i-title">作品名称：</dt>
+                    <dd class="b-i-cotent">
+                        <%=data.works.name%>
+                    </dd>
+                </dl>
+                <dl class="block-item">
+                    <dt class="b-i-title">审核状态：</dt>
+                    <dd class="b-i-cotent">
+                        <%=data.statuName%>
+                    </dd>
+                </dl>
+                <% if((data.statuName=='已通过'||data.statuName=='已拒绝')&&data.auditRemark){%>
+                    <dl class="block-item">
+                        <dt class="b-i-title">审核意见：</dt>
+                        <dd class="b-i-cotent">
+                            <%=data.auditRemark%>
+                        </dd>
+                    </dl>
+                    <%}%>
+                        <dl class="block-item">
+                            <dt class="b-i-title">作品类型：</dt>
+                            <dd class="b-i-cotent">
+                                <%=data.works.typeName %>
+                            </dd>
+                        </dl>
+                        <%if(data.works.type==='stageArts'){%>
+                            <dl class="block-item">
+                                <dt class="b-i-title">艺术类型：</dt>
+                                <dd class="b-i-cotent">
+                                    <%=data.works.arts%>
+                                </dd>
+                            </dl>
+                            <dl class="block-item">
+                                <dt class="b-i-title">节目负责人：</dt>
+                                <dd class="b-i-cotent">
+                                    <%=data.works.contact%>
+                                </dd>
+                            </dl>
+                            <dl class="block-item">
+                                <dt class="b-i-title">手机号码：</dt>
+                                <dd class="b-i-cotent">
+                                    <%=data.works.telephone%>
+                                </dd>
+                            </dl>
+                            <dl class="block-item">
+                                <dt class="b-i-title">节目时长(分钟)：</dt>
+                                <dd class="b-i-cotent">
+                                    <%=data.works.hourLong %>
+                                </dd>
+                            </dl>
+                            <dl class="block-item">
+                                <dt class="b-i-title">参演人数(人)：</dt>
+                                <dd class="b-i-cotent">
+                                    <%=data.works.peoples %>
+                                </dd>
+                            </dl>
+                            <% if(data.works.mainPeoples && data.works.mainPeoples.length>0) {%>
+                                <dl class="block-item">
+                                    <dt class="b-i-title">主创人员：</dt>
+                                    <dd class="b-i-cotent">
+                                        <table class="contacts-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>排序</th>
+                                                    <th>姓名</th>
+                                                    <th>性别</th>
+                                                    <th>年龄</th>
+                                                    <th>主创人员担任角色</th>
+                                                    <th>工作单位</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% data.works.mainPeoples.forEach(function (item,index) { %>
+                                                    <tr>
+                                                        <td>
+                                                            <%= index %>
+                                                        </td>
+                                                        <td>
+                                                            <%= item.userName %>
+                                                        </td>
+                                                        <td>
+                                                            <%= {male:'男', female:'女', unkown:'保密'}[item.sex] %>
+                                                        </td>
+                                                        <td>
+                                                            <%= item.age %>
+                                                        </td>
+                                                        <td>
+                                                            <%= item.roles %>
+                                                        </td>
+                                                        <td>
+                                                            <%= item.works %>
+                                                        </td>
+                                                    </tr>
+                                                    <%})%>
+                                            </tbody>
+                                        </table>
+                                    </dd>
+                                </dl>
+                                <%}%>
+                                    <% if(data.works.actinPeoples && data.works.actinPeoples.length>0) {%>
+                                        <dl class="block-item">
+                                            <dt class="b-i-title">参演人员：</dt>
+                                            <dd class="b-i-cotent">
+                                                <table class="contacts-table">
+                                                    <thead>
+                                                        <tr class="theader">
+                                                            <th class="order">排序</th>
+                                                            <th class="name">姓名</th>
+                                                            <th class="sex">性别</th>
+                                                            <th class="age">年龄</th>
+                                                            <th class="role">饰演角色</th>
+                                                            <th class="workUnit">工作单位</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="theader bottomLine">
+                                                            <% data.works.actinPeoples.forEach(function (item,index) { %>
+                                                                <td>
+                                                                    <%= index %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= item.userName %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= {male:'男', female:'女', unkown:'保密'}[item.sex] %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= item.age %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= item.roles %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= item.works %>
+                                                                </td>
+                                                                <%})%>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </dd>
+                                        </dl>
+                                        <%}%>
+                                            <dl class="block-item">
+                                                <dt class="b-i-title">设备要求：</dt>
+                                                <dd class="b-i-cotent">
+                                                    灯光要求：
+                                                    <%=data.works.lampLight %>&nbsp;&nbsp;&nbsp;&nbsp; 话筒音响要求:
+                                                        <%=data.works.voiceTube %>&nbsp;&nbsp;&nbsp;&nbsp; 特效要求:
+                                                            <%=data.works.specialEffects %>
+                                                </dd>
+                                            </dl>
+                                            <% } else { %>
+                                                <dl class="block-item">
+                                                    <dt class="b-i-title">作品尺寸（框边）：</dt>
+                                                    <dd class="b-i-cotent">
+                                                        宽（cm）：
+                                                        <%= data.works.workWidth %> &nbsp;&nbsp;&nbsp;&nbsp;高（cm）：
+                                                            <%= data.works.workHeight %>
+                                                    </dd>
+                                                </dl>
+                                                <dl class="block-item">
+                                                    <dt class="b-i-title">创作时间：</dt>
+                                                    <dd class="b-i-cotent">
+                                                        <%=data.createTime%>
+                                                    </dd>
+                                                </dl>
+                                                <dl class="block-item">
+                                                    <dt class="b-i-title">作者姓名：</dt>
+                                                    <dd class="b-i-cotent">
+                                                        <%=data.contact%>
+                                                    </dd>
+                                                </dl>
+                                                <dl class="block-item">
+                                                    <dt class="b-i-title">手机号码：</dt>
+                                                    <dd class="b-i-cotent">
+                                                        <%=data.telephone%>
+                                                    </dd>
+                                                </dl>
+                                                <dl class="block-item">
+                                                    <dt class="b-i-title">身份证号：</dt>
+                                                    <dd class="b-i-cotent">
+                                                        <%=data.idNumber%>
+                                                    </dd>
+                                                </dl>
+                                                <dl class="block-item">
+                                                    <dt class="b-i-title">邮编：</dt>
+                                                    <dd class="b-i-cotent">
+                                                        <%=data.postCode%>
+                                                    </dd>
+                                                </dl>
+                                                <dl class="block-item">
+                                                    <dt class="b-i-title">详细地址：</dt>
+                                                    <dd class="b-i-cotent">
+                                                        <%=data.address%>
+                                                    </dd>
+                                                </dl>
+                                                <% } %>
+                                                    <dl class="block-item">
+                                                        <dt class="b-i-title">作品简介：</dt>
+                                                        <dd class="b-i-cotent">
+                                                            <%=data.works.workBrief %>
+                                                        </dd>
+                                                    </dl>
+            </div>
+        </div>
+
+    </div>
+    <div class="place-space"></div>
+    <div class="place-space"></div>
+    <footer>
+        <% include ../common/footer %>
+    </footer>
+</body>
+<script>
+</script>
+
+</html>

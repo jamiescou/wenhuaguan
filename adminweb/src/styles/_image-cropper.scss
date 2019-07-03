@@ -1,0 +1,56 @@
+@charset "UTF-8";
+// * 图片裁剪 *
+.imgcropper-wrap {
+    @include clearfix; // width: $imgcropper-wrap-width;
+    background: #fff;
+    padding: $imgcropper-padding;
+    .content-title {
+        padding-left: 20px;
+        margin: 0;
+        text-align: left;
+        line-height: 36px;
+    }
+}
+
+.img-container {
+    width: $imgcropper-container-width;
+    float: left;
+    .img-box {
+        width: $imgcropper-container-width;
+        height: $imgcropper-imgbox-height;
+        border: 1px solid #ccc;
+        overflow: hidden;
+        &>img {
+            max-width: 100%;
+        }
+    }
+    .choose-pic-btn {
+        margin-top: 12px;
+        .btn {
+            padding: 3px 0;
+        }
+    }
+}
+
+// 预览视图
+.docs-preview {
+    float: left;
+    // width: $imgcropper-previews-width;
+    margin-left: 20px;
+    .img-preview {
+        border: 1px solid #ccc;
+        overflow: hidden;
+        width: $preview-width;
+        height: $preview-height;
+        box-sizing: border-box;
+        >img {
+            max-width: 100%;
+        }
+    } // 预览图标题
+    .preview-title {
+        display: block;
+        text-align: center;
+        height: auto;
+        font-size: 12px;
+    }
+}

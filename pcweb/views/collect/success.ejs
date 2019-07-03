@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    作品征集
+  </title>
+  <% include ../common/head %>
+  
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+    <link rel='stylesheet' href='/styles/collect.min.css'/>
+  </header>
+
+  <div class="g-content">
+      <div class="crumbs">
+          <ul>
+              <li>
+                      <a href="/">首页&nbsp;&nbsp;></a>
+              </li>
+              <li>
+                      <a href="/collect">作品征集&nbsp;&nbsp;></a>
+              </li>
+              <li>
+                      <a href="">我要参与</a>
+              </li>
+          </ul>
+     </div>
+       
+          <!-- 定宽:圆形步骤条 -->
+          <div class="m-activity-step">
+                <div class="step-content">
+                  <div class="step-item active">
+                    <span class="step-dot"></span>
+                    <p class="step-txt">上传征集文件</p>
+                  </div>
+                  <div class="bar"></div>
+                  <div class="step-item active">
+                    <span class="step-dot"></span>
+                    <p class="step-txt">完成上传</p>
+                  </div>
+                  
+                </div>
+              </div>
+              <!-- 定宽:圆形步骤条 -->
+  <div class="brief-media" style="margin-top:20px;">
+      <div class="media" style="padding:15px 20px;">
+          <div class="media-left">
+              <img src="<%= data.coverPic %>" alt="培训图片" class="brief-img" style="width:250px;height:167px;" />
+          </div>
+          <div class="media-center">
+              <h3 class="name" style="padding-top:5px;font-size:22px;margin-bottom:20px;">
+                  <%= data.name %>
+              </h3>
+              <p class="describe f-nowrap">
+                      <i class="iconfont icon-time"></i>征集时间：
+                      <%= data.startTime %>&nbsp; 至 &nbsp;
+                      <%= data.endTime %>
+                  </p>
+              <p class="describe f-nowrap">
+                 简介：
+                 <%= data.brief %>
+              </p>
+             
+          </div>
+      </div>
+  </div>
+
+    <div class="succeed-tips" style="margin:20px 0 70px 0;padding-top:20px;">
+      <i class="succeed-icon iconfont icon-success " style="margin-top:20px;"></i>
+      <p>您的作品已经上传成功！</p>
+      <p>作品正在审核中，审核结果将通过短信发送给您！您可以：</p>
+      <a href='/collect/booking/<%=activityId%>' class="to-link">继续上传作品</a>
+      <a href='/collect' class="to-link">返回作品征集首页</a>
+    </div>
+  </div>
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+<script>
+
+ 
+</script>
+
+</html>

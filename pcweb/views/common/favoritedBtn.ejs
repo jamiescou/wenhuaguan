@@ -1,0 +1,77 @@
+ 
+    <span class="btn icon angle" id="favorite" href='#loginModal'  data-favorited="<%=favorited%>" data-objectId='<%=objectId%>' data-type='<%=type%>'>
+    <i class="iconfont <% if(!favorited){%>icon-favor<%} else{%>icon-favorfill <%}%>"     ></i>
+    <% if(favorited){%>已收藏
+        <%} else {%>收藏
+            <%}%>
+    </span>
+
+    <script>
+        var userstr = '<%-JSON.stringify(user)%>';
+        var userObj = JSON.parse(userstr);
+       
+        $(document).ready(function () {
+             
+               
+            $('#favorite').click(function () { 
+                if (!userObj) {
+                    $("#favorite").colorbox({inline:true,slideshow:true,width:570,height:480, closeButton:false,overlayClose:true});
+                    return;
+                }
+                var self = $(this);
+                self.removeClass("fav");
+                var type = $(this).attr('data-type');
+                var objectId = $(this).attr('data-objectId');
+                var favorited = $(this).attr('data-favorited');
+                if (favorited == 'true') {
+                    $.ajax({
+                        url: '/user/cancelfavorite/' + objectId,
+                        type: 'get',
+                        success: function (res) {
+                            
+                            if (res == '') {
+                                var icon =" <i class='iconfont icon-favor'></i>"
+                                $("#favorite").html(icon+"收藏")
+                                self.attr('data-favorited', "false");
+                                 self.addClass("fav")
+                                return;
+                            }
+                            else {
+                              
+                                assist.showMsg(res.message||'取消收藏失败','error');
+                              
+                            }
+                        }
+                    })
+                }
+                else {
+                    $.ajax({
+                        url: '/user/addfavorite',
+                        type: 'post',
+                        data: {
+                            type: type,
+                            objectId: objectId
+                        },
+                        success: function (res) {
+                            if (res.data&&res.data.id != '') {
+                                var icons =" <i class='iconfont icon-favorfill'  style='color:white'></i>"
+                                $("#favorite").html(icons+"已收藏")
+                                self.addClass("fav")
+                                self.attr('data-favorited', "true");
+                                // favorited = "true";
+                                return;
+                            }
+                            else {
+                                assist.showMsg(res.message||'收藏失败','error');
+                             
+                            }
+                        }
+                    })
+                }
+
+
+            })
+
+           
+        })
+    </script>

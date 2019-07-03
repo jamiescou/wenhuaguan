@@ -1,0 +1,130 @@
+<%
+var type = query.type ? '&type=' + query.type : '';
+var pageUrl = '/heritage/unitdetail/' + id+'?'+type;
+var typeUrl = '/heritage/unitdetail/'+id;
+%>
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>
+    非遗详情
+  </title>
+  <% include ../common/head %>
+  <link rel='stylesheet' href='/styles/heritage.min.css' />
+  <link rel='stylesheet' href='/javascripts/libs/swiper/swiper.min.3.4.2.css' />
+  <script src="/javascripts/libs/swiper/swiper.min3.4.2.js"></script>
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+
+  <div class="g-content">
+          <div class="crumbs">
+               <ul>
+                    <li>
+                    <a href="">首页&nbsp;&nbsp;></a>
+                    </li>
+                    <li>
+                         <a href="/heritage">非遗展厅&nbsp;&nbsp;></a>
+                    </li>
+                    <li>
+                         <a href="">展品列表</a>
+                    </li>
+               </ul>
+          </div>
+          <!-- <%- include('../common/heritageCenter') %> -->
+          <div class="m-filter-pannel" >
+               <div class="m-search-lst" >
+                    <div class="item">
+                         <div class="tag-wrap">
+                         <a class="tag-item <% if(!query.type){ %>active<% } %>" href="<%-typeUrl%>">全部</a>
+                         <% workstype.forEach(function (item) { %>
+                              <a class="tag-item <% if(query.type&&query.type===item.code){ %>active<% } %>" href="<%-typeUrl%>?type=<%=item.code%>">
+                                <%= item.value%>
+                              </a>
+                              <% }) %>
+                         </div>
+                    </div>
+               </div>
+          </div> 
+          <div class="unitdetail">
+               <%if(works&&works.content.length!=0){%>
+                  <%works.content.forEach(function(item,index){%>
+                    <div class="card  border">
+                      <div class="">
+                      <img class="img-top gallery" src="<%=item.coverPic%>" href="<%= item.coverPic %>" onerror="noImg()" data-index="<%= index %>">
+                      </div>
+                      <div class="card-body">
+                          <h5 class="card-title"><%=item.title%></h5>
+                          <p class="card-text"><%=item.brief%></p>
+                      </div>
+                  </div>
+                  <%})%>
+                  <%} else {%>
+                       <%- include ../common/nodata %>
+                    <%}%>
+                   
+          </div>
+  
+  <%- include('../common/paginator.ejs', {page : works.number + 1, totalPages : works.totalPages, pageUrl : pageUrl, totalElements : works.totalElements}) %>
+ </div>               
+  <div class="place-space"></div>
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+
+  <!--作品列表-->
+  <%if(works&&works.content.length!=0){%>
+    <div id="products" class="products-pop-wrapper">
+      <div class="products-content">
+        <div class="swiper-container products-swiper" id="productsSwiper">
+            <div class="swiper-wrapper">
+                <%works.content.forEach(function(item,index){%>
+                <div class="swiper-slide">
+                    <div class="produt-img">
+                        <img src="<%= item.coverPic %>" onerror="noImg()">
+                    </div>
+                    <div class="produt-info">
+                        <h2 class="produt-title"><%= item.title %></h2>
+                        <div class="author"><%= item.typeName %></div>
+                        <p id="picContent"><%= item.brief %></p>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+            <img class="pic-exit" src="/images/pop-exit.png" alt="退出">
+            <div class="swiper-pagination"></div>
+        </div>
+         <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+      </div>
+    </div>
+    <% } %>
+</body>
+<script>
+$(function(){
+  var productsSwiper = new Swiper('#productsSwiper', {
+      autoplay: false,
+      prevButton:'.swiper-button-prev',
+      nextButton:'.swiper-button-next',
+      pagination : '.swiper-pagination',
+      paginationType : 'fraction',
+  });
+
+  $(".pic-exit").on("click", function(e) {
+				$('#products').hide();
+  });
+  $('.gallery').on('click', function(e) {
+    $('#products').show();
+    productsSwiper.update()
+    var index = $(this).attr('data-index')
+    productsSwiper.slideTo(index, 0, false);//切换到第一个slide，速度为1秒
+  });
+})
+</script>
+
+</html>

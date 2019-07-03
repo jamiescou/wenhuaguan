@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        数字期刊-投稿
+    </title>
+    <% include ../common/head %>
+        <link rel='stylesheet' href='/styles/magazine.min.css' />
+        <script src="/javascripts/libs/validate/jquery.validate.min.js"></script>
+        <script src="/javascripts/libs/validate/messages_zh.js"></script>
+        <script src="/javascripts/libs/validate/additional-methods.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <% include ../common/header %>
+    </header>
+    <div class="g-content">
+        <div class="crumbs">
+            <ul>
+                <li>
+                    <a href="/">首页&nbsp;&nbsp;></a>
+                </li>
+                <li>
+                    <a href="/magazine">电子杂志&nbsp;&nbsp;></a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)">我要投稿</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--第一步-->
+    <div class="g-content" id="uict-setup1panel">
+        <div class="m-magazine-step">
+            <div class="step-content">
+                <div class="step-item active">
+                    <span class="step-dot"></span>
+                    <p class="step-txt">我要投稿</p>
+                </div>
+                <div class="bar"></div>
+                <div class="step-item">
+                    <span class="step-dot"></span>
+                    <p class="step-txt">确认投稿信息</p>
+                </div>
+                <div class="bar"></div>
+                <div class="step-item">
+                    <span class="step-dot"></span>
+                    <p class="step-txt">投稿成功</p>
+                </div>
+            </div>
+        </div>
+        <div class="place-space"></div>
+        <form method="post" action="/team/userphoto" enctype="multipart/form-data" id="regist">
+            <div class="booking-enlist">
+                <div class="enlist-title">
+                    <p>投稿至 &nbsp;&nbsp;《
+                        <%= data.name%> 》</p>
+                </div>
+                <div class="enlist-content">
+                    <div class="room-booking-info">
+                        <label>真实姓名</label>
+                        <input type="text" name="userName" maxlength="16" placeholder="请输入姓名" value="<%= user.nickname %>" readonly required>
+                    </div>
+                    <div class="room-booking-info">
+                        <label>联系电话</label>
+                        <input type="text" name="mobile" maxlength="11" placeholder="请输入联系电话" value="<%= user.mobile %>" readonly required>
+                    </div>
+                    <div class="room-booking-info">
+                        <label>作品标题</label>
+                        <input type="text" name="title" placeholder="请输入您的文章题目" value="" required>
+                    </div>
+                    <div class="room-booking-info">
+                        <label>作品摘要</label>
+                        <textarea type="text" name="brief" placeholder="请简单叙述作品内容，内容不超过200字" required></textarea>
+                    </div>
+                    <div class="room-booking-info">
+                        <label>作品上传</label>
+                        <input type="file" id="imgfile" name="fileAddress" value="">
+                        <a href="javascript:void(0)" class="select-file">选择文件</a>
+                        <span class="file-msg" id="fileName"></span>
+                        <span class="file-msg">请上传20M以内 格式为*.pdf的作品附件</span>
+                    </div>
+                </div>
+            </div>
+            <div class="booking-enlist">
+                <div class="enlist-title">
+                    <p>投稿须知</p>
+                </div>
+                <div class="enlist-content">
+                    <div class="enlist-row">
+                        <p class="booking-notice">
+                            1、全年为入场票数达10张，将被取消当年预定资格；
+                            <br/> 2、如需退票，请至“我的空间-活动管理”，退票截止至活动前一天（活动当天不可退票）；
+                            <br/> 3、如因不可控因素导致活动无法进行，举办方有权延期或取消活动，并以短信方式通知订票人；
+                            <br/> 4、如参加区图书馆、文化馆活动的市民，由于停车位有限，建议读者搭乘公共交通前往；
+                            <br/> 5、活动最终解释权归举办方所有。
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="protocol">
+                <label class="u-checkbox">
+                    <input type="checkbox" class="ckb-input" id="protocol" />
+                    <span class="cbx"></span>我已阅读并接受投稿须知
+                </label>
+                <p>
+                    <input class="submit-1 none" type="submit">
+                    <a href="javascript:void(0)" id="nextstup">下一步</a>
+                </p>
+            </div>
+        </form>
+    </div>
+    <!--第二步-->
+    <div class="g-content" id="uict-setup2panel" style="display: none">
+        <div class="m-magazine-step">
+            <div class="step-content">
+                <div class="step-item active">
+                    <span class="step-dot"></span>
+                    <p class="step-txt">我要投稿</p>
+                </div>
+                <div class="bar"></div>
+                <div class="step-item active">
+                    <span class="step-dot"></span>
+                    <p class="step-txt">确认投稿信息</p>
+                </div>
+                <div class="bar"></div>
+                <div class="step-item">
+                    <span class="step-dot"></span>
+                    <p class="step-txt">投稿成功</p>
+                </div>
+            </div>
+        </div>
+        <div class="place-space"></div>
+        <div class="booking-enlist">
+            <div class="enlist-title">
+                <p>基本信息</p>
+            </div>
+            <div class="enlist-content" style="margin-top:30px;">
+                <div class="confirm-row clearfix">
+                    <label>投稿刊物</label>
+                    <div class="magazineName">
+                        <%= data.name%>
+                    </div>
+                </div>
+                <div class="confirm-row clearfix">
+                    <label>真实姓名</label>
+                    <div class="userName"></div>
+                </div>
+                <div class="confirm-row clearfix">
+                    <label>联系方式</label>
+                    <div class="mobile"></div>
+                </div>
+                <div class="confirm-row clearfix">
+                    <label>文章题目</label>
+                    <div class="title"></div>
+                </div>
+                <div class="confirm-row clearfix">
+                    <label>作品摘要</label>
+                    <div class="brief"></div>
+                </div>
+            </div>
+        </div>
+        <div class="booking-enlist">
+            <div class="enlist-title">
+                <p>投稿须知</p>
+            </div>
+            <div class="enlist-content">
+                <div class="enlist-row">
+                    <p class="booking-notice">
+                        1、全年为入场票数达10张，将被取消当年预定资格；
+                        <br/> 2、如需退票，请至“我的空间-活动管理”，退票截止至活动前一天（活动当天不可退票）；
+                        <br/> 3、如因不可控因素导致活动无法进行，举办方有权延期或取消活动，并以短信方式通知订票人；
+                        <br/> 4、如参加区图书馆、文化馆活动的市民，由于停车位有限，建议读者搭乘公共交通前往；
+                        <br/> 5、活动最终解释权归举办方所有。
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="protocol">
+            <p>
+                <a href="javascript:void(0)" id="edit-btn">修改信息</a>
+                <a href="javascript:void(0)" id="submitorder">确认订单</a>
+            </p>
+        </div>
+    </div>
+    <!--第三步-->
+    <div class="g-content" id="uict-setup3panel" style="display:none">
+        <div class="m-magazine-step">
+            <div class="step-content">
+                <div class="step-item active">
+                    <span class="step-dot"></span>
+                    <p class="step-txt">我要投稿</p>
+                </div>
+                <div class="bar"></div>
+                <div class="step-item active">
+                    <span class="step-dot"></span>
+                    <p class="step-txt">确认投稿信息</p>
+                </div>
+                <div class="bar"></div>
+                <div class="step-item active">
+                    <span class="step-dot"></span>
+                    <p class="step-txt">投稿成功</p>
+                </div>
+            </div>
+        </div>
+        <div class="place-space"></div>
+
+        <div class="booking-enlist">
+            <div class="step-panel succeed-tips">
+                <i class=" iconfont icon-success succeed-icon"></i>
+                <p>您已成功投稿!</p>
+                <p>若您的稿件被采纳，管理员将主动联系您!您可以：</p>
+                <a href="/magazine" class="to-link">返回数字期刊首页</a>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <% include ../common/footer %>
+    </footer>
+    <script type="text/javascript">
+        var params = {};
+        var flag = true;
+        var identifyStatus = '<%- user.identifyStatus %>';
+        if (identifyStatus !== 'Yes') {
+            assist.showMsg('请先实名认证', 'error');
+            setTimeout(function() {
+                window.location.href = '/user';
+            }, 2000)
+        }
+
+        $("#regist").validate({
+            debug: true,
+            errorElement: "em",
+            onkeyup: false,
+            onfocusout: false,
+            onclick: false,
+            rules: {
+                mobile: "phoneType" //  手机格式验证【/javascripts/commons/custom-validate.js】
+            },
+            errorPlacement: function(error, element) {
+                assist.showMsg($(error).eq(0).text(), 'error');
+            },
+            messages: {
+                magazineId: {
+                    required: "请选择投稿刊物"
+                },
+                userName: {
+                    required: "请输入姓名"
+                },
+                mobile: {
+                    required: "请输入手机号码"
+                },
+                title: {
+                    required: "请输入文章题目"
+                },
+                brief: {
+                    required: "请输入作品摘要"
+                }
+            },
+            submitHandler: function() {
+                var temp_list = $("#regist [name]").serializeArray();
+                for (var i in temp_list) {
+                    if ($.trim(temp_list[i].value)) {
+                        params[temp_list[i].name] = $.trim(temp_list[i].value);
+                        $('.' + temp_list[i].name).text(temp_list[i].value)
+                    }
+                }
+                $("#uict-setup1panel").hide();
+                $("#uict-setup2panel").show();
+                var regist = document.getElementById("regist");
+                var form = new FormData(regist);
+                $.ajax({
+                    url: '/magazine/file',
+                    type: 'post',
+                    data: form,
+                    processData: false,
+                    contentType: false,
+                    success: function(res) {
+                        if (res) {
+                            params.fileAddress = res;
+                        }
+                    },
+                    failure: function(err) {
+                        assist.showMsg('文件上传失败', 'error');
+                    }
+                });
+            }
+        })
+
+        $("#nextstup").on("click", function() {
+            var img = $('#imgfile').val()
+            if (img && flag) {
+                if (!$('#protocol')[0].checked) {
+                    assist.showMsg('请阅读并接受投稿须知');
+                    return;
+                }
+                $(".submit-1").click();
+            } else {
+                assist.showMsg('请上传文件', 'error');
+                flag = false;
+                return;
+            }
+        });
+
+        $("#edit-btn").click(function() {
+            $("#uict-setup2panel").hide();
+            $("#uict-setup1panel").show();
+        })
+
+        $("#submitorder").on("click", function() {
+            params.magazineName = '<%= data.name%>';
+            params.magazineId = '<%= data.id%>';
+            $.ajax({
+                url: '/magazine/order',
+                type: 'post',
+                data: params,
+                success: function(res) {
+                    if (res.id) {
+                        $("#uict-setup2panel").hide();
+                        $("#uict-setup3panel").show();
+                    }
+                },
+                failure: function(err) {
+
+                }
+            });
+        });
+
+        var fileInputs = $('#imgfile');
+        $('.select-file').click(function() {
+            fileInputs.click();
+        })
+
+        fileInputs.change(function() {
+            var file = fileInputs[0].files[0];
+            var fileReader = new FileReader();
+            var fileName = file.name.lastIndexOf('.');
+            params.fileName = file.name;
+            fileName = file.name.substr(fileName + 1);
+            if (fileName === 'pdf') {
+                // || fileName === 'docx' || fileName === 'xls'|| fileName === 'xlsx'
+                fileReader.onloadend = function(e) {
+                    if (fileReader.readyState == fileReader.DONE) {
+                        $('#fileName').text(file.name);
+                    }
+                };
+                fileReader.readAsDataURL(file);
+                flag = true;
+            } else {
+                assist.showMsg('请选择正确的文件格式', 'error');
+                flag = false;
+            }
+        });
+    </script>
+</body>
+
+</html>

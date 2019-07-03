@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    这是活动预定
+  </title>
+  <% include ../common/head %>
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+  <div class="uict-content">
+    <div class="uict-presetnum">
+      <div id="uict-circles"></div>
+      <div>
+        <span class="active">订票或选座</span>
+        <span id="uict-cirtext">填写取票信息</span>
+        <span>完成预订</span>
+      </div>
+    </div>
+    <div class="uict-presetcont">
+      <div class="uict-acptitle clearfix">
+        <div class="uict-acptitlel">
+          <img src="<%=data.coverPic%>" alt="活动图片" />
+        </div>
+        <div class="uict-acptitler">
+          <h2>
+            <%=data.name%>
+          </h2>
+          <p><i class="iconfont icon-time"></i>时间：
+            <%=data.signStartTime%> 至
+              <%=data.signEndTime%>
+          </p>
+          <p><i class="iconfont icon-location"></i>地址：
+            <%=data.address%>
+          </p>
+          <p><i class="iconfont icon-phone"></i>电话：
+            <%=data.contactPhone%>
+          </p>
+        </div>
+      </div>
+      <div class="uict-presetdata">
+        <h3>选择日期场次</h3>
+        <div class="uictform-group clearfix">
+          <label>选择日期</label>
+          <div class="uict-usercontro">
+            <input type="text" class="form-control" id="datepicker" placeholder="选择日期">
+          </div>
+        </div>
+        <div class="uictform-group clearfix" style="height:49px;">
+          <label>选择场次</label>
+          <div class="uict-usercontro clearfix" id="selectitms">
+          </div>
+        </div>
+        <!-- <div class="uictform-group clearfix">
+          <label>预定数量</label>
+          <div class="uict-usercontro">
+            <input type="text" class="form-control" id="inputEmail3" placeholder="预定数量">
+          </div>
+        </div> -->
+        <div id="setup2">
+          <div class="uict-sst">选择座位</div>
+          <div class="uict-seatstatus">
+            <div>
+              <span>可选</span>
+              <span>已预定</span>
+              <span>已选</span>
+            </div>
+            <div><span>大屏幕</span></div>
+          </div>
+          <div class="uict-selectseats clearfix">
+            <div class="uict-selectsl">
+
+            </div>
+            <div class="uict-selectsr">
+              <table id="aseatlist">
+              </table>
+            </div>
+          </div>
+          <div class="uict-seatslisty clearfix">
+            <span>已选座位</span>
+            <div id="setlist-cont" class="clearfix"></div>
+            <p><span></span>本次活动单次最多预定2张票，最多可预定1次</p>
+          </div>
+          <div class="uict-seatbggray"></div>
+          <div class="uict-presetdec">
+            <h4>预定须知</h4>
+            1、全年未入场票数达10张，将被取消当年预定资格；<br/> 2、如需退票，请至“我的空间-活动管理”，退票截止至活动前一天（活动当天不可退票）；
+            <br/> 3、如因不可控因素导致活动无法进行，举办方有权延期或取消活动，并以短信方式通知订票人；
+            <br/> 4、如参加区图书馆、文化馆活动的市民，由于停车位有限，建议读者搭乘公共交通前往；
+            <br/> 5、活动最终解释权归举办方所有。
+          </div>
+          <div class="checkbox uict-seatcheckbox">
+            <label>
+                        <input type="checkbox"> 我已阅读并接受预定须知相关条款
+                      </label>
+          </div>
+          <div class="uict-seatbtn" style="padding-bottom:15px;">
+            <button type="button" id="nextstup" class="btn btn-default uict-submitorder next-button">下一步</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="uict-setup2panel">
+        <h3 class="uict-preseth3">确认订单信息</h3>
+        <div class="orderinfo">
+          <div class="clearfix">
+            <span>活动场次：</span>
+            <div id="uict-itmspanel">
+            </div>
+          </div>
+          <div class="clearfix">
+            <span>预约票数：</span>
+            <div id="uict-tickets">
+            </div>
+          </div>
+          <div class="clearfix" style="padding-bottom:15px;">
+            <span style="padding-top:6px;">预约座位：</span>
+            <div id="uict-setpanel">
+            </div>
+          </div>
+        </div>
+        <h3 class="uict-preseth3">填写取票信息</h3>
+        <div class="orderinfo">
+          <div class="uictform-group clearfix">
+            <label>取票手机</label>
+            <div class="uict-usercontro">
+              <input type="text" class="form-control" id="uicttel" placeholder="取票手机">
+            </div>
+          </div>
+          <div class="uictform-group clearfix">
+            <label>验证码</label>
+            <div class="uict-usercontro">
+              <input type="text" class="form-control" id="" placeholder="验证码">
+              <button class="btn btn-default uict-getyz" type="submit">获取验证码</button>
+            </div>
+          </div>
+          <div class="uict-padleft120">
+            <button type="button" id="submitorder" class="btn btn-default uict-submitorder">确定预约</button>
+            <!-- <button type="button" id="prestup" class="btn btn-default">返回上一步修改</button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+<script src="/javascripts/lodash.js"></script>
+
+
+<script type="text/javascript">
+  var arr = '<%-JSON.stringify(data.itms)%>';
+  var seattemplate = '<%-JSON.stringify(data.venueRoom.seatTemplate)%>';
+  var id = '<%=data.id%>';
+  var acname = '<%=data.name%>';
+  var retainSeats = '<%-JSON.stringify(data.retainSeats)%>';
+  retainSeats = JSON.parse(retainSeats);
+  var checkedNum = 0; //选票数量
+  var checked;
+  arr = JSON.parse(arr);
+  var itemnow; //选择场次的ID
+  seattemplate = JSON.parse(seattemplate);
+  var reserveList = [];
+  var testid = '59b22ec0c9e77c6c8e1b64e8';
+  var starttime, endtime;
+
+  function initTable(row, col, seats, retainSeats, reserveList) {
+    var seatList = [];
+    var table = '';
+    for (var i = 1; i < row + 1; i++) {
+      var tr = '<tr>'
+      for (var j = 1; j < col + 1; j++) {
+        var td = ''
+        var seat = {
+          'row': i,
+          'column': j,
+          'type': 'enable', // enable可用/disenable 不可用
+          'flag': 1, // 1非座位 0座位
+          'seatNo': i + '排' + j + '座',
+          'preorder': 0, // 1已预定 0未预定
+          'checked': 0
+        }
+        td = '<td class="noneset">&nbsp;</td>'; //过道
+        var item = _.find(seats, function (item) {
+          return item.row === i && item.column === j;
+        });
+        if (item) {
+          seat.type = item.type;
+          seat.seatNo = item.seatNo;
+          seat.flag = 0;
+          td = '<td data-set="' + item.seatNo + '" data-type=' + item.type + ' >&nbsp;</td>';
+          if (seat.type === 'disenable') { // 不可用
+            td = '<td data-set="' + item.seatNo + '" data-type=' + item.type + ' class="disable" >&nbsp;</td>';
+          }
+        }
+        var retainItem = _.find(retainSeats, function (item) {
+          return item.row === i && item.column === j;
+        });
+        if (retainItem) { // 保留的座位
+          seat.preorder = 1;
+          td = '<td data-set="' + item.seatNo + '" data-type=' + item.type + ' class="disable" >&nbsp;</td>';
+        }
+        var reserveItem = _.find(reserveList, function (item) {
+          return item.row === i && item.column === j;
+        });
+        if (reserveItem) { // 已预定的座位
+          seat.preorder = 1;
+          td = '<td data-set="' + item.seatNo + '" data-type=' + item.type + ' class="disable" >&nbsp;</td>';
+        }
+        tr += td;
+        seatList.push(seat);
+      }
+      tr += '</tr>';
+      table += tr;
+    }
+    //return seatList;
+    return table;
+
+  }
+  var table = initTable(seattemplate.rows, seattemplate.columns, seattemplate.grids, retainSeats, reserveList);
+  // seatList=_.groupBy(seatList, 'row');
+  function padLeftZero(str) {
+    if (str >= 10) {
+      return str
+    } else {
+      return str = '0' + str;
+    }
+  }
+
+  $('#datepicker').datepicker({
+    format: 'yyyy-mm-dd',
+    autoclose: true,
+    language: "zh-CN",
+    todayHighlight: true,
+    beforeShowDay: function (date) {
+      var year = date.getFullYear();
+      var month = padLeftZero(date.getMonth() + 1);
+      var day = padLeftZero(date.getDate());
+      var dateStr = year + '-' + month + '-' + day;
+      for (var i = 0, len = arr.length; i < len; i++) {
+        if (dateStr == arr[i].itmDate) {
+          return {
+            tooltip: '活动',
+            classes: 'active'
+          };
+        }
+      }
+    }
+
+  }).on('changeDate', function (ev) {
+    var datenow = $('#datepicker').val();
+    var times = [];
+    for (var i = 0, len = arr.length; i < len; i++) {
+      if (datenow == arr[i].itmDate) {
+        times.push('<span data-id="' + arr[i].id + '">' + arr[i].startTime + '-' + arr[i].endTime);
+        times.push('</span>');
+      }
+    }
+    $('#selectitms').empty().append(times.join(''));
+  });
+  var setarr = [];
+  var setlist = [];
+  $('#aseatlist').delegate('tr td:not(.disable,.noneset)', 'click', function () {
+    var setstatus = $(this).attr('data-type');
+    var setnumber = $(this).attr('data-set');
+    if (setstatus === 'enable') {
+      if (checkedNum <= 2) {
+        $(this).toggleClass('active');
+        $(this).attr("data-type", 'disable');
+        checkedNum += 1;
+        setarr.push($(this).attr('data-set'));
+        setlist = [];
+        for (var i = 0, len = setarr.length; i < len; i++) {
+          setlist.push('<span setnumber="' + setarr[i] + '">' + setarr[i] + '</span>');
+        }
+        $('#setlist-cont').html(setlist);
+      } else {
+       assist.showMsg(' 订座数量不能大于3张')
+      }
+    } else {
+      $(this).toggleClass('active');
+      $(this).attr("data-type", 'enable');
+      checkedNum -= 1;
+      setlist = [];
+      for (var i = 0, len = setarr.length; i < len; i++) {
+        if (setarr[i] == setnumber) {
+          setarr.splice(i, 1);
+          for (var y = 0, stlen = setarr.length; y < stlen; y++) {
+            setlist.push('<span setnumber="' + setarr[y] + '">' + setarr[y] + '</span>');
+          }
+        }
+      }
+      $('#setlist-cont').html(setlist);
+    }
+  });
+  $('#selectitms').on('click', 'span', function () {
+    itemnow = $(this).attr('data-id');
+    $('#selectitms span').removeClass();
+    $(this).toggleClass('active');
+    for (var i = 0, len = arr.length; i < len; i++) {
+      if (itemnow == arr[i].id) {
+        starttime = arr[i].startTime;
+        endtime = arr[i].endTime;
+      }
+    }
+    $('.uict-selectsr').show();
+    var setnumber = [];
+    for (var i = 1, len = seattemplate.rows; i <= len; i++) {
+      setnumber.push('<span>' + i + '</span>');
+    }
+    for (var i = 0, len = arr.length; i < len; i++) {
+      if (itemnow == arr[i].id) {
+        reserveList = arr[i].reserveSeats;
+        $('.uict-selectsl').html(setnumber);
+        $('#aseatlist').html(table);
+      }
+    }
+
+  });
+  var setnow = [];
+  $('#nextstup').click(function () {
+    $('#setlist-cont span').each(function (e) {
+      setnow.push({
+        seatNo: $(this).attr('setnumber')
+      })
+    })
+    $('#uict-circles').addClass('active2');
+    $('#uict-cirtext').addClass('active');
+    $('.uict-presetdata').hide();
+    $('#uict-setup2panel').show();
+    
+    for (var i = 0, len = arr.length; i < len; i++) {
+      if (itemnow === arr[i].id) {
+        $('#uict-itmspanel').html('<span style="padding-right:10px;">'+arr[i].itmDate +'</span>'+ arr[i].startTime + '-' + arr[i].endTime);
+      }
+    }
+    $('#uict-tickets').html(checkedNum);
+    $('#uict-setpanel').html(setlist);
+  });
+  $('#prestup').click(function () {
+    $('.uict-presetdata').show();
+    $('#uict-setup2panel').hide();
+  })
+  $('#submitorder').click(function () {
+    $.ajax({
+      url: "/api/user/" + id + "/actrivityorder",
+      type: 'post',
+      dataType: 'application/json',
+      data: {
+        user: {
+          userId: '59b22ec0c9e77c6c8e1b64e8',
+          nickname: '小王子',
+          mobile: $('#uicttel').val(),
+          activityId: id,
+          cname:'张三',
+          activityName: acname,
+          itmId: itemnow,
+          reserveType: 'online',
+          itmDate: $('#datepicker').val(),
+          itmStarttime: starttime,
+          itmEndtime: endtime,
+          reserveSum: checkedNum,
+          seats: setnow
+        }
+      },
+      success:function (data){
+      },
+      error:function(error){
+        if(error.status==200)
+       assist.showMsg('预定成功');
+        location.href = '/activity/preset/<%=data.id%>';
+      }
+    })
+  });
+</script>
+
+</html>

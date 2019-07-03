@@ -1,0 +1,82 @@
+<%
+var type = query.type ? '&type=' + query.type : '';
+var typePage = '/cultural?' ;
+var paginatorPage = '/cultural?' + type;
+%>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>
+    文化配送
+  </title>
+    <% include ../common/head %>
+    <link rel='stylesheet' href='/styles/cultural.min.css' />
+</head>
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+    <div class="g-content">
+      <div class="crumbs">
+          <ul>
+              <li>
+                <a href="">首页&nbsp;&nbsp;></a>
+              </li>
+              <li>
+                <a href="">文化服务</a>
+              </li>
+        </ul>
+     </div>
+     <%- include('../common/culture-sever-tab.ejs', {type: 'cultural'}) %>
+      <div class="m-filter-pannel" >
+          <div class="m-search-lst">
+              <div class="item">
+                  <h4 class="tag-hd">服务类型：</h4>
+                  <div class="tag-wrap">
+                      <a class="tag-item <% if(!query.type){ %>active<% } %>" href="<%- typePage %>">全部</a>
+                      <% code.forEach(function (type) { %>
+                      <a class="tag-item <% if(query.type&&query.type===type.code){ %>active<% } %>" href="<%- typePage %>type=<%=type.code%>">
+                          <%= type.value%>
+                      </a>
+                      <% }) %>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <% if( data.content.length) { %>
+      <div class="list-content">
+          <div class="content">
+              <% data.content.forEach(function (item) { %>
+              <div class="card col-4 border">
+                  <a class="card-head" href="/cultural/detail/<%= item.id%>" style="position:relative;">
+                      <img class="img-top" src="<%= item.coverPic%>">
+                      <span class="card-tag"><%= item.reserve === 1 ? '余票' + item.remainTicket : item.reserveMsg %></span>
+                  </a>
+                  <div class="card-body">
+                      <h5 class="card-title">
+                          <%= item.title%>
+                      </h5>
+                      <div class="card-info">
+                          <p>
+                              服务时长 :  <%= item.serveTime%>小时
+                          </p>
+                      </div>
+                  </div>
+              </div>
+              <%})%>
+          </div>
+      </div>
+      <%}else{%>
+      <% include ../common/nodata %>
+      <%}%>
+  </div>
+  <div class="place-space"></div>
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+<script>
+ 
+</script>
+
+</html>

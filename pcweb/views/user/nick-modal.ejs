@@ -1,0 +1,63 @@
+<div class="myModal" style='display:none'>
+        <div class="modal-content-wrapper" id='nickNameModal'>
+                <div class="block-heading border">
+                        <h4 class="title">修改昵称</h4>
+                </div>
+                <form method="post" id="changeNickForm">
+                        <div class="detail-block modal-form">
+                                <dl class="block-item">
+                                        <dt class="b-i-title">新昵称：</dt>
+                                        <dd class="b-i-cotent">
+                                                <input type="text" name="nickName" id="nickName" class="u-form-control" placeholder="请输入您的昵称" required>
+                                        </dd>
+                                </dl>
+                        </div>
+                        <div class="operate-btns">
+                                <input type="submit" id="submitNick" style="display:none;">
+                                <button class="btn" id="submitNickBtn">
+                                        <i class="iconfont icon-edit"></i>修改</button>
+                        </div>
+                </form>
+        </div>
+</div>
+<script>
+        $(function() {
+                // 修改提交
+                $('#submitNickBtn').on('click', function(event) {
+                        event.stopPropagation();
+                        event.preventDefault();
+
+                        $("#submitNick").click();
+                });
+
+                // 修改
+                $('#changeNickForm').validate({
+                        errorElement: 'div',
+                        errorClass: 'v-error',
+                        messages: {
+                                nickName: {
+                                        required: "请输入您的昵称"
+                                }
+                        },
+                        submitHandler: function(form) {
+                                var data = {
+                                        nickname: $('#nickName').val()
+                                };
+
+                                $.ajax({
+                                        url: '/user/nickname',
+                                        type: 'post',
+                                        data: data,
+                                        success: function(res) {
+                                                if (res.success) {
+                                                        assist.showMsg(res.msg);
+                                                        window.location.reload();
+                                                } else {
+                                                        assist.showMsg(res.msg);
+                                                }
+                                        }
+                                })
+                        }
+                });
+        })
+</script>

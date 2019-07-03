@@ -1,0 +1,83 @@
+<div class="brief-media">
+    <div class="media fixed-h">
+        <div class="media-left">
+            <img src="<%= data.picture %>" alt="培训图片" class="brief-img" />
+        </div>
+        <div class="media-center">
+            <h3 class="name ">
+                <%= data.title %>
+            </h3>
+            <% if(data.attachmentName){%>
+                <div class="describe">
+                    <i class="iconfont icon-attachments"></i>附件：
+                    <span>
+                        <a href='<%=data.attachment%>' class="emphasize"> <%=data.attachmentName%></a>    
+                    </span>
+                </div>
+                <%}%>
+                    <p class="describe f-nowrap">
+                        <i class="iconfont icon-time"></i>报名时间：
+                        <%= data.enrolStartTime %>&nbsp; 至 &nbsp;
+                            <%= data.enrolEndTime %>
+                    </p>
+                    <p class="describe f-nowrap">
+                        <i class="iconfont icon-clstime"></i>上课时间：
+                        <%= data.startDate %>&nbsp; 至 &nbsp;
+                            <%= data.endDate %>
+                    </p> 
+                   
+                     <%-include('../common/map.ejs',{lontitude:data.coordinate.longitude,latitude:data.coordinate.latitude,addr:data.address}) %>
+                    <!-- <p class="describe f-nowrap">
+                        <i class="iconfont icon-location"></i>
+                       地址：<%= data.address %><i class="iconfont icon-map"></i>
+                    </p> -->
+
+                    <p class="describe f-nowrap">
+                        <i class="iconfont icon-phone"></i>电话：
+                        <%= data.contactNumber %>
+                    </p>
+                    <% if(data.condition){%> 
+                        <p class="describe f-nowrap">
+                            <i class="iconfont icon-star"></i>报名要求：<%= data.condition %>
+                        </p>
+                    <%}%>
+                    <p class="describe f-nowrap">
+                        <i class="iconfont icon-type2"></i>
+                        <% if(!data.pageView) {%>
+                            <span>访问量： 0</span>
+                        <%}else{%>
+                            <span>访问量： <%= data.pageView %></span>
+                        <%}%>
+                    </p>
+                    <div class="media-opres">
+                        <% if(data.canbooking){%>
+                            <%-include('../common/authBtn.ejs',{ authRouter :"/train/booking/"+data.id,btnTitle:'立即报名'}) %> 
+                             <span class="tickets emphasize ">
+                            <%= data.tag%> 
+                        </span>
+                        <%} else {%>
+                          <span class="btn disabled">
+                            <%= data.tag%> 
+                        </span>
+                        <%}%>
+                    </div>
+        </div>
+    </div>
+
+    <div class="opres">
+        <%- include('../common/favoritedBtn.ejs',{ objectId:data.id,type:'Train',favorited:favorited }) %>
+        <%- include('../common/bshare') %>
+    </div>
+
+
+</div>
+<script type="text/javascript">
+    var userInfo = <%-JSON.stringify(user)%>;
+    // var userInfo = JSON.parse(userInfoStr);
+
+    $('#maplocation').click(function () {
+        $('#mapmodal').colorbox({
+            rel: 'group1'
+        })
+    })
+</script>

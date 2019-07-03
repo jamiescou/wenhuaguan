@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    非遗地图
+  </title>
+
+  <% include ../common/head %>
+    <link rel='stylesheet' href='/styles/heritage.min.css' />
+     <script src="/javascripts/libs/highmaps.js"></script> 
+    
+    <script src="/javascripts/commons/mapdata.js"></script>
+
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+
+  <div class="g-content">
+
+    <div class="crumbs">
+      <ul>
+        <li>
+          <a href="">首页&nbsp;&nbsp;></a>
+        </li>
+        <li>
+          <a href="#">非遗地图</a>
+        </li>
+
+      </ul>
+    </div>
+    <%- include('../common/heritageCenter') %>
+
+      <div class="detail-block nopadding">
+        <div class="block-heading border ">
+          <h4 class="title">全省非遗名录统计</h4>
+        </div>
+        <div class="detail-content nopadding">
+          <div class="htg-statistic">
+            <div>
+              <p>
+                <%=project.countryCount?project.countryCount:0%>
+              </p>
+              <p>国家级非遗项目</p>
+            </div>
+            <div>
+              <p>
+                <%=project.provinceCount?project.provinceCount:0%>
+              </p>
+              <p>省级非遗项目</p>
+            </div>
+            <div>
+              <p>
+                <%=successor.countryCount?successor.countryCount:0%>
+              </p>
+              <p>国家级级非遗传承人</p>
+            </div>
+            <div>
+              <p>
+                <%=successor.provinceCount?successor.provinceCount:0%>
+              </p>
+              <p>省级非遗传承人</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="place-space"></div>
+
+      <div class="htge-map-content">
+        <div id='map'>
+        </div>
+      </div>
+  </div>
+  <div style="display:none">
+    <div id='mapDialog'>
+      <div class='maphead'>
+        <h3 class='cityName' id="cityName">长沙市概况</h3>
+        <p class="descrip"></p>
+      </div>
+      <table class="map-city-content">
+        <tr>
+          <td>
+            <div id='citymap'>
+            </div>
+          </td>
+          <td class='map-statistic'>
+            <h3 id='subname'>长沙市</h3>
+            <p>国家级非物质文化遗产名录项目
+              <span id='directoryCountry'></span> 项，代表性传承人
+              <span id='successorCountry'></span> 名</p>
+            <p>省级非物质文化遗产名录项目
+              <span id='directoryProvince'></span> 项，代表性传承人
+              <span id='successorProvince'></span> 名</p>
+            <p>市级非物质文化遗产名录项目
+              <span id='directoryCity'></span> 项，代表性传承人
+              <span id='successorCity'></span> 名</p>
+            <p>县级非物质文化遗产名录项目
+              <span id='directoryCounty'></span> 项，代表性传承人
+              <span id='successorCounty'></span> 名</p>
+
+            <a id='viewAll' class="red emphasize" style='float:right;cursor:pointer;'>查看全部>></a>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <span class="btn" id='showDialog' href='#mapDialog' style='display:none'></span>
+
+  <div class="place-space"></div>
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+<script>
+  $(document).ready(function () {
+    var prop = [];
+    for (var i = 0; i < hunan.features.length; i++) {
+      var item = hunan.features[i];
+      prop.push({
+        Name: item.properties.Name,
+        value: 0,
+        code: item.properties.Code
+      })
+    }
+
+    var map = new Highcharts.Map('map', {
+      title: false,
+      colorAxis: {
+        minColor: '#ef9398',
+        maxColor: '#ef9398'
+      },
+    
+      logo: false,
+      legend: false,
+      tooltip: {
+        enabled: false
+      },
+      plotOptions: {
+        series: {
+          cursor: 'pointer',
+          events: {
+            click: function(e, arg) {
+              $('#cityName').text(e.point.Name+'概况')
+              showCityData(e.point.code, e.point.Name);
+              initMap(e.point.Name, e.point.code);
+              $('#showDialog').click();
+              $('#viewAll').attr('href', '/heritage/heritagePrj?region=' + e.point.code)
+            }
+          }
+        }
+      },
+      series: [{
+        data: prop,
+        joinBy: 'Name',
+        borderWidth: 2,
+        borderColor: '#fff',
+        fill:'#444',
+        dataLabels: {
+          enabled: true,
+          color: 'black',
+       
+          fill:'#444',
+          formatter: function() {
+            if (this.point.properties) {
+              return this.point.properties['Name'];
+            }
+          },
+          format: null,
+          style: {
+            fontWeight: 'bold'
+          }
+        },
+        mapData: hunan,
+        states: {
+          normal: 'green',
+          hover: {
+            color: 'red'
+          }
+        }
+      }]
+    });
+
+    function initMap(name, code) {
+      var cityData = hunanCounty[name];
+      var prop = [];
+      for (var i = 0; i < cityData.features.length; i++) {
+        var item = cityData.features[i];
+        prop.push({
+          Name: item.properties.Name,
+          value: 0,
+          code: item.properties.Code
+        })
+      }
+
+      var map = new Highcharts.Map('citymap', {
+        title: false,
+        chart: {
+            backgroundColor: '#f8f8f8'
+        },
+        colorAxis: {
+          minColor: '#ef9398',
+          maxColor: '#ef9398'
+        },
+        logo: false,
+        legend: false,
+        tooltip: {
+          enabled: false
+        },
+        
+        plotOptions: {
+          series: {
+            cursor: 'pointer',
+            events: {
+              click: function(e, arg) {
+
+                showCityData(e.point.code, e.point.Name);
+
+              }
+            }
+          }
+        },
+        tooltip: {
+             formatter: function() {
+              if (this.point.properties) {
+                return this.point.properties['Name'];
+              }
+            }
+        },
+        series: [{
+          data: prop,
+          joinBy: 'Name',
+          borderWidth: 2,
+           borderColor: '#fff',
+            dataLabels: {
+            enable:false,
+            states: {
+                    hover: {
+                        enabled: true
+                    }
+                },
+            color: 'black',
+            formatter: function() {
+              if (this.point.properties) {
+                return this.point.properties['Name'];
+              }
+            },
+            format: null,
+            style: {
+              fontWeight: 'bold'
+            }
+          },
+          mapData: cityData,
+          states: {
+            normal: 'green',
+            hover: {
+              color: 'red'
+            }
+          }
+        }]
+      });
+    }
+
+
+   
+
+
+ 
+
+    /**
+     * 弹框
+     * */
+    $('#showDialog').click(function () {
+      $('#showDialog').colorbox({
+        inline: true,
+        slideshow: true,
+        width: 1200,
+        height: 600,
+        closeButton: false,
+        overlayClose: true
+      });
+    })
+
+    function showCityData(id, name,type) {
+      $.ajax({
+        url: '/heritage/city/' + id,
+        type: 'post',
+        success: function (res) {
+          var text = name;
+          $('#subname').text(text);
+          if(type=='city'){
+               $('.cityName').text(text + '概况');
+               $('.descrip').html(res.cityInfo.heritBrief);
+          }
+          $('#directoryCountry').text(res.project.countryCount ? res.project.countryCount : 0);
+          $('#directoryProvince').text(res.project.provinceCount ? res.project.provinceCount : 0);
+          $('#directoryCity').text(res.project.cityCount ? res.project.cityCount : 0);
+          $('#directoryCounty').text(res.project.townCount ? res.project.townCount : 0);
+          $('#successorCountry').text(res.successor.countryCount ? res.successor.countryCount : 0);
+          $('#successorProvince').text(res.successor.provinceCount ? res.successor.provinceCount : 0);
+          $('#successorCity').text(res.successor.cityCount ? res.successor.cityCount : 0);
+          $('#successorCounty').text(res.successor.townCount ? res.successor.townCount : 0);
+        },
+        failure: function () {
+          assist.showMsg('数据获取失败')
+        }
+      })
+    }
+  })
+</script>
+<style>
+  text{
+    font-size:16px !important;
+    fill:#444 !important;
+  }
+</style>
+</html>

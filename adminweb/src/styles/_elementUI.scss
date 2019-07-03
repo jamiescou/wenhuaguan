@@ -1,0 +1,49 @@
+// ** 覆盖一些element-ui样式
+@mixin arrowStyle($position, $border-color, $background) {
+    &[x-placement^="#{$position}"] .popper__arrow {
+        border-#{$position}-color: $border-color;
+        &::after {
+            border-#{$position}-color: $background;
+        }
+    }
+} // 提示信息popper：自定义主题
+.el-tooltip__popper {
+    max-width: 500px;
+    word-wrap: break-word;
+    &.is-custom {
+        $f-color: #505050;
+        $border-color: #46b8da;
+        $background: #FFF;
+        background: $background;
+        color: $f-color;
+        border: 1px solid $border-color;
+        line-height: 1.2;
+        @include arrowStyle(top, $border-color, $background);
+        @include arrowStyle(bottom, $border-color, $background);
+        @include arrowStyle(left, $border-color, $background);
+        @include arrowStyle(right, $border-color, $background);
+    }
+}
+
+.el-radio+.el-radio {
+    margin-left: 0;
+}
+
+.el-radio {
+    margin-right: 15px;
+}
+
+.el-form-item {
+    border-bottom: 1px solid transparent;
+    .el-select,
+    .el-date-editor {
+        width: 100%;
+    }
+}
+
+.el-form-item.cooperation {
+  .el-select,
+  .el-date-editor {
+    width: auto;
+  }
+}

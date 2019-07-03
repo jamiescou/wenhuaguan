@@ -1,0 +1,14 @@
+<div class="thumbnail m-thumbnail">
+    <a class="ui-aca" href="/team/detail/<%= item.id %>">
+        <img alt="团队图片" src="<%=item.coverPic%>" style="width: 100%; display: block;">
+        <div class="caption">
+            <h3 class="u-title">
+                <%= item.name %>
+            </h3>
+            <div class="u-content">
+                <div class="u-item"><i class="iconfont icon-phone"></i> <%= item.contactPhone %></div>
+                <div class="u-item f-nowrap" title="<%=item.address%>"><i class="iconfont icon-loaction"></i> <%= item.address %></div>
+            </div>
+        </div>
+    </a>
+</div>

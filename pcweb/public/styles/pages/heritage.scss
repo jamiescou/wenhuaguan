@@ -1,0 +1,596 @@
+@import '../base/variables';
+@import '../base/mixins';
+@import '../components/index';
+
+.heritageNav {
+    overflow: hidden;
+    background: white;
+    color: $gray-666;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    a {
+        width: 25%;
+        text-align: center;
+        line-height: 80px;
+        font-size: 18px;
+        color: $black;
+        float: left
+    }
+
+    .active {
+        color: $red;
+    }
+}
+
+// card卡片式样式示例
+
+// 非遗展厅
+.heritage.media {
+    background: $container-bg;
+    padding: 20px;
+
+    .media-left {
+        padding-right: 30px;
+    }
+
+    .heritage-img {
+        // 非遗图片
+        display: block;
+        width: 540px;
+        height: 360px;
+    }
+
+    .name {
+        // 非遗名称
+        height: 118px;
+        padding-top: 25px;
+        margin: 0;
+        font-size: $font-size24;
+        line-height: 24px;
+        color: $font-color;
+        font-weight: 400;
+    }
+
+    .describe {
+        // 地址等描述信息
+        color: $gray-666;
+        font-size: 14px;
+
+        .iconfont {
+            color: $red;
+        }
+
+        span {
+            margin: 0 5px;
+        }
+    }
+
+    .describe+.describe {
+        margin-top: 10px;
+    }
+
+    .intro {
+        //简介
+        @include text-line(5);
+        margin-top: 30px;
+        color: $gray-666;
+        font-size: $font-size;
+        padding-right: 20px;
+    }
+}
+
+.nopadding {
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+}
+
+.nomargin {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.htg-statistic {
+    height: 90px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+
+    p {
+        font-size: 16px;
+        font-weight: bold;
+
+        &:first-child {
+            color: red;
+            margin-top: 20px;
+        }
+
+        &:last-child {
+            color: $gray-999;
+        }
+    }
+
+    div {
+        display: inline-block;
+        text-align: center;
+        padding: 0px;
+        margin: 0px;
+        width: 270px;
+        height: 90px;
+        border-right: 1px solid $gray-f8;
+
+        &:last-child {
+            border-right: 0;
+        }
+    }
+}
+
+.htge-map-content {
+    background: $container-bg;
+    vertical-align: top;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex; //   margin-top:20px;
+
+    div {
+        display: inline-block;
+    }
+
+    #map {
+        width: 700px;
+        height: 700px;
+        margin: 0 auto; //   background:white
+    }
+
+    .map-content {
+        padding-left: 20px;
+        padding-top: 20px;
+        width: 400px;
+        height: 250px;
+        border-radius: 4px;
+        background: white;
+        position: relative;
+        top: 70px;
+
+        p {
+            font-size: 15px;
+            margin-left: 20px;
+        }
+
+        span {
+            color: red;
+            font-size: $font-size18
+        }
+
+        a {
+            position: absolute;
+            right: 20px;
+            color: #e94e58;
+        }
+
+        h3 {
+            border-bottom: 1px solid $gray-f8; //   font-weight: bold;
+            color: red;
+            margin-bottom: 30px;
+        }
+    }
+}
+
+#mapDialog {
+    width: 1195px;
+    height: 580px;
+    text-align: center;
+    padding: 20px;
+    background: $body-bg;
+
+    .maphead {
+        .cityName {
+            color: $red;
+            font-size: $font-size22;
+        }
+
+        .descrip {
+            width: 100%;
+            font-size: $font-size16;
+            text-align: left;
+            text-indent: 2rem;
+        }
+    }
+
+    .map-city-content {
+        display: table-cell;
+        width: 100%;
+
+        #citymap {
+            width: 650px;
+            height: 380px;
+            display: inline-block;
+        }
+
+        .map-statistic {
+            padding: 20px;
+            background: $container-bg;
+            width: 450px;
+            height: 320px;
+            margin-top: 40px;
+            font-size: $font-size16;
+            display: inline-block;
+
+            #subname {
+                color: $red;
+                text-align: left;
+                font-size: 20px;
+            }
+
+            p {
+                margin: 10px 0;
+            }
+        }
+    }
+}
+
+.list-content {
+    background-color: $container-bg;
+
+    .content {
+        @include make-grid-columns(4, 20px);
+
+        .img-card {
+            margin-bottom: 20px;
+            height: 180px;
+        }
+    }
+
+    .content8 {
+        @include make-grid-columns(8, 20px);
+    }
+
+    .col-8 {
+        margin-top: 10px;
+    }
+
+    .card {
+        .img-top {
+            height: 186px;
+        }
+
+        .card-title {
+            @extend %singleline-ellipsis;
+        }
+    }
+
+    .col-hidden {
+        display: none;
+    }
+
+    .col-show {
+        display: block !important;
+    }
+
+    .card-body {
+        height: 130px;
+    }
+
+    .img-card {
+        cursor: pointer;
+    }
+
+    .card1 {
+        // width: 300px;
+        display: inline-block;
+    }
+}
+
+.card-text {
+    @include text-line(2);
+    height: 40px;
+}
+
+.room {
+    position: relative;
+
+    .media {
+        background: $container-bg;
+
+        .media-left {
+            padding-right: 20px;
+        }
+
+        .room-img {
+            //简介
+            display: block;
+            width: 600px;
+            height: 400px;
+        }
+
+        .name {
+            // 活动室名称
+            height: 118px;
+            padding-top: 25px;
+            margin: 0;
+            font-size: $font-size24;
+            line-height: 24px;
+            color: $font-color;
+            font-weight: 400;
+        }
+
+        .capacity {
+            // 容量
+            margin-top: 15px;
+            font-size: $font-size;
+            line-height: 24px;
+            color: #999999;
+
+            &>span+span {
+                margin-left: 28px;
+            }
+        }
+
+        .describe {
+            // 地址、电话等描述信息
+            color: $gray-666;
+            font-size: $font-size16;
+
+            .iconfont {
+                color: $red;
+            }
+
+            span {
+                margin: 0 5px;
+            }
+        }
+
+        .describe+.describe {
+            margin-top: 10px;
+        }
+
+        .media-center {
+            // 活动室 预定等操作
+            position: relative;
+
+            .media-opres {
+                position: absolute;
+                bottom: 38px;
+                left: 20px;
+            }
+
+            .btn {
+                font-size: 20px;
+                line-height: 24px;
+                padding: 10px 36px;
+            }
+        }
+    }
+
+    .opres {
+        // 分享等操作
+        position: absolute;
+        top: 30%;
+        right: -6px;
+
+        .btn {
+            display: block;
+        }
+
+        .btn+.btn {
+            margin-top: 15px;
+        }
+    }
+}
+
+.unit {
+
+    .content3 {
+        @include make-grid-columns(3, 20px);
+    }
+
+    .card {
+        display: inline-block;
+        width: 386px !important;
+        margin-right: 20px;
+
+        img {
+            width: 366px !important;
+            height: 244px !important;
+            max-width: 366px !important;
+        }
+    }
+
+    .cleanmar {
+        margin-right: 0;
+    }
+
+}
+
+#cboxCurrent {
+    display: none !important;
+}
+
+.unitdetail {
+    font-size: 0;
+    background: #fff;
+
+    .card {
+        display: inline-block;
+        width: 300px !important;
+        border: 1px solid #f8f8f8;
+        box-sizing: border-box;
+        padding: 10px 15px 0px 15px !important;
+
+        img {
+            width: 270px !important;
+            height: 180px !important;
+            max-width: 270px !important;
+        }
+    }
+}
+
+.more {
+    cursor: pointer;
+}
+
+// 资讯
+.news.media {
+    background-color: $container-bg;
+    padding: 15px 30px 20px;
+    border-bottom: 1px solid $gray-f8;
+    color: $gray-666;
+
+    .news-title {
+        // 资讯标题
+        font-size: 20px;
+        line-height: 24px;
+        color: $font-color;
+        margin: 0 0 10px;
+    }
+
+    .info-meta {
+        span {
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        margin-bottom:30px;
+    }
+
+    .info-brief {
+        // color:$gray-999;
+        @include text-line(2)
+    }
+
+    .news-img {
+        // 资讯图片
+        width: 190px;
+        height: 127px;
+        display: block;
+    }
+
+    .news-from,
+    .news-author {
+        // 资讯来源和作者
+        color: $gray-666;
+        font-size: $font-size16;
+    }
+
+    .time {
+        font-size: 14px;
+    }
+}
+
+.news-border {
+    border-bottom: 1px solid #f8f8f8;
+}
+
+.highcharts-credits {
+    display: none;
+}
+
+.products-pop-wrapper {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 100;
+
+    .products-content {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        width: 900px;
+        height: 580px;
+        margin-left: -450px;
+        margin-top: -280px;
+        background: #F5F5F5;
+        border-radius: 20px;
+    }
+
+    .products-swiper {}
+
+    .swiper-slide {
+        padding: 60px 15px;
+        box-sizing: border-box;
+    }
+
+    .produt-img {
+        width: 460px;
+        height: 460px;
+        line-height: 460px;
+        text-align: center;
+        background: #FFFFFF;
+        float: left;
+        padding: 20px;
+        -webkit-box-shadow: 1px 1px 10px 10px #EEEEEE;
+        box-shadow: 1px 1px 10px 10px #EEEEEE;
+        margin-right: 30px;
+    }
+
+    .produt-info {
+        margin-left: 515px;
+        margin-bottom: 20px;
+        height: 430px;
+        overflow: auto;
+
+        .produt-title {
+            font-size: 22px;
+            font-weight: normal;
+            font-stretch: normal;
+            line-height: 36px;
+            color: #333333;
+            margin:10px 0;
+            padding:0;
+        }
+
+        .author {
+            font-size: 14px;
+            font-weight: normal;
+            font-stretch: normal;
+            line-height: 24px;
+            color: #999999;
+            padding-bottom: 15px;
+        }
+    }
+
+    .pic-exit {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        z-index: 1111;
+    }
+
+    .swiper-pagination {
+        text-align: right;
+        padding-right: 48px;
+        bottom: 74px;
+        font-size: 18px;
+        font-weight: normal;
+        letter-spacing: 1px;
+        color: #999999;
+
+        .swiper-pagination-current {
+            font-size: 52px;
+            font-weight: normal;
+            font-stretch: normal;
+            line-height: 24px;
+            letter-spacing: 3px;
+            color: #ae6160;
+        }
+    }
+
+    .swiper-button-next,
+    .swiper-container-rtl .swiper-button-prev {
+        right: -50px;
+        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M27%2C22L27%2C22L5%2C44l-2.1-2.1L22.8%2C22L2.9%2C2.1L5%2C0L27%2C22L27%2C22z'%20fill%3D'%23ffffff'%2F%3E%3C%2Fsvg%3E");
+    }
+
+    .swiper-button-prev,
+    .swiper-container-rtl .swiper-button-next {
+        left: -50px;
+        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M0%2C22L22%2C0l2.1%2C2.1L4.2%2C22l19.9%2C19.9L22%2C44L0%2C22L0%2C22L0%2C22z'%20fill%3D'%23ffffff'%2F%3E%3C%2Fsvg%3E");
+    }
+}

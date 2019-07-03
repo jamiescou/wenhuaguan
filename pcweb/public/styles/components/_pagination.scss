@@ -1,0 +1,96 @@
+.kk-pageinator {
+	width: $kk-pageinator-width;
+	padding: 5px 0px 5px 0px;
+	margin: $kk-pageinator-margin;
+	color: $kk-pageinator-color;
+	font-size: $kk-pageinator-fs;
+	.pageBtnWrap {
+		// 左边分页数字按钮
+		float: left;
+	}
+	.infoTextAndGoPageBtnWrap {
+		// 右边页码跳转
+		padding-top: 5px;
+		float: right;
+	}
+	.spanDot {
+		// 中间页码“省略号”
+		margin-right: 5px;
+	}
+	.pageBtnWrap a,
+	.pageBtnWrap span {
+		// 页码按钮
+		display: inline-block;
+		cursor: pointer;
+		padding: $kk-pageinator-page-padding;
+		margin-right: 5px;
+		border-radius: $kk-pageinator-page-border-radius;
+	}
+	.pageBtnWrap a {
+		color: $kk-pageinator-color;
+		text-decoration: none;
+		
+		border: 1px solid $kk-pageinator-page-border;
+		&:hover {
+			border-color: $kk-pageinator-active-border;
+			background-color: $kk-pageinator-active-bg;
+			color: $kk-pageinator-active-color;
+		}
+	}
+	.pageBtnWrap span.disabled {
+		// 禁用
+		cursor: pointer;
+		border: 1px solid $kk-pageinator-page-disabled-border;
+		color: $kk-pageinator-disabled-color;
+	}
+	.pageBtnWrap span.curr {
+		// 当前页（按钮）
+		border: 1px solid $kk-pageinator-active-border;
+		background: $kk-pageinator-active-bg;
+		color: $kk-pageinator-active-color;
+	}
+	#kkpager_gopage_wrap {
+		// 页码跳转操作
+		position: relative;
+		margin: 0 5px;
+		input[type=button] {
+			position: absolute;
+			display: none;
+			left: 0;
+			top: 0;
+			width: $kk-pageinator-goPage-button-width;
+			height: $kk-pageinator-goPage-button-height;
+			margin: 0px;
+			text-align: center;
+			cursor: pointer;
+			overflow: hidden;
+			color: #FFF;
+			border: 0px;
+			background-color: $kk-pageinator-goPage-button-bg;
+			border-radius: $kk-pageinator-page-border-radius;
+		}
+		input[type=text] {
+			position: relative;
+			left: 0px;
+			top: 0px;
+			outline: none;
+			width: $kk-pageinator-goPage-input-width;
+			height: $kk-pageinator-goPage-input-height;
+			color: $kk-pageinator-goPage-input-color;
+			text-align: center;
+			margin-left: 1px;
+			margin-right: 1px;
+			border: 1px solid $kk-pageinator-page-border;
+			border-radius: $kk-pageinator-page-border-radius;
+			box-sizing: border-box;
+			&.focus {
+				border-color: $kk-pageinator-active-border;
+			}
+		}
+	}
+	.currPageNum {
+		// 当前页码数字
+		color: $kk-pageinator-curr-page-num;
+		padding: 0 4px;
+	}
+}

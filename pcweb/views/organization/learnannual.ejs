@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    学会年审
+  </title>
+  <% include ../common/head %>
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+      <link rel='stylesheet' href='/styles/organization.min.css' />
+  </header>
+
+  <div class="g-content">
+    <div class="crumbs">
+      <ul>
+        <li>
+          <a href="/">首页&nbsp;&nbsp;></a>
+        </li>
+        <li>
+          <a href="#">学会年审</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tabtitle">
+      <ul>
+        <li>
+          <a href='/organization'>群团组织</a>
+        </li>
+        <li class="active">
+          <a href='/organization/learnannual '>学会年审</a>
+        </li>
+        <li>
+          <a href='/organization/masorgNews'>群团动态</a>
+        </li>
+      </ul>
+    </div>
+    <div class="place-space"></div>
+    <div class="learnanual-content">
+      <form class="" id="collectForm" action='/collect/order/' method="post" enctype="multipart/form-data">
+        <table>
+          <tr>
+            <td class="form-lf">
+              <h4 class="title">年审时间：每年12月1日至次年1月31日 可提交本年度年审材料</h4>
+              <dl class="block-item">
+                <dt class="b-i-title">年审单位</dt>
+                <dd class="b-i-cotent">
+                  <select class="u-form-control " id='unit-select'>
+                    <% data.content.forEach(function(item){%>
+                      <option value='<%=item.id%>' data-region='<%=item.region%>'>
+                        <%=item.name%>
+                      </option>
+                      <%})%>
+                  </select>
+                </dd>
+              </dl>
+              <dl class="block-item">
+                <dt class="b-i-title">联系人</dt>
+                <dd class="b-i-cotent">
+                  <input class="u-form-control " type='text' name='contact' id='contact' required>
+                  </textarea>
+                </dd>
+              </dl>
+              <dl class="block-item">
+                <dt class="b-i-title">联系电话</dt>
+                <dd class="b-i-cotent">
+                  <input class="u-form-control " type='text' name='contactphone' id='contactphone' required>
+                  </textarea>
+                </dd>
+              </dl>
+              <dl class="block-item">
+                <dt class="b-i-title">资料上传</dt>
+                <dd class="b-i-cotent img-upload">
+                  <div class="btn import-btn" id='workbtn'>点击上传</div>
+                  <input type='text' class="whitebg" disabled id='fileName' name='fileName'>
+                  <input type="text" id="material" required name='material' class="sr-only" style="visibility:hidden;display:inline">
+                </dd>
+
+              </dl>
+
+            </td>
+            <td class="form-rg">
+              <h3>年审须知</h3>
+              <ul>
+                <li>1.年审周期为每年12月1日至次年1月31日，周期外提交年审资料无效;</li>
+                <li>2.若提交内容错误，可在周期内再次进行提交年审材料;</li>
+                <li>3.仅通过实名认证的用户能提交年审材料;</li>
+                <li>4.若年审单位中选不到您所在的群团组织，请联系文化馆工作人员先在平台中完成群团组织创建</li>
+                <li>5.请不要在本页面上传其他文件</li>
+              </ul>
+            </td>
+          </tr>
+        </table>
+        <input type="submit" id="submitLearnual" style="display:none;">
+        <% if(user){%> 
+          <% if(user.identifyStatus=='Yes'){%>
+             <span class="btn" id='submitbtn'>提交年审材料</span>
+          <%} else {%>
+            <span class="btn disabled" >请先完成实名认证</span>
+            <%}%>
+          
+        <%} else {%>
+      
+        <%-include('../common/authBtn.ejs',{ authRouter :"/organization/learnannual/"+data.id,btnTitle:'提交年审材料'}) %>
+        <%}%> 
+      </form>
+    </div>
+    <div class="place-space"></div>
+
+  </div>
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+<link href="/javascripts/libs/webuploader/webuploader.css">
+<script type="text/javascript" src="/javascripts/libs/webuploader/webuploader.min.js"></script>
+<script src="/javascripts/libs/validate/jquery.validate.min.js"></script>
+<script src="/javascripts/libs/validate/additional-methods.min.js"></script>
+<script src="/javascripts/libs/validate/messages_zh.js"></script>
+<script src="/javascripts/commons/custom-validate.js"></script>
+<script>
+  $(function () {
+
+    $('#submitbtn').on('click', function (event) {
+      event.stopPropagation();
+      event.preventDefault();
+      $("#submitLearnual").click();
+    });
+
+    $('#collectForm').validate({
+      errorElement: 'div',
+      errorClass: 'v-error',
+      rules: {
+        contactphone: "phoneType", //  手机格式验证【/javascripts/commons/custom-validate.js】
+      },
+      messages: {
+        contactphone: {
+          required: "请输入联系人手机号码"
+        },
+        contact: {
+          required: "请输入联系人姓名"
+        },
+        material: {
+          required: "请上传年审材料"
+        }
+
+
+      },
+      submitHandler: function () {
+      
+        var data = {
+          "masOrgId": $('#unit-select option:selected').val(),
+          "masOrgName":$('#unit-select option:selected').text().trim(),
+          "region":$('#unit-select option:selected').data('region'),
+          "contact":  $('#contact').val(),
+          "contactPhone": $('#contactphone').val(),
+          "attachName": $('#fileName').val(),
+          "attach": $('#material').val(),
+         
+        };
+        $.ajax({
+          url: "/organization/learnannual",
+          type: 'post',
+          data: data,
+          success: function (res) {
+           if(res.success){
+            assist.showMsg('上传成功', 'success');
+            setTimeout(function(){
+                  window.location.reload();
+            },2000)
+           }else {
+                assist.showMsg('上传失败', 'error');
+
+           }
+          },
+          failure: function () {
+            assist.showMsg('上传失败', 'error');
+
+          }
+        })
+      }
+    });
+
+    function uploaderFile() {
+      var uploader = WebUploader.create({
+        // swf文件路径
+        swf: '/javascripts/libs/webuploader/Uploader.swf',
+        // 文件接收服务端。
+        server: '/uploadfile',
+        // 选择文件的按钮。可选。
+        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+        pick: '#workbtn',
+        // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+        resize: false,
+
+        // accept: {
+        //         title: 'Images',
+        //         extensions: 'gif,jpg,jpeg,bmp,png',
+        //         mimeTypes: 'image/*'
+        // }
+      });
+
+
+      $('#workbtn').one('click', function () {
+        $('#workbtn').find('input').css('display', 'none');
+        uploader.refresh();
+        $('#workbtn').find('input').click()
+      })
+      //当文件被加入队列之前触发，此事件的handler返回值为false，则此文件不会被添加进入队列。
+      uploader.on('beforeFileQueued', function (file) {
+        var fileSize = file.size / 1024 / 1024;
+        if (fileSize >= 20) {
+          assist.showMsg('文件过大')
+          return false;
+        }
+        uploader.reset();
+      })
+
+      uploader.on('fileQueued', function (file) {
+        uploader.upload();
+      });
+      // 文件上传过程中创建进度条实时显示。
+      uploader.on('uploadProgress', function (file, percentage) {
+        // assist.showMsg('上传中')
+      });
+
+      uploader.on('uploadComplete', function (file) {
+        $(".dialog-wrap").remove();
+      });
+
+      uploader.on('uploadSuccess', function (file, response) {
+      
+        if (response.code == 0) {
+          var src = response.res;
+          $("#material").val(src);
+          $("#fileName").val(response.fileName);
+         
+           $('#collectForm').valid();
+          uploading = true;
+        } else {
+          uploading = false;
+          assist.showMsg('上传失败');
+        }
+      });
+    }
+
+    uploaderFile();
+  })
+</script>
+
+</html>

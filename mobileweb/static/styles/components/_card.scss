@@ -1,0 +1,189 @@
+@import '../libs/px2rem.scss';
+@import '../base/mixins';
+// 图文组合 文字左，图片右
+.media-box {
+    padding: px2rem(30);
+    .media-bd {
+        position: relative;
+        min-height: $media-card-min-ht;
+    }
+    .media-title {
+        margin: 0;
+        font-size: $card-title-fs;
+        line-height: $card-title-lineheight;
+        letter-spacing: 1px;
+        color: $color-333;
+        font-weight: normal;
+        @include text-line(2);
+    }
+    .media-info {
+        margin: 0;
+        font-size: $card-info-fs;
+        line-height: $card-info-lineheight;
+        letter-spacing: 1px;
+        color: $color-999;
+        .icon {
+            font-size: inherit;
+            width: px2rem(25);
+            margin-right: px2rem(15);
+        }
+    }
+    .media-object {
+        margin-left: px2rem(20);
+        img {
+            max-height: 100%;
+            display: block;
+        }
+        &.left {
+            margin-left: 0;
+            margin-right: px2rem(20);
+        }
+    }
+    .bottom {
+        position: absolute;
+        bottom: 0;
+    }
+    p {
+        margin: 0;
+    }
+}
+
+// 图文组合 图片上，文字下
+.card {
+    display: block;
+    background-color: $content-bg;
+    overflow: hidden;
+    &.border {
+        border: 1px solid $border-color;
+    }
+    .card-hd {
+        position: relative;
+        display: block;
+        img {
+            max-height: 100%;
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        .tag-wrap {
+            position: absolute;
+            bottom: px2rem(10);
+            right: px2rem(20);
+            text-align: right;
+            font-size: 0;
+            line-height: 0;
+        }
+        /*.tag {
+            display: inline-block;
+            padding: px2rem(10) px2rem(15);
+            margin: 0 px2rem(5) px2rem(10);
+            line-height: px2rem(36);
+            color: $color-fff;
+            font-size: px2rem(26);
+            background: $card-tag-bg;
+            border: 1px solid $card-tag-border-color;
+        }*/
+        .tag {
+            display: inline-block;
+            font-size: $f-size12;
+            color: #fff;
+            text-align: center;
+            background-color: rgba(#000, .6);
+            border: 1px solid #79797b;
+            height: px2rem(44);
+            line-height: px2rem(44);
+            overflow: hidden;
+            -webkit-border-radius: px2rem(4);
+            -moz-border-radius: px2rem(4);
+            border-radius: px2rem(4);
+            margin-right: px2rem(10);
+            margin-bottom: px2rem(10);
+            padding: 0 px2rem(16);
+        }
+    }
+    .card-bd {
+        position: relative;
+        padding-top: px2rem(20);
+    }
+    .card-title {
+        margin: 0 0 px2rem(15);
+        font-size: $card-title-fs;
+        // height: $card-title-lineheight;
+        line-height: $card-title-lineheight;
+        letter-spacing: 1px;
+        color: $card-title-color;
+        font-weight: 400;
+        word-break: break-all;
+        // @include text-line(1);
+    }
+    .card-info {
+        margin: 0;
+        font-size: $card-info-fs;
+        line-height: $card-info-lineheight;
+        color: $color-999;
+        word-break: break-all;
+        .icon {
+            display: inline-block;
+            vertical-align: top;
+            width: $card-info-icon-size;
+            height: $card-info-icon-size;
+            font-size: $card-info-fs;
+            margin-right: px2rem(0);
+        }
+    }
+    .bottom {
+        position: absolute;
+        bottom: 0;
+    }
+}
+
+// 图片类型的卡片，在图片底部悬浮文字
+.img-card {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    margin-bottom: px2rem(20);
+    &>img {
+        display: block;
+        max-width: 100%;
+        width: 100%;
+    }
+    .caption {
+        // 标题在图片下面
+        position: relative;
+        z-index: 10;
+        margin: 0;
+        font-size: $card-fs;
+        font-weight: normal;
+        line-height: $card-title-lineheight;
+        color: $img-card-caption-color;
+        text-align: left;
+        background-color: $color-fff;
+    }
+    .card-title {
+        // 标题在图片之上
+        font-weight: 400;
+        font-size: $card-title-fs;
+        bottom: 0;
+        text-align: center;
+        @include singleline-ellipsis;
+    }
+    .card-title,
+    .card-desc {
+        // 标题、描述文本在图片之上
+        display: block;
+        position: absolute;
+        left: 0;
+        right: 0;
+        padding: px2rem(5) px2rem(30);
+        margin: 0;
+        color: $img-card-title-color;
+        background: $img-card-title-bg;
+    }
+    .card-desc {
+        transition: all 0.5s ease-out;
+        font-size: $card-fs;
+        transform: translate3d(0, 0, 0);
+        @include text-line(2);
+    }
+}

@@ -1,0 +1,133 @@
+@import '../base/normalize';
+@import '../base/variables';
+@import '../base/mixins';
+@import '../base/base';
+@import '../components/block-heading'; // 标题
+@import '../components/filter-pannel';
+@import '../components/search';
+@import '../components/card';
+// body {
+//     margin-top: 50px;
+//     margin-bottom: 50px;
+// }
+
+// 进度条示例
+@include step('m-activity-step');
+// 搜索框示例
+.search-area {
+    background: $red;
+    @include search-group(60px, 22px, $color: #fff, $border-color:#ed7179, $bg:#ed7179);
+}
+
+.search-area2 {
+    width: 160px;
+    @include search-group(40px, 26px, $color: #999, $border-color:#999, $bg:#fff);
+}
+
+// card卡片式样式示例
+.card1 {
+    width: 300px;
+    display: inline-block;
+}
+
+// 文字在图片中间
+.card2 {
+    width: 378px;
+    display: inline-block;
+    @include img-card-content-center(250px)
+}
+
+.txt-ellipsis {
+    @include text-line(2);
+    height: 40px;
+}
+
+// 杂志期刊轮播
+.magazine-swiper {
+    background-color: $magazine-swiper-bg;
+    position: relative;
+    padding: $magazine-swiper-padding;
+    .swiper-button-next,
+    .swiper-container-rtl .swiper-button-prev {
+        right: $magazine-swiper-button;
+    }
+    .swiper-button-prev,
+    .swiper-container-rtl .swiper-button-next {
+        left: $magazine-swiper-button;
+    }
+}
+
+// 展厅页面，图集轮播
+.book-swiper {
+    background-color: $book-swiper-bg;
+    padding: $book-swiper-padding;
+    .book-swiper-content {
+        position: relative;
+        width: $book-swiper-content-width;
+    }
+    .swiper-container {
+        position: relative;
+        width: $book-swiper-content-container;
+    }
+    .picture-book,
+    .book-swiper-content {
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .picture-book {
+        position: relative;
+        top: 6px;
+        width: $book-swiper-book-width;
+        .stack {
+            width: $book-swiper-book-stackimg-width;
+            @include stack-OneSide($book-swiper-book-stackimg-border);
+            &.right {
+                margin-left: ($book-swiper-book-width - $book-swiper-book-stackimg-width);
+                @include stack-OneSide($book-swiper-book-stackimg-border, $position: topRight);
+            }
+        }
+        h6 {
+            margin: 0;
+            font-size: $book-swiper-fs;
+            font-weight: normal;
+            line-height: 24px;
+            color: $book-swiper-color;
+        }
+    }
+}
+
+// 数字展览轮播
+.exhibition-swiper {
+    height: $exhibition-swiper-height;
+    img {
+        width: 100%;
+        height: 100%;
+    }
+    .swiper-pagination-bullet {
+        background: $exhibition-swiper-bullet-bg;
+        opacity: 1;
+    }
+    .exhibition-bullet-active {
+        width: $exhibition-swiper-bullet-active-width;
+        height: $exhibition-swiper-bullet-active-heigth;
+        border-radius: $exhibition-swiper-bullet-active-heigth / 2;
+        background-color: $exhibition-swiper-bullet-active;
+    }
+}
+
+// 视频详情轮播 宣传图片
+.video-swiper {
+    .swiper-button-next,
+    .swiper-button-prev {
+        width: $video-swiper-button-width;
+        height: $video-swiper-button-height;
+        padding: $video-swiper-button-padding;
+        background-size: $video-swiper-button-width $video-swiper-button-height;
+        background-color: $video-swiper-button-bg;
+        margin-top: -($video-swiper-button-height / 2 + 12px);
+    }
+    .swiper-button-next.swiper-button-disabled,
+    .swiper-button-prev.swiper-button-disabled {
+        display: none;
+    }
+}

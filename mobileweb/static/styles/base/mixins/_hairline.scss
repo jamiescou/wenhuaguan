@@ -1,0 +1,81 @@
+// 设置分割线
+// @mixin hairline($position, $color) {
+//     @if($position=='top' or $position=='left') {
+//         &:before {
+//             background-color: $color;
+//         }
+//     }
+//     @if($position !='right' and $position !='bottom') {
+//         &:after {
+//             background-color: $color;
+//         }
+//     }
+// }
+
+@mixin line-before-after($top, $right, $bottom, $left, $width, $height, $bgc) {
+    content: '';
+    position: absolute;
+    top: $top;
+    right: $right;
+    bottom: $bottom;
+    left: $left;
+    height: $height;
+    width: $width;
+    background-color: $bgc;
+    display: block;
+    z-index: 3;
+    // @media only screen and (-webkit-min-device-pixel-ratio: 2) {
+    //     @if($width==1px) {
+    //         transform: scaleX(0.5); // transform: scale(0.5,1);
+    //     }
+    //     @else {
+    //         transform: scaleY(0.5); // transform: scale(1,0.5);
+    //     }
+    // }
+    // @media only screen and (-webkit-min-device-pixel-ratio: 3) {
+    //     @if($width==1px) {
+    //         transform: scaleX(0.33);
+    //     }
+    //     @else {
+    //         transform: scaleY(0.33);
+    //     }
+    // }
+}
+
+@mixin hairline($position, $color) {
+    position: relative;
+    @if($position==top) {
+        &:before {
+            @include line-before-after(0, auto, auto, 0, 100%, 1px, $color);
+        }
+    }
+    @else if($position==right) {
+        &:after {
+            @include line-before-after(0, 0, auto, auto, 1px, 100%, $color);
+        }
+    }
+    @else if($position==bottom) {
+        &:after {
+            @include line-before-after(auto, auto, 0, 0, 100%, 1px, $color);
+        }
+    }
+    @else {
+        &:before {
+            @include line-before-after(0, auto, auto, 0, 1px, 100%, $color);
+        }
+    }
+}
+
+// 移除分割线
+@mixin hairline-remove($position) {
+    @if($position !='top' and $position !='left') {
+        &:after {
+            display: none;
+        }
+    }
+    @if($position !='right' and $position !='bottom') {
+        &:before {
+            display: none;
+        }
+    }
+}

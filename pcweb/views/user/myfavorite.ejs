@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    个人中心
+  </title>
+  <% include ../common/head %>
+    <link rel='stylesheet' href='/styles/user-center.min.css' />
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+  <% include ./center-header %>
+    <div class="place-space"></div>
+    <div class="g-content user-center-content">
+      <div class="tab-wrapper my-order-tab">
+        <ul class="nav nav-tabs" id="myActivityTabs">
+          <li class="<% if(query.type ==='Activity' ){ %>active<% } %>">
+            <a href="/user/myfavorite?type=Activity">活动</a>
+          </li>
+          <li class="<% if(query.type === 'Train' ){ %>active<% } %>">
+            <a href="/user/myfavorite?type=Train">培训</a>
+          </li>
+          <li class="<% if(query.type === 'VenueRoom' ){ %>active<% } %>">
+            <a href="/user/myfavorite?type=VenueRoom">场馆</a>
+          </li>
+          <li class="<% if(query.type === 'ArtTeam' ){ %>active<% } %>">
+            <a href="/user/myfavorite?type=ArtTeam">文艺团队</a>
+          </li>
+          <li class="<% if(query.type === 'ArtWorks' ){ %>active<% } %>">
+            <a href="/user/myfavorite?type=ArtWorks">作品征集</a>
+          </li>
+          <li class="<% if(query.type === 'Demands' ){ %>active<% } %>">
+            <a href="/user/myfavorite?type=Demands">点播</a>
+          </li>
+          <li class="<% if(query.type === 'LiveVideos' ){ %>active<% } %>">
+            <a href="/user/myfavorite?type=LiveVideos">直播</a>
+          </li>
+          <li class="<% if(query.type === 'VolunteerRecruit' ){ %>active<% } %>">
+            <a href="/user/myfavorite?type=VolunteerRecruit">志愿者</a>
+          </li>
+          <li class="<% if(query.type === 'Information' ){ %>active<% } %>">
+            <a href="/user/myfavorite?type=Information">资讯</a>
+          </li>
+          <li class="<% if(query.type === 'DigitalShow' ){ %>active<% } %>">
+            <a href="/user/myfavorite?type=DigitalShow">数字展览</a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane fade in active">
+            <% if( data.length ) { %>
+              <% data.forEach(function (item) { %>
+                <a class="my-activity" href="<%= item.url %>">
+                  <div class="media">
+                    <div class="media-left">
+                      <img src="<%= item.picAddress %>" alt="" class="activity-img">
+                    </div>
+                    <div class="media-center">
+                      <h3 class="name">
+                        <%= item.title %>
+                      </h3>
+                      <% if( item.objectAddress ){ %>
+                        <p class="describe f-nowrap">
+                          <i class="iconfont icon-location"></i>
+                          <span>地点：
+                            <%= item.objectAddress %>
+                          </span>
+                        </p>
+                        <% } %>
+                          <% if( item.contact ){ %>
+                            <p class="describe f-nowrap">
+                              <i class="iconfont icon-phone"></i>
+                              <span>联系方式：
+                                <%= item.contact %>
+                              </span>
+                            </p>
+                            <% } %>
+                              <% if( item.objectTime ){ %>
+                                <p class="describe f-nowrap">
+                                  <i class="iconfont icon-time"></i>
+                                  <span>时间：
+                                    <%= item.objectTime %>
+                                  </span>
+                                </p>
+                                <% } %>
+                    </div>
+                    <div class="media-right clearfix">
+                      <button class="btn pull-right" onclick="orderCancel('<%=item.objectId%>','<%=query.type%>',event)">取消收藏</button>
+                    </div>
+                  </div>
+                </a>
+                <% }) %>
+                  <% } else { %>
+                    <%- include('../common/nodata', {tip : '您还没有收藏' + typeName  })  %>
+                      <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <% include ../common/footer %>
+    </footer>
+
+    <script>
+      // 取消订单
+      function orderCancel(id, type, event) {
+        var e = (event) ? event : window.event;
+        e.stopPropagation();
+        e.preventDefault();
+
+        var r = confirm('是否取消该收藏？');
+        if (r == true) {
+          $.ajax({
+            url: '/user/cancelfavorite/' + id,
+            type: 'get',
+            success: function(res) {
+              if (res == "") {
+                assist.showMsg('取消成功');
+                setTimeout(function() {
+                  if (type) {
+                    location.href = '/user/myfavorite?type=' + type
+                  } else {
+                    window.location.reload();
+                  }
+                }, 500);
+              }
+            },
+          })
+        }
+      }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,118 @@
+@import '../libs/px2rem.scss';
+@import '../base/_variable';
+@import '../base/mixins';
+.exhibition-container {
+    .exhibition-item {
+        @include box-shadow(1px, 5px, 15px, 0.1);
+        display: block;
+        background-color: $content-bg;
+        padding: px2rem(20);
+        margin-bottom: px2rem(20);
+    }
+}
+
+.card-scan {
+    font-size: $f-size10;
+    color: #999;
+    line-height: $card-title-lineheight;
+    position: absolute;
+    right: px2rem(36);
+    top: px2rem(20);
+    .iconNew-scan {
+        font-size: px2rem(26);
+        color: #999;
+        position: relative;
+        top: px2rem(4);
+        margin-right: px2rem(8);
+    }
+}
+
+.exhibition-detail {
+    .base-info {
+        .card-bd {
+            padding: px2rem(20) px2rem(36);
+        }
+        .card-title {
+            font-size: $f-size16;
+            width: px2rem(580);
+        }
+    }
+    .products {
+        padding: px2rem(15) px2rem(40) 0 px2rem(36);
+        overflow: hidden;
+        background: $content-bg;
+        .card-col-2 {
+            @include make-grid-columns(2, 30px);
+        }
+        .card {
+            padding-top: px2rem(30);
+            .card-hd  {
+                height: px2rem(220);
+            }
+            .card-title {
+                text-align: center;
+            }
+        }
+        .more {
+            background: $content-bg;
+            padding: px2rem(32) 0;
+            line-height: px2rem(36);
+            font-size: px2rem(28);
+            letter-spacing: 1px;
+            color: $color-999;
+            text-align: center;
+        }
+    }
+}
+
+.alt {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: px2rem(100);
+    background: #333;
+    div {
+        height: 100%; // height:calc(100%-20);
+    }
+}
+
+.photo-altas {
+    $desc-height: 356;
+    .alt-pic {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        // padding-bottom: px2rem($desc-height);
+        img {
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+            margin: 0 auto;
+        }
+    }
+    .desc {
+        margin-top: px2rem(-($desc-height));
+        padding: px2rem(30);
+        background-color: rgba(0, 0, 0, 0.46);
+        color: white;
+        height: px2rem($desc-height);
+        overflow: scroll;
+        .contents {
+            font-size: px2rem(28);
+            text-indent: 2em;
+            text-align: justify;
+            padding-top: px2rem(20)
+        }
+        .index {
+            font-size: px2rem(36);
+            .cur {
+                font-size: px2rem(45);
+                padding-right: 2px;
+            }
+        }
+        .title {
+            font-size: px2rem(32)
+        }
+    }
+}

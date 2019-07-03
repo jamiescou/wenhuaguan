@@ -1,0 +1,58 @@
+<div class="myModal" style='display:none'>
+    <div class="modal-content-wrapper" id='unbindModal'>
+        <div class="block-heading border">
+            <h4 class="title">解绑微信</h4>
+        </div>
+        <div class="wexin-wrapper">
+            您确定解除当前绑定的微信号码?
+        </div>
+        <div class="operate-btns">
+            <button class=" btn u-btn outline" id="cancelBtn">取消</button>
+            <button class="btn u-btn" id="unbindBtn">确定</button>
+        </div>
+    </div>
+</div>
+
+<div class="myModal" style='display:none'>
+    <div class="modal-content-wrapper" id='bindWModal'>
+        <div class="block-heading border">
+            <h4 class="title">绑定微信号</h4>
+        </div>
+        <div class="wexin-wrapper">
+           <div id='bandWechart'></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function() {
+
+    var obj = new WxLogin({
+                    id: "bandWechart",
+                    appid: wxloginObj.appID,
+                    scope: 'snsapi_login',
+                    redirect_uri: wxloginObj.wechartBind_uri,
+                    state: wxloginObj.state,
+                    style: "",
+                    href: ""
+             });
+
+        $('#unbindBtn').click(function() {
+            $.ajax({
+                url: '/user/unbindWx',
+                type: 'post',
+                success: function(res) {
+                    assist.showMsg(res.msg);
+                    window.location.reload();
+                },
+                failure: function(err) {
+                    assist.showMsg('解绑失败');
+                }
+            })
+        });
+
+        $('#cancelBtn').click(function() {
+            $.colorbox.close()
+        });
+    })
+</script>

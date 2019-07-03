@@ -1,0 +1,8 @@
+@mixin horizontal-center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+%horizontal-center {
+    @include horizontal-center;
+}

@@ -1,0 +1,196 @@
+@import '../libs/px2rem.scss';
+@import '../base/_variable';
+@import '../base/mixins';
+.heritage-container {
+    .img-item {
+        display: block;
+        margin: px2rem(30) 0;
+        @include img-card-content-center(px2rem(278));
+        .icon-box {
+            display: flex;
+            width: 50%;
+            overflow: hidden;
+            margin: 0 auto px2rem(15);
+            &>img {
+                height: px2rem(60);
+            }
+            &::after,
+            &::before {
+                position: relative;
+                content: '';
+                flex: 1;
+                top: -(px2rem(60 / 2));
+                border-bottom: 1px solid $color-fff;
+            }
+            &::after {
+                margin-left: px2rem(15);
+            }
+            &::before {
+                margin-right: px2rem(15);
+            }
+        }
+    }
+}
+
+.hall-detail,
+.project-detail {
+    word-wrap: break-word;
+    white-space: normal;
+    .base-info {
+        .card-bd {
+            padding: px2rem(20) px2rem(36);
+        }
+        .card-title {
+            font-size: $f-size16;
+        }
+    }
+    .remark {
+        background-color: $content-bg;
+        padding: px2rem(30) px2rem(40) px2rem(30) px2rem(36);
+        overflow: hidden;
+        text-align: justify;
+        text-align-last: justify;
+    }
+    .hall-content,
+    .unit-list {
+        background: $content-bg;
+        padding: px2rem(15) px2rem(40) px2rem(30) px2rem(36);
+        overflow: hidden;
+        p {
+            margin: 0;
+        }
+        .card-title {
+            height: px2rem(36);
+            overflow: hidden;
+        }
+    }
+    .card-col-2 {
+        @include make-grid-columns(2, 30px);
+        margin-bottom: px2rem(20);
+        .card {
+            padding-top: px2rem(30);
+            .card-hd img {
+                height: px2rem(220);
+            }
+            .card-title {
+                text-align: center;
+            }
+        }
+    }
+}
+
+// 非遗展厅
+.hall-detail {
+    .base-info .card-title {
+        margin: 0;
+    }
+    .products {
+        padding: px2rem(15) px2rem(40) 0 px2rem(36);
+        overflow: hidden;
+        background: $content-bg;
+        .card-col-2 {
+            @include make-grid-columns(2, 30px);
+        }
+        .card {
+            padding-top: px2rem(30);
+            .card-hd img {
+                height: px2rem(220);
+            }
+            .card-title {
+                text-align: center;
+            }
+        }
+        .more {
+            background: $content-bg;
+            padding: px2rem(32) 0;
+            line-height: px2rem(36);
+            font-size: px2rem(28);
+            letter-spacing: 1px;
+            color: $color-999;
+            text-align: center;
+        }
+    }
+}
+
+// 非遗名录\非遗传承人、保护区
+.project-detail {
+    .project {
+        background-color: $content-bg;
+    }
+    .project-nav {
+        position: relative;
+        z-index: 10;
+    }
+    .project-content {
+        position: relative;
+        background-color: $content-bg;
+        z-index: 1;
+    }
+    .remark {
+        padding: px2rem(30) px2rem(40) px2rem(30) px2rem(36);
+        overflow: hidden;
+    }
+    .digits-list {
+        padding: px2rem(15) px2rem(40) px2rem(30) px2rem(36);
+    }
+    .successor {
+        padding: px2rem(20) px2rem(30);
+        .avatar {
+            display: block;
+            width: px2rem(60);
+            height: px2rem(60);
+            margin-right: px2rem(20);
+            border-radius: 100%;
+        }
+        .name {
+            margin: 0;
+            font-size: $f-size;
+            font-weight: normal;
+            font-stretch: normal;
+            color: $color-333;
+        }
+        .icon {
+            color: $color-999;
+            font-size: $f-size16;
+        }
+    }
+}
+
+// 非遗地图
+.map-container {
+    position: relative;
+    .echart-wrapper {
+        width: 100%;
+        height: px2rem(770);
+    }
+    .more {
+        padding-left: px2rem(32);
+        color: $color-999;
+        font-size: $f-size16;
+        .icon {
+            font-size: inherit;
+        }
+    }
+    .statistic-content {
+        background-color: $content-bg;
+        text-align: center;
+        color: $color-666;
+        @include make-grid-columns(4);
+    }
+    .goProvince {
+        position: absolute;
+        top: $gutter;
+        left: $gutter;
+        text-decoration: underline;
+        color: $active-color;
+        z-index: 9999;
+    }
+}
+
+// 非遗资源
+.resource-container {
+    .list-wraper .card {
+        margin-bottom: px2rem(20);
+        padding: px2rem(20) px2rem(20) px2rem(36);
+    }
+}

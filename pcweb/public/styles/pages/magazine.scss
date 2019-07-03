@@ -1,0 +1,338 @@
+@import '../base/variables';
+@import '../base/mixins';
+@import '../components/index';
+
+@include step('m-magazine-step');
+.none {
+  display: none !important;
+}
+.bg-white{
+  background: #fff;
+}
+.uict-magazine{
+  width: 1200px;
+  padding: 30px 100px;
+  margin-bottom: 30px;
+  ._header{
+    font-size: 26px;
+    color: $red;
+    @include singleline-ellipsis();
+    a{
+      font-size: 18px;
+      line-height: 45px;
+      text-decoration: underline;
+      float: right;
+    }
+  }
+  div.descrip{
+    height: 100px;
+    overflow-y: auto;
+    margin: 15px 0 30px 0;
+  }
+  div.uict-magazine-issues{
+    div{
+      background-image: url(/images/zazhi.png);
+      background-position: 50% 100%;
+      background-repeat: no-repeat;
+      width: 330px;
+      height: 400px;
+      float: left;
+      text-align: center;
+      margin-bottom: 30px;
+      img{
+        width: 255px;
+        height: 335px;
+        display: block;
+        margin: 0 auto;
+      }
+      p{
+        margin-top: 25px;
+        color: #666;
+        font-size: 15px;
+      }
+    }
+  }
+  ._more{
+    text-align: center;
+  }
+}
+.btn{
+  color: #fff!important;
+  padding: 5px 25px;
+  font-size: 15px;
+}
+div.m-filter-pannel{
+  div.uict-magazine-issues{
+    background: #fff;
+    margin-bottom: 50px;
+    div{
+      width: 300px;
+      float: left;
+      border: solid 1px $card-border-color;
+      padding: 10px;
+      img{
+        width: 280px;
+        height: 370px;
+      }
+      p{
+        margin-top: 10px;
+        margin-bottom: 5px;
+        color: #666;
+        font-size: 15px;
+        text-align: center;
+      }
+    }
+  }
+}
+.booking-enlist {
+  padding: 0 30px 30px 30px;
+  background-color: #fff;
+  margin-bottom: 20px;
+}
+.booking-enlist .enlist-title {
+  height: 70px;
+  line-height: 70px;
+  border-bottom: 1px solid #e5e5e5;
+  font-size: 16px;
+  color: #333333;
+  display: block;
+  position: relative;
+}
+.booking-enlist .room-booking-info {
+  margin: 20px 0 0;
+  line-height: 35px;
+}
+.booking-enlist .room-booking-info > label {
+  margin-right: 10px;
+  vertical-align: top;
+}
+.booking-enlist .room-booking-info > input {
+  width: 200px;
+  border: solid 1px #e5e5e5;
+  padding: 5px 9px;
+  font-size: 14px;
+  color: #666666;
+}
+.booking-enlist .room-booking-info > textarea {
+  width: 500px;
+  height: 100px;
+  resize: none;
+  border: solid 1px #e5e5e5;
+  padding: 5px 9px;
+  font-size: 14px;
+  color: #666666;
+}
+.booking-enlist .room-booking-info > input[type=file] {
+  display: none;
+}
+.booking-enlist .room-booking-info > a.select-file {
+  display: inline-block;
+  zoom: 1;
+  vertical-align: baseline;
+  outline: none;
+  overflow: visible;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  font-family: Microsoft YaHei, Arial, Helvetica, sans-serif;
+  line-height: 100%;
+  padding: 0.8em 2em;
+  border: 1px solid $red;
+  color: #fff;
+  background-color: $red;
+}
+.booking-enlist .room-booking-info > span.file-msg {
+  color: #999999;
+  margin-left: 10px;
+  font-size: 13px;
+}
+.booking-enlist .enlist-content .enlist-row {
+  margin: 30px auto 0px auto;
+}
+.booking-enlist .enlist-content .enlist-row p {
+  line-height: 2;
+  display: inline-block;
+  color: #999999;
+}
+.protocol {
+  margin-bottom: 80px;
+}
+.protocol p {
+  margin: 0 auto;
+  font-size: 18px;
+  text-align: center;
+}
+.protocol p a {
+  display: inline-block;
+  zoom: 1;
+  vertical-align: baseline;
+  outline: none;
+  overflow: visible;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  font-family: Microsoft YaHei, Arial, Helvetica, sans-serif;
+  line-height: 100%;
+  padding: 0.7em 2em;
+  border: 1px solid $red;
+  color: #fff;
+  background-color: $red;
+}
+.booking-enlist .enlist-content .confirm-row {
+  margin-top: 10px;
+  color: #999999;
+}
+.booking-enlist .enlist-content .confirm-row label {
+  float: left;
+}
+.booking-enlist .enlist-content .confirm-row div {
+  float: left;
+  margin-left: 30px;
+  font-weight: 700;
+  color: #666666;
+}
+
+// 杂志期刊轮播
+.magazine-swiper {
+  background-color: $magazine-swiper-bg;
+  position: relative;
+  padding: $magazine-swiper-padding;
+  .magazine-content{
+    position: relative;
+  }
+  .swiper-button{
+    position: absolute;
+    top: 50%;
+    margin-top: -35px;
+    width: 50px;
+    height: 70px;
+    background-repeat: no-repeat;
+    background-size: 48px 48px;
+    background-position: center;
+  }
+  .btn-prev {
+      right: $magazine-swiper-button;
+      background-image: url("../../images/arrow-right.png");
+  }
+  .btn-next {
+      left: $magazine-swiper-button;
+      background-image: url("../../images/arrow-left.png");
+  }
+  .swiper-container{
+    height: 100px;
+  }
+  .swiper-slide{
+    padding-right: 15px;
+    box-sizing: border-box;
+    img{
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.book-swiper .book-swiper-content{
+  width: 1100px;
+  height: 100px;
+  margin: 0 auto;
+  display: block;
+  position: relative;
+}
+.book-swiper .swiper-container{
+  width: 980px;
+  height: 100px;
+}
+
+.exhibition-detail{
+  width: 800px;
+  margin: 0 auto;
+  img{
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+  }
+  div.info{
+    margin: 10px 0;
+    position: relative;
+    height: 50px;
+    div._header{
+      span#header{
+        font-size: 18px;
+        font-weight: bold;
+      }
+      span#curIndex{
+        font-size: 16px;
+        margin-left: 10px;
+        i{
+          font-size: 22px;
+          font-style: normal;
+        }
+      }
+    }
+    div.descrip{
+      font-size: 14px;
+      line-height: 25px;
+      color: $gray-666;
+      height: 100px;
+      overflow-y: auto;
+    }
+  }
+}
+div.fangda{
+  position: absolute;
+  height: 50px;
+  width: 140px;
+  right: 0;
+  top: 0;
+  div.anniu{
+    width: 140px;
+    height: 50px;
+    @include semi-transparent-colors('background',rgba(0, 0, 0, 0.5), gray);
+    border-radius: 3px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    div._suoxiao,div._fangda{
+      width: 70px;
+      height: 50px;
+      float: left;
+      text-align: center;
+      cursor: pointer;
+      i{
+        line-height: 50px;
+        color: #fff;
+        font-size: 25px;
+      }
+      i.icon-suoxiao{
+        border-right: solid 1px #fff;
+        padding-right: 17px;
+        margin-left: 23px;
+      }
+    }
+  }
+}
+div.magazine-title{
+  font-size: 28px;
+  text-align: center;
+  color: #666;
+  @include singleline-ellipsis();
+}
+.booking-enlist .booking-success {
+  padding: 55px 20px;
+  text-align: center;
+}
+.booking-enlist .booking-success p:first-child, .booking-enlist .booking-success i:first-child {
+  color: #47a7d1;
+  font-size: 100px;
+}
+.booking-enlist .booking-success p, .booking-enlist .booking-success i {
+  margin-top: 15px;
+  font-size: 18px;
+}
+.booking-enlist .booking-success a {
+  display: inline-block;
+  margin: 30px 15px 0px 15px;
+  font-size: 18px;
+  color: #47a7d1;
+}

@@ -1,0 +1,13 @@
+<div class="thumbnail m-thumbnail">
+    <a class="ui-aca" href='/heritage/heritagedetail/<%= item.id %>?type=<%=item.itemType%>'>
+        <img alt="非遗图片" src="<%= item.coverPic %>" style="width: 100%; display: block;">
+        <div class="caption">
+            <h3 class="u-title">
+                <%= item.name %>
+            </h3>
+            <div class="heritage-content">
+              <p><%- item.brief %></p> 
+            </div>
+        </div>
+    </a>
+</div>

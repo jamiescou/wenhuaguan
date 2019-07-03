@@ -1,0 +1,150 @@
+<%
+var type = query.srchkey ? 'srchkey=' + query.srchkey : '';
+var paginatorPage = '/search?'+type;
+%>
+<!DOCTYPE html>
+ <html>
+
+ <head>
+   <title>
+     搜索
+   </title>
+   <% include ../common/head %>
+     <link rel='stylesheet' href='/styles/search.min.css' />
+     <script type="text/javascript" src="/javascripts/commons/creatoo.light.js"></script>
+     <style>
+         .highlight{
+             /*background-color:#ff0000;*/
+             color:#ff0000!important;
+         }
+         .search-info>ul>li>a{
+             text-decoration: underline;
+         }
+         .search-info>ul>li>a:hover{
+             color:#999;
+         }
+     </style>
+ </head>
+
+ <body>
+   <header>
+     <% include ../common/header %>
+   </header>
+
+   <div class="search-bg">
+       <div class="search-border">
+           <div class="search-cont search-mask">
+               <input class="search-input" id="search-input" value="" onkeyup="if(event.keyCode==13) search()" placeholder="搜索你喜欢的">
+               <button class="search-button" id="search-button"></button>
+           </div>
+       </div>
+   </div>
+   <div class="search">
+      <div class="search-info">
+             <h1>
+                        平台为您找到相关<span id="keyword"></span>结果约<span><%=data.totalElements %>  </span>个
+             </h1>
+             <ul>
+                <% if(data.content.length>0){%>
+                      <% data.content.forEach(function (item) { %>
+                        <li>
+                               <% if(item.type=="Activity"){%>
+                                <a href="/activity/detail/<%= item.targetId %>">
+                                      <%= item.title %>   
+                                </a>
+                                <em>-&nbsp;&nbsp;活动</em>
+                                <%}if(item.type=="Train"){%>
+                                  <a href="/train/detail/<%= item.targetId %>">
+                                       <%= item.title %>   
+                                  </a>
+                                  <em>-&nbsp;&nbsp;培训</em>
+                                <%}if(item.type=="Information"){%>
+                                   <a href="/issue/detail/<%= item.targetId %>">
+                                    <%= item.title %>   
+                                   </a>
+                                   <em>-&nbsp;&nbsp;文艺资讯</em>
+                                <%}if(item.type=="ArtTeam"){%>
+                                  <a href="/team/teamdetail/<%= item.targetId %>">
+                                    <%= item.title %>   
+                                   </a>
+                                   <em>-&nbsp;&nbsp;文艺团队</em>
+                                <%}if(item.type=="ArtWorks"){%>
+                                  <a href="/collect/collectdetail/<%= item.targetId %>">
+                                    <%= item.title %>   
+                                   </a>
+                                <%}if(item.type=="heritageDirectory"){%>  
+                                  <a href="/heritage/heritagedetail/<%= item.targetId %>?type=heritageDirectory">
+                                    <%= item.title %>   
+                                   </a>
+                                   <em>-&nbsp;&nbsp;非遗名录</em>
+                                <%}if(item.type=="heritageSuccessor"){%>  
+                                  <a href="/heritage/heritagedetail/<%= item.targetId %>?type=heritageSuccessor">
+                                    <%= item.title %>   
+                                   </a>
+                                   <em>-&nbsp;&nbsp;非遗传承人</em>
+                                <%}if(item.type=="VenueRoom"){%>  
+                                   <a href="/venues/roomdetail/<%= item.targetId %>">
+                                    <%= item.title %>   
+                                   </a>
+                                   <em>-&nbsp;&nbsp;场馆</em>
+                                <%}if(item.type=="VolunteerRecruit"){%>  
+                                   <a href="/volunteer/recruitdetail/<%= item.targetId %>">
+                                    <%= item.title %>   
+                                   </a>
+                                   <em>-&nbsp;&nbsp;志愿者活动</em>
+                                <%}if(item.type=="LiveVideos"){%> 
+                                   <a href="/vod/detail/<%= item.targetId %>?type=livevideos">
+                                    <%= item.title %>   
+                                   </a>
+                                   <em>-&nbsp;&nbsp;直播</em>
+                                <%}if(item.type=="Demands"){%>
+                                   <a href="/vod/detail/<%= item.targetId %>?type=demands">
+                                    <%= item.title %>   
+                                   </a>
+                                   <em>-&nbsp;&nbsp;录播</em>
+                                <%}if(item.type=="DigitalShow"){%>
+                                   <a href="/exhibition/detail/<%= item.targetId %>">
+                                    <%= item.title %>
+                                   </a>
+                                   <em>-&nbsp;&nbsp;数字展览</em>
+                                <%}if(item.type=="CultureSupply"){%>
+                                   <a href="/cultural/detail/<%= item.targetId %>">
+                                    <%= item.title %>
+                                   </a>
+                                   <em>-&nbsp;&nbsp;文化配送</em>
+                               <%}%>
+                         </li>
+                        <% }) %>
+                    <%} else {%>
+                          <%- include('../common/nodata', {tip : '抱歉,没有找到相关结果' })  %>
+                    <%}%>
+             </ul>
+             <%- include('../common/paginator.ejs', {page : data.number + 1, totalPages : data.totalPages, pageUrl : paginatorPage, totalElements : data.totalElements}) %>
+      </div>
+   </div>
+   <footer>
+     <% include ../common/footer %>
+   </footer>
+ </body>
+ <script>
+      var searchInfo = decodeURIComponent( '<%= searchInfo %> ')
+      $('#keyword').html(searchInfo);
+      $('#search-input').val($.trim(searchInfo));
+      $().ready(function () {
+          $('.search-info ul li a').highlight( $('#search-input').val());
+          $('#search-button').click(function () {
+              search();
+          })
+      })
+      function search() {
+          var searchcontent = $.trim($('#search-input').val());
+          searchcontent= encodeURIComponent(searchcontent);
+          if (searchcontent != "") {
+              window.location.href = "/search?srchkey=" + searchcontent
+          } else {
+              rongDialog.init({type:'err',title:'内容不能为空'})
+          }
+      }
+ </script>
+
+ </html>

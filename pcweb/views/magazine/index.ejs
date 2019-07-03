@@ -1,0 +1,80 @@
+<%
+var paginatorPage = '/magazine?';
+%>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        电子杂志
+    </title>
+    <% include ../common/head %>
+    <link rel='stylesheet' href='/styles/magazine.min.css'/>
+</head>
+
+<body>
+<header>
+    <% include ../common/header %>
+</header>
+
+<div class="g-content">
+    <div class="crumbs">
+        <ul>
+            <li><a href="/">首页&nbsp;&nbsp;></a></li>
+            <li><a href="javascript:void(0)">电子杂志</a></li>
+        </ul>
+    </div>
+</div>
+<div class="g-content">
+    <% if(data && data.content.length > 0){ %>
+    <% data.content.forEach(function(item){ %>
+    <div class="uict-magazine bg-white">
+        <div class="_header">
+            <%= item.name %>
+            <a href="/magazine/booking/<%= item.id %>">投稿</a>
+        </div>
+        <div class="descrip">
+            <%= item.brief %>
+        </div>
+        <div class="uict-magazine-issues clearfix">
+            <% item.issues.content.forEach(function(subItem){ %>
+            <div>
+                <% if(subItem.isOnline==true){%>
+                   <a href='/magazine/issueview/<%= item.id %>/<%= subItem.id %>'>
+                       <img src="<%= subItem.coverPic %>" alt="杂志封面" onerror="noImg()">
+                  </a>
+                <%} else {%>
+                    <a href='<%=subItem.url%>' target="_blank">
+                        <img src="<%= subItem.coverPic %>" alt="杂志封面" onerror="noImg()">
+                   </a>
+                   <%}%>
+                <p>
+                    <%= subItem.year + '年' + subItem.seqno + '期' %>
+                </p>
+            </div>
+            <% }) %>
+
+        </div>
+        <% if(item.issues.content && item.issues.content.length != 0){ %>
+        <div class="_more">
+            <a class="btn btn-default btn-lg uict-submitorder" href='/magazine/issueslist/<%= item.id %>'>查看更多>></a>
+        </div>
+        <% }else{ %>
+        <%- include('../common/nodata', {tip : '暂无杂志' }) %>
+        <% } %>
+    </div>
+    <% }) %>
+    <% }else { %>
+    <%- include('../common/nodata', {tip : '暂无杂志' }) %>
+    <% } %>
+    <%- include('../common/paginator.ejs', {page : data.number + 1, totalPages : data.totalPages, pageUrl : paginatorPage, totalElements: data.totalElements}) %>
+</div>
+<footer>
+    <% include ../common/footer %>
+</footer>
+</body>
+<script>
+
+</script>
+
+</html>

@@ -1,0 +1,126 @@
+@import '../base/variables';
+@import '../base/mixins';
+@import '../components/index';
+
+.list-content {
+    background-color: $container-bg;
+    .content {
+        @include make-grid-columns(4);
+    }
+    .card {
+        .img-top {height:186px;}
+        .card-title {
+            @extend %singleline-ellipsis;
+        } 
+    }  
+}
+.name{
+    line-height: 30px !important;
+    @include text-line(2);
+}
+.clsTb{
+    width:100%;
+    text-align: left;
+    font-size:$font-size16;
+    .cdate{
+      width:20%;
+    }
+    
+    td,th{
+        border-bottom:1px solid $gray-f8
+    }
+}
+.time-select .timeselect {
+    width: 240px;
+}
+.step1,.step2{
+    text-align: center;
+    .btn{
+        font-size: 20px !important;
+        line-height: 24px !important;
+        padding: 10px 36px !important;
+      }
+}
+.table-contactor{
+    border-collapse: collapse;
+    // border:1px solid  $card-border-color;
+    width:100%;
+    td{
+        border-bottom:1px solid  $card-border-color;
+        line-height:50px;
+        font-size:$font-size16; 
+        color:$gray-666; 
+        padding:5px;
+        text-align:left;
+    }
+    .col1,.col2{
+        width:120px;
+    }
+    .col3,.col4{
+        width:200px;
+    }
+    .col5{
+        width:100px;
+    }
+    .col6{
+        width:200px;
+        text-align: center;
+    }
+    .addcontactor{
+         cursor:pointer;
+         text-align: center;
+         >span{
+           color:$gray-666;
+           &:hover{
+               color:darken($gray-666,40%)
+           }
+         }
+    }
+}
+ .tips{
+     margin-top:10px;
+     padding-bottom: 20px;
+     background-color:$body-bg !important;
+     color:$gray-666;
+     font-size:$font-size16;
+     text-align:left;
+      
+     .icon-star{
+         margin-right:10px;
+         font-size:$font-size;
+     }
+ }
+.step3 {
+    text-align: center;
+    background: white;
+    margin: 20px 0;
+    padding: 60px 0;
+    p:first-child {
+        padding: 50px 0;
+        font-size: 100px;
+        color: red;
+    }
+    p:last-child {
+        font-size: 18px;
+        margin-top: 20px;
+    }
+    h3 {
+        margin-top: 30px;
+        margin-bottom: 20px;
+        font-size: 22px;
+    }
+    p>a,
+    a:hover,
+    a:focus {
+        color: #e94e58;
+    }
+}
+.protocol {
+    margin: 18px 15px 50px;
+    color: #666;
+    .strong {
+        color: $red;
+        font-style: normal;
+        text-decoration: none;
+    }
+}

@@ -1,0 +1,14 @@
+@import '../base/variable';
+.blank-panel {
+    position: relative;
+    padding: $no-data-padding 0;
+    img {
+        display: block;
+        width: $no-data-img-h;
+        margin: 0 auto 10px;
+    }
+    .u-hint {
+        color: $no-data-font-color;
+        text-align: center;
+    }
+}

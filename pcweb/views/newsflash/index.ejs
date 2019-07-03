@@ -1,0 +1,104 @@
+<%
+var column = query.column ? 'column=' + query.column : '';
+var page = '/issue?';
+var paginatorPage = '/issue?' + column;
+%>
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>
+     资讯快报
+    </title>
+    <% include ../common/head %>
+    <link rel='stylesheet' href='/styles/issue.min.css' />
+  </head>
+
+  <body>
+    <header>
+      <% include ../common/header %>
+    </header>
+    
+    <div class="g-content">
+        <div class="crumbs">
+            <ul>
+                <li>
+                    <a href="/">首页&nbsp;&nbsp;></a>
+                </li>
+                <li>
+                    <a href="">资讯快报</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="m-filter-pannel">
+             <% if(topColumns.length>0){%>
+            <div class="m-search-lst">
+              
+              <div class="item">
+                    <div class="tag-wrap">
+                            <!-- <a class="tag-item">一级栏目:</a> -->
+                        <% topColumns.forEach(function (item) { %>
+                            <a class="tag-item <% if(topid && topid === item.id){ %>active<% } %>" href="<%- page %>column=<%= item.id %>"><%= item.name %></a>
+                        <% }) %>
+                    </div>
+                </div>
+             
+              
+
+                <% if(childColumns && childColumns.length){ %>
+                <div class="item">
+                       
+                    <div class="tag-wrap">
+                            <!-- <a class="tag-item">二级栏目:</a> -->
+                            <a class="tag-item <% if(childid ==''){ %>active<% } %>" href="<%- page %>column=<%=topid%>">全部</a>
+                        <% childColumns.forEach(function (item) { %>
+                            <a class="tag-item <% if(childid && childid=== item.id){ %>active<% } %>" href="<%- page %>column=<%= item.id %>"><%= item.name %></a>
+                        <% }) %>
+                    </div>
+                </div>
+                <% } %>
+            </div>
+            <%}%>
+        </div>
+
+        <% if(data.content && data.content.length>0){ %>
+        <% data.content.forEach(function (item) {%>
+        <div class="media news">
+                <a href="/issue/detail/<%= item.id%>">
+            <% if(item.coverPic2){%>
+            <div class="media-left">
+                <img src="<%= item.coverPic2%>" alt="<%= item.title%>" class="news-img">
+            </div>
+            <%} %>
+            <div class="media-center">
+                <h3 class="news-title"><%= item.title%></h3>
+                <p class="info-meta">
+                      <span ><%= item.date%></span>
+                    <span >来源：<%= item.source%> </span> 
+                    <span >作者：<%= item.author%></span>
+                </p>
+
+                <p class="info-brief">
+                        <%= item.brief%>
+                </p>
+            
+            </div>
+        </a>
+        </div>
+        <% })%>
+        <% }else { %>
+        <%- include('../common/nodata',{tip:'暂无资讯'}) %>
+        <% } %>
+        <div class="place-space"></div>
+        <%- include('../common/paginator.ejs', {page : data.number + 1, totalPages : data.totalPages, pageUrl : paginatorPage, totalElements : data.totalElements}) %>
+        <div class="place-space"></div>
+    </div>
+    <footer>
+      <% include ../common/footer %>
+    </footer>
+  </body>
+  <script type='text/javascript'>
+  
+    //console.log('一级栏目：<% - JSON.stringify(data.content) %>')
+  </script>
+  </html>

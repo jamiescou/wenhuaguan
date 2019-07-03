@@ -1,0 +1,25 @@
+.block-heading {
+    position: relative;
+    padding: px2rem(28) px2rem(30) px2rem(24); 
+    border-bottom:1px solid $block-heading-border;
+    background: $content-bg;
+    .title {
+        position: relative;
+        padding-left: px2rem(15);
+        margin: 0;
+        font-size: $block-heading-fs;
+        color: $block-heading-color;
+        font-weight: 400;
+        &:before {
+            position: absolute;
+            content: '';
+            left: 0;
+            top: 50%;
+            display: block;
+            width: px2rem(4);
+            height: $block-heading-fs;
+            margin-top: -($block-heading-vline-mg);
+            background-color: $color-red;
+        }
+    }
+}

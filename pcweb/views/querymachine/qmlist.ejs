@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>
+        湖南省文化馆
+    </title>
+    <% include ../common/head %>
+    <link rel='stylesheet' href='/styles/query_machine.min.css'/>
+    <link rel='stylesheet' href='/javascripts/libs/swiper/swiper.min.3.4.2.css'/>
+    <script src="/javascripts/libs/swiper/swiper.min3.4.2.js"></script>
+    <script src="/javascripts/libs/qrcode.min.js"></script>
+</head>
+
+<body>
+<div class="wrapper">
+
+    <div class="page">
+        <!--顶部logo-->
+        <div class="head-logo">
+            <img class="qm_head-logo" src="/images/qm_logo.png">
+            <p class="qm_time"></p>
+        </div>
+        <div class="top_place"></div>
+        <div class="qm_ask">
+            如需帮助，请联系工作人员
+        </div>
+        <div class="go-back">
+            <a href="javascript:history.back(-1);"></a>
+        </div>
+    </div>
+    <% if(data && data.content && data.content.length>0){%>
+    <div class="left-wrapper">
+        <div id="slider" class="swiper-container">
+            <div class="swiper-wrapper" id="swiper-wrapper">
+                <% data.content.forEach(function (list, index) { %>
+                <div class="swiper-slide" id="slide_<%= index %>">
+                    <a href="#"></a>
+                    <img class="mask" src="/images/imgbg.png">
+                    <img src="<%= list.coverPic %>" title="0" width="100%">
+                    <div style="display: none">
+                        <span class="id"><%= list.id %></span>
+                        <span class="img"><%= list.coverPic %></span>
+                        <span class="title"><%= list.name || list.title %></span>
+                        <span class="time"><%= list._time %></span>
+                        <span class="address"><%= list.address %></span>
+                        <span class="telephone"><%= list.contactPhone %></span>
+                        <span class="ticketnums"><%= list.remainTicket ? list.remainTicket : '' %></span>
+                        <span class="remark"><%= list.brief %></span>
+                        <span class="desc"><%= list.desc %></span>
+                        <span class="reserveMsg"><%= list.reserveMsg %></span>
+                        <span class="type"><%= list.etype %></span>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+    <div class="right-wrapper">
+        <div class="wrapper-detail">
+            <div class="img">
+                <img id="desc_img">
+            </div>
+            <div class="detail">
+                <div class="title" id="desc_title"></div>
+                <div class="qm_list_info">
+                    <p><i class="iconfont icon-time"></i><span id="desc_time"></span></p>
+                    <p><i class="iconfont icon-location-copy"></i><span id="desc_address"></span></p>
+                    <p><i class="iconfont icon-phone"></i><span id="desc_telephone"></span></p>
+                </div>
+                <div class="ticket" style="display: none">
+                    <span id="desc_ticketnums"></span>
+                </div>
+                <div class="ticket" style="display: none">
+                    <span id="desc_reserveMsg"></span>
+                </div>
+                <div class="code">
+                    <div class="code-img" id="desc_qrcode"></div>
+                    <p>了解更多信息</p>
+                </div>
+            </div>
+            <!-- <div class="detail-text">
+                <div class="detail-text-title">
+                    <span>友情提示</span>
+                </div>
+                <div class="detail-text-content">
+                    <p>需要事先预定，需要付费，请点击“立即预约”需要事先预定，需要付费，请点击“立即预约”需要事先预定，需要付费，请点击“立即预约”</p>
+                </div>
+            </div> -->
+            <div class="detail-text" style="margin-top: 30px;">
+                <div class="detail-text-title">
+                    <span id="desc_content_title"></span>
+                </div>
+                <div class="detail-text-content" id="desc_content">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <% }else {%>
+    <div class="nodata" style="padding: 30% 0px;text-align: center;"><i class="iconfont icon-nodata1 tip-icon" style="    display: block;
+    margin: 0 auto;
+    font-size: 100px;
+    max-width: 150px;"></i>
+        <div class="tip-msg" style="    margin-top: 10px;
+    color: #333;
+    font-size: 24px;">暂无数据</div></div>
+    <% }%>
+</div>
+
+</body>
+<script>
+    $(document).ready(function () {
+        setInterval(function () {
+            var time = new Date();
+            var month = time.getMonth() + 1;
+            $(".qm_time").text(time.getFullYear() + '-' + month + '-' + time.getDate() + '  ' + time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds())
+        }, 1000)
+        var swiper = new Swiper('#slider', {
+            direction: 'vertical',
+            slidesPerView: '6',
+            slideToClickedSlide: false,
+            freeMode: true,
+            loop: false,
+            spaceBetween: 10,//onTransitionEnd
+            onClick: function (swiper) {
+                showDesc('slide_' + swiper.clickedIndex);
+            },
+            onTap: function (swiper) {
+                showDesc('slide_' + swiper.clickedIndex);
+            }
+        });
+        showDesc('slide_0');
+    })
+
+    /**
+     * show right content
+     * @param id
+     */
+    function showDesc(id) {
+
+        $('.swiper-slide').removeClass('active');
+        $('#' + id).addClass('active');
+
+        var divObj = $('#' + id).children('div');
+        if (divObj.length == 1) {
+            var id = divObj.children('span.id').text();
+            var img = divObj.children('span.img').text();
+            var title = divObj.children('span.title').text();
+            var time = divObj.children('span.time').text();
+            var address = divObj.children('span.address').text();
+            var telephone = divObj.children('span.telephone').text();
+            var ticketnums = divObj.children('span.ticketnums').text();
+            var remark = divObj.children('span.remark').html();
+            var type = divObj.children('span.type').text();
+            var reserveMsg = divObj.children('span.reserveMsg').text();
+            if (type == 2) ticketnums = 0;
+
+            $('#desc_img').attr("src", img);
+            $('#desc_title').html(title);
+            $('#desc_time').html(time);
+            $('#desc_address').html(address);
+            $('#desc_reserveMsg').html(reserveMsg);
+            if (telephone) {
+                $('#desc_telephone').html(telephone);
+                $('#desc_telephone').parent('p').show();
+            } else {
+                $('#desc_telephone').parent('p').hide();
+            }
+            if (ticketnums < 1) {
+                $('#desc_ticketnums').parent('div.ticket').hide();
+            } else {
+                $('#desc_ticketnums').parent('div.ticket').show();
+            }
+            if (reserveMsg) {
+                $('#desc_reserveMsg').parent('div.ticket').show();
+            } else {
+                $('#desc_reserveMsg').parent('div.ticket').hide();
+            }
+            $('#desc_content').html(remark);
+
+            var text = "";
+            if (type == 1) {
+                text = window.location.origin + '/activity/detail/' + id;
+                $('#desc_content_title').text('活动详情');
+                $('#desc_ticketnums').html(ticketnums + '余票');
+                $('#desc_time').parent('p').show();
+            } else if (type == 2) {
+                text = window.location.origin + '/train/detail/' + id;
+                $('#desc_content_title').text('培训详情');
+                $('#desc_ticketnums').html(ticketnums + '名额');
+                $('#desc_time').parent('p').show();
+            } else if (type == 3) {
+                text = window.location.origin + '/venues/roomdetail/' + id;
+                $('#desc_content_title').text('活动室详情');
+                $('#desc_time').parent('p').hide();
+            }
+            $('#desc_qrcode').html('');
+            // $('#desc_qrcode').QRCode({width:100, height:100, text: text});
+            var qrcode = new QRCode("desc_qrcode", {
+                text: text,
+                width: 100,
+                height: 100
+            });
+        }
+    }
+</script>
+
+
+</html>

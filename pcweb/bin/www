@@ -1,0 +1,146 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+// const ws = require('ws');
+var app = require('../app');
+var debug = require('debug')('demo:server');
+var http = require('http');
+var config = require('../config');
+var ioredis=require('ioredis')
+
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = config.serverPort;
+// app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app.callback());
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+var io = require('socket.io')(server);
+
+var redisPubConn=new ioredis(config.redis);
+var redisSubConn=new ioredis(config.redis);
+
+redisPubConn.on('error',function(err){
+  console.log('------------redis 错误')
+  console.log(err);
+})
+redisSubConn.on('error',function(err){
+  console.log('------------redis2 错误')
+  console.log(err);
+})
+
+redisPubConn.on("reconnecting", function(err) {
+  console.log("Error 444" + err);
+
+});
+redisSubConn.on("reconnecting", function(err) {
+  console.log("Error 333" + err);
+
+});
+redisPubConn.on("end", function(err) {
+  console.log("Error222 " + err);
+
+});
+redisSubConn.on("end", function(err) {
+
+  console.log('end----------0000000000000')
+});
+var msgTopic = "live_chat";   //直播间消息主题名称
+redisSubConn.subscribe(msgTopic);
+
+redisSubConn.on("message", function(channel, message) {
+  var msg = JSON.parse(message);
+  var roomId = msg.roomId;
+  if (roomId != 'test') {
+    io.sockets.to(roomId).emit('message', msg);
+  }
+});
+
+io.on('connection', function(socket, params) {
+  var roomid = socket.handshake.query.roomid;
+  socket.join(roomid);
+  socket.on('message', function(message) {
+    redisPubConn.publish(msgTopic, message, function(res) {
+    });
+  });
+
+});
+ 
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string' ?
+    'Pipe ' + port :
+    'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string' ?
+    'pipe ' + addr :
+    'port ' + addr.port;
+  debug('Listening on ' + bind);
+}

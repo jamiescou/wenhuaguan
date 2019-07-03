@@ -1,0 +1,34 @@
+
+   
+   <% if(totalPages>1){ %>
+    <div id="kkpager" class="kk-pageinator"></div>
+
+    <script type="text/javascript">
+  
+    //init
+    $(function(){
+        var totalPage = '<%= totalPages %>';
+        var totalRecords = '<%= totalElements %>';
+        var pageNo = '<%= page %>';;
+        //生成分页
+        //有些参数是可选的，比如lang，若不传有默认值
+    
+        kkpager.generPageHtml({
+            pno : pageNo,
+            //总页码
+            total : totalPage,
+            //总数据条数
+            totalRecords : totalRecords,
+            //链接前部
+            hrefFormer : 'demo',
+            //链接尾部
+            hrefLatter : '.html',
+            getLink : function(n){
+                return  '<%= pageUrl %>' + "&page="+n;
+            }
+        });
+    });
+    </script>
+    <% } %>
+
+ 

@@ -1,0 +1,171 @@
+
+@import '../base/variables';
+.brief-media {
+    position: relative;
+    .media {
+        background: $container-bg;
+        .media-left {
+            padding-right: 20px;
+        }
+        .brief-img {
+            //简介
+            display: block;
+            width: 600px;
+            height: 400px;
+        }
+        
+        .name {
+            // 活动室名称
+            // height: 118px;
+            padding-top: 25px;
+            margin: 0 0 40px;
+            font-size: $font-size24;
+            line-height: 24px;
+            color: $font-color;
+            font-weight: 400;
+        }
+        .capacity {
+            // 容量
+            margin-top: 15px;
+            font-size: $font-size;
+            line-height: 24px;
+            color: #999999;
+            &>span+span {
+                margin-left: 28px;
+            }
+        }
+        .iconfont {
+            color: $red;
+            padding-right:10px;
+        }
+        .describe {
+            // 地址、电话等描述信息
+            color: $gray-666;
+            font-size: $font-size16;
+           
+            span {
+                margin: 0 5px;
+            }
+            a:hover{
+                 color:darken($gray-666,50%)
+            }
+        }
+        .describe+.describe {
+            margin-top: 10px;
+        }
+        .intro {
+            //简介
+            margin-top: 30px;
+            color: $gray-666;
+            font-size: $font-size16;
+            // padding-right: 100px;
+        }
+        .media-center {
+            padding-right: 100px;
+            position: relative;
+            .media-opres {
+                position: absolute;
+                bottom: 38px;
+                left: 20px;
+                .tickets{
+                    margin-left:15px;
+                    font-size:$font-size16;
+                }
+            }
+            .btn {
+                font-size: 20px;
+                line-height: 24px;
+                padding: 10px 36px;
+              
+            }
+        }
+    }
+    .opres {
+        // 分享等操作
+        position: absolute;
+        top: 30%;
+        right: -6px;
+        .btn {
+            display: block;
+        }
+        .btn+.btn {
+            margin-top: 15px;
+        }
+    }
+}
+
+.my-activity {
+    display: block;
+    position: relative;
+    background: $container-bg;
+    padding: 0 30px;
+    .order-number {
+        // 订单号
+        height: 60px;
+        line-height: 60px;
+        font-size: $font-size16;
+        color: $gray-666;
+        border-bottom: 1px solid $gray-f8;
+    }
+    .order-ticket {
+        // 订单票务信息
+        border-top: 1px solid $gray-f8;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        color: $red;
+        .ticket-status {
+            font-size: $font-size16;
+        }
+    }
+    .media {
+        padding: 12px 0px 20px;
+        .media-left {
+            padding-right: 20px;
+        }
+        .media-right {
+            // 我的活动退票等操作
+            vertical-align: middle;
+            .btn {
+                display: block;
+                width: 120px;
+                line-height: 1.5;
+            }
+            .btn+.btn {
+                margin-top: 15px;
+            }
+            .btn + .tag{
+                margin-top: 15px;
+            }
+        }
+        .activity-img {
+            // 活动图片
+            display: block;
+            width: 250px;
+            height: 167px;
+        }
+        .name {
+            // 活动名称
+            margin-top: 0;
+            font-size: $font-size20;
+            line-height: 24px;
+            color: $font-color;
+            font-weight: 600;
+         
+        }
+        .describe {
+            // 地址、电话等描述信息
+            color: $gray-666;
+            font-size: $font-size16;
+            .iconfont {
+                color: $red;
+            }
+            span {
+                margin: 0 5px;
+            }
+        }
+        .describe+.describe {
+            margin-top: 10px;
+        }
+    }
+}
+

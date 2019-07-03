@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<%
+    var pagingUrl='/collect?type='+query.type;
+%>
+
+<html>
+
+<head>
+  <title>
+    作品征集
+  </title>
+  <% include ../common/head %>
+  <link rel='stylesheet' href='/styles/collect.min.css' />    
+    <sciprt type='text/javascript' src='/javascript/jquery.picture.cut.js'></sciprt>
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+
+  </header>
+
+  <div class="g-content collcettab">
+    <div class="crumbs">
+      <ul>
+          <li><a href="/">首页&nbsp;&nbsp;></a></li>
+          <li><a href="">作品征集</a></li>
+      </ul>
+    </div>
+
+     <div class="tabtitle">
+        <ul>
+          <li class=""><a href='/collect'>线上作品征集</a></li>
+          <li class="active"> <a href='/collect/offlineAct'>线下活动报名</a></li>
+        </ul>
+     </div>
+
+   
+  <div class="list-content">
+      <div class="content">
+        <% if(data&&data.content.length>0){%>
+         <% data.content.forEach(function(item){%>
+          <div class="col-2">
+            <div class="card border">
+              <a class="card-head" href="/collect/offlineActDetail/<%=item.id%>">
+                 <img class="img-top" src="<%=item.coverPic%>"   alt="">
+                  <span class="card-tag"><%=item.tag%></span>
+              </a>
+              <div class="card-body">
+                  <h5 class="card-title"><%=item.name%></h5>
+                    <div class="card-info">
+                        <p class="time"><%=item.endTime%><span> &sdot;</span> <%=item.worksCount%> 份作品  </p>
+                        <p class="brief twoline"><%=item.brief%></p>
+                      </div>
+              </div>
+            </div>
+           </div>
+          <%})%>
+          <%} else {%>
+            <% include ../common/nodata %>
+      <%}%>
+      </div>
+      <%- include('../common/paginator.ejs', {page : data.number + 1, totalPages : data.totalPages, pageUrl :pagingUrl, totalElements: data.totalElements}) %>
+  </div></div>
+  <div class="place-space"></div>
+  
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,25 @@
+@import '../base/_variable';
+.preset-result {
+    position: relative;
+    text-align: center;
+    padding-top: 40%;
+    font-size: $f-size18;
+    background-color: $content-bg;
+    .preset-img {
+        display: block;
+        font-size: $preset-icon-size;
+        color: $preset-icon-color;
+        margin-bottom: $f-size18;
+    }
+    .preset-state {
+        margin-bottom: $f-size12;
+    }
+    .to-link {
+        font-size: $f-size16;
+        text-decoration: none;
+        color: $color-red;
+        .icon {
+            font-size: $f-size;
+        }
+    }
+}

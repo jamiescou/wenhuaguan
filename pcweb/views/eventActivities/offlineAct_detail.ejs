@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    征集活动详情
+  </title>
+  <% include ../common/head %>
+    <link rel='stylesheet' href='/styles/collect.min.css' />
+    <link rel='stylesheet' href='/javascripts/libs/swiper/swiper.min.css' />
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+
+  <div class="g-content collectdetail">
+    <div class="crumbs">
+      <ul>
+        <li>
+          <a href="/">首页&nbsp;&nbsp;></a>
+        </li>
+        <li>
+          <a href="/collect/offlineAct">作品征集&nbsp;&nbsp;></a>
+        </li>
+        <li>
+          <a href="">活动详情</a>
+        </li>
+      </ul>
+    </div>
+    <div class="brief-media">
+      <div class="media">
+        <div class="media-left">
+          <img src="<%= data.coverPic %>" alt="培训图片" class="brief-img" />
+        </div>
+        <div class="media-center">
+          <h3 class="name">
+            <%= data.name %>
+          </h3>
+
+          <p class="describe f-nowrap">
+            <i class="iconfont icon-clstime"></i>报名时间：
+            <%= data.signStartTime.substring(0,16) %>&nbsp; 至 &nbsp;
+              <%= data.signEndTime.substring(0,16) %>
+          </p>
+
+          <p class="describe f-nowrap">
+            <i class="iconfont icon-clstime"></i>活动时间：
+            <%= data.startDate.substring(0,16) %>&nbsp; 至 &nbsp;
+              <%= data.endDate.substring(0,16) %>
+          </p>
+
+          <p class="describe f-nowrap">
+            <i class="iconfont icon-homepage"></i>组织机构:
+            <%= data.organizer %>
+          </p>
+
+          <p class="describe f-nowrap">
+            <i class="iconfont icon-team"></i>活动对象:
+            <%= data.actObject %>
+          </p>
+
+          <p class="describe f-nowrap">
+            <i class="iconfont icon-type3"></i>活动类型:
+            <%= data.type=='stageArts'?'舞台艺术':'展览' %>
+          </p>
+
+          <p class="describe f-nowrap">
+            <i class="iconfont icon-type3"></i>访问量：
+              <% if(!data.pageView) {%>
+              0
+              <%}else{%>
+             <%= data.pageView %>
+              <%}%>
+          </p>
+
+          <div class="media-opres">
+            <% if(data.tag=='进行中'){ %>
+              <%-include('../common/authBtn.ejs',{ authRouter:"/collect/offlineAct/work/"+data.id,btnTitle:'我要参加' }) %>
+                <%} else {%>
+                  <span class="btn disabled">
+                    <%=data.tag%>
+                  </span>
+                  <%}%>
+          </div>
+        </div>
+      </div>
+      <div class="opres">
+        <%- include('../common/bshare') %>
+      </div>
+    </div>
+
+    <div class="detail">
+      <div class="title">活动内容</div>
+      <div class="desc cimg">
+        <%- data.description%>
+      </div>
+    </div>
+    <div class="place-space"></div>
+  </div>
+
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+<script>
+</script>
+
+</html>

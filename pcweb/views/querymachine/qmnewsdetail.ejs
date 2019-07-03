@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <title>
+    湖南省文化馆
+  </title>
+  <% include ../common/head %>
+  <link rel='stylesheet' href='/styles/query_machine.min.css' />
+</head>
+
+<body>
+  <div class="wrapper">
+      <div class="page">
+          <!--顶部logo-->
+          <div class="head-logo">
+              <img class="qm_head-logo" src="/images/qm_logo.png">
+              <p class="qm_time"></p>
+          </div>
+          <div class="top_place"></div>
+
+          <div class="qm_content">
+              <div class="wrapper-content">
+                  <div class="title"><%= data.title %></div>
+                  <div class="abstract">
+                      <span><%- data.source %></span>
+                      &nbsp;·&nbsp;
+                      <span><%- data.publishTime %></span>
+                  </div>
+                  <div class="detail">
+                      <%- data.content %>
+                  </div>
+              </div>
+          </div>
+
+          <div class="qm_ask">
+              如需帮助，请联系工作人员
+          </div>
+        <div class="go-back">
+            <a href="javascript:history.back(-1);"></a>
+        </div>
+      </div>
+  </div>
+</body>
+<script>
+    $(document).ready(function () {
+        setInterval(function () {
+            var time = new Date();
+            var month = time.getMonth()+1;
+            $(".qm_time").text(time.getFullYear()+'-'+month+'-'+time.getDate()+'  '+time.getHours()+':'+time.getMinutes()+':'+time.getSeconds())
+        },1000)
+    })
+</script>
+
+
+</html>

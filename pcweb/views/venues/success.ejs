@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    <%=data.name%>
+  </title>
+  <% include ../common/head %>
+  <link rel='stylesheet' href='/styles/venue.min.css' />
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+  <div class="place-space"></div>
+  <div class="g-content">
+    <div class="room">
+      <div class="media">
+        <div class="media-left">
+          <img src="<%= data.coverPic2 %>" alt="场馆图片" class="room-img" />
+        </div>
+        <div class="media-center">
+          <h3 class="name">
+            <%=data.name%>
+              <div class="capacity">
+                <span>容纳人数：
+                  <%=data.totalPeoples%>人</span>
+                <span>面积：
+                  <%=data.area%>㎡</span>
+              </div>
+          </h3>
+
+          <p class="describe f-nowrap">
+            <i class="iconfont icon-type1"></i>
+            <span>类别：
+              <%=data.type%>
+            </span>
+          </p>
+
+          <%-include('../common/map.ejs',{lontitude: data.venue.coordinate.longitude,latitude: data.venue.coordinate.latitude,addr: data.venue.address}) %>
+            <p class="describe f-nowrap">
+              <i class="iconfont icon-phone"></i>
+              <span>电话：
+                <%=data.telephone%>
+              </span>
+            </p>
+        </div>
+      </div>
+    </div>
+    <div class="roomfoot">
+      <img src="/images/gou.png" alt="">
+      <p>您的活动室预订已成功！</p>
+      <a href='/user/myvenues'>查看我的订单</a>
+      <a href='/venues'>返回场馆列表页</a>
+    </div>
+  </div>
+
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+<script>
+  $(document).ready(function () {
+
+    var orderItmsInfo = <%-JSON.stringify(data.itms)%>;
+    // var orderItmsInfo = JSON.parse(orderItms);
+    var formateOrderTime = orderItmsInfo[0].itmDate + '  时段:';
+    for (var i = 0; i < orderItmsInfo.length; i++) {
+      formateOrderTime += orderItmsInfo[i].itmStarttime + '--' + orderItmsInfo[i].itmEndtime;
+    }
+    $('#orderTime').text(formateOrderTime)
+
+
+  })
+</script>
+
+</html>

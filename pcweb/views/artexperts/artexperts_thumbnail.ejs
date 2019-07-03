@@ -1,0 +1,14 @@
+<div class="thumbnail m-thumbnail">
+    <a class="ui-aca" href="/artexperts/artexpertsdetail/<%= item.id %>">
+        <img alt="人才头像" src="<%= item.coverPic %>" style="width: 100%; display: block;">
+        <div class="caption">
+            <h3 class="u-title">
+                <%= item.name %>
+            </h3>
+            <div class="u-content">
+                <div> <%= item.artTypeStr %></div>
+                <div> <%-item.brief %></div>  
+            </div>
+        </div>
+    </a>
+</div>

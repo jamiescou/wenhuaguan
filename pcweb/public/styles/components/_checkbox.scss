@@ -1,0 +1,40 @@
+.u-checkbox {
+    $cbx-size: 20px;
+    color: #999;
+    font-weight: 400;
+    .ckb-input {
+        display: none;
+    }
+    .ckb-input:checked+.cbx {
+        background-color: $red;
+        border-color: $red;
+        &::after {
+            border-color: #fff;
+            transform: rotate(45deg) scale(1);
+        }
+    }
+    .cbx {
+        display: inline-block;
+        background-color: #fff; // border-radius: 100%;
+        border: 1px solid #ccc;
+        position: relative;
+        width: $cbx-size;
+        height: $cbx-size;
+        vertical-align: text-bottom;
+        margin-right: 4px;
+        &::after {
+            content: " ";
+            position: absolute;
+            top: 1px;
+            left: 50%;
+            width: ($cbx-size / 4);
+            height: ($cbx-size / 2);
+            margin-left: -($cbx-size / 8);
+            border: 2px solid transparent;
+            border-top: 0;
+            border-left: 0;
+            transform: rotate(45deg) scale(0);
+            transition: transform .2s;
+        }
+    }
+}

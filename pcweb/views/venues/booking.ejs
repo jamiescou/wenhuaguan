@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    <%=data.name%>
+  </title>
+  <% include ../common/head %>
+  <link rel='stylesheet' href='/styles/venue.min.css' />
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+
+  <div class="g-content">
+    <div class="crumbs">
+      <ul>
+        <li>
+          <a href="">首页&nbsp;&nbsp;></a>
+        </li>
+        <li>
+          <a href="/venues">活动室列表&nbsp;&nbsp;></a>
+        </li>
+        <li>
+          <a href="/venues/roomdetail/<%=data.id%>">活动室详情&nbsp;&nbsp;></a>
+        </li>
+        <li>
+          <a href="#">活动室预定</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="room">
+      <div class="media">
+        <div class="media-left">
+          <img src="<%= data.coverPic2 %>" alt="场馆图片" class="room-img" />
+        </div>
+        <div class="media-center">
+          <h3 class="name">
+            <%=data.name%>
+              <div class="capacity">
+                <span>容纳人数：
+                  <%=data.totalPeoples%>人</span>
+                <span>面积：
+                  <%=data.area%>㎡</span>
+              </div>
+          </h3>
+
+          <p class="describe f-nowrap">
+            <i class="iconfont icon-type1"></i>
+            <span>类别：
+              <%=data.type%>
+            </span>
+          </p>
+
+          <%-include('../common/map.ejs',{lontitude: data.venue.coordinate.longitude,latitude: data.venue.coordinate.latitude,addr: data.venue.address}) %>
+            <p class="describe f-nowrap">
+              <i class="iconfont icon-phone"></i>
+              <span>电话：
+                <%=data.telephone%>
+              </span>
+            </p>
+        </div>
+      </div>
+    </div>
+    <div class="place-space"></div>
+
+    <div id='step1'>
+      <div class="detail-block">
+        <div class="block-heading border">
+          <h4 class="title">预订时段</h4>
+        </div>
+        <div class="detail-content time-select">
+          <icon class="iconfont icon-previous" id='btnPrevious'></icon>
+          <div>
+            <div id='itemTable'> </div>
+            <div class="legend">
+              <p>
+                <span class="color-disable"></span>不可预定</p>
+              <p>
+                <span class="color-enable"></span>可预定</p>
+              <p>
+                <span class="color-selected"></span>已选定</p>
+            </div>
+          </div>
+
+          <icon id='btnNext' class="iconfont icon-next"></icon>
+
+        </div>
+      </div>
+      <div class="place-space"></div>
+      <span class="btn" id='nextStep'>下一步</span>
+
+    </div>
+
+
+    <div id='step2'>
+      <div class="detail-block">
+        <div class="block-heading border">
+          <h4 class="title">预订人信息</h4>
+        </div>
+        <div class="detail-content">
+          <table class="table-contactor">
+            <tr>
+              <td>联系人：
+                <%=user.name%>
+              </td>
+              <td>联系电话：
+                <%=user.mobile%>
+              </td>
+              <td>身份信息:
+                <%=user.idNumber%>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="place-space"></div>
+      <div class="detail-block">
+        <div class="block-heading border">
+          <h4 class="title">确定预定信息</h4>
+        </div>
+        <div class="detail-content ">
+          <div class="order-time">
+            <label>已选时段:</label>
+            <span id='selectedTimes'></span>
+          </div>
+          <div class="order-reason">
+            <p>预订用途:</p>
+            <textarea class="textarea" rows=3 id='orderReason' placeholder="请在此填写该活动室的预订用途"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="place-space"></div>
+      <span class="btn " href="javascript:void(0)" id='confirmOrder' title="确认订单" role="button">确认订单</a>
+    </div>
+
+    <div id="step3" class="step-panel succeed-tips" style="display:none;">
+      <i class=" iconfont icon-success succeed-icon"></i>
+      <p>您的场馆预约已成功！ 您可以：</p>
+      <a href="/user/myvenues" class="to-link">查看我的订单</a>
+      <a href="/venues" class="to-link">返回场馆列表页</a>
+    </div>
+
+  </div>
+  <div class="place-space"></div>
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+<script type='text/javascript'>
+  var roomId = '<%-JSON.stringify(data.id)%>';
+  var roomName = '<%-JSON.stringify(data.name)%>';
+
+  roomId = roomId.replace(/\"/g, '').replace(' ', '');
+  roomName = roomName.replace(/\"/g, '').replace(' ', '');
+
+  var reserveObj = <%-JSON.stringify(reserveObj)%>;
+  // var reserveObj = JSON.parse(reserveStr);
+  var weeks = '<%-JSON.stringify(weeks)%>';
+ 
+  $('#step2').hide();
+  $('#step3').hide();
+
+  var selectedItems = {
+    date: '',
+    items: []
+  };
+
+  $(document).ready(function () {
+
+    let curWeek = 1;
+    //场次表格
+    $('#btnPrevious').css('visibility','hidden');
+    if (weeks == 1) {
+      $('#btnNext').css('visibility','hidden');
+    }
+    createTable(1);
+    $('#btnPrevious').on('click', function () {
+      $('#btnNext').css('visibility','visible');
+      curWeek--;
+      createTable(curWeek);
+      if (curWeek == 1) {
+        $('#btnPrevious').css('visibility','hidden');
+      }
+
+    })
+
+    $('#btnNext').on('click', function () {
+      curWeek++;
+      createTable(curWeek);
+      if (curWeek == weeks) {
+        $('#btnNext').css('visibility','hidden');
+      }
+      $('#btnPrevious').css('visibility','visible');
+
+    })
+
+
+
+    function createTable(week) {
+
+      var tableStr = '';
+      for (var i = (week - 1) * 7; i < week * 7; i++) {
+        tableStr += '<div class="items">';
+        tableStr += '<div class="item-header">';
+        tableStr += reserveObj[i].date;
+        tableStr += '</div>';
+        for (var j = 0; j < reserveObj[i].item.length; j++) {
+          let obj = reserveObj[i].item[j];
+          if (obj.isReserve) {
+            tableStr += '<p class="timeSpan time  disable" data-canreserve=true data-date=' + reserveObj[i].datestr +
+              ' >';
+          } else {
+            if (reserveObj[i].date == selectedItems.date && selectedItems.items.indexOf(obj.time) >= 0) {
+              tableStr += '<p class="timeSpan time selected" data-canreserve=false data-date=' + reserveObj[i].datestr +
+                ' >';
+            } else {
+              tableStr += '<p class="timeSpan time" data-canreserve=false data-date=' + reserveObj[i].datestr + ' >';
+            }
+
+
+          }
+          tableStr += obj.time;
+          tableStr + '</p>'
+
+        }
+        tableStr += '</div>';
+      }
+
+      $('#itemTable').html(tableStr);
+
+    }
+
+
+
+
+    /**
+     * 场次选择事件
+     */
+    $('#itemTable').delegate('.timeSpan', 'click', function (evt) {
+      if (!$(this).data('canreserve') && !$(this).data('selected')) // 当前可预订
+      {
+        if (selectedItems.date == '' || selectedItems.date == $(this).data("date")) {
+          $(this).toggleClass('selected')
+          $(this).data('selected', true);
+          selectedItems.date = $(this).data('date');
+          selectedItems.items.push($(this).text());
+        } else {
+          assist.showMsg('不能跨天预订');
+        }
+      } else if (!$(this).data('reserved') && $(this).data('selected')) //取消当前场次的预订
+      {
+        $(this).toggleClass('selected')
+        $(this).data('selected', false);
+        selectedItems.items.splice($.inArray($(this).text(), selectedItems.items), 1);
+        if (selectedItems.items.length == 0) {
+          selectedItems.date = '';
+        }
+      }
+    })
+
+    /**
+     *  下一步按钮
+     */
+    $('#nextStep').click(function () {
+      if (selectedItems.items.length > 0) {
+        $('#step1').hide();
+        $('#step2').show();
+        var html = '<span>' + selectedItems.date + '  </span>';
+        for (var i = 0; i < selectedItems.items.length; i++) {
+          html += '  <span>' + selectedItems.items[i] + '</span>'
+        }
+        $('#selectedTimes').html(html);
+      } else {
+        assist.showMsg('请选择场次')
+      }
+    })
+    $('#confirmOrder').click(function () {
+      var itms = [];
+      for (var i = 0; i < selectedItems.items.length; i++) {
+        var timeAry = selectedItems.items[i].trim().split('--');
+        itms.push({
+          "itmDate": selectedItems.date,
+          "itmStarttime": timeAry[0],
+          "itmEndtime": timeAry[1]
+          // "isReserve": true
+        })
+      }
+      var reserveReson = $('#orderReason').val();
+      var orderInfo = {
+        roomId: roomId,
+        roomName: roomName,
+        // unitId: venueId,
+        // unitName: venueName,
+        itms: itms,
+        use: reserveReson
+      };
+
+      $.ajax({
+        url: '/venues/orders/',
+        data: orderInfo,
+        type: 'post',
+        success: function (res) {
+          if (res.id) {
+            assist.showMsg('预订成功', 'success');
+            $('#step2').hide();
+            $('#step3').show();
+          } else {
+            assist.showMsg(res.message);
+          }
+        }
+      })
+
+
+    })
+  })
+
+  function fullData(v) {
+    return v < 10 ? '0' + v : v
+  }
+</script>
+
+</html>

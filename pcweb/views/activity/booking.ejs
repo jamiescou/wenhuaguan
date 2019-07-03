@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    活动预定
+  </title>
+  <% include ../common/head %>
+  <link rel='stylesheet' href='/styles/activity.min.css' />
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+  <div class="place-space"></div>
+  <div class="g-content">
+    <!-- 定宽:圆形步骤条 -->
+    <div class="m-activity-step">
+      <div class="step-content">
+        <div class="step-item active">
+          <span class="step-dot"></span>
+          <p class="step-txt">订票或选座</p>
+        </div>
+        <div class="bar"></div>
+        <div class="step-item">
+          <span class="step-dot"></span>
+          <p class="step-txt">填写取票信息</p>
+        </div>
+        <div class="bar"></div>
+        <div class="step-item">
+          <span class="step-dot"></span>
+          <p class="step-txt">完成预约</p>
+        </div>
+      </div>
+    </div>
+    <!-- 定宽:圆形步骤条 -->
+    <div class="place-space"></div>
+    <div class="media activity">
+      <div class="media-left">
+        <img src="<%= data.coverPic %>" alt="" class="activity-img">
+      </div>
+      <div class="media-center">
+        <h3 class="news-title">
+          <%= data.name %>
+        </h3>
+        <p class="describe f-nowrap">
+          <i class="iconfont icon-time"></i>时间：
+          <%= data.holdStartDate %>&nbsp; 至 &nbsp;
+            <%= data.holdEndDate %>
+        </p>
+        <p class="describe f-nowrap">
+          <i class="iconfont icon-location"></i>地址：
+          <%= data.address %>
+        </p>
+        <p class="describe f-nowrap">
+          <i class="iconfont icon-phone"></i>电话：
+          <%= data.contactPhone %>
+        </p>
+      </div>
+    </div>
+    <div class="place-space"></div>
+    <div id="step1Panel" class="step-panel">
+      <div class="detail-block">
+        <div class="block-heading border">
+          <h4 class="title">选择日期场次</h4>
+        </div>
+        <div class="detail-content preset-content">
+          <dl class="block-item">
+            <dt class="b-i-title">选择日期</dt>
+            <dd class="b-i-cotent itms itms-dt js_itms">
+              <% data.itmDates.forEach(function (item) { %>
+                <span class="itm-tag" data-dt="<%= item %>">
+                  <i class="iconfont icon-calendar"></i>
+                  <%= item %>
+                </span>
+                <% }) %>
+            </dd>
+          </dl>
+          <dl class="block-item">
+            <dt class="b-i-title">选择场次</dt>
+            <dd class="b-i-cotent itms" id="presetItems">
+            </dd>
+          </dl>
+          <%if(data.reserveType==='online'){%>
+            <div class="preset-seats" id="presetSeatWrap" style="display:none;">
+              <span>选择座位</span>
+              <div class="seat-wrapper">
+                <div class="legend">
+                  <div class="seat">可选</div>
+                  <div class="seat seat-disabled">已预定</div>
+                  <div class="seat seat-preorder">已选</div>
+                </div>
+                <h2 class="seatTitle">
+                  <p class="txt">大屏幕</p>
+                  <img class="bg" src="data:image/svg+xml;charset=utf8,%3Csvg width='301' height='44' viewBox='0 0 301 44' xmlns='http://www.w3.org/2000/svg'%3E%3Ctitle%3EGroup 6%3C/title%3E%3Cg fill='%23E2E2E2' fill-rule='evenodd'%3E%3Cpath d='M238.5 34.593c0 5.028-4.1 9.104-9.163 9.104H95.31L14.662 44C9.6 44 5.5 39.924 5.5 34.896L0 .303 82.48 0H244l-5.5 34.593z'/%3E%3Cpath d='M295.5 34.593c0 5.028-4.1 9.104-9.163 9.104H152.31L71.662 44C66.6 44 62.5 39.924 62.5 34.896L57 .303 139.48 0H301l-5.5 34.593z'/%3E%3C/g%3E%3C/svg%3E">
+                </h2>
+                <div class="seatContainer">
+                  <div class='row-seq' id="seqWrapper">
+                  </div>
+                  <div class="seat-table" id="seatTable">
+                  </div>
+                </div>
+              </div>
+              <dl class="block-item selected-seats">
+                <dt class="b-i-title">已选座位</dt>
+                <dd class="b-i-cotent" id="selectedSeats"></dd>
+              </dl>
+            </div>
+            <% } %>
+              <% if(data.reserveType === 'free'){ %>
+                <dl class="block-item"  id="presetNumsTip"  style="display:none;">
+                  <dt class="b-i-title">剩余票数:
+                    <span class="emphasize" id="leftTicketSum"></span>&nbsp;&nbsp;&nbsp;您还可预定票数:
+                    <span class="emphasize" id="reserveSum"></span>
+                  </dt>
+                </dl>
+                <dl class="block-item presetNumsWrap" id="presetNumsWrap" style="display:none;">
+                  <dt class="b-i-title">预订数量</dt>
+                  <dd class="b-i-cotent">
+                    <div class="group-wrapper">
+                      <div class="input-group counts u-input-group">
+                        <span class="input-group-addon" id="tickMinus">
+                          <i class="iconfont icon-minus"></i>
+                        </span>
+                        <input type="text" class="form-control u-form-control" readonly>
+                        <span class="input-group-addon" id="tickPlus">
+                          <i class="iconfont icon-plus"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </dd>
+                </dl>
+                <% } %>
+                  <div class="tick-hint">
+                    <i class="iconfont icon-asterisk emphasize"></i>
+                    该活动
+                    <span class="emphasize">
+                      <%= data.isAuthenticate?'需要' : '不需要' %>
+                    </span> 实名认证,并且每个用户每场最多只能购买
+                    <span class="emphasize">
+                      <%= data.perAllow %>
+                    </span> 张
+                  </div>
+        </div>
+      </div>
+      <div class="place-space"></div>
+      <div class="detail-block">
+        <div class="block-heading border">
+          <h4 class="title">预定须知</h4>
+        </div>
+        <div class="detail-content">
+          <p>1、订票成功后，活动开始当日请提前入场，避免拥堵；</p>
+          <p>2、如需退票，请在活动开始前办理相关手续；</p>
+          <p>3、每场活动票数有限，退票后再次预订可能遇到票已售完，无法订票的情况，由用户自行负责；</p>
+          <p>4、如遇非人为可控因素或重大天气等影响，导致活动无法举办，举办方有权利延后或取消活动，并以短信和站内信形式告知订票人办理相关手续；</p>
+          <p>5、活动最终解释权归举办方所有。</p>
+        </div>
+      </div>
+      <div class="protocol">
+        <label class="u-checkbox">
+          <input type="checkbox" class="ckb-input" id="protocol" />
+          <span class="cbx"></span>我已阅读并接受预定须知
+        </label>
+      </div>
+      <div class="operate-btns">
+        <button type="button" id="nextstup" class="btn u-btn">下一步</button>
+      </div>
+    </div>
+    <div id="step2Panel" class="step-panel" style="display:none;">
+      <div class="detail-block">
+        <div class="block-heading border">
+          <h4 class="title">确定订单信息</h4>
+        </div>
+        <div class="detail-content preset-confirm">
+          <dl class="block-item">
+            <dt class="b-i-title">活动场次</dt>
+            <dd class="b-i-cotent" id="presetItem"></dd>
+          </dl>
+          <dl class="block-item">
+            <dt class="b-i-title">预约票数</dt>
+            <dd class="b-i-cotent" id="presetTickNum"></dd>
+          </dl>
+          <%if(data.reserveType==='online'){%>
+            <dl class="block-item selected-seats">
+              <dt class="b-i-title">选择座位</dt>
+              <dd class="b-i-cotent" id="presetTicks"></dd>
+            </dl>
+            <% } %>
+        </div>
+      </div>
+      <div class="place-space"></div>
+      <div class="detail-block">
+        <div class="block-heading border">
+          <h4 class="title">填写取票信息</h4>
+        </div>
+        <div class="detail-content preset-confirm">
+          <dl class="block-item">
+            <dt class="b-i-title">取票手机</dt>
+            <dd class="b-i-cotent">
+              <input type="text" class="u-form-control" id="presetMobile" placeholder="取票手机" value='<%=user.mobile%>'>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="operate-btns">
+        <button type="button" id="submitorder" class="btn u-btn">确定预约</button>
+      </div>
+
+    </div>
+    <div id="step3Panel" class="step-panel succeed-tips" style="display:none;">
+      <i class=" iconfont icon-success succeed-icon"></i>
+      <p>您的活动预约已成功！ 您可以：</p>
+      <a href="/user" class="to-link">查看我的订单</a>
+      <a href="/activity" class="to-link">返回活动列表页</a>
+    </div>
+  </div>
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+  <script src="/javascripts/libs/lodash.min.js"></script>
+  <script type="text/javascript">
+    // 日期转字符串
+    function dateToString(date) {
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var day = date.getDate();
+      var dateStr = year + '-' + _.padStart(month, 2, '0') + '-' + _.padStart(day, 2, '0');
+      return dateStr;
+    }
+    // ----------------------------------------------------
+    var userInfo = <%-JSON.stringify(user)%>;
+    // userInfo = JSON.parse(userInfo);
+    var schedule = <%- JSON.stringify(data.itms) %>; // 场次
+    // schedule = JSON.parse(schedule);
+    var seattemplate = <%- JSON.stringify(data.seatTemplate) %>; // 座位模板
+    // seattemplate = JSON.parse(seattemplate);
+    var reserveType = '<%= data.reserveType %>'; // 场次类型
+    var isOnline = reserveType === 'online';
+    var atId = '<%= data.id %>'; // 活动标志
+    var atName = '<%= data.name %>';
+    var numMax = '<%= data.perAllow %>'; // 可预定数量
+    var isRealName = '<%- data.isAuthenticate %>';
+    
+    isRealName = isRealName === 'true';
+    var curItem;
+    var checkedNum = 0; // 已选票数量
+    var leftTicketSum = 0; // 剩余票数
+    // ----------------------------------------------------
+    function initTable() {
+      if (!isOnline) return;
+      if (!seattemplate) {
+        assist.showMsg('座位信息有误');
+        return
+      };
+      var row = seattemplate.rows;
+      var col = seattemplate.columns;
+      var seats = seattemplate.grids;
+      var table = '<table style="width:' + (col * 30 + 20) + 'px">';
+      var lis = '';
+      _.templateSettings.interpolate = /{{([\s\S]+?)}}/g; // lodash的template模版语法用{{}}
+      var tdTemp =
+        '<td class="seat {{ noseat }} {{ disabledseat }}" data-id="{{ seatNo }}" title="{{ seatNo }}">&nbsp;</td>';
+      for (var i = 1; i < row + 1; i++) {
+        var tr = '<tr>'
+        lis += '<li class="seq-item">' + i + '</li>';
+        for (var j = 1; j < col + 1; j++) {
+          var td = ''
+          td = _.template(tdTemp)({
+            noseat: 'non-seat',
+            disabledseat: '',
+            row: i,
+            col: j,
+            seatNo: ''
+          });
+          var item = _.find(seats, function(item) {
+            return item.row === i && item.column === j;
+          });
+          if (item) {
+            td = _.template(tdTemp)({
+              noseat: '',
+              disabledseat: item.type === 'disable' ? 'seat-disabled' : '',
+              seatNo: item.seatNo
+            });
+
+          }
+          tr += td;
+        }
+        tr += '</tr>';
+        table += tr;
+      }
+      table += '</table>';
+      $('#seqWrapper').html('<ul>' + lis + '</ul>');
+      $('#seatTable').html(table);
+      $('#presetSeatWrap').hide();
+    }
+
+    initTable();
+    $(function() {
+      if (!isOnline) {
+        $('#tickMinus').click(function() {
+          if (checkedNum > 0) {
+            checkedNum--;
+            leftTicketSum += 1;
+            $('#leftTicketSum').html('剩余票数 ' + leftTicketSum + ' 张');
+            $('#presetNumsWrap input').val(checkedNum);
+            return;
+          }
+        })
+        $('#tickPlus').click(function() {
+          if (leftTicketSum === 0) {
+            assist.showMsg('余票不足');
+            return;
+          }
+          ValidTick(function(result) {
+            if (!result) return;
+            if (checkedNum < numMax) {
+              checkedNum++;
+              leftTicketSum -= 1;
+              $('#leftTicketSum').html('剩余票数 ' + leftTicketSum + ' 张');
+              $('#presetNumsWrap input').val(checkedNum);
+            }
+          });
+        });
+      }
+
+      // 场次点击
+      $('.js_itms').on('click', '.itm-tag', function() {
+        var activeClass = 'current';
+        var $self = $(this);
+        var datenow = new Date($self.attr('data-dt'));
+        var today = new Date();
+        var dateStr = dateToString(datenow);
+        var timeStr = _.padStart(today.getHours(), 2, '0') + ':' + _.padStart(today.getMinutes(), 2, '0');
+
+        $self.siblings().removeClass(activeClass);
+        $self.addClass(activeClass);
+        $('#presetSeatWrap,#presetNumsWrap,#presetNumsTip').hide();
+        curItem = null;
+        leftTicketSum = 0;
+
+        // 判断选择的日期是否有场次
+        var times = '';
+        for (var i = 0, len = schedule.length; i < len; i++) {
+          var item = schedule[i];
+
+          if (dateStr != item.itmDate) continue;
+          else {
+            if (dateToString(today) === item.itmDate && timeStr > item.startTime) {
+              times += '<span class="itm-tag disabled" title="已过期"' // 已经过了时间点
+            } else {
+              times += '<span class="itm-tag"'
+            }
+            times += ' data-id="' + item.id + '">' + item.startTime + ' - ' + item.endTime + '</span>';
+          }
+        }
+        $('#presetItems').empty().append(times);
+      });
+
+      // 选择某个场次
+      $('#presetItems').on('click', 'span.itm-tag:not(.disabled)', function() {
+        var that = $(this);
+        that.siblings().removeClass('active');
+        that.addClass('active');
+        var itmId = that.attr('data-id');
+        // 找到当前场次，初始化
+        var currentItem = _.find(schedule, function(item) {
+          return item.id === itmId;
+        });
+
+        curItem = currentItem;
+        leftTicketSum = currentItem.remainTicket;
+        checkedNum = 0;
+        if (isOnline) {
+          // 已选座位清空
+          $('#seatTable td[data-type="preorder"]').removeClass('seat-preorder').attr('data-type', '');
+          $('#selectedSeats').empty();
+          // 清除前一场次的已预定座位
+          $('#seatTable td[data-type="reserve"]').removeClass('seat-disabled').attr('data-type', '');
+          if (currentItem) {
+        
+            if (currentItem.reserveSeats && currentItem.reserveSeats.length) {
+              for (var i = 0, len = currentItem.reserveSeats.length; i < len; i++) {
+                var seat = currentItem.reserveSeats[i];
+                $('#seatTable td[data-id="' + seat + '"]').attr('data-type', 'reserve')
+                $('#seatTable td[data-id="' + seat + '"]').addClass('seat-disabled');
+              }
+            }
+            $('#presetSeatWrap').show();
+          }
+        } else {
+          $('#presetNumsWrap,#presetNumsTip').show();
+          $('#presetNumsWrap input').val(checkedNum);
+          $('#leftTicketSum').html(leftTicketSum);
+          $('#reserveSum').html(currentItem.remainSum);
+        }
+      });
+
+      // 当前场次，票数验证
+      function ValidTick(callback) {
+        $.ajax({
+          url: '/user/fetchUserActivityOrder',
+          type: 'post',
+          data: {
+            userId: userInfo.id,
+            itmId: curItem.id,
+            id: atId
+          },
+          success: function(res) {
+            var have = true;
+            if (res >= numMax) {
+              assist.showMsg('您在当前所选场次预订票数达到上限' + numMax + '张')
+              have = false;
+            } else if (checkedNum >= (numMax - res)) {
+              assist.showMsg('您已预定了' + res + '张票，每人最多预定' + numMax + '张')
+              have = false;
+            }
+            callback(have);
+          }
+        })
+      }
+      // 座位点击
+      $("#seatTable").on('click', 'tr td:not(.seat-disabled,.non-seat)', function() {
+        var that = $(this);
+        var seatId = that.attr('data-id');
+        if (that.hasClass('seat-preorder')) {
+          checkedNum -= 1;
+          leftTicketSum += 1;
+          that.removeClass('seat-preorder');
+          that.attr('data-type', '');
+          $('#selectedSeats span[data-id="' + seatId + '"]').remove();
+          return;
+        }
+        ValidTick(function(result) {
+          if (!result) return;
+
+          checkedNum += 1;
+          leftTicketSum -= 1;
+          that.addClass('seat-preorder');
+          that.attr('data-type', 'preorder');
+          $('#selectedSeats').append('<span class="selected-itm" data-id="' + seatId + '">' + that.attr(
+            'title') + '</span>')
+        });
+      });
+      // 下一步
+      $('#nextstup').click(function() {
+        if (!curItem) {
+          assist.showMsg('请选择场次');
+          return;
+        }
+        if (isOnline && checkedNum == 0) {
+          assist.showMsg('请选择座位');
+          return;
+        } else if (!isOnline && checkedNum == 0) {
+          assist.showMsg('请添加预约票数');
+          return;
+        }
+        if (isRealName && userInfo.identifyStatus != "Yes") {
+          assist.showMsg('请先实名认证');
+          return;
+        }
+        if (!$('#protocol')[0].checked) {
+          assist.showMsg('请阅读并接受预定须知相关条款');
+          return;
+        }
+
+          // if (!have) true;
+          $('.m-activity-step .step-item').eq(1).addClass('active');
+          $('.m-activity-step .bar').eq(0).addClass('active');
+
+          var week = {
+            '0': '\u5468\u65e5',
+            '1': '\u5468\u4e00',
+            '2': '\u5468\u4e8c',
+            '3': '\u5468\u4e09',
+            '4': '\u5468\u56db',
+            '5': '\u5468\u4e94',
+            '6': '\u5468\u516d'
+          };
+          var weekName = week[new Date(curItem.itmDate).getDay()];
+          $('#presetItem').html(curItem.itmDate + ' ' + weekName + ' ' + curItem.startTime + ' ~ ' +
+            curItem.endTime);
+          $('#presetTickNum').html(checkedNum);
+          if (isOnline) {
+            $('#presetTicks').empty().append($('#selectedSeats .selected-itm').clone());
+          }
+          $('#step2Panel').show();
+          $('#step1Panel').hide();
+        })
+
+      // 发送验证码
+      $('#codeBtn').click(function() {
+        if (!assist.required($('#presetMobile').val(), '请输入手机号码')) return;
+        if (!assist.verifyMobile($('#presetMobile').val(), '请输入合法有效的手机号码')) return;
+        var $btn = $(this);
+        if ($btn.hasClass('js_pause')) return;
+        if ($btn.hasClass('disabled')) return;
+        $btn.addClass('js_pause');
+        var mobile = $('#presetMobile').val()
+        $.ajax({
+          url: '/user/vcodes',
+          type: 'post',
+          data: {
+            mobile: mobile
+          },
+          success: function(res) {
+            $btn.removeClass('js_pause');
+            if (res.success) {
+              assist.showMsg('验证码已发送到您手机，请注意查收！');
+              assist.count_down('#codeBtn', 60000);
+            } else {
+              $btn.removeClass('disabled');
+              assist.showMsg('验证码发送失败');
+            }
+          },
+          failure: function(err) {
+            assist.showMsg('验证码发送失败');
+            $btn.removeClass('js_pause disabled');
+          }
+        })
+      });
+
+      // 提交预约
+      $('#submitorder').click(function() {
+        // 验证手机 
+        var mobile = $('#presetMobile').val();
+        var code = $('#recode').val();
+        if (!assist.required(mobile, '请输入手机号码')) return;
+        if (!assist.verifyMobile(mobile, '请输入合法有效的手机号码')) return;
+        // if(!assist.required(code,'请输入验证码')) return;
+
+        // 验证提交
+        var seatList = [];
+        if (isOnline) {
+          $('#selectedSeats .selected-itm').each(function(e) {
+            seatList.push({
+              seatNo: $(this).text()
+            })
+          });
+        }
+        $.ajax({
+          url: '/activity/order/' + atId,
+          type: 'post',
+          data: {
+            // vcode: code,
+            mobile: mobile,
+            activityId: atId,
+            activityName: atName,
+            itmId: curItem.id,
+            reserveType: reserveType,
+            itmDate: curItem.itmDate,
+            itmStarttime: curItem.startTime,
+            itmEndtime: curItem.endTime,
+            reserveSum: checkedNum,
+            seats: seatList
+          },
+          success: function(res) {
+            if (res.success) {
+              assist.showMsg('预定成功');
+              // location.href = '/activity/booking/'+ atId;
+              $('.m-activity-step .step-item').eq(2).addClass('active');
+              $('.m-activity-step .bar').eq(1).addClass('active');
+              $('#step1Panel,#step2Panel').hide();
+              $('#step3Panel').show();
+            } else {
+              assist.showMsg(res.message);
+            }
+          }
+        });
+      });
+
+    });
+  </script>
+</body>
+
+
+</html>

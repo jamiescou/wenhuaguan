@@ -1,0 +1,76 @@
+.block-heading {
+    position: relative;
+    padding: 15px;
+    // background-color: #fff;
+    @extend %clearfix;
+    &.border {
+        border-bottom: 1px solid $block-heading-border;
+    }
+    .title {
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0;
+        color: $block-heading-color;
+        font-size: $block-heading-fs;
+        @extend %pull-left;
+        &.big-title {
+            font-size: $block-heading-big-fc;
+            letter-spacing: 5px;
+            .sub-small {
+                margin-left: 8px;
+                color: $block-heading-more-color;
+                font-size: $block-heading-big-sub-fc;
+                letter-spacing: 0px;
+            }
+        }
+        .icon {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 20px;
+        }
+    }
+    .more {
+        color: $block-heading-more-color;
+        @extend %pull-right;
+        a {
+            color: inherit;
+            display: block !important;
+        }
+        &.big-more {
+            font-size: $block-heading-big-more-fc;
+            padding-top: $block-heading-big-fc / 2;
+        }
+    }
+}
+
+.detail-block {
+    padding-bottom: $detail-block-padding;
+    background-color: $container-bg;
+    .block-heading {
+        height: $detail-block-heading-height;
+        line-height: $detail-block-heading-height;
+        padding: 0 30px;
+    }
+    .detail-content {
+        padding: $detail-block-content-padding $detail-block-content-padding 0;
+    }
+    .padding-content{
+        padding: 0;
+    }
+    .block-item {
+        display: table;
+        .b-i-title {
+            display: table-cell; 
+            min-width: 70px;
+            padding-right: 5px;
+            font-weight: 400;
+            color: #666;
+            text-align: right;
+            vertical-align: middle;
+        }
+        .b-i-cotent {
+            color: #333;
+            margin: 0;
+        }
+    }
+}

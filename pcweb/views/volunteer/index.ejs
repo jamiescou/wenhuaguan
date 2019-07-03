@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        志愿者
+    </title>
+    <% include ../common/head %>
+        <link rel='stylesheet' href='/styles/volunrecruit.min.css' />
+        <link rel='stylesheet' href='/javascripts/libs/swiper/swiper.min.3.4.2.css' />
+        <script src="/javascripts/libs/swiper/swiper.min3.4.2.js"></script>
+</head>
+
+<body>
+    <header>
+        <% include ../common/header %>
+    </header>
+ 
+    <div class="volun-header">
+        <div class="swiper-container" id="indexSwiper">
+            <div class="swiper-wrapper">
+                <% figure.forEach(function (item,index) { %>
+                    <div class="swiper-slide" style="background: url('<%=item.coverPic%>') center;background-size:cover;"></div>
+                <% }) %>
+            </div>
+            <div class="pagination swiperbtn j-brand-pagination"></div>
+        </div>
+        <script type="text/javascript">
+            var indexSwiper = new Swiper('#indexSwiper', {
+                autoplay: 5000, // 可选选项，自动滑动
+                // loop: true, //可选选项，开启循环
+                pagination: '.j-brand-pagination',
+                paginationClickable: true
+            });
+        </script>
+        <div class="positionWrap">
+            <div class="position">
+                <h1><img src="/images/become.png"></h1>
+                <div>
+                    <% if(user){%>
+                    
+                        <% if(user.identifyStatus!='Yes'){%>
+                            <span class="btn disabled">请先完成实名认证</span>
+                        <%} else {%>
+                            <% if(user.roles&&user.roles.join('').indexOf('volunteerPersonal')>=0){%>
+                                <span class="btn disabled">已是个人志愿者</span>
+                                <%}else{%>
+                                   <%-include('../common/authBtn.ejs',{ authRouter :"/volunteer/booking/personal",btnTitle:'个人志愿者'}) %>
+                                <%}%>
+              
+                                  <% if(user.roles&&user.roles.join('').indexOf('volunteerTeam')>=0){%>
+                                      <span class="btn disabled">已是团队志愿者</span>
+                                  <%}else{%>
+                                      <%-include('../common/authBtn.ejs',{ authRouter :"/volunteer/booking/team",btnTitle:'团队志愿者'}) %>
+                                  <%}%>
+                        <%}%>
+                   <%} else {%>
+                            <%-include('../common/authBtn.ejs',{ authRouter :"/volunteer/booking/personal",btnTitle:'个人志愿者'}) %>
+                            <%-include('../common/authBtn.ejs',{ authRouter :"/volunteer/booking/team",btnTitle:'团队志愿者'}) %>
+                    <%}%>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="g-content">
+        <div class="place-space"></div>
+        <div class="list-content">
+            <div class="block-heading">
+                <h4 class="title">志愿者活动</h4>
+            </div>
+            <div class="content">
+                <% if(data&&data.content.length>0){%>
+                    <% data.content.forEach(function (item) { %>
+                        <div class="card col-4 border">
+                            <a class="card-head" href="/volunteer/recruitdetail/<%= item.id %>">
+                                <img class="img-top" src="<%= item.coverPic %>" onerror="noImg()">
+                                <span class="card-tag">
+                                    <% if(!item.isStop){ %>
+                                        招募
+                                        <%= item.limitNum %>人
+                                            <% }else { %>
+                                                停止招募
+                                                <% } %>
+                                </span>
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <%= item.name %>
+                                </h5>
+                                <div class="card-info">
+                                    <p>
+                                        <i class="icon iconfont icon-time"></i>
+                                        <span>
+                                            <%= item.startTime %>
+                                        </span>
+                                    </p>
+                                    <p>
+                                        <i class="icon iconfont icon-location"></i>
+                                        <span>
+                                            <%= item.address %>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <% }) %>
+                            <%} else {%>
+                                <% include ../common/nodata %>
+                                    <%}%>
+            </div>
+        </div>
+        <%- include('../common/paginator.ejs', {page : data.number + 1, totalPages : data.totalPages, pageUrl : '/volunteer', totalElements : data.totalElements}) %>
+    </div>
+    <div class="place-space"></div>
+    <footer>
+        <% include ../common/footer %>
+    </footer>
+</body>
+<script>
+</script>
+
+</html>

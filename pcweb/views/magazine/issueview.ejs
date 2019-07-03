@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        杂志详情
+    </title>
+    <% include ../common/head %>
+    <script src="/javascripts/libs/swiper/swiper.min.js"></script>
+    <script src="/javascripts/libs/e-smart-zoom-jquery.min.js"></script>
+    <link rel='stylesheet' href='/javascripts/libs/swiper/swiper.min.css'/>
+    <link rel='stylesheet' href='/styles/magazine.min.css'/>
+
+</head>
+
+<body>
+<header>
+    <% include ../common/header %>
+</header>
+
+<div class="g-content">
+    <div class="crumbs">
+        <ul>
+            <li><a href="/">首页&nbsp;&nbsp;></a></li>
+            <li><a href="/magazine">电子杂志&nbsp;&nbsp;></a></li>
+            <li><a href="javascript:void(0)">杂志详情</a></li>
+        </ul>
+    </div>
+</div>
+<div class="g-content">
+    <div class="magazine-title"><%= magazine.name%></div>
+    <% if(data.length > 0){ %>
+    <div class="exhibition-detail">
+        <img id='mainPic'>
+        <div class="info">
+            <div class="_header">
+                <span id="header"></span>
+                <span id='curIndex'></span>
+            </div>
+            <div class="fangda">
+                <!--<a href="javascript:void(0)">前往阅读完整杂志</a>-->
+                <div class="anniu">
+                    <div class="_suoxiao" id="zoomOutButton"><i class="iconfont icon-suoxiao"></i></div>
+                    <div class="_fangda" id="zoomInButton"><i class="iconfont icon-fangda"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="place-space"></div>
+    </div>
+    <div class="magazine-swiper">
+            <div class="g-content magazine-content">
+                    <div class="swiper-container swiper-container-horizontal swiper-container-wp8-horizontal" id="magazineSwiper">
+                            <div class="swiper-wrapper">
+                                <% data.forEach(function(item, index){ %>
+                                <div class="swiper-slide">
+                                    <img src="<%= item %>" data-id="<%= item %>" onerror="noImg()">
+                                </div>
+                                <% }) %>
+                            </div>
+                    </div>
+                     <!-- Add Arrows -->
+                <div class="swiper-button btn-next j-book-next"></div>
+                <div class="swiper-button btn-prev j-book-prev"></div>
+            </div>
+    </div>
+    <div class="place-space"></div>
+    <div class="place-space"></div>
+    <div class="place-space"></div>
+    <div class="place-space"></div>
+    <% }else {%>
+    <%-include('../common/nodata', {tip: '暂无作品'}) %>
+    <%} %>
+</div>
+<footer>
+    <% include ../common/footer %>
+</footer>
+</body>
+<script>
+
+    var exhibitionObj = <%- JSON.stringify(data) %>;
+    // var exhibitionObj = JSON.parse(worksStr);
+
+    var mySwiper = new Swiper('#magazineSwiper', {
+        slidesPerView: 6
+    })
+    $('.j-book-next').on('click', function(e){
+        e.preventDefault()
+        mySwiper.swipePrev()
+    })
+    $('.j-book-prev').on('click', function(e){
+        e.preventDefault()
+        mySwiper.swipeNext()
+    })
+
+    $(document).ready(function () {
+
+        if (exhibitionObj.length > 0) {
+            selectImg($($('.swiper-wrapper img')[0]).data('id'));
+            $('.swiper-wrapper img').click(function (evt) {
+                selectImg($(this).data('id'));
+            })
+
+            function selectImg(dataId,dataText) {
+                for (var i = 0; i < exhibitionObj.length; i++) {
+                    if (exhibitionObj[i] == dataId) {
+                        $('#mainPic').attr('src', exhibitionObj[i]);
+                        $('#curIndex').html('<i>'+(i + 1).toString()+'</i>' + '/' + exhibitionObj.length);
+                    }
+                }
+
+            }
+
+
+            $('#mainPic').smartZoom({'containerClass':'zoomableContainer'});
+            $('#topPositionMap,#leftPositionMap,#rightPositionMap,#bottomPositionMap').bind("click", moveButtonClickHandler);
+            $('#zoomInButton,#zoomOutButton').bind("click", zoomButtonClickHandler);
+
+            function zoomButtonClickHandler(e){
+                var scaleToAdd = 0.8;
+                if(e.currentTarget.id == 'zoomOutButton')
+                    scaleToAdd = -scaleToAdd;
+                $('#mainPic').smartZoom('zoom', scaleToAdd);
+            }
+            function moveButtonClickHandler(e){
+                var pixelsToMoveOnX = 0;
+                var pixelsToMoveOnY = 0;
+
+                switch(e.target.id){
+                    case "leftPositionMap":
+                        pixelsToMoveOnX = 50;
+                        break;
+                    case "rightPositionMap":
+                        pixelsToMoveOnX = -50;
+                        break;
+                    case "topPositionMap":
+                        pixelsToMoveOnY = 50;
+                        break;
+                    case "bottomPositionMap":
+                        pixelsToMoveOnY = -50;
+                        break;
+                }
+                $('#mainPic').smartZoom('pan', pixelsToMoveOnX, pixelsToMoveOnY);
+            }
+        }
+    })
+</script>
+
+</html>

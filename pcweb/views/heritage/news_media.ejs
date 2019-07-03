@@ -1,0 +1,14 @@
+<a class="media card-media news-media" href="/issue/detail/<%=news.id%>">
+    <div class="media-left">
+        <% if(news.coverPic2){ %>
+            <img src="<%= news.coverPic2 %>" alt="资讯图片" />
+        <% } %>
+    </div>
+    <div class="media-body">
+        <h4 class="u-title"> <%= news.title %></h4>
+        <div class="body-bottom">
+            <div class="u-remark">来源：<%= news.source %></div>
+            <div class="u-remark">作者：<%= news.author %>&nbsp;&nbsp;发布时间：<%= news.publishTime %></div>
+        </div>
+    </div>
+</a>

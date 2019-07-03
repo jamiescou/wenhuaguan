@@ -1,0 +1,192 @@
+@import '../base/variables';
+@import '../base/mixins';
+@import '../components/index';
+//文艺团队
+.teams {
+    margin-top: 20px!important;
+    .tabtitle {
+        background: #fff;
+        overflow: hidden;
+        padding: 20px 40px;
+        border-bottom: 1px solid #f8f8f8;
+        li {
+            font-size: 18px;
+            color: #999;
+            margin-right: 70px;
+            float: left;
+            cursor: pointer;
+        }
+        .active {
+            color: $red;
+        }
+    }
+    .tabpancel {
+        display: none;
+    }
+    .detail {
+        .brief {
+            background: #fff;
+            padding: 20px 40px;
+            font-size: 16px;
+            color: #666;
+            line-height: 30px;
+        }
+    }
+    .mein {
+        background: #fff;
+        .meinlist {
+            padding: 20px 40px;
+            .title {
+                font-size: 22px;
+                margin: 0;
+                font-weight: 500px!important;
+            }
+            .time {
+                font-size: 16px;
+                color: #999;
+                line-height: 40px;
+            }
+            .content {
+                font-size: 18px;
+                color: #666;
+            }
+            .imglist {
+                overflow: hidden;
+                margin-top: 30px;
+                padding-bottom: 20px;
+                border-bottom: 2px solid #f7f7f7;
+                li {
+                    float: left;
+                    margin-right: 35px;
+                    img {
+                        width: 200px;
+                        height: 150px;
+                    }
+                }
+            }
+        }
+    }
+    .member {
+        // 成员列表
+        .member-list {
+            padding: 30px 0px;
+            overflow: hidden;
+            background-color: $container-bg;
+            li {
+                width: 16.66%;
+                float: left;
+                text-align: center;
+                .avatar {
+                    display: block;
+                    width: 120px;
+                    height: 120px;
+                    border-radius: 50%;
+                    margin: 0 auto;
+                }
+                .member {
+                    margin-top: 20px;
+                    .name {
+                        display: inline-block;
+                        color: $black;
+                        font-size: $font-size18;
+                        vertical-align: middle;
+                    }
+                    .tag {
+                        margin-left: 8px;
+                        padding: 0px 8px;
+                        border-radius: 5px;
+                    }
+                }
+            }
+        }
+    }
+}
+.list-content-pic {
+    background-color: $container-bg;
+    .content {
+        @include make-grid-columns(2, 20px);
+    }
+    .content3 {
+        @include make-grid-columns(3, 20px);
+    }
+    .col-2 {
+        margin-bottom: 20px;
+        .card {
+            height: 540px;
+        }
+    }
+    .col-3{
+        width: 33% !important;
+    }
+    .img-card {
+        height: 278px; // line-height: 278px;
+        margin-bottom: 20px;
+        .smallthum {
+            float: right;
+            cursor: pointer;
+        }
+        .card-title {
+            line-height: 36px;
+        }
+    }
+    .img-top {
+        width: auto;
+        height: auto;
+        max-height: 100%;
+        max-width: 100%;
+        margin: 0 auto; // vertical-align: middle;
+    }
+    .card {
+        background-color: $container-bg;
+        .img-top {
+            cursor: pointer;
+            img {
+                width: 550px;
+                height: 367px;
+            }
+        }
+        .card-title {
+            @extend %singleline-ellipsis;
+        }
+        .card-info .brief {
+            height: 60px;
+            @include text-line(2)
+        }
+    }
+    .report-item {
+        padding: 10px 14px; // margin-top: -1px;
+        // margin-left: -1px;
+        border: 1px solid $gray-f8;
+        .img-card {
+            width: 270px;
+            height: 180px;
+        }
+    }
+}
+
+.list-content {
+    background-color: $container-bg;
+    .content {
+        @include make-grid-columns(4);
+    }
+    .card {
+        .img-top {
+            height: 186px;
+        }
+        .card-title {
+            @extend %singleline-ellipsis;
+        }
+    }
+    p {
+        .iconfont {
+            color: $red;
+            margin-right: 8px;
+        }
+    }
+    .report-item {
+        padding: 10px 14px;
+        margin-top: -1px;
+        margin-left: -1px;
+        border: 1px solid $gray-f8;
+    }
+}

@@ -1,0 +1,27 @@
+<div class="brief-media">
+        <div class="media">
+            <div class="media-left">
+                <img src="<%= data.coverPic %>" alt="会员图片" class="brief-img" />
+            </div>
+            <div class="media-center">
+                <h3 class="name">
+                        <%= data.name %>
+                </h3>
+                <p class="describe ">
+                    <i class="iconfont icon-location"></i>地址：
+                    <%= data.address %>
+                         
+                </p>
+                <p class="describe f-nowrap">
+                    <i class="iconfont icon-phone"></i>电话：
+                    <%= data.contactPhone %>
+                </p>
+            </div>
+        </div>
+    
+        <div class="opres">
+                   <%- include('../common/favoritedBtn.ejs',{ objectId:data.id,type:'PhotographyMemberWorks',favorited:favorited }) %>
+                   <%- include('../common/bshare') %>
+        </div>
+    
+    </div>

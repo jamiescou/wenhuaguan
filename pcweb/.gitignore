@@ -1,0 +1,14 @@
+# dependencies
+node_modules
+public/stylesheets/style.css
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.rar
+*.zip
+pc_logs/**/*.*
+public/styles/*.css

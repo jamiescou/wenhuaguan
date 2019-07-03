@@ -1,0 +1,37 @@
+
+
+<div class="left-menu">
+    <div class="left-head">
+        <p>关于学会</p>
+        <p>Guan &nbsp;Yu &nbsp; Xue &nbsp; Hui</p>
+    </div>
+    <a class="left-item active"  href='xhjj'>
+        <span>学会简介</span>
+        <i class="iconfont icon-right-angle"></i>
+    </a>
+    <a class="left-item active"  href='gzzd'>
+        <span>规章制度</span>
+        <i class="iconfont icon-right-angle"></i>
+    </a>
+    <a class="left-item"  href='zzjg'>
+        <span>组织机构</span>
+        <i class="iconfont icon-right-angle"></i>
+    </a>
+    <a class="left-item"  href='hyfw'>
+        <span>会员服务</span>
+        <i class="iconfont icon-right-angle"></i>
+    </a>
+    <a class="left-item noborder"  href='contactUs'>
+        <span>联系学会</span>
+        <i class="iconfont icon-right-angle"></i>
+    </a>
+</div>
+<script>
+        var curModel = window.location.pathname.split('/')[2];
+        $('.left-menu a').each(function (index) {
+            $(this).removeClass('active');
+            if ($(this).attr('href') == curModel) {
+                $(this).addClass('active');
+            }
+        })
+</script>

@@ -1,0 +1,72 @@
+@import '../base/variable';
+@import '../base/mixins';
+.num-control {
+    display: block;
+    @include clearfix;
+    border: 1px solid $num-border;
+    border-radius: $num-icon-border-radius;
+    .num-input {
+        float: left;
+        height: $num-height;
+        font-size: $num-fs;
+        color: $num-color;
+        appearance: none;
+        /*border: 1px solid $num-border;*/
+        padding: $num-input-padding;
+        text-align: center;
+        border-radius: 1px;
+        box-sizing: content-box;
+    }
+    .num-oper {
+        float: left;
+        height: $num-height;
+        font-size: $num-icon-size;
+        line-height: $num-icon-lheight;
+        color: $num-icon-color;
+        /*border: 1px solid $num-border;*/
+        box-sizing: content-box;
+        svg {
+            fill: $num-icon-color;
+        }
+        &.num-disabled svg {
+            fill: $num-disabeld-color;
+        }
+    }
+    .num-oper-sub {
+        /*border-right: none;*/
+        border-right: 1px solid $num-border;
+        padding: $num-icon-sub-padding;
+        /*border-radius: $num-icon-border-radius 0 0 $num-icon-border-radius;*/
+    }
+    .num-oper-plus {
+        /*border-left: none;*/
+        border-left: 1px solid $num-border;
+        padding: $num-icon-plus-padding;
+        /*border-radius: 0 $num-icon-border-radius $num-icon-border-radius 0;*/
+    }
+    &.num-round {
+        .num-input {
+            border: none;
+        }
+        .num-oper {
+            width: $num-height;
+            border-radius: 100%;
+            &.num-disabled {
+                border-color: $num-disabeld-color;
+                svg {
+                    fill: $num-disabeld-color;
+                }
+            }
+        }
+        .num-oper-sub svg {
+            position: relative;
+            top: 1px;
+        }
+        .num-oper-sub,
+        .num-oper-plus {
+            padding: $round-num-icon-padding;
+            border: 1px solid $num-icon-color;
+            text-align: center;
+        }
+    }
+}

@@ -1,0 +1,170 @@
+<%
+var region = query.region ? '&region=' + query.region : '';
+var type = query.type ? '&type=' + query.type : '';
+var batch = query.batch ? '&batch=' + query.batch : '';
+var level = query.level ? '&level=' + query.level : '';
+var key = query.key ? '&key=' + query.key : '';
+var heritagePrj=query.heritagePrj ? '&heritagePrj=' + query.heritagePrj : '';
+
+var heritagePage = '/heritage/heritagePrj?' + type + batch+level+region;
+var regionPage = '/heritage/heritagePrj?' + type + batch+level+heritagePrj;
+var typePage = '/heritage/heritagePrj?' + batch+level + region+heritagePrj;
+var batchPage = '/heritage/heritagePrj?' + level + region+type+heritagePrj;
+var levelPage = '/heritage/heritagePrj?'  + batch + type + region+heritagePrj;
+var keypage= '/heritage/heritagePrj?'  + type + batch+level+region+heritagePrj;
+var pagingPage= '/heritage/heritagePrj?'  + type + batch+level+region+heritagePrj+key;
+
+heritagePage=heritagePage.replace('?&','?');
+regionPage=regionPage.replace('?&','?');
+typePage=typePage.replace('?&','?');
+batchPage=batchPage.replace('?&','?');
+levelPage=levelPage.replace('?&','?');
+keypage=keypage.replace('?&','?');
+pagingPage=pagingPage.replace('?&','?');
+%>
+  <!DOCTYPE html>
+  <html>
+
+  <head>
+    <title>
+      非遗名录
+    </title>
+    <% include ../common/head %>
+    <link rel='stylesheet' href='/styles/heritage.min.css' />
+  </head>
+
+  <body>
+    <header>
+      <% include ../common/header %>
+    </header>
+ 
+    
+      <div class="g-content">
+          <div class="crumbs">
+              <ul>
+                <li>
+                  <a href="">首页&nbsp&nbsp></a>
+                </li>
+                <li>
+                  <a href="#">非遗项目</a>
+                </li>
+        
+              </ul>
+            </div>
+          <%- include('../common/heritageCenter') %>
+        <div class="m-filter-pannel">
+          <div class="m-search-lst">
+             
+            <div class="item">
+                <h4 class="tag-hd">非遗名录：</h4>
+                <div class="tag-wrap">
+                  <a class="tag-item <% if(query.heritagePrj=='heritageDirectory'||query.heritagePrj==undefined){ %>active<% } %>" href="<%- heritagePage %>&heritagePrj=heritageDirectory">非遗项目</a>
+                  <a class="tag-item <% if(query.heritagePrj=='heritageSuccessor'){ %>active<% } %>" href="<%- heritagePage %>&heritagePrj=heritageSuccessor">非遗传承人</a>
+                  <a class="tag-item <% if(query.heritagePrj=='heritageProtectArea'){ %>active<% } %>" href="<%- heritagePage %>&heritagePrj=heritageProtectArea">生态保护区</a>
+                </div>
+              </div>
+
+              <div class="item">
+                <h4 class="tag-hd">区&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;域：</h4>
+                <div class="tag-wrap">
+                  <a class="tag-item <% if(!query.region){ %>active<% } %>" href="<%- regionPage %>">全部</a>
+                  <% regions.forEach(function (region) { %>
+                    <a class="tag-item <% if(query.region&&query.region===region.code){ %>active<% } %>" href="<%- regionPage %>&region=<%=region.code%>">
+                      <%= region.name%>
+                    </a>
+                    <% }) %>
+                </div>
+              </div>
+
+            <div class="item">
+              <h4 class="tag-hd">非遗级别：</h4>
+              <div class="tag-wrap">
+                <a class="tag-item <% if(!query.level){ %>active<% } %>" href="<%- levelPage %>">全部</a>
+                <% levels.forEach(function (type) { %>
+                  <a class="tag-item <% if(query.level&&query.level===type.code){ %>active<% } %>" href="<%- levelPage %>&level=<%=type.code%>">
+                    <%= type.value%>
+                  </a>
+                  <% }) %>
+              </div>
+            </div>
+
+            <div class="item">
+              <h4 class="tag-hd">非遗批次：</h4>
+              <div class="tag-wrap">
+                <a class="tag-item <% if(!query.batch){ %>active<% } %>" href="<%- batchPage %>">全部</a>
+                <% batchs.forEach(function (type) { %>
+                  <a class="tag-item <% if(query.batch&&query.batch===type.code){ %>active<% } %>" href="<%- batchPage %>&batch=<%=type.code%>">
+                    <%= type.value%>
+                  </a>
+                  <% }) %>
+              </div>
+            </div>
+    
+            <div class="search-area">
+                <input id="keysearchcontent" type="text" placeholder="关键词搜索..." value='<%=query.key%>'>
+                <button id="keysearch" title="点击搜索">
+                    <i class="iconfont icon-search"></i>
+                </button>
+             </div>
+          </div>
+        </div>
+
+        
+          <div class="m-filter-pannel">
+            <div class="m-search-lst nomargin">
+              <div class="item">
+                <div class="tag-wrap">
+                  <a class="tag-item nobg <% if(!query.type){ %>active<% } %>" href="<%- typePage %>">全部</a>
+                  <% heritageTypes.forEach(function (type) { %>
+                    <a class="tag-item nobg <% if(query.type&&query.type===type.code){ %>active<% } %>" href="<%- typePage %>&type=<%=type.code%>">
+                      <%= type.value%> 
+                    </a>
+                    <% }) %>
+                </div>
+              </div>
+            </div>
+          </div>
+         
+
+          <div class="list-content">
+            <div class="content">
+             <% if(data.content.length){%>
+              <% data.content.forEach(function (item) { %>
+                <div class="card card1 col-4 border">
+                    <a class="card-head" href='/heritage/heritagedetail/<%= item.id %>?type=<%=item.itemType%>'>
+                        <img class="img-top" src="<%=item.coverPic%>" alt="活动图片">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title"> <%= item.name %></h5>
+                        <p class="card-text"><%- item.brief %></p>
+                    </div>
+                </div>
+                <% }) } else {%>
+                  <%- include('../common/nodata.ejs')%>
+                  <%}%>
+
+            </div>
+            <%- include('../common/paginator.ejs', {page : data.number + 1, totalPages : data.totalPages, pageUrl : pagingPage, totalElements: data.totalElements}) %>
+          </div>
+
+      </div>
+      <div class="place-space"></div>
+        <footer>
+          <% include ../common/footer %>
+        </footer>
+  </body>
+  <script>
+      $(function(){
+         $('#keysearch').click(function(){
+             var key=$('#keysearchcontent').val();
+            //  if(!key){
+            //    assist.showMsg('请输入关键词');
+            //    return;
+            //  }
+             var keypage='<%=keypage%>';
+             window.location.href=keypage+'&key='+key; 
+         })
+  
+      })
+    </script>
+  </html>

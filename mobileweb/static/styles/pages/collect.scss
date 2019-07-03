@@ -1,0 +1,264 @@
+@import '../libs/px2rem.scss';
+@import '../base/_variable';
+@import '../base/mixins';
+
+.collect-detail {
+    .card-title {
+        width: px2rem(580);
+    }
+}
+.card-scan {
+    font-size: $f-size10;
+    color: #999;
+    line-height: $card-title-lineheight;
+    position: absolute;
+    right: px2rem(36);
+    top: px2rem(20);
+    .iconNew-scan {
+        font-size: px2rem(26);
+        color: #999;
+        position: relative;
+        top: px2rem(4);
+        margin-right: px2rem(8);
+    }
+}
+
+.collect-container {
+    .favorite-reserve {
+        padding-top: px2rem(20);
+        line-height: px2rem(40);
+        .icon {
+            vertical-align: top;
+        }
+        .reserve-tip {
+            font-size: $f-size12;
+            text-align: right;
+            color: $color-org;
+        }
+    }
+    .list-wraper .card {
+        margin-bottom: px2rem(20);
+        padding: px2rem(20) px2rem(20) px2rem(36);
+        .card-info+.card-info {
+            margin-top: px2rem(15);
+        }
+        .desc {
+            @include text-line(2);
+            line-height: px2rem(36);
+        }
+    }
+}
+
+.alt {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: #333;
+    div {
+        height: 100%; // height:calc(100%-20);
+    }
+}
+
+.photo-altas {
+    $desc-height:356;
+    .alt-pic{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        // padding-bottom: px2rem($desc-height);
+        img {
+            display: block;
+            /*width: 100%;
+            max-height: 100%;*/
+            width: 100%;
+            height: auto;
+            margin: 0 auto;
+        }
+    }
+    .desc {
+        margin-top: px2rem(-($desc-height));
+        padding: px2rem(30);
+        padding-bottom: px2rem(100);
+        background-color: rgba(0, 0, 0, 0.46);
+        color: white;
+        height: px2rem($desc-height);
+        width: 100%;
+        overflow: scroll;
+        .contents {
+            font-size: px2rem(28);
+            text-indent: 2em;
+            text-align: justify;
+            padding-top: px2rem(20)
+        }
+        .index {
+            font-size: px2rem(36);
+            .cur {
+                font-size: px2rem(45);
+                padding-right: 2px;
+            }
+        }
+        .title {
+            font-size: px2rem(32)
+        }
+    }
+}
+
+.comments-alt {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-size: px2rem(32);
+    line-height: px2rem(100) !important;
+    vertical-align: middle;
+    height: px2rem(100) !important;
+    width: 100%;
+    color: white;
+    .alt-c {
+        text-align: left;
+        padding-left: 20px;
+    }
+    .icon {
+        font-size: px2rem(40);
+        padding-right: 10px;
+    }
+}
+
+.products {
+    padding: px2rem(15) px2rem(40) 0 px2rem(36);
+    overflow: hidden;
+    background: $content-bg;
+    .card-col-2 {
+        @include make-grid-columns(2, 30px);
+    }
+    .card {
+        padding-top: px2rem(30);
+        .card-hd  {
+            height: px2rem(220);
+        }
+        .card-title {
+            text-align: center;
+        }
+    }
+    .more {
+        background: $content-bg;
+        padding: px2rem(32) 0;
+        line-height: px2rem(36);
+        font-size: px2rem(28);
+        letter-spacing: 1px;
+        color: $color-999;
+        text-align: center;
+    }
+}
+
+.block-container {
+    position: relative;
+    overflow: hidden;
+    margin: 0 $gutter 0;
+    padding-top: px2rem(20);
+    overflow: hidden;
+    .detail {
+        background-color: $color-fff;
+        .media-bd {
+            height: px2rem(160);
+        }
+        .media-object {
+            margin-left: 0;
+            padding-right: px2rem(20)
+        }
+        .media-object>img {
+            width: px2rem(240);
+            height: px2rem(160);
+        }
+        .media-title {
+            margin-bottom: px2rem(20);
+            @extend %singleline-ellipsis;
+        }
+        .brief {
+            @include text-line(3);
+        }
+        .icon {
+            font-size: inherit;
+        }
+        p {
+            margin: 0;
+        }
+        p+p {
+            margin-top: px2rem(8);
+        }
+    }
+    .loadmore-wrapper {
+        padding-bottom: px2rem(104);
+    }
+}
+
+.clct-form {
+    background: white;
+    .form-item {
+        border-bottom: 1px solid $color-ccc;
+        margin: px2rem(20);
+        label {
+            font-size: px2rem(30);
+            display: inline-block;
+            margin-bottom: px2rem(10)
+        }
+        input {
+            padding: 0;
+        }
+        .mint-field-core {
+            padding: 0;
+            font-size: px2rem(28) !important
+        }
+        .photo {
+            padding-bottom: px2rem(10);
+            display: flex;
+            .addphoto {
+                width: px2rem(210);
+                height: px2rem(140);
+                text-align: center;
+                background-color: $color-d2;
+                line-height: px2rem(140);
+                cursor: pointer;
+                border: px2rem(1) solid $color-ccc;
+                border-radius: 8px;
+                .icon {
+                    font-size: px2rem(80);
+                }
+            }
+            .showPhoto {
+                text-align: left;
+                img {
+                    width: px2rem(210);
+                    height: px2rem(140);
+                    margin-left: 20px;
+                }
+            }
+        }
+    }
+}
+
+// 作品征集详情
+.collect-detail {
+    padding-bottom: $foot-height;
+    .base-info {
+        .card-bd {
+            padding: px2rem(20) 0 px2rem(20) px2rem(36);
+        }
+        .card-title {
+            font-size: $f-size16;
+        }
+    }
+    .brief {
+        padding: px2rem(30) px2rem(40) px2rem(30) px2rem(36);
+        overflow: hidden;
+        background-color: $content-bg;
+        img {
+            max-width: 100%;
+        }
+    }
+    .btn.go {
+        background-color: $color-org;
+        border-color: darken($color-org, 5%);
+    }
+}

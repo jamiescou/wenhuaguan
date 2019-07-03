@@ -1,0 +1,119 @@
+.seat-wrapper {
+    position: relative;
+    margin-top: 15px;
+    background-color: $seat-bg;
+    overflow: hidden; // 屏幕
+    .seatTitle {
+        height: 26px;
+        margin: 0 auto;
+        text-align: center;
+        color: $gray-999;
+        .txt {
+            width: 100%;
+            position: absolute;
+            text-align: center;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 28px;
+        }
+        .bg {
+            display: block;
+            height: 30px;
+            margin: 0 auto;
+        }
+    }
+    .seatContainer {
+        position: relative;
+        width: auto;
+        padding-bottom: 20px;
+        overflow: hidden;
+        .seat {
+            height: $seat-w;
+            width: $seat-h;
+        } // 具体座位表
+        .seat-table {
+            padding-top: $seat-container-padding;
+            margin-left: 60px;
+            margin-right:20px;
+            overflow-x: auto;
+        }
+        table {
+            border-collapse: collapse;
+            box-sizing: border-box;
+            margin: 0 auto;
+            td {
+                height:$seat-w;
+                width: $seat-h;
+                padding: 0;
+                text-align: center;
+                font-size: 12px;
+            }
+        } // 行序号
+        .row-seq {
+            $seq-w: 40px;
+            $seq-item-w: 30px;
+            position: absolute;
+            top: $seat-container-padding;
+            left: 10px;
+            width: $seq-w;
+            padding-left: ($seq-w - $seq-item-w)/2;
+            background-color: #f5f5f5;
+            z-index: 10;
+            &>ul {
+                margin: 0;
+                padding: 0;
+                list-style: none;
+                box-sizing: border-box;
+                .seq-item {
+                    display: block;
+                    background-color: #ccc;
+                    width: $seq-item-w;
+                    text-align: center;
+                    color: #fff;
+                    height: $seat-h;
+                    line-height: $seat-h;
+                }
+                &>li {
+                    &:first-child {
+                        border-radius: ($seq-item-w / 2) ($seq-item-w / 2) 0 0;
+                    }
+                    &:last-child {
+                        border-radius: 0 0 ($seq-item-w / 2) ($seq-item-w / 2);
+                    }
+                }
+            }
+        }
+    }
+    .seat {
+        padding: 5px 30px 5px 40px;
+        background: url('../../images/seats.gif') no-repeat left center; // background-size: 28px 28px;
+        cursor: pointer;
+        background-size: 30px auto;
+        
+        &.seat-disabled {
+            background-image: url('../../images/seatso.gif');
+        }
+        &.non-seat {
+            background-image: none;
+            cursor: default;
+        }
+        &.seat-preorder {
+            background-image: url('../../images/seatg.gif');
+        }
+        &>i {
+            display: block;
+        }
+    }
+    .legend {
+        width: 100%;
+        padding: 15px 0 15px 0;
+        text-align: center;
+        .seat {
+            display: inline-block;
+            color: #666;
+            background-position: 0 50%;
+            padding-left: 35px;
+            margin: 0 10px;
+        }
+    }
+}

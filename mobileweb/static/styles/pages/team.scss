@@ -1,0 +1,96 @@
+@import '../libs/px2rem.scss';
+@import '../base/_variable';
+@import '../base/mixins';
+.team-container {
+    .favorite-reserve {
+        padding-top: px2rem(20);
+        line-height: px2rem(40);
+        .icon {
+            vertical-align: top;
+        }
+    }
+    .list-wraper .card {
+        margin-bottom: px2rem(20);
+        padding: px2rem(20) px2rem(20) px2rem(36);
+        .card-info+.card-info {
+            margin-top: px2rem(15);
+        }
+        .desc {
+            @include text-line(2);
+            line-height: px2rem(36);
+        }
+        .tag.red {
+            background: rgba($color-red, .8);
+        }
+    }
+}
+
+// 团队详情
+.team-detail {
+    .base-info {
+        .card-bd {
+            padding: px2rem(20) 0 px2rem(20) px2rem(36);
+        }
+        .card-title {
+            font-size: $f-size16;
+        }
+    }
+    .project-nav {
+        position: relative;
+        z-index: 10;
+    }
+    .project-content {
+        position: relative;
+        background-color: $content-bg;
+        z-index: 1;
+    }
+    .brief {
+        padding: px2rem(30) px2rem(40) px2rem(30) px2rem(36);
+        overflow: hidden;
+        background-color: $content-bg;
+    } // 团队风采
+    .digitals {
+        padding: 0 px2rem(40) 0 px2rem(36);
+        .digital {
+            padding:px2rem(30) 0;
+        }
+        .title {
+            margin: 0;
+            font-size: $f-size16;
+            color: $color-333;
+            font-weight: 400;
+        }
+        .time {
+            font-size: $f-size12;
+            font-weight: 400;
+            color: $color-999;
+        }
+        .content {}
+        .file-wrapper {
+            @include make-grid-columns(3, 35px);
+            .file {
+                display: block;
+                height: px2rem(150);
+                margin-bottom: px2rem(20);
+            }
+        }
+    } // 团队成员
+    .members {
+        padding: px2rem(22) 0;
+        text-align: center;
+        @include make-grid-columns(4);
+    }
+    .member {
+        margin-bottom: px2rem(30);
+        .avatar {
+            display: block;
+            width: px2rem(96);
+            height: px2rem(96);
+            margin: 0 auto px2rem(20);
+            border-radius: 100%;
+        }
+        .caption {
+            text-align: center;
+        }
+    }
+}

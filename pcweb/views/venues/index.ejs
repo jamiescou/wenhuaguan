@@ -1,0 +1,186 @@
+<%
+var region = query.region ? '&region=' + query.region : '';
+var type = query.type ? '&type=' + query.type : '';
+var typePage = '/venues?' + region;
+var regionPage = '/venues?' + type;
+var paginatorPage = '/venues?' + type + region;
+%>
+  <!DOCTYPE html>
+  <html>
+
+  <head>
+    <title>
+      场馆预定
+    </title>
+    <% include ../common/head %>
+    <link rel='stylesheet' href='/styles/venue.min.css' />
+
+  </head>
+
+  <body>
+    <header>
+      <% include ../common/header %>
+    </header>
+    <div class="g-content">
+      <div class="crumbs">
+          <ul>
+              <li>
+                <a href="">首页&nbsp;&nbsp;></a>
+              </li>
+              <li>
+                <a href="">文化服务</a>
+              </li>
+            </ul>
+     </div>
+     <%- include('../common/culture-sever-tab.ejs', {type: 'venues'}) %>
+
+      <div class="m-filter-pannel">
+        <div class="m-search-lst">
+            <%- include('../common/queryRegion.ejs', {query :query, regions: rootchildren, reTypePage : regionPage}) %>
+
+          <div class="item">
+            <h4 class="tag-hd">活动室类型：</h4>
+            <div class="tag-wrap">
+              <a class="tag-item <% if(!query.type){ %>active<% } %>" href="<%- typePage %>">全部</a>
+              <% code.forEach(function (type) { %>
+                <a class="tag-item <% if(query.type&&query.type===type.code){ %>active<% } %>" href="<%- typePage %>&type=<%=type.code%>">
+                  <%= type.value%>
+                </a>
+                <% }) %>
+            </div>
+          </div>
+          <div class="item">
+            <h4 class="tag-hd">可否预定:</h4>
+            <div class="tag-wrap">
+              <a class="tag-item <% if(!query.enable){ %>active<% } %>" href="<%- paginatorPage %>">全部</a>
+                <a class="tag-item <% if(query.enable){ %>active<% } %>" href="<%- paginatorPage %>&enable=true">
+                  可预订
+                </a>
+            </div>
+          </div>
+  
+          <div class="search-area">
+            <input id="keysearchcontent" type="text" placeholder="关键词搜索..." value='<%=query.key%>'>
+            <button id="keysearch" title="点击搜索">
+                <i class="iconfont icon-search"></i>
+            </button>
+         </div>
+
+        </div>
+      </div>
+
+      <div>
+        <% if(data.content.length>0){%> 
+        <% data.content.forEach(function (room) { %>
+          <a class="room " href="/venues/roomdetail/<%= room.id %>">
+            <div class="media">
+                <% if(room.itmDef.isEnable){%>
+               <span class="btn angle-left tips">可预订</span>
+               <%}%>
+                <div class="media-left">
+                    <img src="<%=room.coverPic%>" alt="场馆图片" class="room-img" />
+                </div>
+                <div class="media-center">
+                    <h3 class="name">
+                        <%= room.venue.name %> &minus; <%= room.name %>
+                            <div class="capacity"  data-as="clamp">
+                                <%-room.brief%>
+                            </div>
+                    </h3>
+                    <%-include('../common/map.ejs',{lontitude: room.venue.coordinate.longitude,latitude: room.venue.coordinate.latitude,addr: room.venue.address}) %>
+                        <p class="describe f-nowrap">
+                            <i class="iconfont icon-phone"></i>
+                            <span>电话：
+                                <%= room.telephone %>
+                            </span>
+                        </p>
+                </div>
+            </div>
+        </a>
+        <% }) }else{%>
+            <%- include('../common/nodata.ejs') %>
+          <%}%>
+    </div>
+    <div class="place-space"></div>
+    <%- include('../common/paginator.ejs', {page : data.number + 1, totalPages : data.totalPages, pageUrl : paginatorPage,totalElements:data.totalElements}) %>
+    <div class="place-space"></div>
+  </div>
+    <footer>
+      <% include ../common/footer %>
+    </footer>
+  </body>
+  <script type='text/javascript'>
+    var searchCondition = {
+      page: 0,
+      size: 10,
+      search: 'search=',
+      type: '',
+      area: ''
+    }
+    $('#myStateButton label').on('click', function(evt) {
+      var venueType = $(this).find('input').data('status');
+      searchCondition.type = venueType;
+      searchCondition.search = 'search='
+      if (venueType != '-1') {
+        searchCondition.search += 'type:' + venueType
+      }
+      $.ajax({
+        url: '/venues/' + searchCondition.page + '/' + searchCondition.size + '/' + searchCondition.search,
+        type: 'get',
+        success: function(res) {
+          $('.uict-venueslist').empty();
+
+          var html = '';
+          for (var i = 0; i < res.content.length; i++) {
+            var venues = res.content[i];
+            html += '<a class="clearfix" style="display:block;" href="/venues/venuesdetail/' + venues.id +
+              '?curl=venues">' +
+              '<div class="uict-vll">' +
+              '<img src="' + venues.pic + '" alt="场馆图片" />' +
+              '</div>' +
+              '<div class="uict-vlr">' +
+              '<h3>' +
+              venues.name +
+              '</h3>' +
+              '<div class="uict-vlrl clearfix">' +
+              '<span>地址：</span>' +
+              '<div>' +
+              venues.address + ' <span>查看地图</span></div>' +
+              '</div>' +
+              '<div class="uict-vlrl clearfix">' +
+              '<span>电话：</span>' +
+              '<div>' +
+              venues.contactMobile +
+              '</div>' +
+              '</div>' +
+              '<div class="uict-vlrl clearfix" style="width:700px">' +
+              '<span>描述：</span>' +
+              '<div style="text-indent:20px">' +
+              venues.desc +
+              '</div>' +
+              '</div>' +
+              '<div class="uict-vtags">' +
+              '<span>可预定</span><span>音乐厅</span>' +
+              '</div>' +
+              '</div>' +
+              '</a>';
+          }
+          $('.uict-venueslist').html(html);
+        }
+
+      })
+    })
+ 
+     $(function(){
+        $('#keysearch').click(function(){
+            var key=$('#keysearchcontent').val();
+            var paginatorPage='<%=paginatorPage%>';
+               window.location.href=paginatorPage+'&key='+key; 
+        })
+
+     })
+    
+
+  </script>
+
+  </html>

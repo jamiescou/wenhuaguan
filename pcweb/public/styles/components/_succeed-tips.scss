@@ -1,0 +1,25 @@
+.succeed-tips {
+    padding: 40px 0 60px;
+    text-align: center;
+    font-size: 14px;
+    background: #fff;
+    p {
+        margin-bottom: 28px;
+        color: #666;
+    }
+    .succeed-icon {
+        display: block;
+        width: 112px;
+        height: 100px;
+        margin: 40px auto;
+        font-size: 100px;
+        color: $red;
+    }
+    .to-link {
+        color: $red;
+        text-decoration: underline;
+    }
+    .to-link+.to-link {
+        margin-left: 30px;
+    }
+}

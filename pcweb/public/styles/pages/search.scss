@@ -1,0 +1,43 @@
+@import '../base/variables';
+@import '../base/mixins';
+@import '../components/index';
+.search-bg { height: 400px; overflow: hidden; background: url(/images/search.jpg) no-repeat 50% 50%; }
+
+.search-cont { width: 450px; height: 40px; background-color: #fff; position: relative; border-radius: 3px; opacity: 0.9; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=${opacityPercentage})"; filter: "alpha(opacity = ${opacityPercentage})"; -webkit-transition: .5s; transition: .5s; }
+
+.search-cont:hover { background: #fff; opacity: 1; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=${opacityPercentage})"; filter: "alpha(opacity = ${opacityPercentage})"; color: #666666; }
+
+.search-cont:hover .search-input { background: #fff; opacity: 1; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=${opacityPercentage})"; filter: "alpha(opacity = ${opacityPercentage})"; color: #666666; }
+
+.search-cont .search-input { width: 350px; position: absolute; left: 10px; top: 2px; height: 36px; line-height: 36px; font-size: 16px; color: #fff; background-color: #fff; opacity: 0.9; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=${opacityPercentage})"; filter: "alpha(opacity = ${opacityPercentage})"; -webkit-transition: .5s; transition: .5s; border: none; }
+
+.search-cont .search-button { width: 40px; height: 40px; background: url(/images/search-button.png) no-repeat 50% 50%; position: absolute; right: 0px; top: 0px; border: none; cursor: pointer; outline: none; }
+
+.search-mask { opacity: 0.7; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=${opacityPercentage})"; filter: "alpha(opacity = ${opacityPercentage})"; background-color: #000; }
+
+.search-mask .search-input { background-color: #000; border-color: #000; color: #fff; }
+
+.search-border { border: 1px #fff solid; height: 40px; width: 450px; margin: 180px auto; border-radius: 3px; }
+
+.search-info { margin: 50px 0 100px; }
+
+.search-info h1 { font-size: 18px; color: #333; margin-bottom: 32px; }
+
+.search-info h1 span { padding: 0px 5px; color: $red; font-size: 20px; }
+
+.search-info > ul { border-bottom: 1px #ddd dashed; }
+
+.search-info > ul > li { height: 46px; line-height: 46px; font-size: 16px; border-top: 1px #ddd dashed; position: relative; }
+
+.search-info > ul > li > a { color: #959595; display: block; }
+
+.search-info > ul > li > a > span { color: $red; }
+
+.search-info > ul > li > a:hover { color: $red; }
+
+.search-info > ul > li > em { display: block; position: absolute; right: 0px; top: 0px; height: 46px; line-height: 46px; color: #959595; font-size: 16px; }
+
+.search{
+  width: 1200px;
+  margin: 0 auto;
+}

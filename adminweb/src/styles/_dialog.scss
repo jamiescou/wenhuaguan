@@ -1,0 +1,40 @@
+.map-dialog {
+    .el-dialog__header {
+        padding: 20px;
+        border-bottom: 1px solid #e1e1e1;
+    }
+    .el-dialog__body {
+        padding: 10px 20px 20px;
+    }
+}
+
+.dialog-footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.event-pic {
+    //display: inline-block;
+    $pic-w: 40px;
+    width: ($pic-w + 6px);
+    height: $pic-w; //height: ($pic-w + 24px);
+    // padding-top: $pic-w;
+    margin: 0 auto;
+    background: transparent url("./img/pic.png") no-repeat 3px 5px;
+    -webkit-background-size: $pic-w auto;
+    background-size: $pic-w auto;
+    cursor: pointer;
+    text-align: center;
+}
+
+.event-pic-carousel {
+    .el-carousel__container {
+        height: 410px;
+        line-height: 410px;
+        text-align: center;
+    }
+    img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+}

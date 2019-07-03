@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>
+    非遗详情
+  </title>
+  <% include ../common/head %>
+  <link rel='stylesheet' href='/styles/heritage.min.css' />
+
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+
+  <div class="g-content">
+
+    <div class="crumbs">
+      <ul>
+        <li>
+          <a href="">首页&nbsp&nbsp></a>
+        </li>
+        <li>
+          <a href="/heritage/heritagePrj">非遗项目&nbsp&nbsp></a>
+        </li>
+        <li>
+          <a href="#">生态保护区详情</a>
+        </li>
+
+      </ul>
+    </div>
+
+
+    <div class="room">
+      <div class="media">
+        <div class="media-left">
+          <img src="<%= data.coverPic %>" alt="非遗图片" class="room-img">
+        </div>
+        <div class="media-center">
+          <h3 class="name">
+            <%= data.name %>
+          </h3>
+          <p class="describe f-nowrap">
+            <i class="iconfont icon-brief"></i>保护主体：
+              <%= data.protectSubject %>
+          </p>
+          <p class="describe f-nowrap">
+            <i class="iconfont icon-map"></i>地址：
+              <%= data.address %>
+          </p>
+           
+        </div>
+      </div>
+      <div class="opres">
+        <%- include('../common/favoritedBtn.ejs',{ objectId:data.id,type:'heritageProtectArea',favorited:favorited }) %>
+        <%- include('../common/bshare') %>
+      </div>
+    </div>
+    <div class="place-space"></div>
+
+    <div class="detail-block">
+      <div class="block-heading border">
+        <h4 class="title"> 非遗详情</h4>
+      </div>
+      <div class="detail-content cimg">
+        <%-data.remark %>
+      </div>
+    </div>
+    <div class="place-space"></div>
+    <div class="detail-block">
+      <div class="block-heading border">
+        <h4 class="title"> 非遗项目</h4>
+      </div>
+      <div class="detail-content">
+        <div class="list-content"><div class="content">
+        <% if(data.projects&&data.projects.length!=0){%>
+          <% data.projects.forEach(function (item) { %>
+            <div class="col-4">
+
+          
+            <a class="img-card card1 border" href="/heritage/heritagedetail/<%=item.id%>?type=heritageDirectory">
+              <img src="<%= item.coverPic%>">
+              <span class="card-title">
+                <%=item.name%>
+              </span>
+            </a>
+          </div>
+            <%})%>
+              <%}%>
+            </div></div>
+      </div>
+    </div>
+    <div class="place-space"></div>
+    <div class="detail-block">
+      <div class="block-heading border">
+        <h4 class="title"> 非遗传承人</h4>
+      </div>
+      <div class="detail-content list-content">
+        <div class="content">
+        <% if(data.successors&&data.successors.length!=0){%>
+          <% data.successors.forEach(function (item) { %>
+            <div class="col-4">
+            <a class="img-card card1 border" href="/heritage/heritagedetail/<%=item.id%>?type=heritageSuccessor">
+              <img src="<%= item.coverPic%>">
+              <span class="card-title">
+                <%=item.name%>
+              </span>
+            </a>
+          </div>
+            <%})%>
+              <%}%>
+            </div>
+      </div>
+    </div>
+  
+    <div class="place-space"></div>
+    <div class="detail-block">
+        <div class="block-heading border">
+            <h4 class="title"> 相关推荐</h4>
+          </div>
+      <div class="detail-content list-content">
+        <div class="content">
+        <% if(recommands.content&&recommands.content.length>0){%>
+          <% recommands.content.forEach(function (item) { %>
+            <div class="col-4">
+            <a class="img-card "  href='/heritage/heritagedetail/<%=item.id%>?type=heritageProtectArea'>
+              <img class="img-top" src="<%= item.coverPic%>">
+              <span class="card-title"> <%=item.name%></span>
+            </a>
+          </div>
+            <%})%>
+        <%} else {%>
+             <% include ../common/nodata %>
+          <%}%>
+        </div>
+      </div>
+    </div>
+
+    <div class="place-space"></div>
+
+    <%-include('../common/comments',{comments:comments,type:'heritageProtectArea',objId:data.id,pagingUrl:'/heritage/heritagedetail/' + data.id+'?type=heritageProtectArea' }) %>
+      <div class="place-space"></div>
+  </div>
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+<script>
+</script>
+
+</html>

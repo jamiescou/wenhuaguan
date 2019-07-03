@@ -1,0 +1,259 @@
+<%
+var paginatorPage = '/exhibition/detail/'+data.id+'?';
+ %>
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+        <title>
+            <%= data.title %>
+        </title>
+        <% include ../common/head %>
+            <script src="/javascripts/libs/swiper/swiper.min.js"></script>
+            <link rel='stylesheet' href='/javascripts/libs/swiper/swiper.min.css' />
+            <link rel='stylesheet' href='/styles/exhibition.min.css' />
+
+    </head>
+
+    <body>
+        <header>
+            <% include ../common/header %>
+        </header>
+
+        <div class="g-content">
+            <div class="crumbs">
+                <ul>
+                    <li>
+                        <a href="/">首页&nbsp;&nbsp;></a>
+                    </li>
+                    <li>
+                        <a href="/exhibition">数字展览&nbsp;&nbsp;></a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)">
+                            <%= data.title %>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="g-content">
+            <div class="exhibition-media">
+                <div class="media">
+                    <div class="media-left">
+                        <img src="<%= data.coverPic %>" alt="" class="exhibition-img" onerror="noImg();">
+                    </div>
+                    <div class="media-center">
+                        <h3 class="name">
+                            <%= data.title %>
+                        </h3>
+                        <div class="intro">
+                            <%- data.brief %>
+                        </div>
+                    </div>
+                </div>
+                <div class="opres">
+                	<%- include('../common/favoritedBtn.ejs',{ objectId:data.id,type:'DigitalShow',favorited:data.favorited }) %>
+                    <% include ../common/bshare.ejs %>
+                </div>
+            </div>
+        </div>
+        <div class="place-space"></div>
+        <div class="g-content exhibit-content">
+            <div class="block-heading border">
+                <h4 class="title">全部作品</h4>
+                <% if(exhibitionProductions.content.length > 0){ %>
+                    <a class="more" href="javascript:void(0)" id="switch-list">列表模式</a>
+                    <%} %>
+            </div>
+            <% if(exhibitionProductions.content.length > 0){ %>
+                <div id="pic">
+                    <div class="exhibition-detail">
+                        <img id='mainPic' onerror="noImg();">
+                        <div class="info">
+                            <div class="_header">
+                                <span id="header"></span>
+                                <span id='curIndex'></span>
+                            </div>
+                            <div class="descrip" id='descrip'></div>
+                        </div>
+                    </div>
+                    <div class="book-swiper">
+                        <% if(nextPage.length>0){ %>
+                            <div class="picture-book">
+                                <div class="stack">
+                                    <a href="/exhibition/detail/<%= nextPage[0].id %>">
+                                        <img src="<%= nextPage[0].coverPic %>" onerror="noImg();">
+                                    </a>
+                                </div>
+                                <h6>上一个图集</h6>
+                            </div>
+                            <% } %>
+                                <div class="book-swiper-content">
+                                    <div class="swiper-container" id="bookSwiper">
+                                        <!-- Additional required wrapper -->
+                                        <div class="swiper-wrapper">
+                                            <!-- Slides -->
+                                            <% exhibitionProductions.content.forEach(function(item, index){ %>
+                                                <div class="swiper-slide">
+                                                    <img data-id="<%= item.id %>" data-text="<%= item.brief %>" src="<%= item.coverPic %>" onerror="noImg();">
+                                                </div>
+                                                <% }) %>
+                                        </div>
+                                    </div>
+                                    <!-- Add Arrows -->
+                                    <div class="swiper-button btn-next j-book-next"></div>
+                                    <div class="swiper-button btn-prev j-book-prev"></div>
+                                </div>
+                                <% if(nextPage.length>0){ %>
+                                    <div class="picture-book right">
+                                        <% if(nextPage[1]){ %>
+                                            <div class="stack">
+                                                <a href="/exhibition/detail/<%= nextPage[1].id %>">
+                                                    <img src="<%= nextPage[1].coverPic %>" onerror="noImg();">
+                                                </a>
+                                            </div>
+                                            <h6>
+                                                <a href="">下一个图集</a>
+                                            </h6>
+                                            <% }else{ %>
+                                                <div class="stack">
+                                                    <a href="">
+                                                        <img src="/images/pic.jpg" onerror="noImg();">
+                                                    </a>
+                                                </div>
+                                                <h6 style="text-align: right">
+                                                    <a href="">没有了</a>
+                                                </h6>
+                                                <% } %>
+                                    </div>
+                                    <% } %>
+                    </div>
+                </div>
+
+                <div id="list" style="display: none" class="list-content">
+                    <div class="content4">
+                        <% exhibitionProductions.content.forEach(function(item, index){ %>
+                            <div class="col-4">
+                                <div class="img-card">
+                                    <img src="<%= item.coverPic %>" class="gallery" href="<%= item.coverPic %>" onerror="noImg();">
+                                    <span class="card-title">
+                                        <%= item.title %>
+                                    </span>
+                                </div>
+                            </div>
+                            <% }) %>
+                    </div>
+
+                </div>
+                <%- include('../common/paginator.ejs', {page : exhibitionProductions.number + 1, totalPages : exhibitionProductions.totalPages, pageUrl : paginatorPage, totalElements: exhibitionProductions.totalElements}) %>
+                    <% } else {%>
+                        <%-include('../common/nodata', {tip: '暂无作品'})%>
+                            <%} %>
+        </div>
+        <div class="place-space"></div>
+        <div class="g-content">
+            <div class="detail-block">
+                <div class="block-heading border">
+                    <h4 class="title">相关推荐</h4>
+                    <% if ( digitalRes.totalPages > 1 ) { %>
+                        <div class="more">
+                            <a href='#'>更多>></a>
+                        </div>
+                        <% } %>
+                </div>
+                <div class="detail-content list-content">
+                    <% if ( digitalRes.content.length ) { %>
+                        <div class="content">
+                            <% digitalRes.content.forEach(function (item) { %>
+                                <div class="card col-4 border">
+                                    <a class="card-head" href="/exhibition/detail/<%= item.id %>">
+                                        <img class="img-top" src="<%=item.coverPic%>" onerror="noImg();">
+                                    </a>
+                                    <div class="card-body">
+                                        <h5 class="card-title f-nowrap">
+                                            <%= item.title %>
+                                        </h5>
+                                        <div class="card-info">
+                                            <p>
+                                               <%= item.brief %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% }) %>
+                        </div>
+                        <% } else { %>
+                            <% include ../common/nodata %>
+                                <% } %>
+                </div>
+            </div>
+        </div>
+        <div class="place-space"></div>
+        <div class='g-content'>
+            <%- include('../common/comments.ejs',{ comments: comments,type:'DigitalShow',objId:data.id ,commentUrl:'/exhibition/digital/comments/' + data.id, pagingUrl:'/exhibition/detail/' + data.id+''}) %>
+        </div>
+        <div class="place-space"></div>
+        <footer>
+            <% include ../common/footer %>
+        </footer>
+    </body>
+    <script>
+        var exhibitionObj = <%- JSON.stringify(exhibitionProductions) %>;
+        exhibitionObj = exhibitionObj.content;
+        var mySwiper = new Swiper('#bookSwiper', {
+            slidesPerView: 'auto'
+        })
+        $('.j-book-prev').on('click', function(e) {
+            e.preventDefault();
+            mySwiper.swipePrev()
+        });
+        $('.j-book-next').on('click', function(e) {
+            e.preventDefault();
+            mySwiper.swipeNext()
+        });
+
+        $(document).ready(function() {
+            if (exhibitionObj.length > 0) {
+                selectImg($($('.swiper-wrapper img')[0]).data('id'), $($('.swiper-wrapper img')[0]).data('text'));
+                $('.swiper-wrapper img').click(function(evt) {
+                    selectImg($(this).data('id'), $(this).data('text'));
+                })
+
+                function selectImg(dataId, dataText) {
+                    for (var i = 0; i < exhibitionObj.length; i++) {
+                        if (exhibitionObj[i].id == dataId) {
+                            $('#mainPic').attr('src', exhibitionObj[i].coverPic);
+                            $('#header').html(exhibitionObj[i].title);
+                            $('#descrip').html(dataText);
+                            $('#curIndex').html('<i>' + (i + 1).toString() + '</i>' + '/' + exhibitionObj.length);
+                            $('.swiper-wrapper img').css('border', '0px');
+                            $(this).css('border', '2px solid gray');
+                        }
+                    }
+
+                }
+            }
+            $("#switch-list").on('click', function() {
+                if ($("#pic").is(":hidden")) {
+                    $("#pic").show();
+                    $("#list").hide();
+                    $(this).text('列表模式');
+                } else {
+                    $("#list").show();
+                    $("#pic").hide();
+                    $(this).text('相册模式');
+                }
+            })
+            $(".gallery").colorbox({
+                rel: 'group3',
+                transition: "none",
+                width: "75%",
+                height: "75%"
+            });
+
+        })
+    </script>
+
+    </html>

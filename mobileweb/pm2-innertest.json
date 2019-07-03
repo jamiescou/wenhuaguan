@@ -1,0 +1,15 @@
+{
+    "apps": [{
+        "name": "hunan-mobile-innertest",
+        "script": "build/main.js",
+        "exec_mode": "cluster",
+        "instances": 4,
+        "max_memory_restart": "1024M",
+        "autorestart": true,
+        "node_args": [],
+        "args": [],
+        "env": {
+            "__ENV": "innertest"
+        }
+  }]
+}

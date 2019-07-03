@@ -1,0 +1,64 @@
+@mixin search-group($height, $form-control-h, $color:inherit, $border-color:#66afe9, $bg:none, $hasRadius:true) {
+    $padding: ($height - $form-control-h)/2;
+    $border-radius: none;
+    @if($hasRadius) {
+        $border-radius: $form-control-h / 2;
+    }
+    position: relative;
+    display: inline-table;
+    text-align: left;
+    height: $height;
+    padding-top: $padding;
+    padding-bottom: $padding;
+    line-height :($form-control-h - 2px); // 减去边框
+    overflow: hidden;
+    button,
+    input {
+        display: table-cell;
+        height: $form-control-h;
+        border-radius: 0;
+        vertical-align: middle;
+        box-sizing: border-box;
+    }
+    input {
+        min-width: 200px;
+        width: 100%;
+        padding: 0 ($form-control-h - 2px + 10px) 0 15px;
+        border: 1px solid $border-color;
+        border-radius: $border-radius; // @include form-control-focus($border-color);
+        background: $bg;
+        color: $color;
+    }
+    input::-webkit-input-placeholder {
+        color: lighten($color, 10%);
+    }
+    input:-moz-placeholder {
+        color: lighten($color, 10%);
+    }
+    input::-moz-placeholder {
+        color: lighten($color, 10%);
+    }
+    input::-ms-input-placeholder {
+        color: lighten($color, 10%);
+    }
+    button {
+        position: absolute;
+        top: 1px + $padding;
+        right: 0;
+        height: ($form-control-h - 2px);
+        background: none;
+        color: $color;
+        padding: 0 10px 0 3px;
+        border-color: transparent;
+        &.active,
+        &:active,
+        &:focus,
+        &:hover {
+            outline: none; // @include box-shadow(none);
+            // color: lighten($border-color, 5%);
+        }
+        .iconfont {
+            color: inherit;
+        }
+    }
+}

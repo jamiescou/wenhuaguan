@@ -1,0 +1,168 @@
+@import '../libs/px2rem.scss';
+@import '../base/_variable';
+@import '../base/mixins';
+.vod-container {
+    .tab {
+        background-color: $content-bg;
+    }
+    .list-wraper .card {
+        margin-bottom: px2rem(20);
+        padding: px2rem(20) px2rem(20) px2rem(36);
+    }
+}
+
+.card-scan {
+    font-size: $f-size10;
+    color: #999;
+    line-height: $card-title-lineheight;
+    position: absolute;
+    right: px2rem(36);
+    top: px2rem(20);
+    .iconNew-scan {
+        font-size: px2rem(26);
+        color: #999;
+        position: relative;
+        top: px2rem(4);
+        margin-right: px2rem(8);
+    }
+}
+      
+// 百姓舞台详情
+.vod-detail {
+    .base-info {
+        .card-hd {
+            background-color: #000;
+            height: px2rem(522);
+            overflow: hidden;
+            text-align: center;
+            line-height: px2rem(522);
+            .video {
+                display: inline-block;
+                vertical-align: middle;
+                width: 100%;
+                height: auto;
+                object-fit: fill;
+                max-height: px2rem(522);
+            }
+        }
+        .card-bd {
+            padding: px2rem(20) px2rem(36);
+        }
+        .card-title {
+            font-size: $f-size16;
+            width: px2rem(580);
+        }
+        .card-info+.card-info {
+            margin-top: px2rem(10);
+        }
+    }
+    // .video {
+    //     width: 100%;
+    //     height: px2rem(422);
+    //     .video-js {
+    //         height: px2rem(422);
+    //     }
+    // }
+    .drama-swiper {
+        background: $content-bg;
+        padding-left: px2rem(35);
+        padding-top: px2rem(20);
+        padding-bottom: px2rem(25);
+    }
+    .drama-card {
+        padding-right: px2rem(20);
+        .card-hd img {
+            display: block;
+            width: px2rem(260);
+            height: px2rem(148);
+        }
+        .title {
+            font-size: $f-size12;
+            color: $color-666;
+        }
+        .time {
+            font-size: px2rem(20);
+        }
+        .icon {
+            vertical-align: top;
+            color: $active-color;
+        }
+    }
+    .video-content {
+        background-color: $content-bg;
+        padding: px2rem(30);
+    }
+    .active {
+        border: 1px solid $block-heading-color;
+    }
+    .live-comment{
+        .btn{
+            width: px2rem(200);
+        }
+    }
+    .live-tab-content{
+        background-color: $content-bg;
+        overflow-y: auto;
+        word-break: break-all;
+    }
+}
+
+.chat {
+    .item {
+        font-size: px2rem(25);
+        padding: px2rem(3) 0;
+    }
+    .name {
+        color: $color-red;
+    }
+}
+
+.subinfo {
+    width: 100%;
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    padding: 0;
+    .btn {
+        float: right;
+        flex-grow: 2
+    }
+    .subInfo {
+        display: inline-block;
+        flex-grow: 5;
+        height: px2rem(80);
+        border-radius: 1px solid $color-ccc;
+    }
+}
+
+.smsg {
+    color: $color-red;
+    display: inline-block;
+    font-size: px2rem(25);
+    margin-left: px2rem(10);
+}
+.live-comt{
+    padding-bottom:px2rem(10);
+    img{
+        width:px2rem(50);
+        height:px2rem(50);
+        border-radius:px2rem(50)
+    }
+    .time{
+        color:$color-999;
+        font-size:px2rem(25)
+    }
+    .c-content{
+        padding-left:px2rem(50);
+    }
+    .nickname{
+        padding-left:px2rem(10);
+
+    }
+    .flex-item{
+        height:px2rem(90)
+    }
+}
+
+
+

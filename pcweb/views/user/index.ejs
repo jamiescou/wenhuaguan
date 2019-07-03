@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    个人中心
+  </title>
+  <% include ../common/head %>
+    <link rel='stylesheet' href='/styles/user-center.min.css' />
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+  <% include ./center-header %>
+    <div class="place-space"></div>
+    <div class="g-content user-center-content">
+      <div class="tab-wrapper my-order-tab">
+        <ul class="nav nav-tabs" id="myActivityTabs">
+          <li class="<% if(!query.type ){ %>active<% } %>">
+            <a href="#activ">当前活动</a>
+          </li>
+          <li class="<% if(query.type === 'history' ){ %>active<% } %>">
+            <a href="#historyactiv">历史活动</a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane fade  <% if(!query.type){ %>in active<% } %>" id="activ">
+            <% if(current.length){ %>
+              <% current.forEach(function (item) { %>
+                <div class="my-activity">
+                  <div class="order-number clearfix">
+                    <span class="pull-left">订单号:
+                      <%= item.orderCode %>
+                    </span>
+                    <span class="pull-right">
+                      <%= item.createTime %>
+                    </span>
+                  </div>
+                  <div class="media">
+                    <a class="media-left" href='/activity/detail/<%=item.activityInfo.id%>'>
+                      <img src="<%= item.activityInfo.coverPic %>" alt="" class="activity-img">
+                    </a>
+                    <div class="media-center">
+                      <h3 class="name">
+                        <%= item.activityName %>
+                      </h3>
+                      <p class="describe f-nowrap">
+                          <i class="iconfont icon-time"></i>
+                          <span>时间：
+                            <%= item.itmDate + ' ' + item.itmStarttime + '-' +item.itmEndtime  %>
+                          </span>
+                        </p>
+                      <p class="describe f-nowrap">
+                        <i class="iconfont icon-location"></i>
+                        <span>地点：
+                          <%= item.activityAddress %>
+                        </span>
+                       
+                      </p>
+                      <p class="describe f-nowrap">
+                        <i class="iconfont icon-phone"></i>
+                        <span>电话：
+                          <%= item.activityInfo.contactPhone %>
+                        </span>
+                      </p>
+                    </div>
+                    <div class="media-right clearfix">
+                      <% if(item.orderStatus==='reserved'&&!item.isoverdue&&item.usedSeats==0){%>
+                        <button class="btn pull-right" onclick="orderCancel('<%=item.id%>')">退订</button>
+                        <%}%>
+                          <% if(item.orderStatus==='canceled'){%>
+                            <button class="btn  pull-right" onclick="orderDel('<%=item.id%>')">删除</button>
+                            <%}%>
+                              <span class="tag outline  pull-right">取票码：
+                                <%= item.drawnCode %>
+                              </span>
+                    </div>
+                  </div>
+                  <div class="order-ticket clearfix">
+                    <div class="pull-left">
+                      <% item.seats.forEach(function(seat) { %>
+                        <span class="tag outline">
+                          <%= seat.seatNo %>
+                        </span>
+                        <% }) %>
+                    </div>
+                    <div class="pull-right ticket-status" >
+                     
+                      <%=item.usedSeats==item.seats.length?'已验票':item.orderStatus=='drawn'?'已取票':item.orderStatus=='canceled'?'已取消':'未取票'%>
+                     
+                    </div>  
+                    
+                
+                  </div>
+                </div>
+                <% }) %>
+                  <% } else { %>
+                    <%- include('../common/nodata', {tip : '您还没有活动订单！' })  %>
+                      <% } %>
+          </div>
+          <div class="tab-pane <% if(query.type === 'history' ){ %>in active<% } %>" id="historyactiv">
+            <% if(history.content.length){ %>
+              <% history.content.forEach(function (item) { %>
+                <div class="my-activity">
+                  <div class="order-number clearfix">
+                    <span class="pull-left">订单号:
+                      <%= item.orderCode %>
+                    </span>
+                    <span class="pull-right">
+                      <%= item.createTime %>
+                    </span>
+                  </div>
+                  <div class="media">
+                      <a class="media-left" href='/activity/detail/<%=item.activityInfo.id%>'>
+                        <img src="<%= item.activityInfo.coverPic %>" alt="" class="activity-img">
+                      </a>
+                    <div class="media-center">
+                      <h3 class="name">
+                        <%= item.activityName %>
+                      </h3>
+                      <p class="describe f-nowrap">
+                        <i class="iconfont icon-location"></i>
+                        <span>地点：
+                          <%= item.activityAddress %>
+                        </span>
+                       
+                      </p>
+                      <p class="describe f-nowrap">
+                        <i class="iconfont icon-phone"></i>
+                        <span>电话：
+                          <%= item.activityInfo.contactPhone %>
+                        </span>
+                      </p>
+                      <p class="describe f-nowrap">
+                        <i class="iconfont icon-user"></i>
+                        <span>联系人：
+                          <%= item.activityInfo.contact %>
+                        </span>
+                      </p>
+                    </div>
+                    <div class="media-right clearfix">
+                      <button class="btn pull-right" onclick="orderDel('<%=item.id%>','history')">删除</button>
+                      <span class="tag outline pull-right">取票码：
+                        <%= item.drawnCode %>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="order-ticket clearfix">
+                    <div class="pull-left">
+                      <% item.seats.forEach(function(seat) { %>
+                        <span class="tag outline">
+                          <%= seat.seatNo %>
+                        </span>
+                        <% }) %>
+                    </div>
+                    <div class="pull-right ticket-status">
+                      <%= item.statusName %>
+                    </div>
+                  </div>
+                </div>
+                <% }) %>
+                  <%- include('../common/paginator.ejs', {page : history.number + 1, totalPages : history.totalPages, pageUrl : '/user?type=history&', totalElements : history.totalElements}) %>
+                    <% } else { %>
+                      <% include ../common/nodata.ejs %>
+                        <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+    <footer>
+      <% include ../common/footer %>
+    </footer>
+    <link href="/javascripts/libs/webuploader/webuploader.css">
+    <script type="text/javascript" src="/javascripts/libs/webuploader/webuploader.min.js"></script>
+    <script src="/javascripts/libs/validate/jquery.validate.min.js"></script>
+    <script src="/javascripts/libs/validate/additional-methods.min.js"></script>
+    <script src="/javascripts/libs/validate/messages_zh.js"></script>
+    <script src="/javascripts/commons/custom-validate.js"></script>
+    <script>
+      // 取消订单
+      function orderCancel(orderId, type) {
+        var r = confirm('是否取消该订单？');
+        if (r == true) {
+          $.ajax({
+            url: '/user/myactivity/cancel',
+            type: 'post',
+            data: {
+              orderid: orderId,
+            },
+            success: function(res) {
+              if (res == "") {
+                assist.showMsg('订单已取消');
+                if (type) {
+                  location.href = 'user?type=' + type
+                } else {
+                  window.location.reload();
+                }
+              }
+            },
+          })
+        }
+      }
+      // 删除订单
+      function orderDel(orderId, type) {
+        var r = confirm('是否删除该订单？');
+        if (r == true) {
+          $.ajax({
+            url: '/user/myactivity/delorder',
+            type: 'post',
+            data: {
+              orderid: orderId,
+            },
+            success: function(res) {
+              if (res == "") {
+                assist.showMsg('订单已删除');
+                if (type) {
+                  location.href = 'user?type=' + type
+                } else {
+                  window.location.reload();
+                }
+              }
+            },
+          })
+        }
+      }
+  
+      $(function() {  
+        
+        // tab切换
+        $('#myActivityTabs').on('click', 'li>a', function(event) {
+          event.preventDefault()
+          var $parentNode = $(this).parent();
+          var activeClass = 'active';
+          if ($parentNode.hasClass(activeClass)) {
+            return;
+          }
+
+          $parentNode.siblings().removeClass(activeClass);
+          $parentNode.addClass(activeClass);
+          var selector = $(this).attr('href');
+          $(selector).addClass('in ' + activeClass);
+          $(selector).siblings().removeClass('in ' + activeClass);
+        });
+
+       function showColorBox(element){
+          element.colorbox({inline:true,slideshow:true, closeButton:false,overlayClose:true,
+            onClosed:function(){ 
+                $('#bindForm').hide();
+                $('#bindPhoneForm').show();
+                $('.icon-upload').show();
+                // 重置表单
+                var forms = document.getElementsByTagName('form');
+                  for (var i = 0; i < forms.length; i++) {
+                    var element = forms[i];
+                    element.reset();
+                    $(element).validate().resetForm();
+                    $(element).find('input').removeClass('v-error');
+                    $(element).find('.import-btn>img').attr('src','/images/IDCard3.png');
+                  }
+           }
+          });
+        }
+
+        // 弹窗
+        $('.j-setbtn').on('click',function(event){
+          event.preventDefault();
+          showColorBox($(this));
+        });
+
+      });
+    </script>
+</body>
+
+</html>

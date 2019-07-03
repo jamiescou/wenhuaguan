@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        志愿者活动报名
+    </title>
+    <% include ../common/head %>
+    <link rel='stylesheet' href='/styles/volunrecruit.min.css'/>
+
+        <script type="text/javascript" src="/javascripts/libs/distpicker/distpicker.data.js"></script>
+        <script type="text/javascript" src="/javascripts/libs/distpicker/distpicker.js"></script>
+</head>
+
+<body>
+    <header>
+        <% include ../common/header %>
+
+    </header>
+    <div class="g-content">
+        <div class="crumbs">
+            <ul>
+                <li>
+                    <a href="/">首页&nbsp;&nbsp;></a>
+                </li>
+                <li>
+                    <a href="/volunteer">志愿服务&nbsp;&nbsp;></a>
+                </li>
+                <li class="active">
+                    <a href='#'>志愿者活动报名</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--第二步-->
+    <div class="g-content" id="uict-setup2panel">
+        <div class="m-volunteercruit-step">
+            <div class="step-content">
+                <div class="step-item active">
+                    <span class="step-dot"></span>
+                    <p class="step-txt">确认报名信息</p>
+                </div>
+                <div class="bar"></div>
+                <div class="step-item">
+                    <span class="step-dot"></span>
+                    <p class="step-txt">信息提交完成</p>
+                </div>
+            </div>
+        </div>
+        <div class="place-space"></div>
+        <div class="volunteerDetail">
+            <div class="media">
+                <div class="media-left">
+                    <img src="<%= data.coverPic%>" alt="活动图片" class="volunteer-img">
+                </div>
+                <div class="media-center">
+                    <h3 class="name">
+                        <%= data.name%>
+                    </h3>
+
+                    <p class="describe f-nowrap">
+                        <i class="iconfont icon-time"></i>
+                        <span>时间：
+                            <%= data.startTime%> 至
+                                <%= data.endTime%>
+                        </span>
+                    </p>
+
+                    <%-include('../common/map.ejs',{lontitude: data.coordinate.longitude,latitude: data.coordinate.latitude,addr: data.address}) %>
+                        <p class="describe f-nowrap">
+                            <i class="iconfont icon-phone"></i>
+                            <span>电话：
+                                <%= data.contactPhone%>
+                            </span>
+                        </p>
+                        <p class="describe f-nowrap showMap" href=".mapDialog">
+                            <i class="iconfont icon-timespan"></i>
+                            <span>预计服务时长：
+                                <%= data.serviceHour%>小时</span>
+                        </p>
+                </div>
+            </div>
+        </div>
+        <div class="place-space"></div>
+        <div class="booking-enlist">
+            <div class="enlist-title">
+                <p>报名信息</p>
+            </div>
+            <div class="enlist-content" style="margin-top:30px;">
+                    <% if(type === 'personal'){%>
+                    <div class="confirm-row"><span class="row-title">志愿者姓名:</span><span class="name"><%= userInfo.name %></span></div>
+                    <div class="confirm-row"><span class="row-title">性别:</span> <span class="teamCount"><%= userInfo.sex == "male" ? "男" : "女"%></span></div>
+                    <div class="confirm-row"><span class="row-title">出生日期:</span> <span class="teamCount"><%= userInfo.birthDay%></span></div>  
+                     <div class="confirm-row"><span class="row-title">服务类型:</span>
+                        <span class="serviceTypes">
+                             <%= userInfo.serviceTypesStr%>  
+                        </span>
+                    </div>
+                     <div class="confirm-row"><span class="row-title">身份证:</span> <span class="idNumber"><%= userInfo.idNumber%></span></div>
+                    <div class="confirm-row"><span class="row-title">手机号码:</span> <span class="telephone"><%= userInfo.telephone%></span></div>
+                    <div class="confirm-row"><span class="row-title">所在地址:</span> <span class="address"><%= userInfo.region%></span></div>
+                    <div class="confirm-row"><span class="row-title">籍贯:</span> <span class="holdAddress"><%= userInfo.holdAddress%></span></div>
+                    <div class="confirm-row"><span class="row-title">邮箱:</span> <span class="email"><%= userInfo.email%></span></div>  
+                    <div class="confirm-row"><span class="row-title">学历:</span>
+                        <span class="education">
+                            <% education.forEach(function (type){%>
+                            <% if(type.code === userInfo.education){%>
+                            <%= type.value%>
+                            <%}})%>
+                        </span>
+                    </div>
+                    <div class="confirm-row"><span class="row-title">职业:</span>
+                        <span class="occupation">
+                            <% occupation.forEach(function (type){%>
+                            <% if(type.code === userInfo.occupation){%>
+                            <%= type.value%>
+                            <%}})%>
+                        </span>
+                    </div>
+                    <div class="confirm-row"><span class="row-title">政治面貌:</span>
+                        <span class="politicalStatus">
+                            <% politicalStatus.forEach(function (type){%>
+                            <% if(type.code === userInfo.politicalStatus){%>
+                            <%= type.value%>
+                            <%}})%>
+                           
+                        </span>
+                    </div>  
+                     <div class="confirm-row"><span class="row-title">志愿者介绍:</span> <span class="brief"><%= userInfo.brief%></span></div>  
+                      <%}else{%>  
+                      <div class="confirm-row"><span class="row-title">团队名称:</span><span class="name"><%= userInfo.name %></span></div>
+                    <div class="confirm-row"><span class="row-title">服务类型:</span>
+                        <span class="serviceTypes">
+                                <%= userInfo.serviceTypesStr%>
+                            </span>
+                    </div>
+                    <div class="confirm-row"><span class="row-title">人数:</span> <span class="teamCount"><%= userInfo.teamCount%></span></div>
+                    <div class="confirm-row"><span class="row-title">手机号码:</span> <span class="telephone"><%= userInfo.telephone%></span></div>
+                    <div class="confirm-row"><span class="row-title">所在地址:</span> <span class="address"><%= userInfo.region%></span></div>
+                    <div class="confirm-row"><span class="row-title">籍贯:</span> <span class="holdAddress"><%= userInfo.holdAddress%></span></div>
+                    <div class="confirm-row"><span class="row-title">邮箱:</span> <span class="email"><%= userInfo.email%></span></div>
+                    <div class="confirm-row"><span class="row-title">学历:</span>
+                        <span class="education">
+                            <% education.forEach(function (type){%>
+                            <% if(type.code === userInfo.education){%>
+                            <%= type.value%>
+                            <%}})%>
+                        </span>
+                    </div>
+                    <div class="confirm-row"><span class="row-title">职业:</span>
+                        <span class="occupation">
+                            <% occupation.forEach(function (type){%>
+                            <% if(type.code === userInfo.occupation){%>
+                            <%= type.value%>
+                            <%}})%>
+                        </span>
+                    </div>
+                    <div class="confirm-row"><span class="row-title">政治面貌:</span>
+                        <span class="politicalStatus">
+                            <% politicalStatus.forEach(function (type){%>
+                            <% if(type.code === userInfo.politicalStatus){%>
+                            <%= type.value%>
+                            <%}})%>
+                        </span>
+                    </div>
+                    <div class="confirm-row"><span class="row-title">志愿者团队介绍:</span> <span class="brief"><%= userInfo.brief%></span></div>
+                     
+                    <%}%>
+                </div>
+        </div>
+        <div class="booking-enlist">
+            <div class="enlist-title">
+                <p>报名须知</p>
+            </div>
+            <div class="enlist-content">
+                <div class="enlist-row">
+                    <p class="booking-notice">
+                        1、全年为入场票数达10张，将被取消当年预定资格；
+                        <br/> 2、如需退票，请至“我的空间-活动管理”，退票截止至活动前一天（活动当天不可退票）；
+                        <br/> 3、如因不可控因素导致活动无法进行，举办方有权延期或取消活动，并以短信方式通知订票人；
+                        <br/> 4、如参加区图书馆、文化馆活动的市民，由于停车位有限，建议读者搭乘公共交通前往；
+                        <br/> 5、活动最终解释权归举办方所有。
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="protocol">
+            <p>
+                <a href="javascript:void(0)" id="submitorder">确认报名</a>
+            </p>
+        </div>
+    </div>
+    <!--第三步-->
+    <div class="g-content" id="uict-setup3panel" style="display:none">
+        <div class="m-volunteercruit-step">
+            <div class="step-content">
+                <div class="step-item active">
+                    <span class="step-dot"></span>
+                    <p class="step-txt">确认报名信息</p>
+                </div>
+                <div class="bar"></div>
+                <div class="step-item active">
+                    <span class="step-dot"></span>
+                    <p class="step-txt">信息提交完成</p>
+                </div>
+            </div>
+        </div>
+        <div class="place-space"></div>
+
+        <div id='step3' class="success">
+            <p class="iconfont icon-success"></p>
+            <h3>您的志愿者活动报名成功</h3>
+            <h3>正在审核中，审核完成后将以电话或短信的形式通知您！您可以：</h3>
+            <p><a href="/volunteer">返回志愿者列表</a></p>
+        </div>
+
+
+    </div>
+    <footer>
+        <% include ../common/footer %>
+    </footer>
+</body>
+<script type="text/javascript">
+    $().ready(function(){
+        
+        var itemInfo = <%- JSON.stringify(data) %>;
+        var userInfo = <%- JSON.stringify(user) %>;
+      
+        $("#submitorder").on('click',function(){
+            var userinfo = {
+                type:'<%- type%>',
+                // volunteerName:userInfo.name,
+                recruitName:itemInfo.name,
+                recruitId:itemInfo.id,
+                endTime:itemInfo.endTime,
+                startTime:itemInfo.startTime
+            }
+            $.ajax({
+                url: '/volunteer/actOrder',
+                type: 'post',
+                data: userinfo,
+                success: function (res) {
+                    if(res && res.id){
+                        assist.showMsg(res.message || '报名成功')
+                        $("#uict-setup2panel").hide();
+                        $("#uict-setup3panel").show();
+
+                    }else{
+                        assist.showMsg(res.message || '报名失败')
+                        
+                    }
+                }
+            })
+        })
+    })
+</script>
+
+</html>

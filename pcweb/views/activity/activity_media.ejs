@@ -1,0 +1,69 @@
+<div class="brief-media">
+    <div class="media fixed-h">
+        <div class="media-left">
+            <img src="<%= data.coverPic %>" alt="" class="brief-img">
+        </div>
+        <div class="media-center">
+            <h3 class="name">
+                <%= data.name %>
+            </h3>
+            <p class="describe f-nowrap">
+                <i class="iconfont icon-time"></i>
+                <% if(data.holdStartDate==data.holdEndDate){%>
+                    <span>活动时间：<%= data.holdStartDate %></span>
+                    <%} else {%>
+                        <span>活动时间：<%= data.holdStartDate %>&nbsp; 至 &nbsp;<%= data.holdEndDate %></span>
+                <%}%>
+            </p>
+            <% if(data.signStartTime&&data.signEndTime){%>
+                <p class="describe f-nowrap">
+                    <i class="iconfont icon-time"></i>
+                    <span>预约时间：<%= data.signStartTime %>&nbsp; 至 &nbsp;<%= data.signEndTime %></span>
+                </p>
+                <%}%>
+              <%-include('../common/map.ejs',{lontitude:data.coordinate.longitude,latitude:data.coordinate.latitude,addr:data.address}) %>
+                        <p class="describe f-nowrap">
+                            <i class="iconfont icon-phone"></i>
+                            <span>电话：<%= data.contactPhone %></span>
+                        </p>
+                        <!-- <p class="describe f-nowrap">
+                <i class="iconfont icon-charge"></i>
+                <span>是否收费： <%= data.isCharge ? '收费' : '免费' %></span>
+            </p> -->
+                        <p class="describe f-nowrap">
+                            <i class="iconfont icon-type1"></i>
+                            <span>活动类型： <%= data.activityType %></span>
+                        </p>
+                        <p class="describe f-nowrap">
+                            <i class="iconfont icon-type2"></i>
+                            <span>艺术类型： <%= data.artType %></span>
+                        </p>
+                        <p class="describe f-nowrap">
+                            <i class="iconfont icon-type2"></i>
+                            <% if(!data.pageView) {%>
+                            <span>访问量： 0</span>
+                            <%}else{%>
+                            <span>访问量： <%= data.pageView %></span>
+                            <%}%>
+                        </p>
+                        <div class="media-opres">
+                            <% if(data.reserve === 1 ){%>
+                                <% if(user&&data.isAuthenticate&&user.identifyStatus!='Yes'){%>
+                                    <span class="btn disabled">请先完成实名认证</span>
+
+                                    <%} else{%>
+                                        <%-include('../common/authBtn.ejs',{ authRouter :'/activity/booking/' + data.id,btnTitle:data.reserveMsg}) %>
+                                            <span class="tickets emphasize">剩余票数：<%= data.remainTicket %> 张</span>
+                                            <%}%>
+                                                <% } else { %>
+                                                    <span class="btn disabled"><%= data.reserveMsg %></span>
+                                                    <!-- <span class="tickets emphasize"><%= data.reserveMsg %></span> -->
+                                                    <% } %>
+                        </div>
+        </div>
+    </div>
+    <div class="opres">
+        <%- include('../common/favoritedBtn.ejs',{ objectId:data.id,type:'Activity',favorited:data.favorited }) %>
+            <%- include('../common/bshare') %>
+    </div>
+</div>

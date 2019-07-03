@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    群团详情
+  </title>
+  <% include ../common/head %>
+  <link rel='stylesheet' href='/styles/organization.min.css' />
+
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+  <div class="g-content">
+    <div class="crumbs">
+      <ul>
+        <li>
+          <a href="/">首页&nbsp;&nbsp;></a>
+        </li>
+        <li>
+          <a href="/organization">群团组织&nbsp;&nbsp;></a>
+        </li>
+        <li class="active">
+          <a href="#">群团详情</a>
+        </li>
+      </ul>
+    </div>
+    
+    <div class="brief-media">
+        <div class="media fixed-h">
+            <div class="media-left">
+                <img src="<%= data.coverPic %>" alt="" class="brief-img">
+            </div>
+            <div class="media-center">
+                <h3 class="name"><%= data.name %></h3>
+                <p class="describe f-nowrap">
+                    <i class="iconfont icon-user"></i>
+                    <span>负责人：<%= data.contact %></span>
+                </p>
+                <p class="describe f-nowrap">
+                    <i class="iconfont icon-phone"></i>
+                    <span>电话：<%= data.contactPhone %></span>
+                </p>
+                <p class="describe f-nowrap">
+                    <i class="iconfont icon-email"></i>
+                    <span>邮箱：<%= data.email %></span>
+                </p>
+                <% if(data.attach&&data.attachName){%>
+                 <p class="describe f-nowrap">
+                    <i class="iconfont icon-file"></i>
+                    <a href='<%=data.attach%>'> <%=  data.attachName %></a>
+                    <p class="attachtip">请下载并填写入会申请表后，发送至上述电子邮箱申请入会</p>
+                </p>
+                <%}%>
+               
+            </div>
+        </div>
+    </div>
+
+      <div class="place-space"></div>
+      
+      <div class="tabtitle-d">
+          <ul>
+            <li class="active">学会介绍</li>
+            <li>学会风采</li>
+          </ul>
+      </div>
+      <div class="tabcontent">
+            <div class="tabpancel detail ">
+                   <div class="brief cimg">
+                      <%-data.desc%>
+                   </div>
+            </div>
+            <div class="tabpancel mein ">
+                    <%if(styles&&styles.length!=0){%>
+              <% styles.forEach(function(item){ %>
+                  <div class="meinlist">
+                      <p class="title"><%=item.title%></p>
+                      <p class="time"><%=item.createTime%></p>
+                      <p class="content"><%=item.content%> </p>
+                      <ul class="imglist cimg">
+                          <% item.files.forEach(function(value){ %>
+                            <li>
+                                <img src="<%=value.filePath%>" alt="">
+                            </li>
+                          <%})%>
+                      </ul>  
+                  </div>
+              <%})%>
+              <%}else{%>
+                  <%- include('../common/nodata', {tip : '暂无团队风采' })%>
+                <%}%>    
+            </div>
+      </div>
+     <div class="place-space"></div>
+     <div class="detail-block">
+        <div class="block-heading border">
+          <h4 class="title">相关推荐</h4>
+          <% if (recommandsTeam.content.length > 4 ) { %>
+            <div class="more">
+                <div href='#'><span>展开更多</span> <i class="iconfont icon-more"></i></div>
+            </div>
+            <% } %>
+          </div>
+  <div class="detail-content list-content">
+      <div class="content">
+        <%  recommandsTeam.content.forEach(function(item){ %>
+          <div class="card col-4 border">
+                <a class="card-head" href="/team/teamdetail/<%= item.id %>">
+                    <img class="img-top" src="<%=item.coverPic%>">
+                </a>
+                <div class="card-body">
+                        <h5 class="card-title" > <%= item.name %></h5>
+                        <div class="card-info">
+                            <p>
+                                <i class="iconfont icon-phone"></i>
+                                <span>  <%= item.contactPhone %></span>
+                            </p>
+                            <p>
+                                <i class="iconfont icon-location"></i>
+                                <span>  <%= item.address %></span>
+                            </p>
+                        </div>
+                    </div>
+          </div>
+          <%})%>
+      </div>
+</div>
+    
+  </div>
+</div>
+<div class="place-space"></div>
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+<script>
+   $(document).ready(function(){
+       $('.more').on('click',function(){
+         $(this).find('i').toggleClass('icon-more').toggleClass('icon-collapse');
+         var txtSpan=  $(this).find('span');
+         txtSpan.text()=='展开更多'?txtSpan.text('收起'):txtSpan.text('展开更多');
+          $('.col-hidden').toggleClass('col-show');
+
+       })
+
+ $(".tabtitle-d li").each(function(index){
+        var that =  this;
+        var ind = index;
+        $(".tabcontent .tabpancel").eq(0).show();
+        $(this).click(function(){
+          $(".tabtitle-d li").removeClass("active");
+          $(this).addClass("active")
+          $(".tabcontent .tabpancel").hide();
+          $(".tabcontent .tabpancel").eq(ind).show();
+        })
+    })
+
+    })
+</script>
+
+</html>

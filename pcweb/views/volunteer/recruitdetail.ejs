@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        志愿者团队详情
+    </title>
+    <% include ../common/head %>
+    <link rel='stylesheet' href='/styles/volunrecruit.min.css'/>
+</head>
+
+<body>
+<header>
+    <% include ../common/header %>
+</header>
+<div class="g-content">
+    <div class="crumbs">
+        <ul>
+            <li>
+                <a href="">首页&nbsp;&nbsp;></a>
+            </li>
+            <li>
+                <a href="/volunteer">志愿服务&nbsp;&nbsp;></a>
+            </li>
+            <li>
+                <a href="javascript:void(0)">志愿服务详情</a>
+            </li>
+        </ul>
+    </div>
+    <div class="room">
+        <div class="media fixed-h">
+            <div class="media-left">
+                <img src="<%= data.coverPic %>" alt="" class="room-img">
+                <div class="tag-list">
+                    <% if(data.activityType && data.activityType.length > 0) { %>
+                    <% data.activityType.forEach(function (type) { %>
+                    <span><%= type %></span>
+                    <% }) %>
+                    <% } %>
+                </div>
+            </div>
+            <div class="media-center">
+                <h3 class="name"><%= data.name %></h3>
+                <p class="describe f-nowrap">
+                    <i class="iconfont icon-time"></i>
+                    <span>时间：<%= data.startTime %>&nbsp; 至 &nbsp; <%= data.endTime %></span>
+                 
+                </p>
+                <%-include('../common/map.ejs',{lontitude: data.coordinate.longitude,latitude: data.coordinate.latitude,addr: data.address}) %>
+                <p class="describe f-nowrap">
+                    <i class="iconfont icon-phone"></i>
+                    <span>电话：<%= data.contactPhone %></span>
+                </p>
+                <p class="describe f-nowrap">
+                    <i class="iconfont icon-user"></i>
+                    <span>报名条件：
+                        <% if(data.permitSubject && data.permitSubject.length > 0) { %>
+                        <% data.permitSubject.forEach(function (type) { %>
+                        <% if(type === 'personal') { %>
+                        <span>个人</span>
+                        <% } %>
+                        <% if(type === 'team') { %>
+                        <span>团队</span>
+                        <% } %>
+                        <% }) %>
+                        <% } %>
+                    </span>
+                </p>
+                <p class="describe f-nowrap">
+                    <i class="iconfont icon-time"></i>
+                    <span>预计服务时长：<%= data.serviceHour %>小时</span>
+                </p>
+                <p class="describe f-nowrap">
+                    <i class="iconfont icon-team"></i>
+                    <span>招募人数<%= data.limitNum %>人</span>
+                    
+                </p>
+                <div class="media-opres">
+                    
+                
+                    <%  if(!data.isStop){ %>
+                        
+                        <% if(data.permitSubject && data.permitSubject.length > 0) { %>
+                           
+                            <% data.permitSubject.forEach(function (type) { %>  
+                                <% if(type === 'personal') { %>
+                                  
+                                    <% if(user&&(!user.roles||user.roles.join('').indexOf('volunteerPersonal')<0)){%>
+                                            <span class="btn disabled">不是个人志愿者</span>
+                                    <%} else {%>  
+                                        <%  if(enrolled.indexOf('personal')>=0){%>
+                                        <span class="btn disabled">个人志愿者已报名</span>
+                                        <%} else {%>
+                                            <%-include('../common/authBtn.ejs',{ authRouter :"/volunteer/bookingact/"+ data.id+"/personal",btnTitle:'个人报名'}) %>
+                                       
+                                    
+                                <% }}}%>
+
+                                    <% if(data.permitSubject.length > 1){%>
+                                    <span style="float:left">&nbsp;&nbsp;</span>
+                                    <%}%>
+                                    
+                                    <% if(type === 'team') { %> 
+                                        <% if(user&&(!user.roles||user.roles.join('').indexOf('volunteerTeam')<0)){%>
+                                                <span class="btn disabled">不是团队志愿者</span>
+                                        <%} else {%> 
+                                              <%  if(enrolled.indexOf('team')>=0){%>
+                                                <span class="btn disabled">团队志愿者已报名</span>
+                                             <%} else {%> 
+                                                <%-include('../common/authBtn.ejs',{ authRouter :"/volunteer/bookingact/"+ data.id+"/team",btnTitle:'团队报名'}) %>
+                                      <%}}%>    
+                                    <% } %>
+                            <% }) %>
+
+                        <% }else { %>
+                           <span class="btn">停止招募</span>
+                           <%}%>
+                 
+                   <% } %>
+                   
+                </div>
+            </div>
+        </div>
+        <div class="opres">
+            <%- include('../common/favoritedBtn.ejs',{ objectId:data.id,type:'VolunteerRecruit',favorited:favorited }) %>
+            <%- include('../common/bshare') %>
+        </div>
+    </div>
+    <div class="place-space"></div>
+    <div class="volun-detail">
+        <div class="volun-detail-content">
+            <ul class="volun-detail-nav clearfix">
+                <li class="active">活动详情</li>
+                <li>相关纪实</li>
+                <li>相关附件</li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    <div class="text cimg">
+                        <%- data.desc %>
+                    </div>
+                </div>
+                <div class="tab-pane">
+                    <div class="brand-res-list">
+                        <% if(data.digits && data.digits.length > 0){ %>
+                        <ul class="clearfix">
+                            <% data.digits.forEach(function (items) { %>
+                            <li>
+                                <% if(items.type === 'pic' ){ %>
+                                <img src="<%= items.pic %>" alt="资源图片" onerror="this.src='/img/err.jpg'">
+                                <% } %>
+                                <% if(items.type === 'video' ){ %>
+                                <video src="<%= items.file %>" controls="controls" poster="<%= items.pic %>">您的浏览器不支持
+                                    video 标签。
+                                </video>
+                                <% } %>
+                                <% if(items.type === 'audio' ){ %>
+                                <audio src="<%= items.file %>" controls="controls">
+                                    您的浏览器不支持 audio 标签。
+                                </audio>
+                                <% } %>
+                                <div class="title"><span><%= items.name %></span></div>
+                                <i class="iconfont <% if(items.type === 'pic' ){ %>icon-tupian<% } %> <% if(items.type === 'video'){ %>icon-CombinedShape<% } %> <% if(items.type === 'audio'){ %>icon-yinpin<% } %>"></i>
+                            </li>
+                            <% }) %>
+                        </ul>
+                        <% }else { %>
+                        <%- include('../common/nodata', {tip : '暂无活动纪实' }) %>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="tab-pane">
+                    <% if(data.attach && data.attachName){ %>
+                    <a href="<%- data.attach %>" target="view_window"
+                       style="text-decoration:underline"><%- data.attachName %></a>
+                    <% } else { %>
+                    <%- include('../common/nodata', {tip : '暂无相关附件' }) %>
+                    <% } %>
+                </div>
+                <!-- <div role="tabpanel" class="tab-pane" id="aboutwj"><% include ../common/nodata %></div> -->
+            </div>
+        </div>
+    </div>
+    <div class="place-space"></div>
+    <%- include('../common/comments',{comments:comments,type:'VolunteerRecruit',objId:data.id,pagingUrl:'/volunteer/recruitdetail/' + data.id+'' }) %>
+    <div class="place-space"></div>
+</div>
+
+<footer>
+    <% include ../common/footer %>
+</footer>
+</body>
+<script>
+    var userObj = <%- JSON.stringify(user) %>;
+    // var userObj = JSON.parse(userstr);
+    var id = '<%= data.id %>'
+    $(document).ready(function () {
+        // $('#signup').click(function () {
+        //     window.location.href = "/volunteer/bookingact/"+'<%= data.id %>';
+        // })
+
+        $(".volun-detail-nav li").click(function () {
+            $(this).addClass("active").siblings().removeClass('active');
+            $(".tab-pane").eq($(".volun-detail-nav li").index(this)).addClass("active").siblings().removeClass('active');
+        })
+    })
+</script>
+
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    文化视频详情
+  </title>
+  <% include ../common/head %>
+    <link rel='stylesheet' href='/styles/vod.min.css' />
+    
+    <!-- <link rel="stylesheet" href="/styles/libs/video-js.css">
+    <script src="/javascripts/libs/videojs/video.min.js"></script> -->
+    <link rel='stylesheet' href='/javascripts/libs/swiper/swiper.min.css' />
+    <script src='/javascripts/libs/ckplayer/ckplayer.js'></script>
+    <script src="/javascripts/libs/swiper/swiper.min.js"></script>
+     
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+  <div class="g-content">
+    <div class="crumbs">
+      <ul>
+        <li>
+          <a href="/">首页&nbsp;&nbsp;></a>
+        </li>
+        <li>
+          <a href="/vod">直播点播&nbsp;&nbsp;></a>
+        </li>
+        <li>
+          <a href="">视频详情</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 播放器 -->
+    <div class="live">
+      <div class="lives video demand">
+        <div class="title" style="width:1200px;">
+          <%=data.name%>
+        </div>
+        <div class="favorite-opres">
+          <%- include('../common/favoritedBtn.ejs',{ objectId:data.id,type:'Demands',favorited:favorited }) %>
+            <%- include('../common/bshare') %>
+        </div>
+      
+        <div  id="my-video" data-index='0' style="width:1200px; height:476px">
+
+          </div>
+
+        <!-- <video id="my-video" class="video-js" autoplay controls preload="auto" width="1200" height="476" data-setup="{}">
+          <source src="<%= data.curPath%>" type="video/mp4" >
+          <p class="vjs-no-js">
+            当前浏览器不支持h5视频播放，请升级浏览器
+            <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+          </p>
+        </video> -->
+
+      </div>
+    </div>
+    <!-- 播放列表 -->
+    <% if(data.dramas&&data.dramas.length>0){ %>
+      <div class="g-content videolist">
+        <div class="swiper-container video-swiper" id="videoSwiper">
+          <div class="swiper-wrapper">
+            <% data.dramas.forEach(function(item,index){%>
+              <div class="swiper-slide" data-src="<%= item.file%>" data-index="<%=index%>">
+                <div class="img-card">
+                  <img src="<%=item.pic%>">
+                  <h6 class="caption">
+                    <%= item.serial%>.<%= item.title%>
+                  </h6>
+                </div>
+              </div>
+              <% }) %>
+          </div>
+          <div class="swiper-button-next j-video-next"></div>
+          <div class="swiper-button-prev j-video-prev"></div>
+        </div>
+      </div>
+      <% } else { %>
+        <% include ../common/nodata.ejs %>
+          <% } %>
+            <!-- 视频信息 -->
+            <div class="g-content videodetail">
+              <div class="tab-wrapper">
+                <ul class="nav nav-tabs video-tabs" id="videoTabs">
+                    <li class="active"><a href="#detail">视频内容</a></li>
+                    <% if(data.content && data.content.length>0){ %>
+                    <li><a href="#report">视频详情</a></li>
+                    <%}%>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="detail">
+                        <div class="list-bullet highlight-type">    
+                            <p class="list-item">视频分类：<%= data.artistTypes.join('、')%></p>
+                            <p class="list-item">视频来源：<%= data.resource%></p>
+                            <p class="list-item">浏览量： <%= data.pageView || 0%></p>
+                            <p class="list-item">视频简介：<%= data.brief%></p>
+                        </div>
+                    </div>
+                    <% if(data.content && data.content.length>0){ %>
+                    <div class="tab-pane fade" id="report">
+                          <%- data.content %>
+                        </div>
+                    <%}%>
+                </div>
+              </div>
+            </div>
+            <!-- 相关推荐 -->
+            <div class="g-content ost">
+              <h4>相关推荐</h4>
+              <div class="cardlist list-content">
+                <div class="content">
+                  <%list.content.forEach(function(item,index){%>
+                    <div class="col-4">
+                      <a class="img-card" href='/vod/detail/<%=item.id%>?type=demands'>
+                        <img src="<%=item.coverPic%>">
+                        <h6 class="caption">
+                          <%=item.name%>
+                        </h6>
+                      </a>
+                    </div>
+                    <% }) %>
+                </div>
+              </div>
+            </div>
+            <!-- 评论 -->
+            <div class="g-content">
+              <div class="place-space"></div>
+              <%-include('../common/comments',{ comments: comments, type:'Demands',objId:data.id, pagingUrl:'/vod/detail/' + data.id}) %>
+                <div class="place-space"></div>
+            </div>
+  </div>
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+  <script>
+    // videojs.options.flash.swf = "/javascripts/libs/videojs/video-js.swf";
+    // var vodstr = '<%- JSON.stringify(data)%>';
+    var curPath='<%- data.curPath%>';
+    var coverPic='<%- data.coverPic%>';
+    var titles = '<%= data.name %>';
+    // var vodObj = JSON.parse(assist.replaceTxtNLine(vodstr));
+    var vodId = '<%= data.id %>';
+    var jiathis_config = {
+      title: titles
+    };
+    var videoSwiper = new Swiper('#videoSwiper', {
+      slidesPerView: 'auto'
+    });
+
+    $('#favorite').removeClass('btn').removeClass('angle').addClass('pull-right').css('padding-right', '20px').css(
+      'cursor', 'pointer');
+    $('#openShareBox').removeClass('btn').removeClass('angle').addClass('pull-right').css('padding-right', '20px').css(
+      'cursor', 'pointer');
+    $('.sharePanel').addClass('pull-right').css('padding-right', '10px').css('cursor', 'pointer').css('margin-top',
+      '15px');
+
+    $('.j-video-prev').on('click', function (e) {
+      e.preventDefault();
+      videoSwiper.swipePrev()
+    });
+    $('.j-video-next').on('click', function (e) {
+      e.preventDefault();
+      videoSwiper.swipeNext()
+    });
+    $(function () {
+      $('#videoTabs').on('click', 'li>a', function(event) {
+      event.preventDefault()
+      var $parentNode = $(this).parent();
+      var activeClass = 'active';
+      if ($parentNode.hasClass(activeClass)) {
+        return;
+      }
+
+      $parentNode.siblings().removeClass(activeClass);
+      $parentNode.addClass(activeClass);
+      var selector = $(this).attr('href');
+      $(selector).addClass('in ' + activeClass);
+      $(selector).siblings().removeClass('in ' + activeClass);
+    });
+
+      $(".shar,.bshare").mouseover(function () {
+        $(".bshare").show();
+        $(".title-right").css("margin-right", "180px")
+      })
+      $(".shar,.bshare").mouseout(function () {
+        $(".bshare").hide();
+        $(".title-right").css("margin-right", "0px")
+      })
+
+      var href = window.location.href;
+      $(".swiper-slide").eq(0).find("img").css('border', '2px solid #e94e58')
+      $(".swiper-slide").eq(0).find(".caption").css("color", "#e94e58")
+      $(".videolist .swiper-slide").each(function () {
+        var self = $(this)
+     
+        setVideoSource(curPath)
+
+
+        $(this).click(function () {
+          var file = $(this).attr('data-src');
+          var index = $(this).data('index');
+          var title = $(this).find(".caption").html();
+          setVideoSource(file);
+          $('#my-video ').data('index', index);
+          $(".video .title").html(title);
+          $(".swiper-slide img").css('border', 'none');
+          $(".swiper-slide .caption").css('color', '#333');
+          $(this).find("img").css('border', '2px solid #e94e58');
+          $(this).find(".caption").css("color", "#e94e58");
+          if (!file) {
+            assist.showMsg('视频资源不存在')
+          } else {
+            // $('#my-video video')[0].play();
+          }
+        });
+
+            function setVideoSource(videoPath){
+                      var videoObject = {
+                                container: '#my-video', //容器的ID或className
+                                variable: 'player',//播放函数名称
+                                autoplay: 'true',//播放函数名称
+                                flashplayer:false,
+                                poster:coverPic,//封面图片
+                                video:videoPath
+                        };
+                       player = new ckplayer(videoObject);        
+                }
+
+      });
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,156 @@
+<div class="myModal" style='display:none'>
+  <div class="modal-content-wrapper" id='avatorModal'>
+    <div class="block-heading border">
+      <h4 class="title">更换头像</h4>
+    </div>
+    <form method="post" id="avatorForm" action='/user/userphoto' enctype="multipart/form-data">
+    
+      <label class="import-btn round" >
+        <img id='avator' src="<%= data.pic %>"  onerror="this.onerror=null;this.src='/images/portrait.png'">
+      </label> 
+       <p class="red" style='font-size:16px;text-align:center;'> * 点击上述图片，更换头像</p>
+      <input type="text" id="userImg" name="userImg" value="" required style="visibility:hidden" >
+      
+      <div class="operate-btns">
+        <input type="submit" id="submitAvator" style="display:none;">
+        <button class="btn u-btn" id="submitAvatorBtn">
+          <i class="iconfont icon-upload"></i>上传</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  $(function() {
+    // 修改提交
+    $('#submitAvatorBtn').on('click', function(event) {
+      event.stopPropagation();
+      event.preventDefault();
+
+      $("#submitAvator").click();
+    });
+
+    // var fileInput = $('#avatorImage');
+    // fileInput.change(function() {
+    //   var file = fileInput[0].files[0];
+    //   var fileReader = new FileReader();
+    //   fileReader.onloadend = function() {
+    //     if (fileReader.readyState == fileReader.DONE) {
+    //       $('#avator').attr('src', fileReader.result);
+    //     }
+    //   };
+    //   fileReader.readAsDataURL(file);
+    // });
+
+
+      function uploaderFile2() {               
+                        var uploader = WebUploader.create({
+                                // swf文件路径
+                                swf: '/javascripts/libs/webuploader/Uploader.swf',
+                                // 文件接收服务端。
+                                server: '/uploadfile',
+                                // 选择文件的按钮。可选。
+                                // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+                                pick: '#avator',
+                                // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+                                resize: false,
+                                // 只允许选择图片文件。
+                                // accept: {
+                                //         title: 'Images',
+                                //         extensions: 'gif,jpg,jpeg,bmp,png',
+                                //         mimeTypes: 'image/*'
+                                // }
+                        });
+                        $('#avator').one('click',function(){
+                             $('#avator').find('input').css('display','none');
+                             uploader.refresh();
+                            //  $('#avator').find('input').click()
+                            
+                        })
+                        //当文件被加入队列之前触发，此事件的handler返回值为false，则此文件不会被添加进入队列。
+                        uploader.on('beforeFileQueued', function (file) {
+                               
+                                uploading = false;
+                                if (file.ext === 'jpg' || file.ext === 'png' || file.ext ==='gif' || file.ext === 'jpeg') {
+
+                                } else {
+                                        assist.showMsg('请选择正确的图片格式');
+                                        return false;
+                                }
+                                var fileSize = file.size / 1024 / 1024;
+                                if (fileSize >= 10) {
+                                        assist.showMsg('文件过大');
+
+                                        return false;
+                                }
+                                uploader.reset();
+                        })
+                        var canReview=true;
+                        // 当有文件被添加进队列的时候
+                        uploader.on('fileQueued', function (file) {
+                                
+                                uploader.makeThumb(file, function (error, src) {
+                                        if (error) {
+                                                assist.showMsg('不能预览');
+                                                canReview=false;
+                                                return;
+                                        }
+
+                                        $('.import-btn .icon-upload').hide();
+                                        $('#avator').attr('src', src);
+
+                                }, 547, 365);
+                                uploader.upload();
+                        });
+                        // 文件上传过程中创建进度条实时显示。
+                        uploader.on('uploadProgress', function (file, percentage) {
+                                // assist.showMsg('上传中')
+                        });
+
+                        uploader.on('uploadComplete', function (file) {
+                                $(".dialog-wrap").remove();
+                        });
+
+                        uploader.on('uploadSuccess', function (file, response) {
+                              
+                                if (response.code == 0) {
+                                        var src = response.res;
+                                       
+                                        $("#userImg").val(src);
+                                        $('#avatorForm').valid();
+                                        if(!canReview){
+                                                  $('#avator').attr('src', response.filePath);
+                                        }
+                                      
+                                        uploading = true;
+                                } else {
+                                        uploading = false;
+                                        assist.showMsg('上传失败');
+                                }
+                        });
+                }
+               
+                uploaderFile2();
+
+   $('#avatorForm').validate({
+      errorElement: 'div',
+      errorClass: 'v-error',
+      rules: {
+        avatorImage: {
+          'extension': 'gif|jpe?g|png'
+        }
+      },
+      messages: {
+        avatorImage: {
+          required: '请选择头像',
+          extension: '仅限jpg、png、gif格式的图片'
+        }
+      },
+      submitHandler: function() {
+        $("#avatorForm").submit()
+      }
+    });
+
+
+  })
+</script>

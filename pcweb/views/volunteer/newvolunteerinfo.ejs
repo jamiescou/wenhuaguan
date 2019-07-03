@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    湖南省文化馆
+  </title>
+  <% include ../common/head %>
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+
+  </header>
+
+  <div class="volun-header">
+
+  </div>
+
+  <div class="uict-content2 volunInfo">
+    <!-- 定宽:圆形步骤条 -->
+    <div class="m-voluninfo-step">
+        <div class="step-content">
+            <div class="step-item active">
+                <span class="step-dot"></span>
+                <p class="step-txt">编辑志愿者身份信息</p>
+            </div>
+            <div class="bar"></div>
+            <div class="step-item">
+                <span class="step-dot"></span>
+                <p class="step-txt">信息提交完成</p>
+            </div>
+        </div>
+    </div>
+    <div class="place-space"></div>
+  <!-- 定宽:圆形步骤条 -->
+
+    <div class="volun-content" style="margin-bottom: 20px;">
+      <div class="header">请确认并填写相关信息</div>
+      <div class="content">
+        <form id='form'>
+        <div>
+          <div>
+            <label>报名用户:</label>
+            <span>
+              <%=data.name%>
+            </span>
+          </div>
+          <div>
+            <label>联系电话:</label>
+            <span>
+              <%=data.mobile%>
+            </span>
+          </div>
+        </div>
+        <div>
+          <label>住址信息:</label>
+          <select id='city'>
+            <% for(let p in regionObj){%>
+              <option value="<%=p%>">
+                <%=p%>
+              </option>
+              <%}%>
+          </select>
+          <select id='regionCode'>
+          </select>
+          <input class="form-control" id='detailAddress'> 
+        </div>
+        <div>
+          <div>
+            <label>籍贯:</label>
+            <input class="form-control" id='holdAddress' > </input>
+          </div>
+          <div>
+              <label>政治面貌:</label>
+              <select id='politicalStatus'>
+                <% political.forEach(function(item){%>
+                  <option value="<%=item.value%>">
+                    <%=item.value%>
+                  </option>
+                  <%})%>
+              </select>
+            </div>
+        </div>
+        <div>
+          <div>
+            <label>从业情况:</label>
+            <select id='occupation'>
+              <% occupation.forEach(function(item){%>
+                <option value="<%=item.value%>">
+                  <%=item.value%>
+                </option>
+                <%})%>
+            </select>
+          </div>
+          <div>
+            <label>兴趣爱好:</label>
+            <input class="form-control" id='interest'> </input>
+          </div>
+        </div>
+        <div>
+          <div>
+            <label>最高学历:</label>
+            <select id='education' >
+              <% education.forEach(function(item){%>
+                <option value="<%=item.value%>">
+                  <%=item.value%>
+                </option>
+                <%})%>
+            </select>
+          </div>
+        </div>
+        <div>
+          <div>
+            <label>自我介绍:</label>
+            <textarea rows=5 type='textarea' class="form-control" id='selfInfo'  > <%=data.selfInfo%></textarea>
+          </div>
+        </div>
+      </form>
+      </div>
+    </div>
+    <div class="volun-content">
+      <div class="header">
+        报名须知
+      </div>
+      <div class="tip">
+           1、学员也可在新动力网上报名。(网址：www.newpower.org.cn)。
+        <br> 2、学员自报名之日起一个月内可凭听课证开具发票，过期一律不予补开。
+        <br> 3、学员所报班级不足10人时, 新动力保留不开班的权利。
+        <br> 4、开班日期以各校区当月开课时间为准，请学员在开课前三天致电报名校区确认具体开课时间。
+        <br>
+      </div>
+    </div>
+
+    <div class="ckb">
+      <input type="checkbox" id='ckb'>我已阅读并接受条款</div>
+    <div class="btns" style='text-align:center'>
+    
+      <a class="btn btn-default btn-lg " href='/volunteer'>取消</a>
+        <a class="btn btn-default btn-lg uict-submitorder">确认报名</a>
+    </div>
+  </div>
+
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+<script>
+    var regionInfo = <%-JSON.stringify(regionObj)%>;
+
+    // regionInfo = JSON.parse(regionStr);
+    $('#regionCode').val('');
+    $('#education').val('');
+    $('#politicalStatus').val('');
+    $('#occupation').val('');
+    $('#city').val('');
+    $(document).ready(function () {
+      $('#city').change(setCountyValue);
+      setCountyValue();
+      function setCountyValue() {
+        var countyHtml = '';
+        var selectCity = $('#city').val();
+      
+        if(selectCity!=null){
+          for (var i = 0; i < regionInfo[selectCity].length; i++) {
+          countyHtml += '<option value ="' + regionInfo[selectCity][i].value + '">' + regionInfo[selectCity][i].name + '</option>'
+          }
+        }
+        $('#regionCode').html(countyHtml);
+       
+      }
+      $('.uict-submitorder').click(function(){
+        if($('#detailAddress').val()=='')
+        {
+           assist.showMsg('住址不能为空');
+          return;
+        }
+        if($('#holdAddress').val()=='')
+        {
+           assist.showMsg('籍贯不能为空');
+          return;
+        }
+        if($('#hobbit').val()=='')
+        {
+           assist.showMsg('兴趣不能为空'); 
+          return;
+        }
+        if($('#occupation').val()=='')
+        {
+           assist.showMsg('职业不能为空');
+          return;
+        }
+        if($('#education').val()=='')
+        {
+           assist.showMsg('教育程度不能为空');
+          return;
+        }
+        if($('#politicalStatus').val()=='')
+        {
+           assist.showMsg('政治面貌不能为空');
+          return;
+        } 
+        if($('#selfInfo').val().trim()=='')
+        {
+           assist.showMsg('自我介绍不能为空');
+          return;
+        } 
+        if(!$('#ckb')[0].checked)
+        {
+           assist.showMsg('请阅读并接受条款');
+          return;
+        } 
+        $.ajax({
+          url:'/volunteer/enroll',
+          type: 'post',
+          data:{
+            education:$('#education').val(), 
+            occupation:$('#occupation').val(),
+            politicalStatus:$('#politicalStatus').val(),
+            holdAddress:$('#holdAddress').val(),
+            address: $('#city').val()+ $("#regionCode").find("option:selected").text(),
+            detailAddress:$('#detailAddress').val(),
+            selfInfo:$('#selfInfo').val(),
+            interest:$('#interest').val(),
+            email:$('#email').val()
+          },
+          success:function(res){
+          
+           if(res.id!=''){
+             window.location.href='/volunteer/enrollsuccess'
+           }else{
+             assist.showMsg(res.message);
+           }
+            
+          },
+          failure:function(){
+            assist.showMsg('保存失败','error');
+          }
+        })
+        
+      })
+
+   
+  
+    })
+
+</script>
+
+</html>

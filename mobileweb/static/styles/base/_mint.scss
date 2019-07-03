@@ -1,0 +1,162 @@
+@import '../components/field';
+// 覆盖MintUI的tabNav
+.mint-navbar {
+    .mint-tab-item.is-selected {
+        border-bottom: px2rem(3) solid $active-color;
+        color: $active-color;
+    }
+    .mint-tab-item-label {
+        font-size: $f-size;
+        height: px2rem(50);
+        line-height: px2rem(50);
+        padding: 0;
+    }
+}
+
+// MintUI的MessageBox
+.mint-msgbox {
+    font-size: $f-size;
+    .mint-msgbox-header {
+        padding-top: px2rem(30);
+    }
+    .mint-msgbox-content {
+        padding: px2rem(20) px2rem(40) px2rem(30);
+    }
+    .mint-msgbox-title {
+        font-size: $f-size16;
+    }
+    .mint-msgbox-btns {
+        height: px2rem(80);
+    }
+    .mint-msgbox-btn {
+        font-size: inherit;
+    }
+    .mint-msgbox-confirm {
+        color: $color-red;
+    }
+    .mint-msgbox-input input {
+        padding: px2rem(24) px2rem(30);
+    }
+    .mint-msgbox-errormsg {
+        font-size: $f-size12;
+    }
+}
+
+// MintUI的Indicator
+.mint-indicator {
+    z-index: 1000;
+    transition: none;
+    .mint-indicator-mask {
+        z-index: 100;
+    }
+    .mint-indicator-wrapper {
+        z-index: 1000;
+        padding: px2rem(40) !important;
+        border-radius: px2rem(10);
+    }
+    .mint-indicator-text {
+        font-size: $f-size;
+    }
+    .mint-spinner-snake {
+        width: px2rem(64) !important;
+        height: px2rem(64) !important;
+    }
+}
+
+// MintUI的actionsheet
+.mint-actionsheet-listitem,
+.mint-actionsheet-button {
+    height: px2rem(100);
+    line-height: px2rem(100);
+    font-size: $f-size;
+}
+
+// 覆盖样式
+.mint-cell-wrapper {
+    background: none;
+    font-size: $f-size;
+}
+
+.mint-cell {
+    background: none;
+    min-height: px2rem(80);
+    .mint-radio-core {
+        width: px2rem(40);
+        height: px2rem(40);
+        &::after {
+            top: px2rem(11);
+            left: px2rem(12);
+            width: px2rem(16);
+            height: px2rem(16);
+        }
+    }
+    .mint-checkbox-core {
+        height: px2rem(40);
+        width: px2rem(40);
+        border-radius: px2rem(4);
+        &::after {
+            top: px2rem(6);
+            left: px2rem(14);
+            width: px2rem(8);
+            height: px2rem(16);
+            border: px2rem(4) solid transparent;
+            border-left: 0;
+            border-top: 0;
+        }
+    }
+    .mint-radio-input:checked+.mint-radio-core {
+        border-color: $color-red;
+        background-color: $color-red;
+    }
+    .mint-checkbox-input:checked+.mint-checkbox-core {
+        border-color: $color-red;
+        background-color: $color-red;
+    }
+}
+
+.mint-cell:last-child {
+    background: none;
+}
+
+// 活动场次选择
+.act-pre-schedule {
+    background-color: $content-bg;
+    width: 100%;
+    .m-picker-slot {
+        color: $color-666;
+        font-size: $f-size;
+        .picker-item.picker-selected {
+            color: $color-333;
+            font-size: $f-size18;
+        }
+    }
+    .operations {
+        padding: px2rem(30);
+        .btn {
+            font-size: px2rem(38)
+        }
+    }
+}
+
+// 场馆预定
+.venue-pre {
+    .mint-cell-title {
+        width: px2rem(200);
+    }
+    .desc {
+        margin-top: px2rem(20);
+    }
+    .desc .mint-field-core {
+        padding: 5px px2rem(30);
+        margin: 0;
+        border: 0;
+        color: $color-666;
+        ::-webkit-input-placeholder {
+            color: $color-999;
+            font-size: 12px;
+        }
+    }
+    .desc .mint-cell-title {
+        align-self: flex-start;
+    }
+}

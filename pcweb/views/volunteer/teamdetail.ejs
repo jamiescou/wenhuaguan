@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    活动详情
+  </title>
+  <% include ../common/head %>
+
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+
+  <div class="uict-content2">
+    <ol class="breadcrumb">
+      <li>
+        <a href="/">首页</a>
+      </li>
+      <li>
+        <a href="/volunteer">志愿者</a>
+      </li>
+      <li class="active">志愿者团队详情</li>
+    </ol>
+
+
+    <div class="media card-media activity-media marb_15">
+      <div class="media-left">
+        <!-- <img src="http://120.77.150.198:8080/whgstatic/img/2017/201705/20170525/51c67268730c489cbae12dca0d9c18fd.jpg"> -->
+        <img src="<%= data.coverPic %>" alt="活动图片" />
+      </div>
+      <div class="media-body">
+        <h4 class="u-title">
+          <%= data.name %>
+        </h4>
+        <div class="u-remark">
+          <i class="iconfont icon-time"></i>成立时间：
+          <%= data.createTime.split(" ")[0] %>
+        </div>
+        <div class="u-remark f-nowrap">
+          <i class="iconfont icon-location"></i>地址：
+          <%= data.detailAddress %>
+        </div>
+        <div class="u-remark">
+          <i class="iconfont icon-phone"></i>电话：
+          <%= data.contactPhone %>
+        </div>
+        <div class="body-bottom">
+          <div class="u-remark">
+            <a class="btn btn-danger btn-lg   authBtn" title="点击立即参加活动" role="button">
+              立即报名
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="media-right" style="height:200px;padding-top:100px;vertical-align:top">
+        <div style="width:90px;">
+          <% include ../common/bshare.ejs %>
+        </div>
+      </div>
+    </div>
+    <div class="uict-acvitity">
+      <div class="uict-activityl">
+        <div class="uict-adetail martb_15">
+          <ul class="nav nav-tabs uict-navtabs" role="tablist">
+            <li role="presentation" class="active">
+              <a href="#adetail" aria-controls="adetail" role="tab" data-toggle="tab">团队详情</a>
+            </li>
+            <li role="presentation">
+              <a href="#aboutjs" aria-controls="aboutjs" role="tab" data-toggle="tab">团队风采</a>
+            </li>
+            <li role="presentation">
+              <a href="#aboutfj" aria-controls="aboutfj" role="tab" data-toggle="tab">团队成员</a>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="adetail">
+              <% if(data.brief==''){%>
+                <%- include('../common/nodata', {tip : '暂无团队详情' })%>
+                  <%} else {%>
+                    <%- data.brief%>
+                      <%}%>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="aboutjs">
+              <% if(teammien==null||teammien.length==0||teammien[0]==null){%>
+                <%- include('../common/nodata', {tip : '暂无团队风采' })%>
+                  <%} else {%>
+                    <% teammien.forEach(function(item){ %>
+                      <div class="mien">
+                        <p class="mien-title">
+                          <%=item.title%>
+                        </p>
+                        <p class="mien-date">2017.01.30</p>
+                        <p class="mien-content">
+                          <%=item.content%>
+                        </p>
+                        <ul>
+                          <li class="mien-img">
+                            <% item.picList.forEach(function(value){ %>
+                              <img src="<%=value%>" alt="">
+                              <%})%>
+                          </li>
+                        </ul>
+                      </div>
+                      <%})%>
+                        <%}%>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="aboutfj" style="overflow:hidden;">
+              <% if(members==null||members.length==0||members[0]==null){%>
+                <%- include('../common/nodata', {tip : '暂无团队成员' })%>
+                  <%} else {%>
+                    <% members.forEach(function(item){ %>
+                      <div class="memebers">
+                        <img src='<%= item.coverPic %>'>
+                        <span>
+                          <%=item.nickname%>
+                        </span>
+                      </div>
+                      <%})%>
+                        <%- include('../common/paginator.ejs', {page : members.number + 1, totalPages : members.totalPages, pageUrl :  '/volunteer/teamdetail/' +data.id, totalElements : members.totalElements}) %>
+                      <%}%>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+<script>
+  var userObj = <%-JSON.stringify(user)%>;
+  // var userObj = JSON.parse(userstr);
+  var id = '<%=data.id%>'
+  $(document).ready(function() {
+    $('.authBtn').click(function() {
+      if (!userObj) {
+        $('.myModal').modal('show');
+      } else {
+
+
+        $.ajax({
+          url: '/volunteer/canbook/' + id,
+          type: 'post',
+          success: function(res) {
+            if (res.success) {
+              window.location.href = "/volunteer/booking/" + id + "?type=team";
+
+            } else {
+              assist.showMsg(res.message);
+            }
+          },
+        })
+
+      }
+    })
+    $('.myModal').on('hide.bs.modal', function() {
+      if (userObj) {
+        window.location.href = "/volunteer/booking/" + id + "?type=team";
+      }
+    })
+  })
+</script>
+
+</html>

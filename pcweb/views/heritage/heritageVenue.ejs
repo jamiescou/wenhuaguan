@@ -1,0 +1,107 @@
+<%
+var type = query.type ? '&type=' + query.type : '';
+var typePage = '/heritage?' ;
+var pagingPage= '/heritage?'  + type;
+%>
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+        <title>
+            非遗展厅
+        </title>
+        <% include ../common/head %>
+        <link rel='stylesheet' href='/styles/heritage.min.css' />
+    </head>
+
+    <body>
+        <header>
+            <% include ../common/header %>
+        </header>
+        <div class="g-content">
+            <div class="crumbs">
+                <ul>
+                    <li>
+                        <a href="">首页&nbsp;&nbsp;></a>
+                    </li>
+                    <li>
+                        <a href="">非遗场馆</a>
+                    </li>
+                </ul>
+            </div>
+
+            <%- include('../common/heritageCenter') %>
+                <% if(data&&data.length>0){%>
+                    <div class="uict-content uict-usercontainer heritage-news" style="width:1200px!important;">
+                        <div class="media heritage">
+                            <div class="media-left">
+                                <img src="<%= data[0].coverPic%>" alt="" class="heritage-img">
+                            </div>
+                            <div class="media-center">
+                                <h3 class="name">
+                                    <%= data[0].title%>
+                                </h3>
+                                <p class="describe ">
+                                    <i class="iconfont icon-location"></i>
+                                    <span>地点：
+                                        <%=data[0].address%>
+                                    </span>
+                                </p>
+                                <p class="describe f-nowrap">
+                                    <i class="iconfont icon-phone"></i>
+                                    <span>电话：
+                                        <%=data[0].phone%>
+                                    </span>
+                                </p>
+                                <p class="describe f-nowrap">
+                                    <i class="iconfont icon-user"></i>
+                                    <span>联系人：
+                                        <%=data[0].contact%>
+                                    </span>
+                                </p>
+                                <p class="intro">
+                                    <%- data[0].brief%>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="place-space"></div>
+                                <div class="unit">
+                                    <div class="content3">
+                                        <%if(unit&&unit.length!=0){%>
+                                            <%unit.forEach(function(item,index){%>
+                                                <div class="col-3">
+                                                    <div class="card">
+                                                        <div class="card-head">
+                                                            <a href="/heritage/unitdetail/<%= item.id%>">
+                                                                <img class="img-top" src="<%= item.coverPic%>">
+                                                            </a>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <h5 class="card-title">第
+                                                                <%= index+1 %>单元 ——
+                                                                    <%= item.name%>
+                                                            </h5>
+                                                            <p class="card-text">
+                                                                <%= item.brief%>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <%})%>
+                                            <%}%>
+                                    </div>
+
+                                </div>
+                                  <%} else {%>
+                        <%-include('../common/nodata' ,{tip:'暂无相关展厅'})%>
+                            <%}%>
+        </div>
+        <div class="place-space"></div>
+        <footer>
+            <% include ../common/footer %>
+        </footer>
+    </body>
+
+    </html>

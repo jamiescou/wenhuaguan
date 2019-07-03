@@ -1,0 +1,27 @@
+// 没有数据
+@at-root .no-data {
+    padding: 100px 0px;
+    text-align: center; // 温馨提示 链接
+    .tiptext_link {
+        color: $red;
+        text-decoration: none;
+        padding: 0 5px;
+        &:hover,
+        &:focus {
+            text-decoration: none;
+            color: darken($red, 10%);
+        }
+    }
+    .tip-icon {
+        // 温馨提示 图标/图片
+        display: block;
+        margin: 0 auto;
+        font-size: 100px;
+        max-width: 150px;
+    }
+    .tip-msg {
+        margin-top:10px;
+        color: $body-color;
+        font-size: $font-size;
+    }
+}

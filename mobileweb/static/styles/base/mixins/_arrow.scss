@@ -1,0 +1,150 @@
+@mixin arrow($size:8px, $scaleX:1, $scaleY:1, $color:#333, $position:left) {
+    // 三角形
+    position: relative;
+    display: inline-block;
+    &:after {
+        content: "";
+        position: absolute;
+        display: block;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: dashed; // top: -($size * $scaleY + $size -2px);
+        border-width: $size;
+        transform: scale($scaleX, $scaleY);
+    }
+    @if($position==top) {
+        &:after {
+            top: 0;
+            left: 50%;
+            margin-left: -$size;
+            border-top-width: 0;
+            border-bottom-color: $color;
+            border-bottom-style: solid;
+        }
+    }
+    @else if($position==right) {
+        &:after {
+            right: -$size;
+            top: 50%;
+            margin-top: -$size;
+            border-right-width: 0;
+            border-left-color: $color;
+            border-left-style: solid;
+        }
+    }
+    @else if($position==bottom) {
+        &:after {
+            bottom: -$size;
+            left: 50%;
+            margin-left: -$size;
+            border-bottom-width: 0;
+            border-top-color: $color;
+            border-top-style: solid;
+        }
+    }
+    @else {
+        &:after {
+            left: 0;
+            top: 50%;
+            margin-top: -$size;
+            border-left-width: 0;
+            border-right-color: $color;
+            border-right-style: solid;
+        }
+    }
+}
+
+@mixin arrow-outline($bd-width, $bd-color, $arrow-size, $arrow-color, $position:left, $positionVal:50%, $scale:1) {
+    $arrow-outer-width: ($arrow-size + $bd-width) !default;
+    $offset: ($arrow-outer-width*$scale);
+    &,
+    &:after {
+        position: absolute;
+        display: block;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: dashed;
+    }
+    @if($position==top) {
+        & {
+            top: -$offset;
+            left: $positionVal;
+            margin-left: -$arrow-outer-width;
+            border-width: $arrow-outer-width;
+            border-top-width: 0;
+            border-bottom-color: $bd-color;
+            border-bottom-style: solid;
+        }
+        &:after {
+            content: "";
+            top: $bd-width;
+            left: -$arrow-size;
+            border-width: $arrow-size;
+            border-bottom-style: solid;
+            border-bottom-color: $arrow-color;
+            border-top-width: 0;
+        }
+    }
+    @else if($position==right) {
+        & {
+            right: -$offset;
+            top: $positionVal;
+            margin-top: -$arrow-outer-width;
+            border-width: $arrow-outer-width;
+            border-right-width: 0;
+            border-left-color: $bd-color;
+            border-left-style: solid;
+        }
+        &:after {
+            content: "";
+            right: $bd-width;
+            top: -$arrow-size;
+            border-width: $arrow-size;
+            border-left-style: solid;
+            border-left-color: $arrow-color;
+            border-right-width: 0;
+        }
+    }
+    @else if($position==bottom) {
+        & {
+            bottom: -$offset;
+            left: $positionVal;
+            margin-left: -$arrow-outer-width;
+            border-width: $arrow-outer-width;
+            border-bottom-width: 0;
+            border-top-color: $bd-color;
+            border-top-style: solid;
+        }
+        &:after {
+            content: "";
+            bottom: $bd-width;
+            left: -$arrow-size;
+            border-width: $arrow-size;
+            border-top-style: solid;
+            border-top-color: $arrow-color;
+            border-bottom-width: 0;
+        }
+    }
+    @else {
+        & {
+            left: -$offset;
+            top: $positionVal;
+            margin-top: -$arrow-outer-width;
+            border-width: $arrow-outer-width;
+            border-left-width: 0;
+            border-right-color: $bd-color;
+            border-right-style: solid;
+        }
+        &:after {
+            content: "";
+            left: $bd-width;
+            top: -$arrow-size;
+            border-width: $arrow-size;
+            border-right-style: solid;
+            border-right-color: $arrow-color;
+            border-left-width: 0;
+        }
+    }
+}

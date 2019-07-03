@@ -1,0 +1,7 @@
+// 渐变按钮
+@mixin gradient($start-color, $end-color) {
+    background-color: $start-color;
+    background-image: -webkit-linear-gradient(bottom, $start-color 0%, $end-color 100%);
+    background-image: -ms-linear-gradient(bottom, $start-color 0%, $end-color 100%);
+    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, $start-color), color-stop(1, $end-color));
+}

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        文化品牌详情
+    </title>
+    <% include ../common/head %>
+        <link rel='stylesheet' href='/styles/brand.min.css' />
+</head>
+
+<body>
+    <header>
+        <% include ../common/header %>
+            <link rel='stylesheet' href='/styles/brand.min.css' />
+    </header>
+    <div class="g-content">
+        <div class="crumbs">
+            <ul>
+                <li>
+                    <a href="/">首页&nbsp;&nbsp;></a>
+                </li>
+                <li>
+                    <a href="/brand">文化品牌&nbsp;&nbsp;></a>
+                </li>
+                <li>
+                    <a href="">文化品牌详情</a>
+                </li>
+            </ul>
+        </div>
+        <div class="brand-info-panel">
+            <div class="brand-banner brief-media" style="overflow: visible;">
+            	<div style="width: 100%;height: 400px;overflow: hidden;">
+                	<img src="<%= data.coverPic %>" alt="<%= data.name %>">
+                </div>
+                <div class="opres">
+			        <%- include('../common/favoritedBtn.ejs',{ objectId:data.id,type:'CultureBrand',favorited:data.favorited }) %>
+		            <%- include('../common/bshare') %>
+			    </div>
+            </div>
+            <div class="notice">
+                <div class="notice-title">
+                    <%= data.name %>
+                </div>
+                <div class="notice-content">
+                    <%- data.brief %>
+                </div>
+            </div>
+            <div class="place-space"></div>
+            <div class="notice">
+                <div class="notice-title">品牌描述</div>
+                <div class="notice-content cimg">
+                    <%- data.describe%>
+                </div>
+            </div>
+            <div class="place-space"></div>
+
+            <% if(news && news.length > 0){ %>
+
+                <div class="notice">
+                    <div class="notice-title">品牌资讯</div>
+                    <div class="list-news">
+                        <div class="col-2">
+                            <div class="list-bullet">
+                                <% news.forEach(function(items,index) { %>
+
+                                    <% if(index%2==0){ %>
+
+                                        <a class="list-item" href="/issue/detail/<%= items.id%>">
+                                            <p class="title">
+                                                <span>
+                                                    <%= items.title %>
+                                                </span>
+                                            </p>
+                                            <span class="time">
+                                                <%= items.publishTime %>
+                                            </span>
+                                        </a>
+
+                                        <%}})%>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="list-bullet">
+                                <% news.forEach(function (items,index) { %>
+                                    <% if(index%2==1){ %>
+                                        <a class="list-item" href="/issue/detail/<%= items.id%>">
+                                            <p class="title">
+                                                <span>
+                                                    <%= items.title %>
+                                                </span>
+                                            </p>
+                                            <span class="time">
+                                                <%= items.publishTime %>
+                                            </span>
+                                        </a>
+                                        <%}})%>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <%}%>
+
+                    <div class="place-space"></div>
+                    <div class="list-content">
+
+                        <div class="tab-wrapper">
+                            <ul class="nav nav-tabs" id="activityTabs">
+                                <li class="active">
+                                    <a href="#video">品牌视频</a>
+                                </li>
+                                <li>
+                                    <a href="#records">品牌纪实</a>
+                                </li>
+                                <li>
+                                    <a href="#activity">品牌活动</a>
+                                </li>
+
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade in active cimg" id="video">
+                                    <% if(videos.length>0){ %>
+                                        <div class="list-content">
+                                            <div class="content4">
+                                                <% videos.forEach(function (item) { %>
+                                                    <div class="col-4 report-item">
+                                                        <video class="img-card" poster="<%= item.pic %>" style="width:100%;height:200px;" controls>
+                                                            <source src="<%= item.file %>">
+                                                            <span class="card-title">
+                                                                <%= item.name %>
+                                                            </span>
+                                                        </video>
+                                                    </div>
+                                                    <% }) %>
+                                            </div>
+                                        </div>
+                                        <% } else {%>
+                                            <%- include('../common/nodata', {tip : '暂无品牌视频' })  %>
+                                                <%}%>
+
+                                </div>
+                                <div class="tab-pane fade" id="records">
+                                    <% if(pics.length>0){ %>
+                                        <div class="list-content">
+                                            <div class="content4">
+                                                <% pics.forEach(function (item) { %>
+                                                    <div class="col-4 report-item">
+                                                        <div class="img-card">
+                                                            <img src="<%= item.pic %>">
+                                                            <span class="card-title">
+                                                                <%= item.name %>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <% }) %>
+                                            </div>
+                                        </div>
+                                        <% } else { %>
+                                            <%- include('../common/nodata', {tip : '暂无品牌纪实' })  %>
+                                                <% } %>
+                                </div>
+                                <div class="tab-pane fade" id="activity">
+                                    <% if(activitylist.length>0){ %>
+                                        <div class="list-content">
+                                            <div class="content4">
+                                                <% activitylist.forEach(function (item) { %>
+                                                    <div class="col-4 report-item">
+                                                        <a class="img-card" href="/activity/detail/<%= item.id %>">
+                                                            <img src="<%= item.coverPic %>" alt="活动图片">
+                                                            <span class="card-title f-nowrap">
+                                                                <%= item.name %>
+                                                            </span>
+                                                        </a>
+                                                    </div>
+                                                    <% }) %>
+                                            </div>
+                                        </div>
+                                        <%} else{%>
+                                            <%- include('../common/nodata', {tip : '暂无品牌活动' })  %>
+                                                <%}%>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="place-space"></div>
+                    <%-include('../common/comments',{ comments: comments, type:'CultureBrand',objId:data.id, pagingUrl:'/brand/branddetail/' + data.id}) %>
+                        <div class="place-space"></div>
+        </div>
+    </div>
+    <footer>
+        <% include ../common/footer %>
+    </footer>
+</body>
+<script>
+      $(function() {
+    $('#activityTabs').on('click', 'li>a', function(event) {
+      event.preventDefault()
+      var $parentNode = $(this).parent();
+      var activeClass = 'active';
+      if ($parentNode.hasClass(activeClass)) {
+        return;
+      }
+
+      $parentNode.siblings().removeClass(activeClass);
+      $parentNode.addClass(activeClass);
+      var selector = $(this).attr('href');
+      $(selector).addClass('in ' + activeClass);
+      $(selector).siblings().removeClass('in ' + activeClass);
+    });
+  });
+</script>
+
+</html>

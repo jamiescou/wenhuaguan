@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        大屏统计
+    </title>
+    <% include ../common/head %>
+    <link type='text/css' rel='stylesheet' href='/styles/big_screen.min.css' />
+    <link rel='stylesheet' href='/javascripts/libs/swiper/swiper.min.3.4.2.css' />
+    <script src="/javascripts/libs/swiper/swiper.min3.4.2.js"></script>
+    <script type="text/javascript" src="/javascripts/libs/TweenLite.min.js"></script>
+    <script type="text/javascript" src="/javascripts/libs/lem_counter.js"></script>
+    <script src="/javascripts/libs/echarts.min.js"></script>
+</head>
+
+<body>
+    <div class="bigScreen-frame">
+        <header class="header">
+            <div class="head-right">
+                <div class="time" id="time"><%= time %></div>
+                <div class="dt">
+                    <div id="dt"><%= date %></div>
+                    <div id="week"><%= week %></div>
+                </div>
+            </div>
+        </header>
+        <section class="main-container">
+            <div class="data-container statistics">
+                <h2 class="heading">平台大数据统计</h2>
+                <div class="state-wrapper">
+                    <div class="row">
+                        <div class="col-4">
+                            <h3>累计用户量</h3>
+                            <p><span class='data-item' id="allUsers"></span></p>
+                        </div>
+                        <div class="col-4">
+                            <h3>昨日新增用户</h3>
+                            <p><span class='data-item' id="yesterdayUsers"></span></p>
+                        </div>
+                        <div class="col-4">
+                            <h3>浏览总量</h3>
+                            <p><span class='data-item' id="TotalBrowsing"></span></p>
+                        </div>
+                        <div class="col-4">
+                            <h3>访客数</h3>
+                            <p><span class='data-item' id="visitors"></span></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <h3>活动总量</h3>
+                            <p><span class='data-item' id="allActs"></span></p>
+                        </div>
+                        <div class="col-4">
+                            <h3>活动订单</h3>
+                            <p><span class='data-item' id="allOrders"></span></p>
+                        </div>
+                        <div class="col-4">
+                            <h3>场馆开放场次</h3>
+                            <p><span class='data-item' id="venuesOpens"></span></p>
+                        </div>
+                        <div class="col-4">
+                            <h3>场馆订单</h3>
+                            <p><span class='data-item' id="venueOrders"></span></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <h3>培训总量</h3>
+                            <p><span class='data-item' id="allTrains"></span></p>
+                        </div>
+                        <div class="col-4">
+                            <h3>培训学位</h3>
+                            <p><span class='data-item' id="allTrainDegree"></span></p>
+                        </div>
+                        <div class="col-4">
+                            <h3>文化配送</h3>
+                            <p><span class='data-item' id="distributions"></span></p>
+                        </div>
+                        <div class="col-4">
+                            <h3>艺术展览次数</h3>
+                            <p><span class='data-item' id="exhibitions"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="data-container loop">
+                <h2 class="heading">近期活动</h2>
+                <div class="block-content">
+                    <%- include('recent_act.ejs', {actList: data.actList}) %>
+                </div>
+
+                <h2 class="heading">近期展览</h2>
+                <div class="block-content">
+                    <%- include('recent_exhibition.ejs', {exhibitionList: data.recentExhibition}) %>
+                </div>
+            </div>
+            <div class="data-container loop loop2">
+                <h2 class="heading">近期培训</h2>
+                <div class="block-content">
+                    <%- include('recent_train.ejs', {trainList: data.traList}) %>
+                </div>
+                <h2 class="heading">近期视频</h2>
+                <div class="block-content">
+                    <%- include('recent_vod.ejs', {vodList: data.vodList}) %>
+                </div>
+            </div>
+            <div class="data-container chart">
+                <h2 class="heading">各类型活动发布量</h2>
+                <div class="block-content">
+                    <div id="actBar" class="bar-wrapper"></div>
+                </div>
+                <h2 class="heading">各类型培训发布量</h2>
+                <div class="block-content">
+                    <div id="trainBar" class="bar-wrapper"></div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+    <script>
+        var xAxios = {
+            type: 'category',
+            axisLabel: {
+                textStyle: {
+                    color: '#c6e0f1',
+                    fontSize: 36,
+                    padding: [15, 0, 0, 0]
+                }
+            },
+            axisLine: {
+                lineStyle: {
+                    color: '#3550b1',
+                    width: 2
+                }
+            }
+        }
+        var yAxis = {
+            axisLine: {
+                show: false
+            },
+            axisTick: {
+                show: false
+            },
+            splitNumber: 4,
+            axisLabel: {
+                textStyle: {
+                    color: '#c6e0f1',
+                    fontSize: 36
+                }
+            },
+            splitLine: {
+                lineStyle: {
+                    color: '#3550b1',
+                    width: 2
+                }
+            }
+        }
+        var actBarOption = {
+            xAxis: xAxios,
+            yAxis: yAxis,
+            series: [{
+                type: 'bar',
+                barWidth: 96,
+                itemStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(
+                            0, 0, 0, 1,
+                            [{
+                                    offset: 0,
+                                    color: '#27e3fd'
+                                },
+                                {
+                                    offset: 1,
+                                    color: '#1370c3'
+                                }
+                            ]
+                        )
+                    }
+                }
+            }]
+        }
+        var trainBarOption = {
+            xAxis: xAxios,
+            yAxis: yAxis,
+            series: [{
+                type: 'bar',
+                barWidth: 96,
+                itemStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(
+                            0, 0, 0, 1,
+                            [{
+                                    offset: 0,
+                                    color: 'rgba(134, 1, 247, 0.8)'
+                                },
+                                {
+                                    offset: 0.56,
+                                    color: 'rgba(89, 70, 251, 0.8)'
+                                },
+                                {
+                                    offset: 1,
+                                    color: 'rgba(44, 138, 255, 0.8)'
+                                }
+                            ]
+                        )
+                    }
+                }
+            }]
+        }
+        var actChart, trainChart;
+        window.onload = function() {
+            var now = new Date()
+            setInterval(function() {
+                var dt = new Date()
+                if(now.getDate() !== dt.getDate()){
+                    window.location.reload();
+                }
+            }, 1000);
+        };
+
+        function initData() {
+            $.ajax({
+                url: "/bigScreen/initData",
+                type: 'get',
+                success: function(res) {
+                    $('#allUsers').lemCounter({
+                        value_to: isNaN(res.statis.userTotal) ? 0 : res.statis.userTotal,
+                        animate_duration: 3,
+                        locale: "en-US"
+                    });
+                    $('#yesterdayUsers').lemCounter({
+                        value_to: isNaN(res.statis.yesterDayUser) ? 0 : res.statis.yesterDayUser,
+                        animate_duration: 3,
+                        locale: "en-US"
+                    });
+                    $('#TotalBrowsing').lemCounter({
+                        value_to: isNaN(res.statis.TotalBrowsing) ? 0 : res.statis.TotalBrowsing,
+                        animate_duration: 3,
+                        locale: "en-US"
+                    });
+                    $('#visitors').lemCounter({
+                        value_to: isNaN(res.statis.visitors) ? 0 : res.statis.visitors,
+                        animate_duration: 3,
+                        locale: "en-US"
+                    });
+                    $('#allActs').lemCounter({
+                        value_to: isNaN(res.statis.actNum) ? 0 : res.statis.actNum,
+                        animate_duration: 3,
+                        locale: "en-US"
+                    });
+                    $('#allOrders').lemCounter({
+                        value_to: isNaN(res.statis.actOrderNum) ? 0 : res.statis.actOrderNum,
+                        animate_duration: 3,
+                        locale: "en-US"
+                    });
+                    $('#venuesOpens').lemCounter({
+                        value_to: isNaN(res.statis.venueItems) ? 0 : res.statis.venueItems,
+                        animate_duration: 3,
+                        locale: "en-US"
+                    });
+                    $('#venueOrders').lemCounter({
+                        value_to: isNaN(res.statis.venueOrderNum) ? 0 : res.statis.venueOrderNum,
+                        animate_duration: 3,
+                        locale: "en-US"
+                    });
+                    $('#allTrains').lemCounter({
+                        value_to: isNaN(res.statis.trainNum) ? 0 : res.statis.trainNum,
+                        animate_duration: 3,
+                        locale: "en-US"
+                    });
+                    $('#allTrainDegree').lemCounter({
+                        value_to: isNaN(res.statis.trainOrderNum) ? 0 : res.statis.trainOrderNum,
+                        animate_duration: 3,
+                        locale: "en-US"
+                    });
+                    $('#distributions').lemCounter({
+                        value_to: isNaN(res.statis.distributionNum) ? 0 : res.statis.distributionNum,
+                        animate_duration: 3,
+                        locale: "en-US"
+                    });
+                    $('#exhibitions').lemCounter({
+                        value_to: isNaN(res.statis.exhibitionNum) ? 0 : res.statis.exhibitionNum,
+                        animate_duration: 3,
+                        locale: "en-US"
+                    });
+
+                    actBarOption.xAxis.data = res.activityForm;
+                    actBarOption.series[0].data = res.activityReport;
+                    actChart.setOption(actBarOption);
+
+                    trainBarOption.xAxis.data = res.artistClass;
+                    trainBarOption.series[0].data = res.trainReport;
+                    trainChart.setOption(trainBarOption);
+                }
+            })
+        }
+
+        function resetData() {
+            initData();
+        }
+
+        $().ready(function() {
+            resetData();
+            actChart = echarts.init(document.getElementById('actBar'));
+            trainChart = echarts.init(document.getElementById('trainBar'));
+            setInterval(function() {
+                resetData();
+            }, 30000);
+            new Swiper('#actSwiper', {
+                autoplay: 6000,
+                speed: 1000,
+                loop: true,
+                pagination: '#activityP'
+            });
+            new Swiper('#exhibitionSwiper', {
+                autoplay: 6000,
+                speed: 1000,
+                loop: true,
+                pagination: '#exhibitionP'
+            });
+            setTimeout(function() {
+                new Swiper('#trainSwiper', {
+                    autoplay: 6000,
+                    speed: 1000,
+                    loop: true,
+                    pagination: '#trainP'
+                });
+                new Swiper('#vodSwiper', {
+                    autoplay: 6000,
+                    speed: 1000,
+                    loop: true,
+                    pagination: '#vodP'
+                });
+            }, 1500);
+        })
+    </script>
+</body>
+
+</html>

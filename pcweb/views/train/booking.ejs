@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    培训订单
+  </title>
+  <% include ../common/head %>
+  <link rel='stylesheet' href='/styles/train.min.css' />
+  <link rel='stylesheet' href='/styles/user-center.min.css' />
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+  <div class="g-content">
+    <div class="crumbs">
+      <ul>
+        <li>
+          <a href="">首页&nbsp;&nbsp;></a>
+        </li>
+        <li>
+          <a href="/train">培训列表&nbsp;&nbsp;></a>
+        </li>
+        <li>
+          <a href='#'>培训详情</a>
+        </li>
+      </ul>
+    </div>
+    <div class="my-activity">
+      <div class="media">
+        <div class="media-left">
+          <img src="<%=data.picture%>" alt="" class="activity-img">
+        </div>
+        <div class="media-center">
+          <h3 class="name">
+            <%=data.title%>
+          </h3>
+          <p class="describe f-nowrap">
+            <i class="iconfont icon-time"></i>
+            <span>时间：
+              <%=data.enrolStartTime.substr(0,10)%>
+                至
+                <%=data.enrolEndTime.substr(0,10)%>(报名)
+                &nbsp; &nbsp; &nbsp; &nbsp;
+                  <%=data.startDate%>  至 <%=data.endDate%>(上课)
+            </span>
+          </p>
+          <p class="describe f-nowrap">
+            <i class="iconfont icon-location"></i>
+            <span>
+              <%=data.address%>
+            </span>
+            
+          </p>
+          <p class="describe f-nowrap">
+            <i class="iconfont icon-phone"></i>
+            <span>
+              <%=data.contactNumber%>
+            </span>
+          </p>
+          <% if(data.condition){%> 
+            <p class="describe f-nowrap">
+                <i class="iconfont icon-star"></i>报名要求：<%= data.condition.join('、') %>
+            </p>
+        <%}%>
+        </div>
+      </div>
+    </div>
+    <div class="place-space"></div>
+
+    <div id='step1' class="step1">
+      <div class="detail-block">
+        <div class="block-heading border">
+          <h4 class="title">选择培训人员</h4>
+        </div>
+        <div class="detail-content">
+            <table class="table-contactor">
+                <% contact.forEach(function(member){  %>
+
+                   <tr>
+                    <td>
+                      姓 名：<%=member.name %>
+                    </td>
+                    <td>
+                      关 系：
+                      <%=member.relation %>
+                    </td>
+                    <td>
+                      年 龄：
+                      <%=member.mobile %>
+                    </td>
+                    <td   >
+                      身份证：
+                      <%=member.idNumber %>
+                    </td>
+
+                    <% if( member.identifyStatus!='Yes'||member.limited){%>
+                        <td  class="col6" >
+                           <span class="red">
+                              <%= member.identifyStatus == "Yes" ? "" : "未认证" %>  <%=member.msg%>
+                           </span>
+                            
+                         </td>
+
+                      <%} else {%>
+               <td class="col6"> 
+                      
+                       <input type="checkbox" class="memberCkb" data-member='<%-JSON.stringify(member)%>'  >
+                  
+                      </td>
+                        <%}%>
+                   
+                  
+                  </tr>
+                      
+                  <% }) %>
+                    <!-- <tr>
+                      <td colspan="6" class="addcontactor">
+                        <span class="addmember" href='#contactModal' >
+                          <i class="iconfont icon-adduser"></i>&nbsp;&nbsp;添加报名人员</span>
+                      </td>
+                    </tr> -->
+              </table>
+        </div>
+      </div>
+      
+      <div class="detail-block tips">
+        <p><i class="iconfont icon-star"></i>本次培训最多预订<%= data.userLimitPeoples %>人</p>
+       
+          <p><i class="iconfont icon-star"></i>报名请先实名认证，点击<a href='/user/setprofile'>前往实名认证！</a></p>
+       
+      </div>
+       <span class="btn " id='nextStep' title="下一步">下一步</span>
+        <div class="place-space"></div>
+    </div>
+  
+    <div id='step2' class="step2">
+      <div class="detail-block">
+        <div class="block-heading border">
+          <h4 class="title">培训课程</h4>
+        </div>
+        <div class="detail-content">
+           <table class="clsTb">
+             <tr><th >日期</th><th >课时段</th></tr>
+             <% for(var p in clsObj){%>
+                <tr><td class="cdate"><%= p%></td><td class="ctime"><%= clsObj[p].join('  ;  ') %></td></tr>
+             <%}%>
+           </table>
+        </div>
+      </div>
+      <div class="place-space"></div>
+         <div class="detail-block">
+          <div class="block-heading border">
+            <h4 class="title">联系人方式</h4>
+          </div>
+          <div class="detail-content ">
+            <table class="table-contactor">
+              <tr>
+                <td>联系人：
+                  <%=userinfo.name%>
+                </td>
+                <td>联系电话：
+                  <%=userinfo.mobile%>
+                </td>
+              </tr>
+            </table>
+          </div>
+      </div>
+      <div class="place-space"></div>
+      <div class="detail-block">
+         <div class="block-heading border">
+              <h4 class="title">报名人员</h4>
+          </div>
+          <div class="detail-content">
+             <table class="table-contactor" id='selectedMember'>
+             </table>
+          </div>
+      </div>
+    
+      <div class="place-space"></div>
+      <span class="btn" id='submit' title="确定报名">确定报名</span>
+      <div class="place-space"></div>
+    </div>
+
+    <div id='step3' class="step3">
+      <p class="iconfont icon-success"></p>
+      <h3>您的培训报名已成功</h3>
+      <h3>正在审核中，审核完成后将以电话或短信的形式通知您！您可以：</h3>
+      <p>
+        <a href="/user/mytrain">查看我的订单</a>
+        <a href="/train">返回培训列表页</a>
+      </p>
+    </div>
+
+  </div>
+
+  <footer>
+    <% include ../common/footer  %>
+  </footer>
+ 
+</body>
+<script type='text/javascript'>
+  var selectedMember = [];
+  var userInfoStr = '<%-JSON.stringify(user)%>';
+  var userInfo = JSON.parse(userInfoStr);
+  var userLimitPeoples = '<%=data.userLimitPeoples%>';
+  var isRealNam = '<%=data.isRealName%>';
+  var trainId = '<%-JSON.stringify(data.id)%>';
+  var address = '<%=data.address%>';
+  trainId = trainId.replace(/\"/g, '').replace(' ', '');
+  $(document).ready(function () {
+    $('#step2').hide();
+    $('#step3').hide();
+    $('.memberCkb').on('click', function (ckb) {
+      selectedMember = [];
+      var m = $(this);
+      $('.memberCkb:checked').each(function (i) {
+        if (i > (userLimitPeoples - 1)) {
+          m.click();
+          assist.showMsg('最多可选' + userLimitPeoples + '个人报名');
+
+        } else {
+          selectedMember.push($(this).data('member'));
+        }
+      });
+    })
+
+
+    $('#addUsers').on('click', function () {
+      window.location.href = '../../user/';
+    })
+
+    $('#nextStep').click(function () {
+      if (selectedMember.length == 0) {
+        assist.showMsg('请选择报名人员');
+
+        return;
+      }
+      var members = [];
+      $.ajax({
+        url: '/user/userOrderReplace',
+        type: 'post',
+        data: {
+          userId: userInfo.id,
+          users: selectedMember,
+          trainid: trainId
+        },
+        success: function (res) {
+          var _msg = "";
+          if (res.length) {
+            //alert(res.length);
+            if (userLimitPeoples <= res.length) {
+              assist.showMsg('报名人数已达上限 ' + userLimitPeoples + ' 人');
+
+              return;
+            }
+            for (var i in res) {
+              var userInfo = res[i];
+              _msg += userInfo.userName + "、"
+            }
+            _msg += "<br>以上人员不能重复报名<br>";
+            assist.showMsg(_msg);
+
+          } else {
+            var html = '';
+            for (var i = 0; i < selectedMember.length; i++) {
+              if (selectedMember[i].relation == undefined) {
+                selectedMember[i].relation = "本人"
+              }
+              //console.log(selectedMember)
+              html += '<tr><td>姓名：' + selectedMember[i].name + '</td><td>关系：' + selectedMember[i].relation +
+                '</td><td>身份证：' + selectedMember[i].idNumber +
+                '</td><tr>';
+            }
+            $('#selectedMember').empty();
+            $('#selectedMember').html(html);
+            $('#step1').hide();
+            $('#step2').show();
+            $('#step3').hide();
+          }
+        },
+        failure: function () {
+          assist.showMsg('服务请求失败', 'error')
+
+        }
+      })
+
+    })
+
+    $('#submit').click(function () {
+      var enrolUsers = [];
+      for (var i = 0; i < selectedMember.length; i++) {
+        enrolUsers.push({
+          userName: selectedMember[i].name,
+          phoneNo: selectedMember[i].mobile,
+          idnumber: selectedMember[i].idNumber,
+          sex:selectedMember[i].sex
+        })
+      }
+      var orderInfo = {
+        trainId: trainId,
+        enrolUsers: enrolUsers,
+        userId: userInfo.id,
+        nickname: userInfo.nickname,
+        mobile: userInfo.mobile,
+        address: address
+      };
+      
+      $.ajax({
+        url: '/train/order',
+        type: 'post',
+        data: orderInfo,
+        success: function (res) {
+
+          if (res.data.id != undefined) {
+            $('#step1').hide();
+            $('#step2').hide();
+            $('#step3').show();
+          } else {
+            assist.showMsg(res.data.message);
+
+          }
+        }
+      })
+    })
+    $('input[type="checkbox"').click(function () {
+    })
+
+    $('.addmember').on('click',function(){
+      $(".addmember").colorbox({inline:true,slideshow:true,width:600,height:760, closeButton:false,overlayClose:true,  onClosed:function(){ 
+                $('#bindForm').hide();
+                $('#bindPhoneForm').show();
+                $('.icon-upload').show();
+                // 重置表单
+                var forms = document.getElementsByTagName('form');
+                  for (var i = 0; i < forms.length; i++) {
+                    var element = forms[i];
+                    element.reset();
+                    $(element).validate().resetForm();
+                    $(element).find('input').removeClass('v-error');
+                    $(element).find('.import-btn>img').attr('src','/images/IDCard3.png');
+                  }
+           }});
+    })
+  })
+</script>
+ 
+  <script>
+    $(function() {
+       //姓名中文
+      $.validator.addMethod("userName", function(value) {
+        var reg = /^[\u4e00-\u9fa5]*$/;
+        return reg.test(value);
+      }, '姓名必须为中文');
+
+      //身份证格式
+      $.validator.addMethod("userCode", function(value) {
+        var check = assist.getBirthday(value);
+        return !check.error;
+      }, '请输入正确的身份证号码');
+   
+
+      function showColorBox(element){
+        element.colorbox({inline:true,slideshow:true, closeButton:false,overlayClose:true,
+          onClosed:function(){ 
+              $('#bindForm').hide();
+              $('#bindPhoneForm').show();
+              $('.icon-upload').show();
+              // 重置表单
+              var forms = document.getElementsByTagName('form');
+                for (var i = 0; i < forms.length; i++) {
+                  var element = forms[i];
+                  element.reset();
+                  $(element).validate().resetForm();
+                  $(element).find('input').removeClass('v-error');
+                  $(element).find('.import-btn>img').attr('src','/images/IDCard3.png');
+                }
+         }
+        });
+      }
+ 
+    });
+  </script>
+</html>

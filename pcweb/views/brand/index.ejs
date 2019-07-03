@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<%
+
+var regionType = query.regionType ? '&regionType=' + query.regionType : '';
+var reTypePage = '/brand?';
+var pagingUrl = '/brand?'+regionType;
+%>
+    <html>
+
+    <head>
+        <title>
+            文化品牌
+        </title>
+        <% include ../common/head %>
+            <link rel='stylesheet' href='/styles/brand.min.css' />
+    </head>
+
+    <body>
+        <header>
+            <% include ../common/header %>
+        </header>
+        <div class="g-content">
+            <div class="crumbs">
+                <ul>
+                    <li>
+                        <a href="/index">首页&nbsp;&nbsp;></a>
+                    </li>
+                    <li>
+                        <a href="">文化品牌</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="m-filter-pannel">
+                    <div class="m-search-lst">
+                        <div class="item">
+                            <h4 class="tag-hd">区域：</h4>
+                            <div class="tag-wrap">
+                                <a class="tag-item <% if(!query.regionType){ %>active<% } %>" href="<%- reTypePage %>">全部</a>
+                                <% regions.forEach(function (type) { %>
+                                    <a class="tag-item <% if( query.regionType && query.regionType === type.code ){ %> active <% } %>" href="<%- reTypePage %>&regionType=<%= type.code %>">
+                                        <%= type.name %>
+                                    </a>
+                                    <% }) %>
+                            </div>
+                        </div>
+                        <div class="search-area">
+                            <input id="keysearchcontent" type="text" placeholder="关键词搜索..." value='<%=query.key%>'>
+                            <button id="keysearch" title="点击搜索">
+                                <i class="iconfont icon-search"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            <div class="list-content">
+                <div class="content">
+                    <% if(data&&data.content.length>0){%>
+                   
+                    <% data.content.forEach(function(item){ %>
+                        <div class="col-2">
+                            <div class="card border">
+                                <a href='/brand/branddetail/<%= item.id %>'>
+                                    <img class="img-top" src="<%= item.coverPic %>">
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <%= item.name %>
+                                    </h5>
+                                    <div class="card-info">
+                                        <p>
+                                            <%= item.brief %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <%})%>
+                        <%} else {%>
+                            <% include ../common/nodata %>
+                      <%}%>
+                </div>
+            </div>
+        </div>
+        <div class="place-space"></div>
+        <footer>
+            <% include ../common/footer %>
+        </footer>
+    </body>
+    <script>
+            $(function(){
+               $('#keysearch').click(function(){
+                   var key=$('#keysearchcontent').val();
+                   var pagingUrl='<%=pagingUrl%>';
+                      window.location.href=pagingUrl+'&key='+key; 
+               })
+        
+            })
+          </script>
+    </html>

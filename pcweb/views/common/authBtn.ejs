@@ -1,0 +1,30 @@
+<span class="btn authBtn" href='#loginModal' role="button" data-router="<%=authRouter%>">
+    <%=btnTitle%>
+</span>
+<script>
+    var userObj = <%-JSON.stringify(user)%>;
+    // var userObj = JSON.parse(userstr);
+    $(document).ready(function() {
+        $('.authBtn').click(function() {
+            var router = $(this).attr('data-router');
+            if (!userObj) {
+                $(this).colorbox({
+                    inline: true,
+                    slideshow: true,
+                    width: 570,
+                    height: 480,
+                    closeButton: false,
+                    overlayClose: true
+                });
+                return;
+            } else {
+                if (router == '/volunteer/booking/personal' && userObj.identifyStatus != 'Yes') {
+                    assist.showMsg('请先完成实名认证，才能报名')
+                } else {
+                    window.location.href = router;
+                }
+
+            }
+        })
+    })
+</script>

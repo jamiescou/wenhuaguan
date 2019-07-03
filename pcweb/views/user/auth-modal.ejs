@@ -1,0 +1,176 @@
+<div class="myModal" style='display:none'>
+  <div class="modal-content-wrapper" id='authModal'>
+    <div class="block-heading border">
+      <h4 class="title">实名认证</h4>
+    </div>
+    <form method="post" id="authForm" action='/user/smrz' enctype="multipart/form-data">
+      <div class="detail-block modal-form">
+        <dl class="block-item">
+          <dt class="b-i-title">真实姓名：</dt>
+          <dd class="b-i-cotent">
+            <input type="text" name="realname" id="realname" class="u-form-control" placeholder="请输入真实姓名" required maxlength="15" minlength="2">
+          </dd>
+        </dl>
+        <dl class="block-item">
+          <dt class="b-i-title">证件号码：</dt>
+          <dd class="b-i-cotent">
+            <input type="text" name="idcard" id="idcard" class="u-form-control" placeholder="请输入证件号码" maxlength="18" required>
+          </dd>
+        </dl>
+        <dl class="block-item">
+          <dt class="b-i-title">手持证件照片：</dt>
+          <dd class="b-i-cotent">
+            <label class="import-btn"  >
+              <img   data-type='upload' id='idimg' src="/images/IDCard3.png">
+              <!-- <i class="iconfont icon-upload" id='load'></i> -->
+            </label>
+            <span class="red">  * 请鼠标点击示例图片选择身份证照片</span>
+          </dd> 
+           <input type="text" name="certifyImage" id="certifyImage" class="sr-only"  required style="visibility:hidden;" >
+        </dl>
+        
+      </div>
+      <div class="operate-btns">
+        <input type="submit" id="submitAuth" style="display:none;">
+        <button class="btn u-btn" id="submitAuthBtn">
+          <i class="iconfont icon-edit"></i>确定</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  $(function() {
+
+    // 修改提交
+    $('#submitAuthBtn').on('click', function(event) {
+      event.stopPropagation();
+      event.preventDefault();
+      $("#submitAuth").click();
+    });
+
+      
+      function uploaderFile3() {               
+                        var uploader = WebUploader.create({
+                                // swf文件路径
+                                swf: '/javascripts/libs/webuploader/Uploader.swf',
+                                // 文件接收服务端。
+                                server: '/uploadfile',
+                                // 选择文件的按钮。可选。
+                                // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+                                pick: '#idimg',
+                                // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+                                resize: false,
+                                // 只允许选择图片文件。
+                                // accept: {
+                                //         title: 'Images',
+                                //         extensions: 'gif,jpg,jpeg,bmp,png',
+                                //         mimeTypes: 'image/*'
+                                // }
+                        });
+                        $('#idimg').one('click',function(){
+                         
+                             $('#idimg').find('input').css('display','none');
+                             uploader.refresh();
+                            //  $('#avator').find('input').click()
+                            
+                        })
+                        //当文件被加入队列之前触发，此事件的handler返回值为false，则此文件不会被添加进入队列。
+                        uploader.on('beforeFileQueued', function (file) {
+                               
+                                uploading = false;
+                                if (file.ext === 'jpg' || file.ext === 'png' || file.ext ==='gif' || file.ext === 'jpeg') {
+
+                                } else {
+                                        assist.showMsg('请选择正确的图片格式');
+                                        return false;
+                                }
+                                var fileSize = file.size / 1024 / 1024;
+                                if (fileSize >= 10) {
+                                        assist.showMsg('文件过大');
+                                        return false;
+                                }
+                                uploader.reset();
+                        })
+                        var canReview=true;
+                        // 当有文件被添加进队列的时候
+                        uploader.on('fileQueued', function (file) {
+                                
+                                uploader.makeThumb(file, function (error, src) {
+                                        if (error) {
+                                                assist.showMsg('不能预览');
+                                                canReview=false;
+                                                return;
+                                        }
+
+                                        $('.import-btn .icon-upload').hide();
+                                        $('#idimg').attr('src', src);
+
+                                }, 547, 365);
+                                uploader.upload();
+                        });
+                        // 文件上传过程中创建进度条实时显示。
+                        uploader.on('uploadProgress', function (file, percentage) {
+                                // assist.showMsg('上传中')
+                        });
+
+                        uploader.on('uploadComplete', function (file) {
+                             
+                                $(".dialog-wrap").remove();
+                        });
+
+                        uploader.on('uploadSuccess', function (file, response) {
+                                if (response.code == 0) {
+                                        var src = response.res;
+                                        $("#certifyImage").val(src);
+                                        // $('#authForm').valid();
+                                        if(!canReview){
+                                            $('#idimg').attr('src', response.filePath);
+                                        }
+                                        uploading = true;
+                                } else {
+                                        uploading = false;
+                                        assist.showMsg('上传失败');
+                                }
+                        });
+                }
+               
+                uploaderFile3();
+   
+
+
+  
+ 
+  $('#authForm').validate({
+      errorElement: 'div',
+      errorClass: 'v-error',
+      rules: {
+        crealname: 'userName',
+        idNumber: 'userCode',
+        certifyImage:'certifyImage'
+      },
+      messages: {
+        crealname: {
+          required: '请输入你的真实姓名'
+        },
+        idNumber: {
+          required: '请输入你的身份证号码'
+        },
+        certifyImage: {
+          required: '请选择证件照'
+        }
+      },
+      submitHandler: function(form) {
+          
+       if($('#certifyImage').val()!=''){
+                form.submit();
+                 }else {
+               assist.showMsg('请上传证件照')
+           }
+
+      }
+    });
+
+
+  })
+</script>

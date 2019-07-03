@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    赛事活动
+  </title>
+  <% include ../common/head %>
+    <link rel='stylesheet' href='/styles/collect.min.css' />
+
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+
+  <div class="g-content collectbook">
+    <div class="crumbs">
+      <ul>
+        <li>
+          <a href="/">首页&nbsp;&nbsp;></a>
+        </li>
+        <li>
+          <a href="/eventActivities">赛事活动&nbsp;&nbsp;></a>
+        </li>
+        <li>
+          <a href="">作品上传</a>
+        </li>
+      </ul>
+    </div>
+    <!-- 定宽:圆形步骤条 -->
+    <div class="m-activity-step">
+      <div class="step-content">
+        <div class="step-item active">
+          <span class="step-dot"></span>
+          <p class="step-txt">上传征集文件</p>
+        </div>
+        <div class="bar"></div>
+        <div class="step-item">
+          <span class="step-dot"></span>
+          <p class="step-txt">完成上传</p>
+        </div>
+      </div>
+    </div>
+    <!-- 定宽:圆形步骤条 -->
+
+    <div class="brief-media" style="margin-top:20px;">
+      <div class="media" style="padding:15px 20px;">
+        <div class="media-left">
+          <img src="<%= data.coverPic %>" alt="培训图片" class="brief-img" style="width:250px;height:167px;" />
+        </div>
+        <div class="media-center">
+          <h3 class="name" style="padding-top:5px;font-size:22px;margin-bottom:20px;">
+            <%= data.name %>
+          </h3>
+          <p class="describe f-nowrap">
+            <i class="iconfont icon-time"></i>征集时间：
+            <%= data.startTime %>&nbsp; 至 &nbsp;
+              <%= data.endTime %>
+          </p>
+          <p class="describe f-nowrap">
+            简介：
+            <%= data.brief %>
+          </p>
+
+        </div>
+      </div>
+    </div>
+    <div class="place-space"></div>
+    <div class="detail-block">
+      <div class="block-heading border">
+        <h4 class="title"> 请上传您的作品</h4>
+      </div>
+      <div class="detail-content">
+
+        <div class="upload ">
+          <form class="form collect-form" id="collectForm" action='/eventActivities/order/<%=data.id%>' method="post" enctype="multipart/form-data">
+            <dl class="block-item">
+              <dt class="b-i-title">作品标题</dt>
+              <dd class="b-i-cotent">
+                <input type="text" class="u-form-control" name="title" id='title' required>
+              </dd>
+            </dl>
+            <dl class="block-item">
+              <dt class="b-i-title">作品描述</dt>
+              <dd class="b-i-cotent">
+                <textarea class="u-form-control text-area" rows="5" name='content' id='content'></textarea>
+              </dd>
+            </dl>
+            <dl class="block-item">
+              <dt class="b-i-title">上传作品</dt>
+              <dd class="b-i-cotent img-upload">
+                <div class="file">
+                  <img id='img' data-type='upload'>
+                </div>
+                <div class="btn import-btn" id='workbtn'>
+                  选择文件
+                </div>
+
+                <p>*图片格式为jpg、png、gif,大小限制50M以内</p>
+              </dd>
+            </dl>
+            <input type="text" id="inputfile" name='inputfile' required class="sr-only" style="visibility:hidden;display:inline">
+            <input type="text" id="bigInputfile" name='bigInputfile' class="sr-only" style="visibility:hidden;display:inline">
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="place-space"></div>
+    <div class="operate-btns">
+      <button type="button" id="nextstup" class="btn u-btn">上传</button>
+    </div>
+  </div>
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+<link href="/javascripts/libs/webuploader/webuploader.css">
+<script type="text/javascript" src="/javascripts/libs/webuploader/webuploader.min.js"></script>
+<script>
+  var activityId = '<%=data.id%>';
+  $(document).ready(function () {
+     $.validator.addMethod("title", function(value, element) {
+       const reg = new RegExp('[\\\\/:*?\"<>| ？“”、\'‘’]');
+       console.log('reg.test(value', reg.test(value))
+      if (reg.test(value)) {
+         return false;
+       } else {
+         return true;
+       }
+    }, "请输入正确的作品标题（不能包含/:*?\"<>、\'“”’‘|等非法字符）");
+
+    // var fileInput = $('#inputfile');
+    // $('#upload').click(function() {
+    //   fileInput.click();
+    // })
+    // fileInput.change(function() {
+    //   var file = fileInput[0].files[0];
+    //   var fileReader = new FileReader();
+    //   fileReader.onloadend = function() {
+    //     if (fileReader.readyState == fileReader.DONE) {
+    //       $('#img').attr('src', fileReader.result);
+    //     }
+    //   };
+    //   fileReader.readAsDataURL(file);
+    // });
+
+
+    function uploaderFile() {
+      var uploader = WebUploader.create({
+        // swf文件路径
+        swf: '/javascripts/libs/webuploader/Uploader.swf',
+        // 文件接收服务端。
+        server: '/eventActivities/uploadfile',
+        // 选择文件的按钮。可选。
+        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+        pick: '#workbtn',
+        compress: false,
+        // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+        resize: false,
+        // 只允许选择图片文件。
+        // accept: {
+        //         title: 'Images',
+        //         extensions: 'gif,jpg,jpeg,bmp,png',
+        //         mimeTypes: 'image/*'
+        // }
+      });
+
+  $('#workbtn').find('input').css('display', 'none');
+      $('#workbtn').one('click', function () {
+        $('#workbtn').find('input').css('display', 'none');
+        uploader.refresh();
+        $('#workbtn').find('input').click()
+      })
+      //当文件被加入队列之前触发，此事件的handler返回值为false，则此文件不会被添加进入队列。
+      uploader.on('beforeFileQueued', function (file) {
+
+        uploading = false;
+        if (file.ext === 'jpg' || file.ext === 'png' || file.ext === 'gif' || file.ext === 'jpeg') {
+
+        } else {
+          assist.showMsg('请选择正确的图片格式');
+          return false;
+        }
+        var fileSize = file.size / 1024 / 1024;
+        if (fileSize >= 50) {
+          assist.showMsg('文件过大');
+
+          return false;
+        }
+        uploader.reset();
+      })
+      var canReview = true;
+      // 当有文件被添加进队列的时候
+      uploader.on('fileQueued', function (file) {
+
+        uploader.makeThumb(file, function (error, src) {
+          if (error) {
+            assist.showMsg('不能预览');
+            canReview = false;
+            return;
+          }
+
+          $('.import-btn .icon-upload').hide();
+          $('#img').attr('src', src);
+
+        }, 547, 365);
+        uploader.upload();
+      });
+      // 文件上传过程中创建进度条实时显示。
+      uploader.on('uploadProgress', function (file, percentage) {
+        // assist.showMsg('上传中')
+      });
+
+      uploader.on('uploadComplete', function (file) {
+
+        $(".dialog-wrap").remove();
+      });
+
+      uploader.on('uploadSuccess', function (file, response) {
+
+        if (response.code == 0) {
+          var src = response.res;
+          var originalFilePath = response.originalFilePath;
+          $("#inputfile").val(src);
+          $('#bigInputfile').val(originalFilePath)
+        
+           $('#collectForm').valid();
+        
+           if (!canReview) {
+            $('#img').attr('src', response.filePath);
+          }
+
+          uploading = true;
+        } else {
+          uploading = false;
+          assist.showMsg('上传失败');
+        }
+      });
+    }
+
+    uploaderFile();
+
+
+
+
+
+    $('#nextstup').click(function (event) {
+      //if ($('#protocol')[0].checked) {
+      event.stopPropagation();
+      event.preventDefault();
+
+      //  $('.form').submit();
+      //} else {
+      //  assist.showMsg('请阅读并接受活动须知')
+      //  return;
+      //}
+      // $('.form').submit();
+    })
+
+    $('#collectForm').validate({
+      errorElement: 'div',
+      errorClass: 'v-error',
+      rules: {
+        // inputfile: {
+        //   'extension': 'gif|jpe?g|png',
+        //   'checkPicSize': true
+        // }
+        title: 'title'
+      },
+      messages: {
+        title: {
+          required: '请输入作品标题',
+        },
+        // inputfile: {
+        //   required: '请选择上传的作品',
+        //   extension: '上传作品格式为jpg、png、gif'
+        // }
+      },
+      submitHandler: function (form) {
+        // form.submit();
+      }
+    })
+  })
+</script>
+
+</html>

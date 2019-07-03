@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html style="height:100%;">
+
+<head>
+    <title>
+        注册
+    </title>
+    <% include ../common/head %>
+</head>
+
+<body class="login-wrapper">
+    <a class="brand" href="/">
+        <div class="logo">
+            <img src='/images/logo.png'>
+        </div>
+        <img src="/images/sgbj.png" alt="文化馆logo" />
+    </a>
+    <div class="login-content register-content" id='pswdlogin'>
+        <div class="block-heading border">
+            <h4 class="title">用户注册</h4>
+        </div>
+        <form id="loginform" class="loginform" name="loginForm">
+            <%- include('../common/identifycode.ejs',{mobile:'newMobile'})%>
+
+                <div class="form-item item-gutter">
+                    <i class="iconfont icon-key"></i>
+                    <input type="text" id="vcode" name="vcode" class="u-form-control" placeholder="请输入验证码" maxlength="6" required>
+                </div>
+                <div class="form-item item-gutter">
+                    <i class="iconfont icon-user"></i>
+                    <input type="text" id="nickname" name="nickname" class="u-form-control" placeholder="请输入昵称" required>
+                </div>
+                <div class="form-item item-gutter">
+                    <i class="iconfont icon-key"></i>
+                    <input type="password" id="password" name="password" class="u-form-control" placeholder="6-18位数字字母符号组合" required minlength="6"
+                        maxlength="18">
+                </div>
+                <div class="form-item">
+                    <i class="iconfont icon-key"></i>
+                    <input type="password" id="passwordcfm" name="passwordcfm" class="u-form-control" placeholder="6-18位数字字母符号组合" required minlength="6"
+                        maxlength="18">
+                </div>
+                <p class="tip">*密码为至少8位的数字和字母组合</p>
+                <input type="submit" id="submitLogin" style="display:none;">
+                <button type="button" class="btn sub-btn" id="loginBtn">注册</button>
+        </form>
+    </div>
+    <script src="/javascripts/libs/validate/jquery.validate.min.js"></script>
+    <script src="/javascripts/libs/validate/additional-methods.min.js"></script>
+    <script src="/javascripts/libs/validate/messages_zh.js"></script>
+    <script src="/javascripts/commons/custom-validate.js"></script>
+    <script>
+        $(function() {
+            // 提交
+            $('#loginBtn').on('click', function(event) {
+                event.stopPropagation();
+                event.preventDefault();
+
+                $("#submitLogin").click();
+            });
+
+            $('#loginform').validate({
+                errorElement: 'div',
+                errorClass: 'v-error',
+                rules: {
+                    mobile: "phoneType", //  手机格式验证【/javascripts/commons/custom-validate.js】
+                    phoneNum: "phoneType",
+                    password: "pwdType", //  密码格式验证【/javascripts/commons/custom-validate.js】
+                    passwordcfm: {
+                        equalTo: "#password"
+                    }
+                },
+                messages: {
+                    mobile: {
+                        required: "请输入您的手机号码"
+                    },
+                    nickname: {
+                        required: "请输入您的昵称"
+                    },
+                    vcode: {
+                        required: "请输入手机验证码"
+                    },
+                    password: {
+                        required: "请输入您的登录密码"
+                    },
+                    passwordcfm: {
+                        equalTo: "两次密码输入不一致"
+                    }
+                },
+                submitHandler: function() {
+                    var data = {
+                        vcode: $('#vcode').val(),
+                        mobile: $('#mobile').val(),
+                        password: $('#password').val(),
+                        sex: 'unkown',
+                        nickname: $('#nickname').val()
+                    };
+                    $.ajax({
+                        url: "/login/registesubmit",
+                        type: 'post',
+                        data: data,
+                        success: function(res) {
+                           
+                            if (res.id&&res.id != '') {
+                                assist.showMsg('注册成功', 'success');
+                                setTimeout(function() {
+                                    location.href = '/login';
+                                }, 1000)
+                            } else {
+                                assist.showMsg(res.message);
+                            }
+                        },
+                        failure: function() {
+                            assist.showMsg('注册失败', 'error');
+
+                        }
+                    })
+                }
+            });
+        })
+    </script>
+</body>
+
+</html>

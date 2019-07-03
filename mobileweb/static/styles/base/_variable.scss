@@ -1,0 +1,176 @@
+@import '../libs/px2rem.scss';
+$legacy-support-for-ie:         true !default; // 是否支持IE
+$inline-block-alignment:        middle !default; //设置一个默认的对齐方式
+// 字体大小，小号字体12，常规14，大号16, 超大号18
+$f-size9:               px2rem(18)!default;
+$f-size10:              px2rem(20)!default;
+$f-size12:              px2rem(24)!default;
+$f-size13:              px2rem(26)!default;
+$f-size:                px2rem(28)!default;
+$f-size15:              px2rem(30)!default;
+$f-size16:              px2rem(32)!default;
+$f-size18:              px2rem(36)!default;
+$f-size24:              px2rem(48)!default;
+// 间隔
+$gutter:                px2rem(20) !default;
+// 颜色
+$color-fff:           #fff !default;
+$color-000:           #000 !default;
+$color-333:           #333 !default;
+$color-666:           #666 !default;
+$color-999:           #999 !default;
+$color-ccc:           #ccc !default;
+$color-org:           #f29b76 !default; // 橘色
+$color-bf:            #bfbfbf !default;
+$color-d2:            #d2d2d2 !default;
+$color-e6:            #e6e6e6 !default;
+$color-f5:            #f5f5f5 !default;
+$color-red:           #af615f !default; //主色调
+// 
+$body-bg:             #f0f0f0 !default;
+$content-bg:            $color-fff !default;
+//$border-color:        #ddd !default;
+$border-color:        #f5f5f5 !default;
+$active-color:        $color-red !default;
+$bg-opacity:          rgba(0,0,0, 0.2) !default;
+// ----------------------------------------------------------------
+// tip Toast 提示
+$tip-toast-fs:              $f-size !default;
+$tip-toast-padding:         0 px2rem(20) !default;
+$tip-toast-border-radius:   px2rem(10) !default;
+$tip-toast-icon-size:       $f-size18 !default;
+$color-success:           rgba(92, 184, 92, 0.8) !default;
+$color-info:              rgba(91, 192, 222, 0.8) !default;
+$color-warning:           rgba(242, 155, 118, 0.8) !default;
+$color-danger:            rgba(233, 78, 88, 0.8) !default;
+
+// ----------------------------------------------------------------
+// 按钮
+$btn-color:                 $color-fff !default;
+$btn-bg:                    $active-color !default;
+$btn-border:                darken($active-color,5%) !default;
+$btn-line-height:           px2rem(28) !default;
+$btn-padding-td:            px2rem(20) !default; // top bottom
+$btn-padding-lr:            px2rem(25) !default;
+$btn-outline-color:         $active-color !default;
+$btn-outline-border:        $active-color !default;
+$btn-disabed:               $color-d2 !default;
+// ----------------------------------------------------------------
+// block-heading 标题（有竖线）
+$block-heading-title-fs:        30 !default;
+$block-heading-color:           $color-333 !default;
+$block-heading-fs:              px2rem($block-heading-title-fs) !default;
+$block-heading-vline-mg:        px2rem($block-heading-title-fs / 2) !default;
+$block-heading-border:          $border-color !default;
+$btn-min-height:                px2rem(100) !default;
+// ----------------------------------------------------------------
+// card 卡片模式
+$card-fs:                       $f-size !default;
+$card-title-fs:                 $f-size16  !default;
+$card-title-color:              $color-333  !default;
+$card-title-line:               px2rem(28/2)  !default;
+$card-title-lineheight:         px2rem(36)  !default;
+$card-info-fs:                  $f-size12 !default;
+$card-info-icon-size:           $f-size18 !default;
+$card-info-lineheight:          px2rem(36) !default;
+$card-tag-border-color:       #ccc !default;
+$card-tag-bg:                 rgba(0, 0, 0, .5) !default;
+// 图片模式
+$img-card-title-bg:             rgba(0, 0, 0, .5) !default;
+$img-card-title-color:          $color-fff !default;
+$img-card-caption-color:        $color-333 !default;
+// media类型的卡片
+$media-card-min-ht:             px2rem(160) !default;
+// ----------------------------------------------------------------
+// tab
+$tab-font-size:                 $f-size !default;
+$tab-heigth:                    px2rem(85) !default;
+$tab-active-color:              $color-red !default;
+$tab-text-default-color:        $color-333 !default;
+$tab-bar-active-color:          $color-red !default;
+$tab-item-bg:                   none; // linear-gradient(180deg,#e5e5e5,#e5e5e5,rgba(229, 229, 229, 0)) bottom left no-repeat;
+$tab-item-padding:              0 px2rem(30) !default;
+$easing-in-out:                 cubic-bezier(0.35, 0, 0.25, 1) !default;
+$effect-duration:               0.3s !default;
+$tab-badge-wh:                  px2rem(18) !default;
+$tab-badge-fs:                  px2rem(20) !default;
+// ----------------------------------------------------------------
+// loadmore
+$loaded-tip-fs:                 $f-size !default;
+$loaded-tip-h:                  px2rem(60) !default;
+$loaded-tip-color:              $color-999 !default;
+// ----------------------------------------------------------------
+// filter-panel
+$filter-h:                      85 !default;
+$filter-line-h:                 $filter-h - 40 !default;
+$filter-nav-h:                  px2rem($filter-h) !default;
+$filter-zindex:                 60 !default;
+$filter-bg:                     $content-bg !default;
+$filter-color:                  $color-666 !default;
+$filter-fs:                     $f-size !default;
+$filter-active-color:           $color-red !default;
+$filter-line-height:            px2rem($filter-line-h) !default;
+$filter-line-margin-top:        -(px2rem( $filter-line-h / 2 )) !default;
+$filter-content-height:         px2rem(700) !default;
+$filter-content-sub-bg:       #eee !default;
+$filter-item-padding:           px2rem(20) !default;
+$filter-item-icon-width:        px2rem(50) !default;
+$filter-border-color:         #eee !default;
+// ----------------------------------------------------------------
+// no-data
+$no-data-padding:               px2rem(50) !default;
+$no-data-img-h:                 px2rem(200) !default;
+$no-data-font-color:            $color-666 !default;
+// ----------------------------------------------------------------
+// footer
+$foot-height:                   px2rem(94) !default;
+$foot-color:                  #bfbfbf !default;
+$foot-btn-bg:                   $color-red !default;
+$foot-btn-color:                $color-fff !default;
+$foot-btn-fs:                   $f-size18 !default;
+$foot-form-fs:                  $f-size !default;
+// ----------------------------------------------------------------
+// comment 评论
+$comment-padding:               px2rem(25) px2rem(35) px2rem(30) px2rem(40) !default;
+$comment-avatar-size:           px2rem(80) !default;
+$comment-fs:                    $f-size !default;
+$comment-color:                 $color-333 !default;
+$comment-small-fs:              $f-size12 !default;
+$comment-small-color:           $color-999 !default;
+$content-content-lineheight:    px2rem(40) !default;
+// ----------------------------------------------------------------
+// num-control 数量控制
+$num-border:                    $color-999 !default;
+$num-color:                     $color-666 !default;
+$num-disabeld-color:            $color-999 !default;
+$num-fs:                        $f-size12 !default;
+$num-height:                    px2rem(58) !default;
+$num-input-padding:             px2rem(3) 0 !default;
+$num-icon-size:                 px2rem(60) !default;
+$num-icon-lheight:              px2rem(40) !default;
+$num-icon-color :               $color-666 !default;
+$num-icon-border-radius:        px2rem(10) !default;
+$num-icon-sub-padding:          px2rem(4) px2rem(25) px2rem(2) px2rem(25) !default;
+$num-icon-plus-padding:         px2rem(3) px2rem(25) !default;
+$round-num-icon-padding:        px2rem(2) !default;
+// ----------------------------------------------------------------
+// 预约结果
+$preset-icon-size:              px2rem(150) !default;
+$preset-icon-color:           #aaa !default;
+// ----------------------------------------------------------------
+// 座位表
+$seat-bg:                                   $color-f5 !default;
+$seat-w:                                    px2rem(60) !default;
+$seat-h:                                    px2rem(60) !default;
+$seat-icon-w:                               px2rem(50) !default;
+$seat-icon-h:                               px2rem(47) !default;
+$legend-h:                                  px2rem(100) !default;
+$legend-item-padding:                       px2rem(80) !default;
+$legend-item-margin:                        0 px2rem(20) !default;
+$seatTitle-h:                               px2rem(80) !default;
+$seatTitle-p-b:                             px2rem(20) !default;
+$seq-w:                                     px2rem(80) !default;
+$seq-item-w:                                px2rem(36) !default;
+$seq-item-radius:                           px2rem(18) !default;
+$seatContainer-margin:                      px2rem(0) px2rem(30)  !default;
+$seatContainer-h:                           px2rem(600)  !default;

@@ -1,0 +1,327 @@
+<template>
+    <div class="seatContainer">
+        <div class="seatTitle">
+            <h2>
+                湖南省长沙芒果博纳国际影城 7号厅 银幕
+            </h2>
+            <table>
+                <tbody>
+                    <tr v-for="rowIndex in maxRow" :key="rowIndex">
+                        <td v-for="colIndex in maxColumn" :key="rowIndex + '-' + colIndex" @click="selectCell(rowIndex,colIndex)" class="seat">
+                            &nbsp;
+                            <!-- <template v-if="getSeatInfo(rowIndex,colIndex)">
+                                                            <div>11</div>
+                                                        </template>
+                                                        <template v-else>
+                                                            &nbsp;
+                                                        </template> -->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            seats: [],
+            maxRow: 13,
+            maxColumn: 15,
+            checkedSeats: []
+        }
+    },
+    computed: {
+
+    },
+    methods: {
+        getSeatInfo(rowIndex, colIndex) {
+            let result = this.seats.filter((seat) => {
+                return seat.row === rowIndex && seat.column === colIndex;
+            });
+            console.log('rowIndex:%s;colIndex:%s; 结果：%s', rowIndex, colIndex, result)
+            return result.length > 0;
+        },
+        initTable: function() {
+            for (var i = 0; i < this.maxRow; i++) {
+                let rowArray = [];
+                for (var j = 0; j < this.maxColumn; j++) {
+                    var seat = {
+                        'row': i, 'column': j, 'flag': 0, 'status': 1
+                    }
+                    rowArray.push(seat);
+                }
+                this.seats.push(rowArray);
+            }
+        }
+    },
+    mounted() {
+
+        //     this.seats = [
+        //         { 'extId': '97655', 'seatId': '97655', 'name': '1排1座', 'rowName': '1', 'row': 1, 'column': 2, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97656', 'seatId': '97656', 'name': '1排2座', 'rowName': '1', 'row': 1, 'column': 3, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97657', 'seatId': '97657', 'name': '1排3座', 'rowName': '1', 'row': 1, 'column': 4, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97658', 'seatId': '97658', 'name': '1排4座', 'rowName': '1', 'row': 1, 'column': 5, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97659', 'seatId': '97659', 'name': '1排5座', 'rowName': '1', 'row': 1, 'column': 6, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97660', 'seatId': '97660', 'name': '1排6座', 'rowName': '1', 'row': 1, 'column': 7, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97661', 'seatId': '97661', 'name': '1排7座', 'rowName': '1', 'row': 1, 'column': 8, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97662', 'seatId': '97662', 'name': '1排8座', 'rowName': '1', 'row': 1, 'column': 9, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97663', 'seatId': '97663', 'name': '1排9座', 'rowName': '1', 'row': 1, 'column': 10, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97664', 'seatId': '97664', 'name': '1排10座', 'rowName': '1', 'row': 1, 'column': 11, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97665', 'seatId': '97665', 'name': '1排11座', 'rowName': '1', 'row': 1, 'column': 12, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97666', 'seatId': '97666', 'name': '1排12座', 'rowName': '1', 'row': 1, 'column': 13, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97667', 'seatId': '97667', 'name': '1排13座', 'rowName': '1', 'row': 1, 'column': 14, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97668', 'seatId': '97668', 'name': '1排14座', 'rowName': '1', 'row': 1, 'column': 15, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97669', 'seatId': '97669', 'name': '2排1座', 'rowName': '2', 'row': 2, 'column': 2, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97670', 'seatId': '97670', 'name': '2排2座', 'rowName': '2', 'row': 2, 'column': 3, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97671', 'seatId': '97671', 'name': '2排3座', 'rowName': '2', 'row': 2, 'column': 4, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97672', 'seatId': '97672', 'name': '2排4座', 'rowName': '2', 'row': 2, 'column': 5, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97673', 'seatId': '97673', 'name': '2排5座', 'rowName': '2', 'row': 2, 'column': 6, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97674', 'seatId': '97674', 'name': '2排6座', 'rowName': '2', 'row': 2, 'column': 7, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97675', 'seatId': '97675', 'name': '2排7座', 'rowName': '2', 'row': 2, 'column': 8, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97676', 'seatId': '97676', 'name': '2排8座', 'rowName': '2', 'row': 2, 'column': 9, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97677', 'seatId': '97677', 'name': '2排9座', 'rowName': '2', 'row': 2, 'column': 10, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97678', 'seatId': '97678', 'name': '2排10座', 'rowName': '2', 'row': 2, 'column': 11, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97679', 'seatId': '97679', 'name': '2排11座', 'rowName': '2', 'row': 2, 'column': 12, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97680', 'seatId': '97680', 'name': '2排12座', 'rowName': '2', 'row': 2, 'column': 13, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97681', 'seatId': '97681', 'name': '2排13座', 'rowName': '2', 'row': 2, 'column': 14, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97682', 'seatId': '97682', 'name': '2排14座', 'rowName': '2', 'row': 2, 'column': 15, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97683', 'seatId': '97683', 'name': '3排1座', 'rowName': '3', 'row': 3, 'column': 2, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97684', 'seatId': '97684', 'name': '3排2座', 'rowName': '3', 'row': 3, 'column': 3, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97685', 'seatId': '97685', 'name': '3排3座', 'rowName': '3', 'row': 3, 'column': 4, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97686', 'seatId': '97686', 'name': '3排4座', 'rowName': '3', 'row': 3, 'column': 5, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97687', 'seatId': '97687', 'name': '3排5座', 'rowName': '3', 'row': 3, 'column': 6, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97688', 'seatId': '97688', 'name': '3排6座', 'rowName': '3', 'row': 3, 'column': 7, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97689', 'seatId': '97689', 'name': '3排7座', 'rowName': '3', 'row': 3, 'column': 8, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97690', 'seatId': '97690', 'name': '3排8座', 'rowName': '3', 'row': 3, 'column': 9, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97691', 'seatId': '97691', 'name': '3排9座', 'rowName': '3', 'row': 3, 'column': 10, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97692', 'seatId': '97692', 'name': '3排10座', 'rowName': '3', 'row': 3, 'column': 11, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97693', 'seatId': '97693', 'name': '3排11座', 'rowName': '3', 'row': 3, 'column': 12, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97694', 'seatId': '97694', 'name': '3排12座', 'rowName': '3', 'row': 3, 'column': 13, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97695', 'seatId': '97695', 'name': '3排13座', 'rowName': '3', 'row': 3, 'column': 14, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97696', 'seatId': '97696', 'name': '3排14座', 'rowName': '3', 'row': 3, 'column': 15, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97697', 'seatId': '97697', 'name': '4排1座', 'rowName': '4', 'row': 4, 'column': 2, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97698', 'seatId': '97698', 'name': '4排2座', 'rowName': '4', 'row': 4, 'column': 3, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97699', 'seatId': '97699', 'name': '4排3座', 'rowName': '4', 'row': 4, 'column': 4, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97700', 'seatId': '97700', 'name': '4排4座', 'rowName': '4', 'row': 4, 'column': 5, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97701', 'seatId': '97701', 'name': '4排5座', 'rowName': '4', 'row': 4, 'column': 6, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97702', 'seatId': '97702', 'name': '4排6座', 'rowName': '4', 'row': 4, 'column': 7, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97703', 'seatId': '97703', 'name': '4排7座', 'rowName': '4', 'row': 4, 'column': 8, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97704', 'seatId': '97704', 'name': '4排8座', 'rowName': '4', 'row': 4, 'column': 9, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97705', 'seatId': '97705', 'name': '4排9座', 'rowName': '4', 'row': 4, 'column': 10, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97706', 'seatId': '97706', 'name': '4排10座', 'rowName': '4', 'row': 4, 'column': 11, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97707', 'seatId': '97707', 'name': '4排11座', 'rowName': '4', 'row': 4, 'column': 12, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97708', 'seatId': '97708', 'name': '4排12座', 'rowName': '4', 'row': 4, 'column': 13, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97709', 'seatId': '97709', 'name': '4排13座', 'rowName': '4', 'row': 4, 'column': 14, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97710', 'seatId': '97710', 'name': '4排14座', 'rowName': '4', 'row': 4, 'column': 15, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97711', 'seatId': '97711', 'name': '5排1座', 'rowName': '5', 'row': 5, 'column': 2, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97712', 'seatId': '97712', 'name': '5排2座', 'rowName': '5', 'row': 5, 'column': 3, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97713', 'seatId': '97713', 'name': '5排3座', 'rowName': '5', 'row': 5, 'column': 4, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97714', 'seatId': '97714', 'name': '5排4座', 'rowName': '5', 'row': 5, 'column': 5, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97715', 'seatId': '97715', 'name': '5排5座', 'rowName': '5', 'row': 5, 'column': 6, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97716', 'seatId': '97716', 'name': '5排6座', 'rowName': '5', 'row': 5, 'column': 7, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97717', 'seatId': '97717', 'name': '5排7座', 'rowName': '5', 'row': 5, 'column': 8, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97718', 'seatId': '97718', 'name': '5排8座', 'rowName': '5', 'row': 5, 'column': 9, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97719', 'seatId': '97719', 'name': '5排9座', 'rowName': '5', 'row': 5, 'column': 10, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97720', 'seatId': '97720', 'name': '5排10座', 'rowName': '5', 'row': 5, 'column': 11, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97721', 'seatId': '97721', 'name': '5排11座', 'rowName': '5', 'row': 5, 'column': 12, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97722', 'seatId': '97722', 'name': '5排12座', 'rowName': '5', 'row': 5, 'column': 13, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97723', 'seatId': '97723', 'name': '5排13座', 'rowName': '5', 'row': 5, 'column': 14, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97724', 'seatId': '97724', 'name': '5排14座', 'rowName': '5', 'row': 5, 'column': 15, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97725', 'seatId': '97725', 'name': '6排1座', 'rowName': '6', 'row': 7, 'column': 5, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97726', 'seatId': '97726', 'name': '6排2座', 'rowName': '6', 'row': 7, 'column': 6, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97727', 'seatId': '97727', 'name': '6排3座', 'rowName': '6', 'row': 7, 'column': 7, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97728', 'seatId': '97728', 'name': '6排4座', 'rowName': '6', 'row': 7, 'column': 8, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97729', 'seatId': '97729', 'name': '6排5座', 'rowName': '6', 'row': 7, 'column': 9, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97730', 'seatId': '97730', 'name': '6排6座', 'rowName': '6', 'row': 7, 'column': 10, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97731', 'seatId': '97731', 'name': '6排7座', 'rowName': '6', 'row': 7, 'column': 11, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97732', 'seatId': '97732', 'name': '6排8座', 'rowName': '6', 'row': 7, 'column': 12, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97733', 'seatId': '97733', 'name': '6排9座', 'rowName': '6', 'row': 7, 'column': 13, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97734', 'seatId': '97734', 'name': '6排10座', 'rowName': '6', 'row': 7, 'column': 14, 'flag': 0, 'status': 0 },
+        //         { 'extId': '97735', 'seatId': '97735', 'name': '6排11座', 'rowName': '6', 'row': 7, 'column': 15, 'flag': 0, 'status': 0 },
+        //         { 'extId': '97736', 'seatId': '97736', 'name': '7排1座', 'rowName': '7', 'row': 8, 'column': 5, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97737', 'seatId': '97737', 'name': '7排2座', 'rowName': '7', 'row': 8, 'column': 6, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97738', 'seatId': '97738', 'name': '7排3座', 'rowName': '7', 'row': 8, 'column': 7, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97739', 'seatId': '97739', 'name': '7排4座', 'rowName': '7', 'row': 8, 'column': 8, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97740', 'seatId': '97740', 'name': '7排5座', 'rowName': '7', 'row': 8, 'column': 9, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97741', 'seatId': '97741', 'name': '7排6座', 'rowName': '7', 'row': 8, 'column': 10, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97742', 'seatId': '97742', 'name': '7排7座', 'rowName': '7', 'row': 8, 'column': 11, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97743', 'seatId': '97743', 'name': '7排8座', 'rowName': '7', 'row': 8, 'column': 12, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97744', 'seatId': '97744', 'name': '7排9座', 'rowName': '7', 'row': 8, 'column': 13, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97745', 'seatId': '97745', 'name': '7排10座', 'rowName': '7', 'row': 8, 'column': 14, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97746', 'seatId': '97746', 'name': '7排11座', 'rowName': '7', 'row': 8, 'column': 15, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97747', 'seatId': '97747', 'name': '8排1座', 'rowName': '8', 'row': 9, 'column': 5, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97748', 'seatId': '97748', 'name': '8排2座', 'rowName': '8', 'row': 9, 'column': 6, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97749', 'seatId': '97749', 'name': '8排3座', 'rowName': '8', 'row': 9, 'column': 7, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97750', 'seatId': '97750', 'name': '8排4座', 'rowName': '8', 'row': 9, 'column': 8, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97751', 'seatId': '97751', 'name': '8排5座', 'rowName': '8', 'row': 9, 'column': 9, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97752', 'seatId': '97752', 'name': '8排6座', 'rowName': '8', 'row': 9, 'column': 10, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97753', 'seatId': '97753', 'name': '8排7座', 'rowName': '8', 'row': 9, 'column': 11, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97754', 'seatId': '97754', 'name': '8排8座', 'rowName': '8', 'row': 9, 'column': 12, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97755', 'seatId': '97755', 'name': '8排9座', 'rowName': '8', 'row': 9, 'column': 13, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97756', 'seatId': '97756', 'name': '8排10座', 'rowName': '8', 'row': 9, 'column': 14, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97757', 'seatId': '97757', 'name': '8排11座', 'rowName': '8', 'row': 9, 'column': 15, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97758', 'seatId': '97758', 'name': '9排1座', 'rowName': '9', 'row': 10, 'column': 5, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97759', 'seatId': '97759', 'name': '9排2座', 'rowName': '9', 'row': 10, 'column': 6, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97760', 'seatId': '97760', 'name': '9排3座', 'rowName': '9', 'row': 10, 'column': 7, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97761', 'seatId': '97761', 'name': '9排4座', 'rowName': '9', 'row': 10, 'column': 8, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97762', 'seatId': '97762', 'name': '9排5座', 'rowName': '9', 'row': 10, 'column': 9, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97763', 'seatId': '97763', 'name': '9排6座', 'rowName': '9', 'row': 10, 'column': 10, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97764', 'seatId': '97764', 'name': '9排7座', 'rowName': '9', 'row': 10, 'column': 11, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97765', 'seatId': '97765', 'name': '9排8座', 'rowName': '9', 'row': 10, 'column': 12, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97766', 'seatId': '97766', 'name': '9排9座', 'rowName': '9', 'row': 10, 'column': 13, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97767', 'seatId': '97767', 'name': '9排10座', 'rowName': '9', 'row': 10, 'column': 14, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97768', 'seatId': '97768', 'name': '9排11座', 'rowName': '9', 'row': 10, 'column': 15, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97769', 'seatId': '97769', 'name': '10排1座', 'rowName': '10', 'row': 11, 'column': 1, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97770', 'seatId': '97770', 'name': '10排2座', 'rowName': '10', 'row': 11, 'column': 2, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97771', 'seatId': '97771', 'name': '10排3座', 'rowName': '10', 'row': 11, 'column': 3, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97772', 'seatId': '97772', 'name': '10排4座', 'rowName': '10', 'row': 11, 'column': 5, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97773', 'seatId': '97773', 'name': '10排5座', 'rowName': '10', 'row': 11, 'column': 6, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97774', 'seatId': '97774', 'name': '10排6座', 'rowName': '10', 'row': 11, 'column': 7, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97775', 'seatId': '97775', 'name': '10排7座', 'rowName': '10', 'row': 11, 'column': 8, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97776', 'seatId': '97776', 'name': '10排8座', 'rowName': '10', 'row': 11, 'column': 9, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97777', 'seatId': '97777', 'name': '10排9座', 'rowName': '10', 'row': 11, 'column': 10, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97778', 'seatId': '97778', 'name': '10排10座', 'rowName': '10', 'row': 11, 'column': 11, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97779', 'seatId': '97779', 'name': '10排11座', 'rowName': '10', 'row': 11, 'column': 12, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97780', 'seatId': '97780', 'name': '10排12座', 'rowName': '10', 'row': 11, 'column': 13, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97781', 'seatId': '97781', 'name': '10排13座', 'rowName': '10', 'row': 11, 'column': 14, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97782', 'seatId': '97782', 'name': '10排14座', 'rowName': '10', 'row': 11, 'column': 15, 'flag': 0, 'status': 1 },
+
+        //         { 'extId': '97783', 'seatId': '97783', 'name': '11排1座', 'rowName': '11', 'row': 12, 'column': 1, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97784', 'seatId': '97784', 'name': '11排2座', 'rowName': '11', 'row': 12, 'column': 2, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97785', 'seatId': '97785', 'name': '11排3座', 'rowName': '11', 'row': 12, 'column': 3, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97786', 'seatId': '97786', 'name': '11排4座', 'rowName': '11', 'row': 12, 'column': 5, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97787', 'seatId': '97787', 'name': '11排5座', 'rowName': '11', 'row': 12, 'column': 6, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97788', 'seatId': '97788', 'name': '11排6座', 'rowName': '11', 'row': 12, 'column': 7, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97789', 'seatId': '97789', 'name': '11排7座', 'rowName': '11', 'row': 12, 'column': 8, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97790', 'seatId': '97790', 'name': '11排8座', 'rowName': '11', 'row': 12, 'column': 9, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97791', 'seatId': '97791', 'name': '11排9座', 'rowName': '11', 'row': 12, 'column': 10, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97792', 'seatId': '97792', 'name': '11排10座', 'rowName': '11', 'row': 12, 'column': 11, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97793', 'seatId': '97793', 'name': '11排11座', 'rowName': '11', 'row': 12, 'column': 12, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97794', 'seatId': '97794', 'name': '11排12座', 'rowName': '11', 'row': 12, 'column': 13, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97795', 'seatId': '97795', 'name': '11排13座', 'rowName': '11', 'row': 12, 'column': 14, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97796', 'seatId': '97796', 'name': '11排14座', 'rowName': '11', 'row': 12, 'column': 15, 'flag': 0, 'status': 1 },
+
+        //         { 'extId': '97797', 'seatId': '97797', 'name': '12排1座', 'rowName': '12', 'row': 13, 'column': 1, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97798', 'seatId': '97798', 'name': '12排2座', 'rowName': '12', 'row': 13, 'column': 2, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97799', 'seatId': '97799', 'name': '12排3座', 'rowName': '12', 'row': 13, 'column': 3, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97800', 'seatId': '97800', 'name': '12排4座', 'rowName': '12', 'row': 13, 'column': 5, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97801', 'seatId': '97801', 'name': '12排5座', 'rowName': '12', 'row': 13, 'column': 6, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97802', 'seatId': '97802', 'name': '12排6座', 'rowName': '12', 'row': 13, 'column': 7, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97803', 'seatId': '97803', 'name': '12排7座', 'rowName': '12', 'row': 13, 'column': 8, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97804', 'seatId': '97804', 'name': '12排8座', 'rowName': '12', 'row': 13, 'column': 9, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97805', 'seatId': '97805', 'name': '12排9座', 'rowName': '12', 'row': 13, 'column': 10, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97806', 'seatId': '97806', 'name': '12排10座', 'rowName': '12', 'row': 13, 'column': 11, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97807', 'seatId': '97807', 'name': '12排11座', 'rowName': '12', 'row': 13, 'column': 12, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97808', 'seatId': '97808', 'name': '12排12座', 'rowName': '12', 'row': 13, 'column': 13, 'flag': 0, 'status': 1 },
+        //         { 'extId': '97809', 'seatId': '97809', 'name': '12排13座', 'rowName': '12', 'row': 13, 'column': 14, 'flag': 0, 'status': 0 },
+        //         { 'extId': '97810', 'seatId': '97810', 'name': '12排14座', 'rowName': '12', 'row': 13, 'column': 15, 'flag': 0, 'status': 0 }]
+    }
+}
+</script>
+
+<style type="text/css" lang="scss" rel="stylesheet/scss">
+.seat {
+    background: #fff url(seat.png) no-repeat 50%;
+    height: 40px;
+    width: 40px;
+    &.seat-checked {
+        background-image: url(seat_select.png);
+    }
+}
+</style>
+
+
+
+
+
+
+var express = require('express');
+var path = require('path');
+var ejs = require('ejs');
+var app = express();
+var logger = require('morgan');
+
+var ueditor = require('./lib/ueditor');
+var bodyParser = require('body-parser');
+var configs = require('./configs/index');
+var proxyMiddleware = require('http-proxy-middleware')
+const historyApiFallback = require('./middleware/historyApiFallback');
+app.use(logger('dev'));
+
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
+
+
+// app.set('views', path.join(__dirname, 'views'));
+// app.engine('.html', ejs.__express);
+// app.set('view engine', 'html');
+app.use(express.static(path.join(__dirname, 'public')));
+const isProd = process.env.NODE_ENV === 'test'
+if (isProd) {
+    app.use(express.static(path.join(__dirname, '../dist')));
+}
+const paths = configs.paths;
+
+// 下面填写你要把图片保存到的路径 （ 以 path.join(__dirname, 'public') 作为根路径）
+app.use('/ueditor/ue', ueditor(path.join(__dirname, paths.staticPath), function(req, res, next) {
+    // 客户端上传文件设置
+    var imgDir = paths.imgDir;
+    var ActionType = req.query.action;
+    if (ActionType === 'uploadimage' || ActionType === 'uploadfile' || ActionType === 'uploadvideo') {
+        var fileUrl = imgDir; // 默认图片上传地址
+        /* 其他上传格式的地址 */
+        if (ActionType === 'uploadfile') {
+            fileUrl = paths.fileDir; // 附件
+        }
+        if (ActionType === 'uploadvideo') {
+            fileUrl = paths.videoDir; // 视频
+        }
+        res.ue_up(fileUrl); // 你只要输入要保存的地址 。保存操作交给ueditor来做
+        res.setHeader('Content-Type', 'text/html');
+    } else if (req.query.action === 'listimage') {
+        //  客户端发起图片列表请求
+        var dirUrl = imgDir;
+        res.ue_list(dirUrl); // 客户端会列出 dir_url 目录下的所有图片
+    } else {
+        // 客户端发起其它请求
+        // console.log('config.json')
+        res.setHeader('Content-Type', 'application/json');
+        res.redirect('/config.json');
+    }
+}));
+
+// 对路由admin直接走historyApiFallback,而不是用服务端渲染
+app.use(historyApiFallback({
+    verbose: true,
+    index: '/index.html',
+    rewrites: [
+        { from: /^\/index$/, to: '/index.html' },
+        { from: /^\/login/, to: '/login.html' }
+    ],
+    path: /^\/index/
+}))
+
+// 处理webpack服务请求
+// app.get('/__webpack_hmr', function(req, res) {
+//     res.send('')
+// })
+
+// app.get('/', (req, res) => {
+//     res.render('index');
+//     // res.redirect('app');
+// });
+// app.get('/login.html', (req, res) => {
+//     res.render('login');
+//     // res.redirect('app');
+// });
+
+app.use('/ueditor', function(req, res) {
+    res.render('ueditor');
+});
+module.exports = app;

@@ -1,0 +1,186 @@
+// 字体Unicode编码 微软雅黑:\5FAE\8F6F\96C5\9ED1 , 宋体:\5B8B\4F53
+// ----------------------------------------------------------------
+$white:     #fff !default;
+$black:     #333 !default;
+$red:       #af615f !default;
+$green:     #5cb85c !default;
+$blue:      #0275d8 !default;
+$teal:      #5bc0de !default;
+$gray-666:  #666 !default; 
+$gray-999:  #999 !default;
+$gray-f8:   #f8f8f8 !default;
+$gray-ccc:   #ccc !default;
+$gray-f5:   #e5e5e5 !default;
+
+// 全局变量配置
+$legacy-support-for-ie:         true !default; // 是否支持IE
+$inline-block-alignment:        middle !default; //设置一个默认的对齐方式 
+// 
+$body-container-width:          1200px !default;
+$container-bg:                  $white !default; 
+$body-bg:                       $gray-f8 !default;
+$body-color:                    $black !default;
+$main-color:                    $red !default;
+$font-size12:                   12px !default;
+$font-size:                     14px !default;
+$font-size16:                   16px !default;
+$font-size18:                   18px !default;
+$font-size20:                   20px !default;
+$font-size22 :                  22px !default;
+$font-size24:                   24px !default;
+$font-size28:                   28px !default;
+$font-color:                    $black !default;
+$font-family:                   "\5FAE\8F6F\96C5\9ED1","\5B8B\4F53",arial,"Hiragino Sans GB W3","Microsoft YaHei",Helvetica,sans-serif  !default;
+
+// 
+$font-strong-color:             #e6333e !default;
+// ----------------------------------------------------------------
+// 按钮
+$btn-color:              $white !default;
+$btn-bg:                 $red !default;
+$btn-border:             $red !default;
+$btn-line-height:        30px !default;
+$btn-outline-color:      $red !default;
+$btn-outline-border:     $red !default;
+// ----------------------------------------------------------------
+// 标签
+$tag-color:                 $white !default;
+$tag-bg:                    $red !default;
+$tag-border:                $red !default;
+$tag-outline-color:         $red !default;
+$tag-outline-border:        $red !default;
+// ----------------------------------------------------------------
+// 表单
+$form-border:               $gray-f5 !default;
+$form-color:                $body-color !default;
+$state-error-color:         $red !default;
+$state-error-bg:            #f2dede !default;
+// ----------------------------------------------------------------
+// block-heading
+$block-heading-color:           $black !default;
+$block-heading-border:          $gray-f8 !default;
+$block-heading-more-color:      $gray-999 !default;
+$block-heading-fs:              16px !default;
+$block-heading-big-fc:          30px !default;
+$block-heading-big-sub-fc:      16px !default;
+$block-heading-big-more-fc:     18px !default;
+// 
+$detail-block-padding:                  40px !default;
+$detail-block-heading-height:           60px !default;
+$detail-block-content-padding:          30px !default;
+// ----------------------------------------------------------------
+// filter-pannel
+$filter-pannel-color:           $gray-666 !default;
+$filter-pannel-border:          $gray-f8 !default;
+$filter-pannel-tag-hd-color:    $gray-999 !default;
+$filter-pannel-active:          $red !default;
+$filter-pannel-hover-bg:        lighten($red,35%)  !default;
+// ----------------------------------------------------------------
+// card
+$card-fs:                       $font-size !default;
+$card-color:                    $gray-999 !default;
+$card-border-color:             $gray-f8 !default;
+$card-head-bg:                  $white !default;
+$card-title-color:              $black !default;
+$card-title-active:             $red !default;
+$card-icon-color:               $red !default;
+$img-card-title-bg:             rgba(0, 0, 0, .5) !default;
+$img-card-title-color:          $white !default;
+$img-card-caption-color:        $black !default;
+$card-tag-bg:                   rgba(0, 0, 0, .5) !default;
+// ----------------------------------------------------------------
+// 分页
+$kk-pageinator-width:                       $body-container-width !default;
+$kk-pageinator-color:                       $gray-999 !default;
+$kk-pageinator-disabled-color:              lighten($gray-999,25%) !default;
+$kk-pageinator-fs:                          14px !default;
+$kk-pageinator-margin:                      50px auto 60px !default;
+//
+$kk-pageinator-page-border:                 lighten($gray-999,20%) !default;
+$kk-pageinator-page-disabled-border:        lighten($gray-999,30%) !default;
+$kk-pageinator-page-border-radius:          3px;
+$kk-pageinator-page-padding:                3px 10px 3px 10px;
+//
+$kk-pageinator-active-color:                $white !default;
+$kk-pageinator-active-border:               $red !default;
+$kk-pageinator-active-bg:                   $red !default;
+$kk-pageinator-curr-page-num:               $red !default;
+//
+$kk-pageinator-goPage-button-width:         44px !default;
+$kk-pageinator-goPage-button-height:        20px !default;
+$kk-pageinator-goPage-button-color:         $gray-999 !default;
+$kk-pageinator-goPage-button-bg:            $red !default;
+//
+$kk-pageinator-goPage-input-width:          36px !default;
+$kk-pageinator-goPage-input-height:         20px !default;
+$kk-pageinator-goPage-input-color:          $gray-999 !default;
+// ----------------------------------------------------------------
+// 轮播
+$magazine-swiper-bg:                lighten($black, 40%) !default;
+$magazine-swiper-padding:           30px 0 !default;
+$magazine-swiper-button:            -80px !default;
+//
+$book-swiper-bg:                    darken($white,10%) !default;
+$book-swiper-color:                 $gray-666 !default;
+$book-swiper-fs:                    16px !default;
+$book-swiper-padding:               18px 40px !default;
+$book-swiper-content-width:         750px !default;
+$book-swiper-content-container:     620px !default;
+$book-swiper-book-width:            160px !default;
+$book-swiper-book-stackimg-width:   120px !default;
+$book-swiper-book-stackimg-border:  4px !default;
+//
+$exhibition-swiper-height:              400px !default;
+$exhibition-swiper-bullet-bg:           $white !default;
+$exhibition-swiper-bullet-active:       $red !default;
+$exhibition-swiper-bullet-active-width: 18px !default;
+$exhibition-swiper-bullet-active-heigth: 8px !default;
+// 
+$video-swiper-button-width:             14px !default;
+$video-swiper-button-height:            56px !default;
+$video-swiper-button-padding:           0 8px !default;
+$video-swiper-button-bg:                lighten($black, 40%) !default;
+// ----------------------------------------------------------------
+// list
+$list-fs:                                   $font-size16 !default;
+$list-color:                                $gray-666 !default;
+$list-time-color:                           $gray-999 !default;
+// 
+$list-bullet-height:                        40px !default;
+$list-bullet-color:                         $gray-666!default;
+$list-bullet-type:                          '•' !default;
+$list-bullet-border:                        1px dashed $gray-f8 !default;
+$list-bullet-time-color:                    $gray-999 !default;
+// list-active
+$list-active:                               $red !default;
+$list-bullet-type-color:                    $gray-666 !default;
+// ----------------------------------------------------------------
+// 座位表
+$seat-bg:                                   #f5f5f5 !default;
+$seat-w:                                    30px !default;
+$seat-h:                                    30px !default;
+$seat-container-padding:                    15px !default;
+// ----------------------------------------------------------------
+// table
+$table-border:                      1px solid darken(#f5f5f5,10%) !default;
+//** table thead
+$table-thead-height:                40px !default;
+$table-thead-bg:                  #f5f5f5 !default;
+$table-thead-color:                 $body-color !default;
+$table-thead-fs:                    16px !default;
+$table-thead-fw:                    normal !default;
+$table-thead-border:                1px solid $gray-f8 !default;
+//** table tbody
+$table-tbody-height:                35px !default;
+$table-tbody-border:                $gray-f8 !default;
+$table-bg-hover:                  #f5f5f5 !default;
+//** Button in the table
+$table-btn-fs:                      12px !default;
+$table-btn-bg:                      $red !default;
+$table-btn-color:                   $white !default;
+// ----------------------------------------------------------------
+// hearder
+$header-height:                     40px !default;
+// ----------------------------------------------------------------
+// media
+$media-height:                      400px !default;

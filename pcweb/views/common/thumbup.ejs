@@ -1,0 +1,63 @@
+<a  id="thumbup"  class="u-item thum" data-favorited="<%=thumed%>" data-objectId='<%=objectId%>' data-type='<%=type%>'
+        title="<% if(thumed){%>点击取消点赞 <%} else {%>点击点赞<%}%>">
+        <i class="iconfont <% if(!thumed){%>icon-thumbup<%} else{%>icon-appreciate <%}%>"></i>
+        <% if(thumed){%>取消点赞
+            <%} else {%>点赞
+                <%}%>
+    </a>
+    <script>
+                var userstr = '<%-JSON.stringify(user)%>';
+                var userObj = JSON.parse(userstr);
+                var thumed = '<%=thumed%>';
+                $(document).ready(function () {
+                    $('.thum').click(function () {
+                        if (!userObj) {
+                            $('.myModal').modal('show');
+                            return;
+                        }
+                        var self = $(this)
+                        self.removeClass("thum");
+                        var type = $(this).attr('data-type');
+                        var objectId = $(this).attr('data-objectId');
+                        if (thumed=="true") {
+                            $.ajax({
+                                url: '/user/cancelthumbup/'+type+'/'+objectId,
+                                type: 'get',
+                                success: function (res) {
+                                    if (res.data == '') {
+                                        var icon =" <i class='icon icon-star-empty'></i>"
+                                        $("#thumbup").html(icon+"点赞")
+                                        thumed = "false";
+                                        self.addClass("thum");
+                                        return;
+                                    }
+                                    else {
+                                        assist.showMsg('取消点赞失败','error');
+                                       
+                                    }
+                                }
+                            })
+                        }else {
+                            $.ajax({
+                                url: '/user/addthumbup/'+type+'/'+objectId,
+                                type: 'get',
+                                success: function (res) {
+                                    if (res.data.id != '') {
+                                        var icon =" <i class='icon icon-star'></i>"
+                                        $("#thumbup").html(icon+"取消点赞")
+                                        self.addClass("thum");
+                                        thumed = "true";
+                                        return;
+                                    }
+                                    else {
+                                        assist.showMsg('点赞失败','error');
+                                       
+                                    }
+                                }
+                            })
+                        }
+        
+        
+                    })
+                })
+            </script>

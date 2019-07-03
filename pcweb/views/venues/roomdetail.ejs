@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    <%=data.name%>
+  </title>
+  <% include ../common/head %>
+  <link rel='stylesheet' href='/styles/venue.min.css' />
+ 
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+
+  <div class="g-content">
+    <div class="crumbs">
+      <ul>
+        <li>
+          <a href="">首页&nbsp;&nbsp;></a>
+        </li>
+        <li>
+          <a href="/venues">活动室列表&nbsp;&nbsp;></a>
+        </li>
+        <li>
+          <a href="#">活动室详情</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="room detail">
+      <div class="media fixed-h">
+        <div class="media-left">
+          <img src="<%= data.coverPic2 %>" alt="场馆图片" class="room-img-big" />
+        </div>
+         <div class="media-center">
+          <h3 class="name">
+            <%=data.name%>
+              <div class="capacity">
+                <span>容纳人数：
+                  <%=data.totalPeoples%>人</span>
+                <span>面积：
+                  <%=data.area%>㎡</span>
+              </div>
+          </h3>
+
+          <p class="describe f-nowrap">
+            <i class="iconfont icon-type1"></i>
+            <span>类别：<%=data.type%></span>
+          </p>
+
+          <%-include('../common/map.ejs',{lontitude: data.venue.coordinate.longitude,latitude: data.venue.coordinate.latitude,addr: data.venue.address}) %>
+
+            <p class="describe f-nowrap">
+              <i class="iconfont icon-phone"></i>
+              <span>电话：<%=data.telephone%></span>
+            </p>
+
+             <p class="describe f-nowrap">
+                 <i class="iconfont icon-type2"></i>
+                 <% if(!data.pageView) {%>
+                 <span>访问量： 0</span>
+                 <%}else{%>
+                 <span>访问量： <%= data.pageView %></span>
+                 <%}%>
+             </p>
+
+            <div class="media-opres">
+           
+                <% if(data.itmDef.isEnable){%>
+                      <% if(user&&user.identifyStatus!='Yes'){%>
+                              <span class=" btn disabled">请先实名认证</span>
+                      <%} else {%>
+                        <%-include('../common/authBtn.ejs',{ authRouter :"/venues/booking/"+data.id,btnTitle:'立即预约'}) %>
+                     <%}%>
+                  <%} else {%>  
+                     <span class="btn disabled gray">暂未开放</span>  
+                  <%}%>
+               
+            </div>
+        </div>
+      </div>
+      <div class="opres">
+          <%- include('../common/favoritedBtn.ejs',{ objectId:data.id,type:'VenueRoom',favorited:favorited }) %>
+          <%- include('../common/bshare') %>
+        </div>
+    </div>
+    <div class="place-space"></div>
+    <div class="detail-block">
+        <div class="block-heading border">
+          <h4 class="title">活动室设施</h4>
+        </div>
+        <div class="detail-content">
+          <%-data.facilities%>
+        </div>
+   </div>
+   <div class="place-space"></div>
+   <div class="detail-block">
+      <div class="block-heading border">
+        <h4 class="title">活动室详情</h4>
+      </div>
+      <div class="detail-content cimg">
+        <%-data.desc%>
+      </div>
+ </div>
+  <div class="place-space"></div>
+
+  <%-include('../common/comments',{comments:comments,type:'VenueRoom',objId:data.id,pagingUrl:'/venues/roomdetail/' + data.id+'' }) %>
+  <div class="place-space"></div>
+  </div>
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+<script>
+</script>
+
+</html>

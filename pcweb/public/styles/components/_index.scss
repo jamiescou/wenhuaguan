@@ -1,0 +1,16 @@
+@import './block-heading'; // 标题
+@import './brief'; // 简要信息，如培训、活动详情页面的基本信息
+@import './card';   // 卡片类型的组件、图片卡片、缩略图卡片等
+@import './colorbox';
+@import './comments'; // 评论
+@import './_filter-pannel.scss';  // 筛选面包
+@import './_list.scss';  // 列表
+@import './_media.scss';    // media类型卡片配合brief使用
+@import './_pagination.scss'; // 分页
+@import './_search.scss';   // 搜索组合框
+@import './no-data'; // 没有数据
+@import './tab'; // tab标签页
+@import './seat'; // 座位
+@import './checkbox'; // checkbox
+@import './succeed-tips'; // 成功页面
+@import './table'; // 表格

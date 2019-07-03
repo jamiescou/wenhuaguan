@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    个人中心
+  </title>
+  <% include ../common/head %>
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+  <% include ../common/usercenter %>
+  <div class="uict-content2 uict-usercontainer mymail">
+     <ul>
+             <li class="mailList">
+                   <span>2017-05-25</span>
+                   <p>消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息消息内容消消息内容消息内容消息内容消息内容消息内容消息内容息内容消息内容消息内容消息内容消息内容消息内容消息内容</p>
+                   <span class="close">X</span>
+             </li>
+             <li class="mailList">
+                <span>2017-05-25</span>
+                <p>消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息消息内容消消息内容消息内容消息内容消息内容消息内容消息内容息内容消息内容消息内容消息内容消息内容消息内容消息内容</p>
+                <span class="close">X</span>
+             </li>
+             <li class="mailList">
+                <span>2017-05-25</span>
+                <p>消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息消息内容消消息内容消息内容消息内容消息内容消息内容消息内容息内容消息内容消息内容消息内容消息内容消息内容消息内容</p>
+                <span class="close">X</span>
+             </li>
+     </ul>
+  </div>
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+<script>
+      $('.mailList').click(function(){
+              $('.mailList').css('background',"#fff")
+              $('.mailList').find('.close').hide();
+              $(this).css('background',"#f8f8f8");
+              $(this).find('.close').show();
+      })
+</script>
+</html>

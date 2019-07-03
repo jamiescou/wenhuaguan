@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    湖南省文化馆
+  </title>
+  <% include ../common/head %>
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+
+  </header>
+
+ 
+
+  <div class="uict-content2 volunInfo">
+
+   <ol class="breadcrumb">
+        <li>
+          <a href="/">首页</a>
+        </li>
+         <li>
+          <a href="/volunteer">志愿者</a>
+        </li>
+        <li class="active">志愿者信息列表</li>
+      </ol>
+ 
+    <div class="volun-content  ">
+      <div class="header" style="position:relative;">请确认并填写相关信息</div>
+      <div class="content">
+        <form id='form'>
+        <div>
+          <div>
+            <label>报名用户:</label>
+            <span>
+              <%=data.name%>
+            </span>
+          </div>
+          <div>
+            <label>联系电话:</label>
+            <span>
+              <%=userinfo.mobile%>
+            </span>
+          </div>
+        </div>
+        <div>
+          <label>住址信息:</label>
+          <select id='city'>
+            <% for(let p in regionObj){%>
+              <option value="<%=p%>">
+                <%=p%>
+              </option>
+              <%}%>
+          </select>
+          <select id='regionCode'>
+          </select>
+          <input class="form-control" id='detailAddress' value='<%=data.detailAddress%>'> 
+        </div>
+        <div>
+          <div>
+            <label>籍贯:</label>
+            <input class="form-control" id='holdAddress' value='<%=data.holdAddress%>'> </input>
+          </div>
+          <div>
+              <label>政治面貌:</label>
+              <select id='politicalStatus' value='<%=data.politicalStatus%>'>
+                <% political.forEach(function(item){%>
+                  <option value="<%=item.value%>">
+                    <%=item.value%>
+                  </option>
+                  <%})%>
+              </select>
+            </div>
+        </div>
+        <div>
+          <div>
+            <label>从业情况:</label>
+            <select id='occupation' value='<%=data.occupation%>'>
+              <% occupation.forEach(function(item){%>
+                <option value="<%=item.value%>">
+                  <%=item.value%>
+                </option>
+                <%})%>
+            </select>
+          </div>
+          <div>
+            <label>兴趣爱好:</label>
+            <input class="form-control" id='interest' value='<%=data.interest%>'> </input>
+          </div>
+        </div>
+        <div>
+          <div>
+            <label>最高学历:</label>
+            <select id='education' value='<%=data.education%>' disabled="disabled">
+              <% education.forEach(function(item){%>
+                <option value="<%=item.value%>">
+                  <%=item.value%>
+                </option>
+                <%})%>
+            </select>
+          </div>
+        </div>
+        <div>
+          <div>
+            <label>自我介绍:</label>
+            <textarea rows=5 type='textarea' class="form-control" id='selfInfo' > <%=data.selfInfo%></textarea>
+          </div>
+        </div>
+      </form>
+      </div>
+      <div class="btns" style="text-align:center;padding-bottom:20px">
+        
+       
+        <a class="btn btn-default btn-lg " href='/volunteer'>取消</a>
+        <a class="btn btn-default btn-lg uict-submitorder">我要编辑</a>
+         <a class="btn btn-default btn-lg subinfo" style="display:none;">提交信息</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+<script>
+
+    var dataInfo = <%-JSON.stringify(data)%>;
+    // dataInfo = JSON.parse(dataStr);
+    $('#regionCode').val(dataInfo.regionCode);
+    $('#education').val(dataInfo.education);
+    $('#politicalStatus').val(dataInfo.politicalStatus);
+    $('#occupation').val(dataInfo.occupation);
+    var town = '<%= data.city%>'
+    var area = '<%= data.area%>'
+    var id =  '<%= data.id%>'
+    var regionInfo = <%-JSON.stringify(regionObj)%>;
+    // regionInfo = JSON.parse(regionStr);
+    $("#regionCode").val()
+    $("select").attr("disabled","disabled")
+    $("input,textarea").attr('readonly',"readonly")
+    $("select").css("background","#eee")
+    $("select,input,textarea").css("color","#555")
+    $('.uict-submitorder').click(function(){
+      $(this).html("提交信息")
+      $("select").removeAttr("disabled")
+      $("input,textarea").removeAttr('readonly')
+      $("select").css("background","#fff")
+      $(this).hide();
+      $(".subinfo").show()
+      $(".subinfo").css({"background":"#e94e58","color":"#fff"})
+    })
+    $(document).ready(function () {
+    
+      $('#city').val(town);
+      $('#city').change(setCountyValue);
+      setCountyValue();
+      function setCountyValue() {
+        var countyHtml = '';
+        var selectCity = $('#city').val();
+        if(selectCity!=null){
+          for (var i = 0; i < regionInfo[selectCity].length; i++) {
+          countyHtml += '<option value ="' + regionInfo[selectCity][i].value + '">' + regionInfo[selectCity][i].name + '</option>'
+          }
+        }
+        $('#regionCode').html(countyHtml);
+        var option =  $('#regionCode option');
+        for(var i=0;i<option.length;i++){
+          var areas =$.trim( option.eq(i).text())
+          if(areas==area){
+            $('#regionCode option').eq(i).attr("selected","selected");
+          }
+        }
+      }
+      $('.subinfo').click(function(){
+     
+        if($('#detailAddress').val()=='')
+        {
+           assist.showMsg('住址不能为空');
+          return;
+        }
+        if($('#holdAddress').val()=='')
+        {
+           assist.showMsg('籍贯不能为空');
+          return;
+        }
+        if($('#hobbit').val()=='')
+        {
+           assist.showMsg('兴趣不能为空'); 
+          return;
+        }
+        if($('#occupation').val()=='')
+        {
+           assist.showMsg('职业不能为空');
+          return;
+        }
+        if($('#education').val()=='')
+        {
+           assist.showMsg('教育程度不能为空');
+          return;
+        }
+        if($('#politicalStatus').val()=='')
+        {
+           assist.showMsg('政治面貌不能为空');
+          return;
+        } 
+        if($('#selfInfo').val().trim()=='')
+        {
+           assist.showMsg('自我介绍不能为空');
+          return;
+        } 
+        $.ajax({
+          url:'/volunteer/editInfo/'+id,
+          type: 'post',
+          data:{
+            education:$('#education').val(), 
+            occupation:$('#occupation').val(),
+            politicalStatus:$('#politicalStatus').val(),
+            holdAddress:$('#holdAddress').val(),
+            address: $('#city').val()+ $("#regionCode").find("option:selected").text(),
+            detailAddress:$('#detailAddress').val(),
+            selfInfo:$('#selfInfo').val(),
+            interest:$('#interest').val(),
+            email:$('#email').val()
+          },
+          success:function(res){
+           
+           if(res.id!=''){
+              assist.showMsg('您的信息已提交成功');
+            //  window.location.href='/volunrecruit'
+             window.location.href='/volunteer/enrollsuccess'
+           }else{
+            assist.showMsg(res.message);
+           }
+            
+          },
+          failure:function(){
+            assist.showMsg('保存失败');
+          }
+        })
+        
+      })
+
+   
+  
+    })
+
+</script>
+
+</html>

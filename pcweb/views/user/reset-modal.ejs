@@ -1,0 +1,91 @@
+<div class="myModal" style='display:none'>
+    <div class="modal-content-wrapper" id='resetPwdModal'>
+        <div class="block-heading border">
+            <h4 class="title">修改密码</h4>
+        </div>
+        <form method="post" id="changePwdForm">
+            <div class="detail-block modal-form">
+                <!-- <dl class="block-item">
+                            <dt class="b-i-title">输入原始密码：</dt>
+                            <dd class="b-i-cotent">
+                              <input type="password" name="oriPwd" id="oriPwd" class="u-form-control" placeholder="请输入原始密码" maxlength="18" minlength="6"
+                                required>
+                            </dd>
+                          </dl> -->
+                <dl class="block-item">
+                    <dt class="b-i-title">输入新密码：</dt>
+                    <dd class="b-i-cotent">
+                        <input type="password" name="newPwd" id="newPwd" class="u-form-control" placeholder="输入新密码" maxlength="18" minlength="6"
+                            required>
+                    </dd>
+                </dl>
+                <dl class="block-item">
+                    <dt class="b-i-title">确认新密码：</dt>
+                    <dd class="b-i-cotent">
+                        <input type="password" name="confirmPwd" id="confirmPwd" class="u-form-control" placeholder="确认新密码" maxlength="18" minlength="6"
+                            required>
+                    </dd>
+                </dl>
+            </div>
+            <div class="operate-btns">
+                <input type="submit" id="submit" style="display:none;">
+                <button class="btn u-btn" id="submitBtn">
+                    <i class="iconfont icon-edit"></i>修改</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $(function() {
+        // 修改密码提交
+        $('#submitBtn').on('click', function(event) {
+            event.stopPropagation();
+            event.preventDefault();
+
+            $("#submit").click();
+        });
+        
+        
+
+        // 修改密码
+        $('#changePwdForm').validate({
+            errorElement: 'div',
+            errorClass: 'v-error',
+            rules: {
+                newPwd: "pwdType", //  密码格式验证【/javascripts/commons/custom-validate.js】
+                confirmPwd: {
+                    equalTo: "#newPwd"
+                }
+            },
+            messages: {
+                // oriPwd: {
+                //   required: "请输入您的原密码"
+                // },
+                newPwd: {
+                    required: "请输入您的新密码",
+                    minlength: "密码长度不能小于6个字符",
+                },
+                confirmPwd: {
+                    required: "请输入确认密码",
+                    equalTo: "两次密码输入不一致"
+                }
+            },
+            submitHandler: function(form) {
+                var data = {
+                    newPwd: $('#newPwd').val(),
+                    // oriPwd: $('#oriPwd').val(),
+                };
+
+                $.ajax({
+                    url: '/user/password',
+                    type: 'post',
+                    data: data,
+                    success: function(res) {
+                        assist.showMsg(res.msg);
+                        window.location.reload();
+                    }
+                })
+            }
+        });
+    })
+</script>

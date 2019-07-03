@@ -1,0 +1,303 @@
+@import '../base/variables';
+@import '../base/mixins';
+@import '../components/index';
+.article-detail {
+    padding: 25px 50px 50px 50px;
+    background-color: #fff;
+    position: relative;
+    word-break: break-all;
+    .article-detail-title {
+        text-align: center;
+        h3 {
+            font-size: $font-size22;
+            line-height: 60px;
+            font-weight: normal;
+            margin: 0;
+        }
+        span.article-source,
+        span.article-author {
+            display: inline-block;
+            font-size: $font-size16;
+            line-height: 46px;
+            margin-right: 25px;
+            margin-left: 25px;
+            color: $gray-666;
+        }
+        p {
+            font-size: $font-size16;
+            line-height: 36px;
+            margin-bottom: 30px;
+            color: $gray-999;
+        }
+        
+    }
+    .opres {
+        // 分享等操作
+        position: absolute;
+        top: 60px;
+        right: -6px;
+        .btn {
+            display: block;
+        }
+        .btn+.btn {
+            margin-top: 15px;
+        }
+    }
+    .article-detail-content {
+        max-width: 1100px;
+        img{
+            max-width: 100%;
+        }
+    }
+}
+
+
+// 资讯
+.news.media {
+    background-color: $container-bg;
+    padding: 15px 30px 20px;
+    border-bottom: 1px solid $gray-f8;
+    color:$gray-666;
+    .news-title {
+        // 资讯标题
+        font-size: 20px;
+        line-height: 24px;
+        color: $font-color;
+        margin: 0 0 10px;
+    }
+    .info-meta{
+       span{
+         display: inline-block;
+         margin-right: 20px;
+       }
+       margin-bottom:30px;
+    }
+    .info-brief{
+      // color:$gray-999;
+      @include text-line(2)
+    }
+    .news-img {
+        // 资讯图片
+        width: 190px;
+        height: 127px;
+        display: block;
+    }
+    .news-from,
+    .news-author {
+        // 资讯来源和作者
+        color: $gray-666;
+        font-size: $font-size16;
+    }
+    .time {
+        font-size: 14px;
+    }
+}
+
+.news-border {
+    border-bottom: 1px solid #f8f8f8;
+}
+  
+//.atlas{
+//  position: fixed;
+//  width: 100%;
+//}
+.carousel-atlas{
+    margin: 0 auto;
+    height: 700px;
+    width: 1440px;
+  }
+  .carousel-atlas-pic-info{
+    .carousel-atlas-pic{
+      float: left;
+      height: 700px;
+      width:75%;
+      padding-right:40px;
+      box-sizing: border-box;
+      img{
+        height: 100%;
+        width: 100%;
+      }
+    }
+    .carousel-atlas-info{
+      float: left;
+      width:25%;
+      position: relative;
+      background-color: #fff;
+      .atlas-info-title{
+        padding: 20px;
+        .atlas-time-title{
+          margin-bottom: 16px;
+          height: auto;
+          .atlas-time{
+            float: left;
+            height: 65px;
+            width: 65px;
+            margin-right: 20px;
+            position: relative;
+            background-image: url(/images/slash.png);
+            background-size: cover;
+            span.time-month{
+              position: absolute;
+              top: 0;
+              left: 0;
+              font-size: 28px;
+              line-height: 30px;
+            }
+            span.time-day{
+              position: absolute;
+              bottom: 18px;
+              right: 0;
+              font-size: 16px;
+              line-height: 18px;
+              color: $gray-999;
+            }
+          }
+          .atlas-title{
+            float: right;
+            width: 220px;
+            height: auto;
+            h3{
+              font-size: 24px;
+              line-height: 33px;
+            }
+          }
+        }
+        .atlas-source-author{
+          position: relative;
+          p.atlas-source,
+          p.atlas-author{
+            float: left;
+            max-width: 130px;
+            height: 20px;
+            @include text-line(1);
+            line-height: 20px;
+            font-size: 16px;
+            color: $gray-666;
+          }
+          p.atlas-source{
+            margin-right: 25px;
+            max-width: 155px;
+          }
+        }
+      }
+      .atlas-info-content{
+        padding: 20px;
+        height: 500px;
+        margin-top: 20px;
+        border-top: 1px solid $gray-f8;
+        .atlas-inner-content{
+          height:400px;
+          overflow: scroll;
+        }
+        span.atlas-publishTime{
+          display: inline-block;
+          font-size: 14px;
+          color: $gray-999;
+          position: absolute;
+          bottom: 40px;
+          right: 20px;
+        }
+        span.atlas-pageView{
+          display: inline-block;
+          font-size: 14px;
+          color: $gray-999;
+          position: absolute;
+          bottom: 40px;
+          left: 20px;
+        }
+      }
+    }
+  }
+  .place45{
+    height: 45px;
+  }
+  .carousel-atlas-page-button{
+    padding: 40px 0;
+    height: 80px;
+    width: 100%;
+    position:relative;
+    box-sizing: content-box;
+    background-color: #656565;
+    
+    .atlas-changePage{
+      width: 260px;
+      height: 50px;
+      margin: 0 auto;
+      position: relative;
+      background-color: rgb(77,77,77);
+      p.changePage{
+        height: 50px;
+        line-height: 50px;
+        font-size: 14px;
+        text-align: center;
+        color: $gray-666;
+      }
+      .swiper-button-prev{
+        position: absolute;
+        top:0;
+        left: 0;
+        margin:0;
+      }
+      .swiper-button-next{
+        position: absolute;
+        top:0;
+        right: 0;
+        margin:0;
+      }
+    
+    }
+     .fav-share{
+         position:relative;
+         top:-60px;
+         left:400px;
+         >div{
+           color:white;
+           display:inline-block;
+           margin-left:20px;
+           cursor:pointer;
+         }
+         .txt{
+           width:30px;
+           display:inline-block;
+           background:$red;
+           text-align:center;
+         }
+         .txt2{
+           display:inline-block;
+           width:50px;
+           text-align:center;
+           background-color: rgb(77,77,77);
+         }
+         .icon-collapse{
+          background-color: rgb(77,77,77);
+          padding:2px 5px 3px 5px;
+         
+         }
+      }
+    .place20{
+      height: 20px;
+    }
+    .atlas-button-rectangle{
+      height: 20px;
+      width: 100%;
+      position: relative;
+      bottom: 10px;
+      text-align: center;
+      .swiper-pagination-switch{
+        display: inline-block;
+        height: 10px;
+        width: 100px;
+        border-radius: 0;
+        background-color: rgb(50,50,50);
+        border-right: 1px solid #656565;
+        cursor: pointer;
+      }
+       .swiper-active-switch{
+        background-color:  $red;
+        border:0;
+        
+       }
+      
+    }
+  }
+  

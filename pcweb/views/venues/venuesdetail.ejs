@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    <%=data.name%>
+    
+  </title>
+  <% include ../common/head %>
+  
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+  <div class="uict-content2">
+    <ol class="breadcrumb">
+      <li><a href="/">首页</a></li>
+      <li><a href="/venues">场馆列表</a></li>
+      <li class="active">场馆详情</li>
+    </ol>
+    <%- include('./venues_info.ejs', {data: data}) %>
+    <div class="uict-acvitity">
+      <div class="uict-activityl">
+        <div class="uict-adetail martb_20">
+            <ul class="nav nav-tabs uict-navtabs" role="tablist">
+                <li role="presentation" class="active">
+                  <a href="#adetail" aria-controls="adetail" role="tab" data-toggle="tab">活动详情</a>
+                </li>
+                <li role="presentation">
+                  <a href="#aboutjs" aria-controls="aboutjs" role="tab" data-toggle="tab">相关纪实</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="adetail">
+                  <%- data.desc %>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="aboutjs">
+                    <% if(report){%>
+                      <div class="row" style="padding:0;">
+                          <% report.forEach(function (item) { %>
+                            <div class="col-sm-6 col-md-3">
+                              <div class="thumbnail uict-thumb">
+                                <a class="ui-aca" >
+                                  <img alt="活动图片" id="" src="<%=item.pic%>"
+                                    style="height: 200px; width: 100%; display: block;">
+                                  <span class="text-overhidden uict-tjas2" style="width:270px;">
+                                      <%=item.name%>
+                                  </span>
+                                </a>  
+                              </div>
+                            </div>
+                            <% }) %>
+                        </div>
+                    <%} else {%>
+                       <%- include('../common/nodata', {tip : '暂无活动纪实' })  %>
+                    <%}%>
+                </div>
+          </div>
+        </div>
+      </div>
+      <div class="uict-tjactivity marb_20">
+          <h2 class="uict-tjh2">活动室
+              <% if (room.content&&room.content.length!=0) { %>
+                <a href="/venues">更多</a>
+              <%} %>
+          </h2>
+          <% if (room.content < 1) { %>
+            <% include ../common/nodata %>
+              <% } else{%>
+                <div class="uict-tjacont"></div>
+                <div class="row">
+                  <% room.content.forEach(function (data) { %>
+                    <div class="col-sm-6 col-md-3">
+                      <div class="thumbnail uict-thumb">
+                        <a class="ui-aca" href="/venues/roomdetail/<%=data.id%>">
+                              <img alt="活动图片" id="" src="<%= data.coverPic %>" style="width: 100%; display: block;">
+                              <span class="text-overhidden uict-tjas2"><%= data.name %></span>
+                          </a> 
+                      </div>  
+                    </div>
+                    <% }) %>
+                </div>
+                <% } %>
+        </div>
+      <%-include('../common/comments.ejs',{ comments: comments, commentUrl:'/venues/comments/' + data.id,pagingUrl:'/venues/venuesdetail/' + data.id}) %>
+    </div>
+  </div>
+ 
+ 
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+  <script>
+
+  </script>

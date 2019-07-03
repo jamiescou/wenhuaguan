@@ -1,0 +1,124 @@
+@import '../libs/px2rem.scss';
+@import '../base/_variable';
+@import '../base/mixins';
+.comment-container {
+    position: relative;
+    overflow: hidden;
+    margin: 0 $gutter 0;
+    padding-top: px2rem(20);
+    overflow: hidden;
+    .detail {
+        background-color: $color-fff;
+        .media-bd {
+            height: px2rem(160);
+        }
+        .media-object>img {
+            width: px2rem(240);
+            height: px2rem(160);
+        }
+        .media-title {
+            margin-bottom: px2rem(20);
+            @include text-line(1);
+        }
+        .brief {
+            @include text-line(3);
+        }
+        .icon {
+            font-size: inherit;
+        }
+        p {
+            margin: 0;
+        }
+        p+p {
+            margin-top: px2rem(8);
+        }
+    }
+    .loadmore-wrapper {
+        padding-bottom: px2rem(104);
+    }
+}
+
+.comments {
+    .no-data {
+        background: $content-bg;
+    }
+    .comment {
+        padding: $comment-padding;
+        background: $content-bg;
+        .avatar {
+            display: block;
+            width: $comment-avatar-size;
+            height: $comment-avatar-size;
+            margin-right: px2rem(25);
+            border-radius: 100%;
+        }
+        .nickname {
+            margin: 0;
+            font-size: $comment-fs;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0px;
+            color: $comment-color;
+        }
+        .time {
+            font-size: $comment-small-fs;
+            font-weight: normal;
+            font-stretch: normal;
+            color: $comment-small-color;
+        }
+        .c-content {
+            line-height: $content-content-lineheight;
+            margin: px2rem(15) 0 0;
+            font-size: $comment-fs;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0px;
+            color: $comment-color;
+            word-break: break-all;
+        }
+    }
+    .more {
+        background: $content-bg;
+        padding: px2rem(32) 0;
+        line-height: px2rem(36);
+        font-size: px2rem(28);
+        letter-spacing: 1px;
+        color: $color-999;
+        text-align: center;
+        .icon {
+            font-size: px2rem(36);
+            vertical-align: middle;
+        }
+    }
+    .comment-list {
+        background: $content-bg;
+    }
+}
+
+.comment-eidt {
+    position: absolute;
+    top: $foot-height;
+    left: 0;
+    width: 100%;
+    padding: px2rem(36) px2rem(36) px2rem(32);
+    transform: translate3d(0, -100%, 0);
+    background-color: $content-bg;
+    &.fold-enter-active,
+    &.fold-leave-active {
+        transition: all 0.5s;
+    }
+    &.fold-enter,
+    &.fold-leave-active {
+        transform: translate3d(0, 0, 0);
+    }
+    .form-textarea {
+        display: block;
+        width: 100%;
+        padding: px2rem(24);
+        font-size: $foot-form-fs;
+        line-height: px2rem(36);
+        margin-bottom: px2rem(16);
+        border: 1px solid $border-color;
+        resize: none;
+    }
+}

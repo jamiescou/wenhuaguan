@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>
+    非遗详情
+  </title>
+  <% include ../common/head %>
+  <link rel='stylesheet' href='/styles/heritage.min.css' />
+</head>
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+
+  <div class="g-content">
+
+    <div class="crumbs">
+      <ul>
+        <li>
+          <a href="">首页&nbsp&nbsp></a>
+        </li>
+        <li>
+          <a href="/heritage/heritagePrj">非遗项目&nbsp&nbsp></a>
+        </li>
+        <li>
+          <a href="/heritage/heritagePrj?&heritagePrj=heritageSuccessor">非遗传承人</a>
+        </li>
+
+      </ul>
+    </div>
+
+
+    <div class="room">
+      <div class="media">
+        <div class="media-left">
+          <img src="<%= data.coverPic %>" alt="非遗图片" class="room-img">
+        </div>
+        <div class="media-center">
+          <h3 class="name">
+            <%= data.name %>
+          </h3>
+          <p class="describe f-nowrap">
+            <i class="iconfont icon-type1"></i>类别：
+            <%= data.typeName %>
+          </p>
+          <p class="describe f-nowrap">
+            <i class="iconfont icon-type2 "></i>级别：
+            <%= data.levelName %>
+          </p>
+          <p class="describe f-nowrap">
+            <i class="iconfont icon-type3"></i>批次：
+            <%= data.batchName %>
+          </p>
+          <p class="describe f-nowrap">
+              <i class="iconfont icon-map"></i>地址：
+                <%= data.address %>
+            </p>
+        </div>
+      </div>
+      <div class="opres">
+        <%- include('../common/favoritedBtn.ejs',{ objectId:data.id,type:'heritageSuccessor',favorited:favorited }) %>
+        <%- include('../common/bshare') %>
+      </div>
+    </div>
+    <div class="place-space"></div>
+    <div class="detail-block">
+      <div class="block-heading border">
+        <h4 class="title"> 传承人简介</h4>
+      </div>
+      <div class="detail-content">
+        <%-data.brief||data.remark %>
+      </div>
+    </div>
+    <% if(data.project){%>
+    <div class="place-space"></div>
+    <div class="detail-block">
+      <div class="block-heading border">
+        <h4 class="title"> 非遗项目</h4>
+      </div>
+      <div class="detail-content list-content">
+        <div class="content">
+           <div class="col-4">
+            <a class="img-card" href='/heritage/heritagedetail/<%=data.project.id%>?type=heritageDirectory' >
+              <img src="<%= data.project.coverPic%>" >
+              <span class="card-title"> <%=data.project.name%></span>
+           </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%}%>
+
+    <div class="place-space"></div>
+    <div class="detail-block">
+      <div class="block-heading border">
+        <h4 class="title"> 非遗图片</h4>
+        <% if(data.digits&&data.digits.length>4){%>
+          <div class="more">
+              <div href='#'><span>展开更多</span> <i class="iconfont icon-more"></i></div>
+          </div>
+          <%}%>
+      </div>
+      <div class="detail-content list-content">
+        <div class="content"> 
+        <% if(data.digits&&data.digits.length>0){%>
+        <% data.digits.forEach(function (item,index) { %>
+          <div class="col-4 <%=index>3?'col-hidden':''%>">
+          <div class="img-card" href="/heritage/heritagedetail/<%=item.id%>?type=successors">
+            <img   src="<%= item.pic%>">
+            <span class="card-title">
+              <%=item.name%>
+            </span>
+          </div>
+          </div>
+          <%})%>
+          <%} else { %>  
+            <%  include ../common/nodata %>
+            <%}%>
+         
+        </div>
+      </div>
+    </div>
+    <div class="place-space"></div>
+    <div class="detail-block">
+        <div class="block-heading border">
+            <h4 class="title"> 相关推荐</h4>
+          </div>
+      <div class="detail-content list-content">
+        <div class="content">
+        <% if(recommands.content&&recommands.content.length>0){%>
+          <% recommands.content.forEach(function (item) { %>
+            <div class="col-4">
+            <a class="img-card " href='/heritage/heritagedetail/<%=item.id%>?type=heritageSuccessor' >
+              <img class="img-top" src="<%= item.coverPic%>">
+              <span class="card-title"> <%=item.name%></span>
+            </a>
+          </div>
+            <%})%>
+        <%} else {%>
+             <% include ../common/nodata %>
+          <%}%>
+        </div>
+      </div>
+    </div>
+    <div class="place-space"></div>
+    <%-include('../common/comments',{comments:comments,type:'heritageSuccessor',objId:data.id,pagingUrl:'/heritage/heritagedetail/' + data.id+'?type=heritageSuccessor' }) %>
+      <div class="place-space"></div>
+  </div>
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+<script>
+    $(document).ready(function(){
+       $('.more').on('click',function(){
+         $(this).find('i').toggleClass('icon-more').toggleClass('icon-collapse');
+         var txtSpan=  $(this).find('span');
+         txtSpan.text()=='展开更多'?txtSpan.text('收起'):txtSpan.text('展开更多');
+          $('.col-hidden').toggleClass('col-show');
+
+       })
+    })
+</script>
+</html>

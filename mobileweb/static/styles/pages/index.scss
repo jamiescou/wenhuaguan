@@ -1,0 +1,394 @@
+@import '../libs/px2rem.scss';
+@import '../base/_variable';
+@import '../base/mixins';
+$swipe-loop-height: 350;
+$swipe-nav-height: 265;
+.index-container {
+    position: relative;
+    .searchbar {
+        $searchbar-height: px2rem(100);
+        height: $searchbar-height;
+        line-height: $searchbar-height;
+        background-color: $content-bg;
+        .to-position {
+            width: px2rem(155);
+            font-size: $f-size16;
+            color: $color-333;
+            overflow:hidden;
+            height: px2rem(100);
+            padding-left: px2rem(15);
+            .iconNew-location {
+                font-size: $f-size15;
+                color: $color-000;
+                margin-right: px2rem(4);
+            }
+        }
+        .to-search {
+            width: 100%;
+            height: px2rem(58);
+            line-height: px2rem(58);
+            background-color: #f5f5f5;
+            border: 1px solid #d2d2d2;
+            font-size: $f-size13;
+            color: $color-999;
+            margin-left: px2rem(30);
+            .icon {
+                margin-left: px2rem(20);
+                margin-right: px2rem(12);
+                font-size: $f-size15;
+                color: #7f7f7f;
+            }
+        }
+        .to-zoe {
+            width: px2rem(155);
+            font-size: $f-size16;
+            color: $color-333;
+            text-align: right;
+            overflow:hidden;
+            height: px2rem(100);
+            padding-right: px2rem(30);
+            .iconNew-mine {
+                font-size: $f-size15;
+                color: $color-000;
+                margin-right: px2rem(6);
+            }
+        }
+    }
+    .nav-bar-wrapper {
+        position: relative;
+        z-index: 2;
+        background-color: $content-bg;
+        margin-bottom: px2rem(20);
+        height: px2rem($swipe-nav-height);
+        .swiper-container {
+            width: px2rem(710);
+            margin: 0 auto;
+        }
+        .swiper-slide {
+            width: 25%;
+            padding-top: px2rem(40);
+            padding-bottom: px2rem(40);
+            text-align: center;
+            img {
+                display: block;
+                margin: 0 auto;
+                width: px2rem(100);
+                height: px2rem(100);
+            }
+            h4 {
+                margin: 0;
+                font-size: $f-size12;
+                color: $color-333;
+                font-weight: normal;
+                padding-top: px2rem(10);
+            }
+        }
+        .round-bullets {
+            position: relative;
+        }
+    }
+    .panel {
+        padding: px2rem(20) 0;
+        .panel-hd {
+            padding: px2rem(14) px2rem(20);
+        }
+        .panel-bd {
+            padding: 0 px2rem(20);
+        }
+    }
+    
+    .media-box {
+        padding: px2rem(20) 0;
+        &:last-child {
+            &.border-bottom:after {
+                display: none;
+            }
+        }
+        .media-bd {
+            height: px2rem(160);
+            margin-left: px2rem(20);
+            .media-title {
+                font-size: $f-size13;
+                margin-bottom: px2rem(10);
+            }
+            .media-info {
+                font-size: $f-size9;
+            }
+        }
+        .media-object {
+            margin-left: 0;
+            img {
+                width: px2rem(240);
+                height: px2rem(160);
+            }
+            
+        }
+    }
+    
+    .card-col-2 {
+        padding-left: 0;
+        padding-right: 0;
+        @include make-grid-columns(2,10px);
+        margin-bottom: px2rem(15);
+    }
+    .card-syvod {
+        .card-hd {
+            height: px2rem(222);
+            .tagBlack {
+                position: absolute;
+                left: px2rem(20);
+                top: px2rem(20);
+            }
+        }
+        .card-bd {
+            padding: 0 px2rem(20);
+            height: px2rem(122);
+            overflow: hidden;
+            .card-title {
+                font-size: $f-size15;
+                margin-top: px2rem(20);
+                overflow:hidden;
+                text-overflow:ellipsis;
+                white-space:nowrap;
+            }
+            .card-info {
+                height: px2rem(36);
+                line-height: px2rem(36);
+                overflow: hidden;
+            }
+        }
+    }
+    .card-syact {
+        padding-top: 0 !important;
+        padding-bottom: px2rem(26);
+        border-bottom: px2rem(20) solid #f0f0f0;
+        .card-hd {
+            height: px2rem(450);
+        }
+        .card-bd {
+            padding: 0 px2rem(20);
+            /*height: px2rem(160);*/
+            overflow: hidden;
+            .pull-left {
+                width: px2rem(490);
+            }
+            .pull-right {
+                margin-top: px2rem(30);
+                width: px2rem(210);
+                position: relative;
+                .card-info {
+                    text-align: right;
+                }
+            }
+        }
+        .card-info-two {
+            max-height: px2rem(36 * 2);
+            overflow: hidden;
+        }
+        .fOrder {
+            display: block;
+            max-width: px2rem(210);
+            height: px2rem(60);
+            line-height: px2rem(60);
+            padding: 0 px2rem(20);
+            font-size: $f-size15;
+            color: $color-fff;
+            text-align: center;
+            -webkit-border-radius: px2rem(4);
+            -moz-border-radius: px2rem(4);
+            border-radius: px2rem(4);
+            background-color: $color-red;
+            position: absolute;
+            right: 0;
+            top: px2rem(48);
+            &.end {
+              color: #666;
+              background-color: #b5b5b5;
+            }
+        }
+        .card-title {
+            font-size: $f-size15;
+            margin: px2rem(25) 0 px2rem(8) 0;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+        }
+        .endTag {
+            display: block;
+            font-size: $f-size13;
+            color: $color-fff;
+            text-align: center;
+            height: px2rem(58);
+            line-height: px2rem(58);
+            overflow: hidden;
+            padding-left: px2rem(20);
+            padding-right: px2rem(40);
+            background-color: rgba(#000, .6);
+            border: 1px solid #79797b;
+            position: absolute;
+            left: 0;
+            top: px2rem(20);
+            border-top-right-radius: px2rem(30);
+            border-bottom-right-radius: px2rem(30);
+            span {
+                font-size: $f-size15;
+                color: $color-red;
+                padding: 0 px2rem(8);
+            }
+        }
+        .tagBlack {
+            position: absolute;
+            right: px2rem(22);
+            bottom: px2rem(20);
+        }
+    }
+    .card-syexh {
+        .card-bd {
+            height: auto;
+        }
+        .card-title {
+            margin: px2rem(25) 0;
+        }
+    }
+}
+
+// 轮播图
+.swipe-loop {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    background: url('/images/zoe-bg.png') no-repeat top left;
+    background-size: cover;
+    height: px2rem($swipe-loop-height);
+    .swiper-slide {
+        overflow: hidden;
+        height: px2rem($swipe-loop-height);
+        img {
+            width: 100%;
+            height: 100%;
+        }
+        .char {
+            width: 100%;
+            padding: 0 px2rem(24);
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            background-color: rgba($color-000, .7);
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .titYi {
+            width: px2rem(540);
+            font-size: $f-size13;
+            color: $color-fff;
+            height: px2rem(70);
+            line-height: px2rem(70);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+    .round-bullets {
+        text-align: right;
+        bottom: px2rem(4);
+        width: auto;
+        right: px2rem(14);
+        left: auto;
+    }
+}
+
+// 导航
+.nav-bar {
+    display: flex;
+    width: 100%;
+    .bar-menu {
+        display: block;
+        flex: 1;
+        padding: 15px 0 0;
+        text-align: center;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        text-decoration: none;
+        .menu-icon {
+            display: block;
+            margin: 0 auto;
+            width: px2rem(120);
+            height: px2rem(120);
+            max-width: 100%;
+        }
+        .menu-title {
+            line-height: 2;
+            margin: 0;
+            font-weight: normal;
+            color: $color-333;
+            font-size: $f-size;
+            text-align: center;
+            letter-spacing: 0;
+        }
+    }
+}
+
+// 信息块
+.panel {
+    background-color: $color-fff;
+    position: relative;
+    overflow: hidden;
+    .panel-hd {
+        position: relative;
+        margin: 0;
+        font-size: $f-size16;
+        color: $color-000;
+        font-weight: normal;
+        letter-spacing: 0;
+        .pinyin {
+            font-size: $f-size9;
+            color: $color-999;
+            text-transform: uppercase;
+            padding-left: px2rem(13);
+        }
+    }
+    .panel-bd {
+        .card {
+            .icon {
+                color: $active-color;
+            }
+        }
+    }
+    .panel-ft {
+        padding: px2rem(32) 0;
+        line-height: px2rem(36);
+        font-size: px2rem(28);
+        letter-spacing: 1px;
+        color: $color-999;
+        text-align: center;
+    }
+}
+
+.panel-hdNav {
+    padding: 0 px2rem(20);
+    padding-bottom: px2rem(10);
+    margin-bottom: px2rem(16);
+    border-bottom: 1px solid #f5f5f5;
+    .item {
+        display: block;
+        float: left;
+        font-size: $f-size12;
+        color: $color-666;
+        text-align: center;
+        border: 1px solid #aaa;
+        height: px2rem(46);
+        line-height: px2rem(46);
+        overflow: hidden;
+        padding: 0 px2rem(22);
+        -webkit-border-radius: px2rem(23);
+        -moz-border-radius: px2rem(23);
+        border-radius: px2rem(23);
+        margin-right: px2rem(15);
+        &.active {
+            color: $color-red;
+            border-color: $color-red;
+        }
+    }
+}
+
+

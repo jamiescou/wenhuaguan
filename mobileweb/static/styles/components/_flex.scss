@@ -1,0 +1,27 @@
+// 弹性布局
+.flex-item {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+    .cell {
+        position: relative;
+        flex: 1;
+        display: -webkit-box;
+        -webkit-box-flex: 1;
+        width: 1px;
+        max-width: 100%;
+        display: block;
+        font-size: $f-size;
+        // font-size: px2rem(32);
+        word-break: break-all;
+    }
+    &>.fixed {
+        flex: none;
+        align-self: center;
+        width: auto;
+        -webkit-box-flex: 0;
+    }
+}

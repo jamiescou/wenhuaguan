@@ -1,0 +1,14 @@
+{
+    "apps": [{
+        "name": "hunan-admin-serverdev",
+        "script": "server/bin/www",
+        "exec_mode": "cluster",
+        "instances": 1,
+        "autorestart": false,
+        "node_args": [],
+        "args": [],
+        "env": {
+            "NODE_ENV": "serverdev"
+        }
+  }]
+}

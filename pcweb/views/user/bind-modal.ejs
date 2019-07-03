@@ -1,0 +1,195 @@
+<div class="myModal" style='display:none'>
+  <div class="modal-content-wrapper" id='bindModal'>
+    <div class="block-heading border">
+      <h4 class="title">绑定手机号</h4>
+    </div>
+    <form method="post" id="bindPhoneForm" class="resetpwd-from">
+      <div class="detail-block modal-form">
+        <dl class="block-item">
+          <dt class="b-i-title">手机号：</dt>
+          <dd class="b-i-cotent">
+            <div class="u-input-group">
+              <input type="text" name="phoneNum" id="phoneNum" class="u-form-control" placeholder="请输入手机号" required maxlength="11">
+              <span class="u-group-btn">
+                  <button class="btn" id="vcodeBtn" type="button">获取验证码</button>
+              </span>
+            </div>
+          </dd>
+        </dl>
+        <dl class="block-item">
+          <dt class="b-i-title">验证码：</dt>
+          <dd class="b-i-cotent">
+              <input type="text" class="u-form-control" id="vcode" name="vcode" placeholder="验证码" maxlength="6" minlength="6" required>
+          </dd>
+        </dl>
+      </div>
+      <div class="operate-btns">
+        <input type="submit" id="submitP" style="display:none;">
+        <button class="btn u-btn" id="submitPBtn">
+          <i class="iconfont icon-edit"></i>修改</button>
+      </div>
+    </form>
+    <form method="post" id="bindForm" class="resetpwd-from" style="display:none;">
+      <div class="detail-block modal-form">
+        <dl class="block-item">
+          <dt class="b-i-title">输入密码：</dt>
+          <dd class="b-i-cotent">
+            <input type="password" name="pwd" id="pwd" class="u-form-control" placeholder="输入新密码" maxlength="18" minlength="8" required>
+          </dd>
+        </dl>
+        <dl class="block-item">
+          <dt class="b-i-title">确认密码：</dt>
+          <dd class="b-i-cotent">
+            <input type="password" name="cPwd" id="cPwd" class="u-form-control" placeholder="确认新密码" maxlength="18" minlength="8" required>
+          </dd>
+        </dl>
+        <p class="block-item tip">
+          *密码为至少8为的数字和字母组合
+        </p>
+      </div>
+      <div class="operate-btns">
+        <input type="submit" id="submitBind" style="display:none;">
+        <button class="btn u-btn" id="submitBindBtn">
+          <i class="iconfont icon-edit"></i>修改</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<script>
+  $(function() {
+    // 修改提交
+    $('#submitPBtn').on('click', function(event) {
+      event.stopPropagation();
+      event.preventDefault();
+
+      $("#submitP").click();
+    });
+
+    $('#submitBind').on('click', function(event) {
+      event.stopPropagation();
+      event.preventDefault();
+
+      $("#submitBindBtn").click();
+    });
+
+
+
+    // 验证规则
+    $('#bindPhoneForm').validate({
+      errorElement: 'div',
+      errorClass: 'v-error',
+      rules: {
+        phoneNum: "phoneType" //  手机格式验证【/javascripts/commons/custom-validate.js】
+      },
+      messages: {
+        phoneNum: {
+          required: "请输入你的手机验证码"
+        },
+        vcode: {
+          required: "请输入验证码"
+        }
+      },
+      submitHandler: function(form) { // 验证成功后的处理
+        var data = {
+          mobile: $('#phoneNum').val(),
+          code: $('#vcode').val(),
+        };
+
+        $.ajax({
+          url: '/user/verifyVcodes',
+          type: 'post',
+          data: data,
+          success: function(res) {
+            if (res.success) {
+              $('#bindPhoneForm').hide();
+              $('#bindForm').show();
+            } else {
+              assist.showMsg('验证码错误', 'error');
+            }
+          }
+        })
+      }
+    });
+
+    // 发送验证码
+    $('#vcodeBtn').click(function() {
+      var result = $('#phoneNum').valid();
+      if (!result) return;
+
+      var $btn = $(this);
+      if ($btn.hasClass('js_pause')) return;
+      if ($btn.hasClass('disabled')) return;
+      $btn.addClass('js_pause');
+      var mobile = $('#phoneNum').val()
+      var signStr = `mobile=${mobile}&flag=register`
+      $.ajax({
+        url: '/login/vcodes',
+        type: 'post',
+        data: {
+          mobile: mobile,
+          state: 'newMobile',
+          signStr: md5(signStr) // 加密串
+        },
+        success: function(res) {
+        
+          $btn.removeClass('js_pause');
+          if (res.status==200) {
+          assist.showMsg('验证码已发送到您手机，请注意查收!');
+            assist.count_down('#vcodeBtn', 60000);
+          } else {
+            $btn.removeClass('disabled');
+           assist.showMsg(res.message);
+          } 
+          
+        },
+        failure: function(err) {
+           assist.showMsg('验证码发送失败');
+           $btn.removeClass('js_pause disabled');
+        }
+      })
+    });
+
+
+    // 修改密码
+    $('#bindForm').validate({
+      errorElement: 'div',
+      errorClass: 'v-error',
+      rules: {
+        pwd: "pwdType", //  密码格式验证【/javascripts/commons/custom-validate.js】
+        cPwd: {
+          equalTo: "#pwd"
+        }
+      },
+      messages: {
+        pwd: {
+          required: "请输入您的新密码",
+          minlength: "密码长度不能小于8个字符",
+        },
+        cPwd: {
+          required: "请输入确认密码",
+          equalTo: "两次密码输入不一致"
+        }
+      },
+      submitHandler: function(form) {
+        var data = {
+          mobile: $('#phoneNum').val(),
+          password: $('#pwd').val(),
+        };
+
+        $.ajax({
+          url: '/user/bindMobile',
+          type: 'post',
+          data: data,
+          success: function(res) {
+            assist.showMsg(res.msg);
+            window.location.reload();
+          }
+        })
+      }
+    });
+
+
+  })
+</script>

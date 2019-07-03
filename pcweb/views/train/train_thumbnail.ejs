@@ -1,0 +1,20 @@
+<div class="thumbnail m-thumbnail">
+    <a class="ui-aca" href="/train/detail/<%= train.id %>">
+        <img alt="活动图片" src="<%= train.picture %>" style="width: 100%; display: block;">
+        <div class="caption">
+            <h3 class="u-title">
+                <%= train.title %>
+            </h3>
+            <div class="u-content">
+                <% if(train.startDate){ %>
+                <div class="u-item"><i class="iconfont icon-time"></i> <%= train.startDate %></div>
+                <% } %>
+                <% if(train.endDate){ %>
+                <div class="u-item"><i class="iconfont icon-time"></i> <%= train.endDate %></div>
+                <% } %>
+                <div class="u-item f-nowrap" title="<%= train.address %>"><i class="iconfont icon-location"></i><%= train.address %></div>
+                
+            </div>
+        </div>
+    </a>
+</div>

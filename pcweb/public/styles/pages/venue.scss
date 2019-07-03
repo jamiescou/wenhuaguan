@@ -1,0 +1,247 @@
+@import '../base/variables';
+@import '../base/mixins';
+@import '../components/index';
+
+.room {
+    position: relative;
+    display:inline-block;
+    background-color:$container-bg;
+    border-bottom:1px solid $gray-f8;
+    padding:20px;
+    .media {
+        background: $container-bg;
+        .media-left {
+            padding-right: 30px;
+        }
+        .room-img {
+            //简介
+            display: block;
+            width: 330px;
+            height: 220px;
+        }
+        .room-img-big{
+            display: block;
+            width: 600px;
+            height:400px;
+        }
+        .name {
+            // 活动室名称
+            height: 118px;
+            padding-top: 25px; 
+              margin: 0;
+            margin-bottom: 20px;
+         
+            font-size: $font-size24;
+            line-height: 30px;
+            color: $font-color;
+            font-weight: 400;
+        }
+        .capacity {
+            // 容量
+            margin-top: 15px;
+            margin-bottom:15px;
+            font-size: $font-size;
+            line-height: 24px;
+            color: #999999;
+            @include text-line(2);
+            &>span+span {
+                margin-left: 28px;
+              
+            }
+        }
+        .describe {
+            // 地址、电话等描述信息
+            color: $gray-666;
+            font-size: $font-size16;
+            .iconfont {
+                color: $red;
+            }
+            span {
+                margin: 0 5px;
+            }
+        }
+        .describe+.describe {
+            margin-top: 10px;
+        }
+        .media-center {
+            // 活动室 预定等操作
+            position: relative;
+            .media-opres {
+                position: absolute;
+                bottom: 38px;
+                left: 20px;
+            }
+            .btn {
+                font-size: 20px;
+                line-height: 24px;
+                padding: 10px 36px;
+            }
+        }
+    }
+    .opres {
+        // 分享等操作
+        position: absolute;
+        top: 30%;
+        right: -6px;
+        .btn {
+            display: block;
+        }
+        .btn+.btn {
+            margin-top: 15px;
+        }
+    }
+    .tips{
+        position:absolute;
+        top:40px;
+        left:15px;
+        padding:2px 9px;
+        line-height:24px;
+    }
+}
+
+.detail{
+    padding:0;
+}
+.time-select{
+    text-align:left;
+    display: table;
+    #itemTable{
+        display: inline-block;
+    }
+    .iconfont{
+        font-size:40px;
+        cursor: pointer;
+        color:$gray-666;
+        display: table-cell;
+        vertical-align: middle;
+        width:40px;
+    }
+    .items{
+        display: inline-block;
+        width:150px;
+        text-align: center;
+        padding:0 2px;
+        
+    }
+    .item-header{
+        line-height:40px;
+        background:$gray-666;
+        color:white;
+    }
+    .time{
+        line-height:34px;
+        background:#ffded5;
+        border-bottom:1px solid white;
+        border-top:1px solid white;
+        cursor:pointer;
+        color:$body-color;
+        &:hover{
+            background:darken(#ffded5,20%)
+        }
+        &.disable{
+            background:$gray-f8; 
+            cursor:default;
+            &:hover{
+                background:$gray-f8; 
+            }
+        }
+        &.selected{
+            background:$red;
+            color:white;
+        }
+    }
+    .legend{
+        margin-top:10px;
+        text-align: center;
+        p{
+          display:inline-block;
+          line-height:20px;
+          margin:5px;
+          color:$body-color;
+          span{
+              display:inline-block;
+              width:20px;
+              height:15px;
+              border-radius:4px;
+              margin-right:5px;
+          }
+         }
+        .color-disable{
+            background:$gray-f8; 
+        }
+        .color-selected{
+            background:$red
+        }
+        .color-enable{
+            background:#ffded5;
+        }
+    }
+   
+}
+.table-contactor{
+    border-collapse: collapse;
+    // border:1px solid  $card-border-color;
+    width:100%;
+    td{
+        border-bottom:1px solid  $card-border-color;
+        line-height:50px;
+        font-size:$font-size16; 
+        color:$gray-666; 
+        padding:5px;
+        text-align:left;
+    }
+    .col1,.col2{
+        width:120px;
+    }
+    .col3,.col4{
+        width:200px;
+    }
+    .col5,.col6{
+        width:100px;
+    }
+    .col6{
+        text-align: center;
+    }
+    .addcontactor{
+         cursor:pointer;
+         text-align: center;
+         >span{
+           color:$gray-666;
+           &:hover{
+               color:darken($gray-666,40%)
+           }
+         }
+    }
+}
+
+#step1,#step2{
+    text-align:center;
+    .btn {
+        font-size: 20px;
+        line-height: 24px;
+        padding: 10px 36px;
+    }
+}
+#step2{
+    .detail-content{
+        text-align:left;
+    }
+}
+.order-reason{
+    color:$gray-666;
+    line-height:50px;
+    font-size:$font-size16; 
+   .textarea{
+        border:1px solid $gray-f8;
+        border-radius:8px;
+        padding:10px;
+        width:1100px;
+        line-height:24px;
+        font-size:$font-size16; 
+    }
+}
+.order-time{
+    color:$gray-666;
+    line-height:50px;
+    font-size:$font-size16; 
+}

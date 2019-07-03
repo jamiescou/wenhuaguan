@@ -1,0 +1,131 @@
+<%
+var region = query.region ? '&region=' + query.region : '';
+var regionPage = '/organization?';
+var paginatorPage = '/organization?'  + region;
+%>
+  <!DOCTYPE html>
+  <html>
+
+  <head>
+    <title>
+      群文学会
+    </title>
+    <% include ../common/head %>
+  </head>
+
+  <body>
+    <header>
+        <% include ../common/header %>
+        <link rel='stylesheet' href='/styles/organization.min.css' />
+    </header>
+
+    <div class="g-content">
+      <div class="crumbs">
+        <ul>
+          <li>
+            <a href="">首页&nbsp;&nbsp;></a>
+          </li>
+          <li>
+            <a href="">群团组织</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="tabtitle">
+        <ul>
+          <li class="active">
+            <a href='/organization'>群团组织</a>
+          </li>
+          <li >
+            <a href='/organization/learnannual '>学会年审</a>
+          </li>
+          <li>
+            <a href='/organization/masorgNews'>群团动态</a>
+          </li>
+        </ul>
+      </div>
+<div class="place-space"></div>
+      <div class="m-filter-pannel">
+        <div class="m-search-lst">
+          <div class="item">
+            <h4 class="tag-hd">区&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;域：</h4>
+            <div class="tag-wrap">
+              <a class="tag-item <% if(!query.region){ %>active<% } %>" href="<%- regionPage %>">全部</a>
+              <% regions.forEach(function (region) { %>
+                <a class="tag-item <% if(query.region&&query.region===region.code){ %>active<% } %>" href="<%- regionPage %>&region=<%=region.code%>">
+                  <%= region.name%>
+                </a>
+                <% }) %>
+            </div>
+          </div>
+
+
+          <div class="search-area">
+            <input id="keysearchcontent" type="text" placeholder="关键词搜索..." value='<%=query.key%>'>
+            <button id="keysearch" title="点击搜索">
+              <i class="iconfont icon-search"></i>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <% if( data.content.length) { %>
+        <div class="list-content">
+            <div class="content">
+                <% data.content.forEach(function (item) { %>
+                    <div class="card col-4 border">
+                        <a class="card-head" href="/organization/detail/<%= item.id %>">
+                            <img class="img-top" src="<%= item.coverPic %>" alt="活动图片">
+                           
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= item.name %>
+                            </h5>
+                            <div class="card-info">
+                                <p>
+                                    <i class="iconfont icon-phone red"></i>
+                                    <span>
+                                        <%= item.contactPhone %> 
+                                          
+                                    </span>
+                                </p>
+                                <p>
+                                    <i class="iconfont icon-location red"></i>
+                                    <span>
+                                        <%= item.address %>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <% }) %>
+            </div>
+
+        </div>
+
+        <%- include('../common/paginator.ejs', {page : data.number + 1, totalPages : data.totalPages, pageUrl : paginatorPage, totalElements : data.totalElements}) %>
+</div>
+<div class="place-space"></div>
+<% } else { %>
+    <% include ../common/nodata %>
+        <% } %>
+
+    </div>
+    <footer>
+      <% include ../common/footer %>
+    </footer>
+  </body>
+  <script>
+    $(function () {
+      $('#keysearch').click(function () {
+        var key = $('#keysearchcontent').val();
+        var paginatorPage = '<%=paginatorPage%>';
+        window.location.href = paginatorPage + '&key=' + key;
+      })
+
+    })
+  </script>
+
+  </html>

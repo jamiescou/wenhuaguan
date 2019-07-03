@@ -1,0 +1,117 @@
+@import '../base/variables';
+@import '../base/mixins';
+// @import '../components/index';
+.login-wrapper {
+    background-color: #f5f5f5;
+    text-align: center;
+    position: relative;
+    height: 100%;
+    .brand {
+        display: block;
+        .logo {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            top: 100px;
+        }
+    }
+    @at-root .login-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        padding: 30px;
+        z-index: 999;
+        width: 540px;
+        height: 400px;
+        margin-top: -200px;
+        margin-left: -270px;
+        border-right: 1px dashed $gray-f8;
+        background: white;
+        border-radius: 30px;
+        overflow: hidden;
+        &.register-content {
+            padding: 0 0 30px;
+            height: auto;
+            .block-heading {
+                margin-bottom: 20px;
+            }
+            .title {
+                width: 100%;
+                text-align: center;
+            }
+            .tip {
+                color: $red;
+                font-size: $font-size;
+                text-align: left;
+                margin-top: 28px;
+                margin-bottom: -28px;
+            }
+        }
+        &.model-login {
+            position: relative;
+            top: auto;
+            left: auto;
+            margin-top: auto;
+            margin-left: auto;
+        }
+        .qrcodecor {
+            // 二维码
+            position: relative;
+            cursor: pointer;
+            text-align: right;
+            height: 64px;
+            overflow: hidden;
+            span {
+                display: inline-block;
+                position: absolute;
+                right:0;
+                border-bottom: 65px solid white;
+                border-right: 65px solid transparent;
+            }
+        }
+        .fn-hide {
+            display: none;
+        }
+        .loginform {
+            padding: 0 0 20px 0;
+            width: 400px;
+            margin: 0 auto;
+            .form-item {
+                position: relative;
+                .iconfont {
+                    position: absolute;
+                    left: 15px;
+                    top: 18px;
+                    color: $red;
+                }
+                &.item-gutter {
+                    margin-bottom: 28px;
+                }
+            }
+            .u-form-control {
+                height: 60px;
+                width: 400px;
+                padding-left: 35px;
+            }
+            .u-input-group {
+                width: 400px;
+                @include input-group(60px, 60px, $form-border);
+            }
+            .sub-btn {
+                display: block;
+                width: 100%;
+                margin-top: 30px;
+                @include button-size(10px);
+            }
+            .register {
+                margin-top: 20px;
+            }
+        }
+        .qrcode {
+            text-align: center;
+            height: 450px;
+            border: 0px;
+            margin-top:-90px;
+        }
+    }
+}

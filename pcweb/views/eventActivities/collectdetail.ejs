@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    活动详情
+  </title>
+  <% include ../common/head %>
+    <link rel='stylesheet' href='/styles/collect.min.css' />
+    <link rel='stylesheet' href='/javascripts/libs/swiper/swiper.min.css' />
+    <script src="/javascripts/libs/swiper/swiper.min.js"></script>
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+
+  <div class="g-content collectdetail">
+    <div class="crumbs">
+      <ul>
+        <li>
+          <a href="/">首页&nbsp;&nbsp;></a>
+        </li>
+        <li>
+          <a href="/eventActivities">赛事活动&nbsp;&nbsp;></a>
+        </li>
+        <li>
+          <a href="">活动详情</a>
+        </li>
+      </ul>
+    </div>
+    <div class="brief-media">
+      <div class="media">
+        <div class="media-left">
+          <img src="<%= data.coverPic %>" alt="培训图片" class="brief-img" />
+        </div>
+        <div class="media-center">
+          <h3 class="name">
+            <%= data.name %>
+          </h3>
+          <p class="describe f-nowrap">
+            <i class="iconfont icon-clstime"></i>时间：
+            <%= data.startTime.substring(0,16) %>&nbsp; 至 &nbsp;
+              <%= data.endTime.substring(0,16) %>
+          </p>
+          <%if(data.type=="competition"){%>
+            <p class="describe reaward_line">
+              <i class="iconfont icon-award"></i>奖品：
+              <%= data.award %>
+            </p>
+            <%}%>
+              <p class="intro brief_line">
+                <i class="iconfont icon-brief"></i>简介：
+                <%= data.brief %>
+              </p>
+
+          <p class="intro">
+            <i class="iconfont icon-brief"></i>访问量：
+              <% if(!data.pageView) {%>
+             0
+              <%}else{%>
+            <%= data.pageView %>
+              <%}%>
+          </p>
+
+              <div class="media-opres" style="bottom: 0">
+                <% if(data.tag=='进行中'){ %>
+                  <%-include('../common/authBtn.ejs',{ authRouter:"/eventActivities/booking/"+data.id,btnTitle:'我要参加' }) %>
+                    <%} else {%>
+                      <span class="btn disabled">
+                        <%=data.tag%>
+                      </span>
+                      <%}%>
+
+              </div>
+        </div>
+      </div>
+
+      <div class="opres">
+        <%- include('../common/favoritedBtn.ejs',{ objectId:data.id,type:'PhotographyArtWorks',favorited:favorited }) %>
+          <%- include('../common/bshare') %>
+      </div>
+
+
+    </div>
+
+    <div class="detail">
+      <div class="title">赛事详情</div>
+      <div class="desc cimg">
+        <%- data.desc%>
+      </div>
+    </div>
+
+    <div class="works">
+      <div class="title">参赛作品
+        <span class="bigimg">大图模式</span>
+        <span class="listimg">列表模式</span>
+      </div>
+
+      <div class="list-content workslist">
+        <% if(works.content.length>0){%>
+          <div class="content3">
+            <% works.content.forEach(function(item,index){%>
+              <div class="col-3">
+                <div class="img-card">
+                  <img class="img-top gallery" href="<%= item.coverPic %>" src="<%= item.coverPic %>" alt="" onerror="noImg();">
+                  <p class="card-title">
+                    <span class="tit">
+                      <%= item.title%>
+                    </span>
+                    <span class="thums smallthum" data-id="<%=item.id%>" href='#loginModal'>
+                      <i class="iconfont icon-appreciate"></i>
+                      <b class="thumNum">
+                        <%= item.vote?item.vote:0%>
+                      </b>
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <%})%>
+          </div>
+
+          <%} else {%>
+            <%-include('../common/nodata.ejs')%>
+              <%}%>
+
+                <%- include('../common/paginator.ejs', {page : works.number + 1, totalPages : works.totalPages, pageUrl :'/eventActivities/collectdetail/'+data.id+'?', totalElements: works.totalElements}) %>
+      </div>
+
+      <div class="biglist">
+        <% if(works.content.length>0){%>
+          <div class="media imgbig exhibition-detail">
+            <div class="lgimg">
+                 <img id='bigImg' src="" alt="">
+            </div>
+         
+            <div class="content">
+              <div class="_header">
+                <p class="tit">
+                  <span class="titname"></span>
+                  <span class="index">1</span>
+                  <span class="total">/
+                    <%=works.content.length%>
+                  </span>
+                </p>
+                <p class="brief">
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="book-swiper">
+            <% if(nextPage[0].unitId){ %>
+              <div class="picture-book">
+                <div class="stack">
+                  <a href="/eventActivities/collectdetail/<%= nextPage[0].id %>">
+                    <img src="<%= nextPage[0].coverPic %>" onerror="noImg();">
+                  </a>
+                </div>
+                <h6>上一个图集</h6>
+              </div>
+              <% } %>
+                <div class="book-swiper-content">
+                  <div class="swiper-container" id="collectSwiper">
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper">
+                      <!-- Slides -->
+                      <% works.content.forEach(function(item, index){ %>
+                        <div class="swiper-slide">
+                          <img data-id="<%= item.id %>" class="imgbtn" data-title="<%=item.title%>" data-vote="<%=item.vote%>" data-brief="<%= item.brief %>"
+                            data-index="<%= index %>" src="<%= item.coverPic %>" onerror="noImg();">
+                        </div>
+                        <% }) %>
+                    </div>
+                  </div>
+                  <!-- Add Arrows -->
+                  <div class="swiper-button btn-next j-book-next"></div>
+                  <div class="swiper-button btn-prev j-book-prev"></div>
+                </div>
+                <% if(nextPage[1].unitId){ %>
+                  <div class="picture-book right">
+                    <% if(nextPage[1]){ %>
+                      <div class="stack">
+                        <a href="/eventActivities/collectdetail/<%= nextPage[1].id %>">
+                          <img src="<%= nextPage[1].coverPic %>" onerror="noImg();">
+                        </a>
+                      </div>
+                      <h6>
+                        <a href="">下一个图集</a>
+                      </h6>
+                      <% }else{ %>
+                        <div class="stack">
+                          <a href="">
+                            <img src="/images/pic.jpg" onerror="noImg();">
+                          </a>
+                        </div>
+                        <h6 style="text-align: right">
+                          <a href="">没有了</a>
+                        </h6>
+                        <% } %>
+                  </div>
+                  <% } %>
+          </div>
+          <%} else {%>
+            <%-include('../common/nodata.ejs')%>
+              <%}%>
+      </div>
+    </div>
+
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+<script>
+  $(document).ready(function() {
+
+    $(".gallery").colorbox({
+      rel: 'group3',
+      transition: "none",
+      width: "75%",
+      height: "75%"
+    });
+    //切换列表模式
+    $(".bigimg").hide();
+    $(".workslist").hide();
+
+    $(".bigimg").click(function() { //显示大图
+      $(".listimg").show();
+      $(this).hide();
+      $(".biglist").show();
+      $(".workslist").hide();
+    })
+    $(".listimg").click(function() { //显示列表
+      $(".bigimg").show();
+      $(this).hide();
+
+      $(".biglist").hide();
+      $(".workslist").show();
+    })
+
+    //点击显示大图
+    var title = $(".imgbtn").eq(0).attr("data-title");
+    var brief = $(".imgbtn").eq(0).attr("data-brief");
+    var path = $(".imgbtn").eq(0).attr("src");
+    var vote = $(".imgbtn").eq(0).attr("data-vote");
+    var workid = $(".imgbtn").eq(0).attr("data-id");
+
+    // var len = $(".imgbtn").eq(0).attr("data-length");
+
+    $("#bigImg").attr("src", path);
+    $(".titname").html(title);
+    $(".brief").html(brief);
+
+    $(".biglist .thums").attr("data-id", workid)
+    // $(".biglist .total").html("/  "+len)
+    if (!vote) {
+      $(".biglist .thumNum").html(0)
+    } else {
+      $(".biglist .thumNum").html(vote)
+    }
+
+    $(".imgbtn").click(function() {
+      var title = $(this).attr("data-title");
+      var brief = $(this).attr("data-brief");
+      var path = $(this).attr("src");
+      var vote = $(this).attr("data-vote");
+      var workid = $(this).attr("data-id");
+      var ind = 1 + parseInt($(this).attr("data-index"),10);
+      $(".biglist .index").html(ind)
+      $(".imgbig img").attr("src", path);
+      $(".titname").html(title);
+      $(".brief").html(brief);
+      $(".biglist .thums").attr("data-id", workid)
+      if (!vote) {
+        $(".biglist .thumNum").html(0)
+      } else {
+        $(".biglist .thumNum").html(vote)
+      }
+    })
+
+
+    var mySwiper = new Swiper('#collectSwiper', {
+      slidesPerView: 'auto'
+    })
+    
+    $('.j-book-prev').on('click', function(e) {
+      e.preventDefault();
+      mySwiper.swipePrev()
+    });
+    $('.j-book-next').on('click', function(e) {
+      e.preventDefault();
+      mySwiper.swipeNext()
+    });
+
+    // 列表模式点赞
+    var userObj = <%-JSON.stringify(user)%>;
+    // var userObj = JSON.parse(userstr);
+    $(".smallthum").click(function() {
+      if (!userObj) {
+        $(".smallthum").colorbox({
+          inline: true,
+          slideshow: true,
+          width: 570,
+          height: 480,
+          closeButton: false,
+          overlayClose: true
+        });
+        return;
+      }
+      var id = $(this).attr("data-id")
+      var that = $(this);
+      $.ajax({
+        url: '/collect/thum/' + id,
+        type: 'post',
+        success: function(res) {
+          if (res.status === 400) {
+            assist.showMsg(res.message)
+          } else {
+            var nums = parseInt(that.find(".thumNum").html()) + 1
+            that.find(".thumNum").html(nums)
+            assist.showMsg("投票成功")
+          }
+        },
+      })
+    })
+
+    // 大图模式点赞
+    $(".bigthum").click(function() {
+      if (!userObj) {
+        $(".bigthum").colorbox({
+          inline: true,
+          slideshow: true,
+          width: 570,
+          height: 480,
+          closeButton: false,
+          overlayClose: true
+        });
+        return;
+      }
+      var id = $(this).attr("data-id")
+      var that = $(this);
+      $.ajax({
+        url: '/collect/thum/' + id,
+        type: 'post',
+        success: function(res) {
+          // console.log(res)
+          if (res.status === 400) {
+            assist.showMsg(res.message)
+          } else {
+            var nums = parseInt(that.find(".thumNum").html()) + 1
+            that.find(".thumNum").html(nums)
+            assist.showMsg("投票成功")
+          }
+        },
+      })
+    })
+
+
+  })
+</script>
+
+</html>

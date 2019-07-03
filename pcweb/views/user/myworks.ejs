@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    个人中心
+  </title>
+  <% include ../common/head %>
+    <link rel='stylesheet' href='/styles/user-center.min.css' />
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+  <% include ./center-header %>
+    <div class="place-space"></div>
+    <div class="g-content user-center-content">
+      <div class="tab-wrapper my-order-tab">
+        <ul class="nav nav-tabs" id="myCollect">
+          <li class="<% if(!query.type ){ %>active<% } %>">
+            <a href="#current">线上作品征集</a>
+          </li>
+          <li class="<% if(query.type === 'offline' ){ %>active<% } %>">
+            <a href="#offline">线下活动报名</a>
+          </li>
+          <li class="<% if(query.type === 'photographyCollect' ){ %>active<% } %>">
+            <a href="#photographyCollect">赛事活动作品</a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane fade <% if(!query.type){ %>in active<% } %>" id="current">
+            <% if(data.content.length){ %>
+              <% data.content.forEach(function (item) { %>
+                <div class="my-activity">
+                  <div class="order-number clearfix">
+                    <span class="pull-left">审核状态:
+                      <%= item.state%>
+                    </span>
+                    <span class="pull-right">活动名称:
+                      <b>
+                        <%= item.activity.name%>
+                      </b>
+                    </span>
+                  </div>
+                  <div class="media">
+                    <div class="media-left">
+                      <img src="<%= item.files[0].filePath %>" alt="" class="activity-img">
+                    </div>
+                    <div class="media-center">
+                      <h3 class="name">
+                        <%= item.title %>
+                      </h3>
+                      <p class="describe">
+                        <i class="iconfont icon-brief"></i>
+                        <span>
+                          <%= item.brief %>
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <% }) %>
+                  <% } else { %>
+                    <%- include('../common/nodata', {tip : '您还没有上传作品！' })  %>
+                      <% } %>
+          </div>
+          <div class="tab-pane fade <% if(query.type === 'photographyCollect' ){ %>in active<% } %>" id="photographyCollect">
+            <% if(eventActivitList.content.length){ %>
+              <% eventActivitList.content.forEach(function (item) { %>
+                <div class="my-activity">
+                  <div class="order-number clearfix">
+                    <span class="pull-left">审核状态:
+                      <%= item.state%>
+                    </span>
+                    <span class="pull-right">活动名称:
+                      <b>
+                        <%= item.activity.name%>
+                      </b>
+                    </span>
+                  </div>
+                  <div class="media">
+                    <div class="media-left">
+                      <img src="<%= item.files[0].filePath %>" alt="" class="activity-img">
+                    </div>
+                    <div class="media-center">
+                      <h3 class="name">
+                        <%= item.title %>
+                      </h3>
+                      <p class="describe">
+                        <i class="iconfont icon-brief"></i>
+                        <span>
+                          <%= item.brief %>
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <% }) %>
+                  <% } else { %>
+                    <%- include('../common/nodata', {tip : '您还没有上传作品！' })  %>
+                      <% } %>
+          </div>
+          <div class="tab-pane <% if(query.type === 'offline' ){ %>in active<% } %>" id="offline">
+            <% if(usersheets.length){ %>
+              <% usersheets.forEach(function (item) { %>
+                <div class="my-works clearfix">
+                  <div class="pull-left">
+                    <h4 class="title">
+                      作品名称：
+                      <%= item.works.name%>
+                    </h4>
+                    作品类型：
+                    <%= item.works.typeName %>
+                      <p>
+                        审核状态：
+                        <%= item.statuName %>
+                      </p>
+                      <% if((item.statuName=='已通过'||item.statuName=='已拒绝') && item.auditRemark){%>
+                        <p>
+                          审核意见：
+                          <%= item.auditRemark %>
+                        </p>
+                      <%}%>
+                  </div>
+                  <div class="pull-right">
+                    <p>
+                      <%= item.createTime %>
+                    </p>
+                    <a class="btn outline" href="/user/workdetail/<%=item.id%>">详情</a>
+                    <!-- <button class="btn" onclick="orderDel('<%=item.id%>')">删除</button> -->
+                    <%if(item.isPass==null && !item.isCancel){%>
+                      <button class="btn" onclick="orderCancel('<%=item.id%>')">取消报名</button>
+                      <%}%>
+                  </div>
+                </div>
+                <% }) %>
+                  <% } else { %>
+                    <%- include('../common/nodata', {tip : '您还没有报名参加线下活动！' })  %>
+                      <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <% include ../common/footer %>
+    </footer>
+    <script>
+      // 取消订单
+      function orderCancel(orderId) {
+        var r = confirm('是否取消该订单？');
+        if (r == true) {
+          $.ajax({
+            url: '/user/mywork/cancel',
+            type: 'post',
+            data: {
+              orderid: orderId,
+            },
+            success: function(res) {
+              debugger;
+              if (res == "") {
+                assist.showMsg('订单已取消');
+                window.location.reload();
+              }
+            },
+          })
+        }
+      }
+      $(function() {
+        // tab切换
+        $('#myCollect').on('click', 'li>a', function(event) {
+          event.preventDefault()
+          var $parentNode = $(this).parent();
+          var activeClass = 'active';
+          if ($parentNode.hasClass(activeClass)) {
+            return;
+          }
+          $parentNode.siblings().removeClass(activeClass);
+          $parentNode.addClass(activeClass);
+          var selector = $(this).attr('href');
+          $(selector).addClass('in ' + activeClass);
+          $(selector).siblings().removeClass('in ' + activeClass);
+        });
+      });
+    </script>
+</body>
+
+</html>

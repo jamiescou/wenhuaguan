@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    活动详情
+  </title>
+  <% include ../common/head %>
+  <link rel='stylesheet' href='/styles/team.min.css' />   
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+
+  <div class="g-content">
+      <div class="crumbs">
+          <ul>
+                  <li>
+                          <a href="/">首页&nbsp;&nbsp;></a>
+                  </li>
+                  <li>
+                          <a href="/team">文艺团队&nbsp;&nbsp;></a>
+                  </li>
+                  <li>
+                          <a href="">文艺团队详情</a>
+                  </li>
+          </ul>
+     </div>
+     <%- include('team_media.ejs', {data: data}) %>
+     <div class="teams g-content">
+          <div class="tabtitle">
+              <ul>
+                <li class="active">团队详情</li>
+                <li>团队风采</li>
+                <li>团队成员</li>
+              </ul>
+          </div>
+          <div class="tabcontent">
+                <div class="tabpancel detail">
+                       <div class="brief cimg">
+                          <%-data.desc%>
+                       </div>
+                </div>
+                <div class="tabpancel mein">
+                        <%if(data.styles&&data.styles.length!=0){%>
+                  <% data.styles.forEach(function(item){ %>
+                      <div class="meinlist">
+                          <p class="title"><%=item.title%></p>
+                          <p class="time"><%=item.createTime%></p>
+                          <p class="content"><%=item.content%> </p>
+                          <ul class="imglist cimg ">
+                              <% item.files.forEach(function(value){ %>
+                                <li>
+                                    <img src="<%=value.filePath%>" alt="">
+                                </li>
+                              <%})%>
+                          </ul>  
+                      </div>
+                  <%})%>
+                  <%}else{%>
+                      <%- include('../common/nodata', {tip : '暂无团队风采' })%>
+                    <%}%>    
+                </div>
+                <div class="tabpancel member">
+                    <div class="member-list">
+                        <ul>
+                            <%if(data.members&&data.members.length!=0){%>
+                              <% data.members.forEach(function(item,index){ %>
+                                <li>
+                                    <img src="<%= item.coverPic %>" alt="" class="avatar"  data-type='portrait'>
+                                    <p class="member">
+                                        <span class="name"><%=item.name%></span>
+                                        <%if(index==0){%>
+                                        <span class="tag"><%=item.duty%></span>
+                                        <%}%>
+                                    </p>
+                                </li>   
+                                <%})%>
+                                <%}else{%>
+                                    <%- include('../common/nodata', {tip : '暂无团队成员' })%>
+                                <%}%>    
+                        </ul>
+                       
+                    </div>
+                </div>
+          </div>
+          <div class="place-space"></div>
+          <div class="detail-block">
+                <div class="block-heading border">
+                  <h4 class="title">相关推荐</h4>
+                  <% if ( teams.content.length>4 ) { %>
+                    <div class="more">
+                        <div href='#'><span>展开更多</span> <i class="iconfont icon-more"></i></div>
+                    </div>
+                    <% } %>
+            </div>
+          <div class="detail-content list-content">
+              <div class="content">
+                <%  teams.content.forEach(function(item){ %>
+                  <div class="card col-4 border">
+                        <a class="card-head" href="/team/teamdetail/<%= item.id %>">
+                            <img class="img-top" src="<%=item.coverPic%>">
+                        </a>
+                        <div class="card-body">
+                                <h5 class="card-title" > <%= item.name %></h5>
+                                <div class="card-info">
+                                    <p>
+                                        <i class="iconfont icon-phone"></i>
+                                        <span>  <%= item.contactPhone %></span>
+                                    </p>
+                                    <p>
+                                        <i class="iconfont icon-location"></i>
+                                        <span>  <%= item.address %></span>
+                                    </p>
+                                </div>
+                            </div>
+                  </div>
+                  <%})%>
+              </div>
+        </div>
+     </div>
+     <div class="place-space"></div>
+     <%-include('../common/comments',{ comments: comments, type:'ArtTeam',objId:data.id, pagingUrl:'/team/teamdetail/' + data.id}) %>
+     <div class="place-space"></div>
+  </div>  </div>
+  <footer>
+        <% include ../common/footer %>
+</footer>
+</body>
+<script>
+  $(function(){
+    $(".tabtitle li").each(function(index){
+        var that =  this;
+        var ind = index;
+        $(".tabcontent .tabpancel").eq(0).show();
+        $(this).click(function(){
+          $(".tabtitle li").removeClass("active");
+          $(this).addClass("active")
+  
+          $(".tabcontent .tabpancel").hide();
+          $(".tabcontent .tabpancel").eq(ind).show();
+        })
+    })
+  })
+</script>
+
+</html>

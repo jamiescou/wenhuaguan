@@ -1,0 +1,29 @@
+{
+    "apiServer": "http://172.168.10.7:8181",
+    "prefix": "/api/v1",
+    "port": 3102,
+    "SITE_PREFIX": "/api",
+    "SITE_ROOT_URL": "http://m.hns-whg.cn",
+    "token": {
+        "username": "mobileweb-client",
+        "pwd": "123",
+        "grant": "client_credentials"
+    },
+    "wechat": {
+        "appID": "wx8a7077f0e8d4283e",
+        "appSecret": "a74c508c71aecb22ec8227105942c82b"
+    },
+    "redis": {
+        "port": 6379,
+        "host": "172.168.10.7",
+        "db": 12,
+        "options": {
+            "return_buffers": false,
+            "auth_pass": ""
+        }
+    },
+    "cloudinary": {
+        "image": "http://file.hns-whg.cn/",
+        "filePath": "/mnt/smb/website-storage"
+    }
+}

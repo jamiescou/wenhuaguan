@@ -1,0 +1,39 @@
+{
+    "apiServer": "http://139.196.160.251:4412",
+    "prefix": "/api/v1",
+    "SITE_PREFIX": "/api",
+    "port": 8081,
+    "SITE_ROOT_URL": "http://gjs.nat300.top",
+    "token": {
+        "username": "mobileweb-client",
+        "pwd": "123",
+        "grant": "client_credentials"
+    },
+    "wechat": {
+        "appID": "wx294642a03e9fe462",
+        "appSecret": "d0034cdee296d5915501c7552ad6c335",
+        "token": ""
+    },
+    "redis11": {
+        "port": 6379,
+        "host": "119.23.14.134",
+        "db": 12,
+        "options": {
+            "return_buffers": false,
+            "auth_pass": ""
+        }
+    },
+    "redis": {
+        "port": 6379,
+        "host": "192.168.0.123",
+        "db": 12,
+        "options": {
+            "return_buffers": false,
+            "auth_pass": ""
+        }
+    },
+    "cloudinary": {
+        "image": "http://106.14.79.145:8001/",
+        "filePath": "/data/filestorage"
+    }
+}

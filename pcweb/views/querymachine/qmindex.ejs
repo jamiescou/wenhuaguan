@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>
+        湖南省文化馆
+    </title>
+    <% include ../common/head %>
+    <link rel='stylesheet' href='/styles/query_machine.min.css'/>
+    <script src="/javascripts/commons/assist.js"></script>
+</head>
+
+<body>
+<div class="page w" style="display: none;">
+    <!--顶部logo-->
+    <div class="head-logo clearfix">
+        <img class="qm_head-logo" src="../images/qm_logo.png">
+        <p class="qm_time"></p>
+    </div>
+    <div class="top_place"></div>
+    <!--首页列表-->
+    <div class="index-list clearfix">
+        <div class="qm_list1 clearfix">
+            <a href="news"></a>
+            <div class="qm-img">
+                <img src="/images/screen1.png">
+            </div>
+            <div class="qm_info">
+                <p class="num">0&nbsp;1</p>
+                <p>文 化 资 讯</p>
+            </div>
+        </div>
+        <div class="qm_list1 clearfix">
+            <div class="qm_info">
+                <p class="num">0&nbsp;2</p>
+                <p>活 动 预 约</p>
+            </div>
+            <div class="qm-img" style="float: right;">
+                <img src="/images/screen2.png">
+            </div>
+            <a href="list/1"></a>
+        </div>
+    
+        <!--<div class="qm_list1 qm_list2">
+                  <a href="list/2"><img src="../images/3.png"></a>
+                  <div class="info">
+                    <p class="num">0&nbsp;2</p>
+                    <p>活 动 预 约</p>
+                  </div>
+                </div>
+                <div class="qm_list1 qm_list2">
+                  <a href="list/2"><img src="../images/3.png"></a>
+                  <div class="info">
+                    <p class="num">0&nbsp;4</p>
+                    <p>场 馆 预 定</p>
+                  </div>
+                </div>-->
+        <ul class="clearfix">
+            <li>
+                <a href="list/2">
+                    <img src="/images/screen3.png">
+                    <div class="qm_info">
+                        <p class="num">0&nbsp;3</p>
+                        <p>培 训 预 定</p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="list/3">
+                    <img src="/images/screen4.png">
+                    <div class="qm_info">
+                        <p class="num">0&nbsp;4</p>
+                        <p>场 馆 预 定</p>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+
+    <!--首页地标-->
+    <div class="landmark">
+        <img src="/images/qm_bg.png" alt="">
+    </div>
+
+    <div class="qm_ask">
+        如需帮助，请联系工作人员
+    </div>
+</div>
+
+<!-- 启动页 -->
+<div class="start w">
+    <img class="start_img" src="/images/startPage.jpg" alt="">
+    <div class="start-welcome">
+        湖南省数字文化馆平台欢迎您！
+    </div>
+</div>
+
+</body>
+<script>
+    $(document).ready(function () {  
+        setTimeout(function () {
+            $('.start').fadeOut(function(a,b){
+                $('.page').show();
+            });
+        }, 500);
+        setInterval(function () {
+            var time = new Date();
+            var month = time.getMonth()+1;
+            $(".qm_time").text(time.getFullYear()+'-'+month+'-'+time.getDate()+'  '+time.getHours()+':'+time.getMinutes()+':'+time.getSeconds())
+        },1000)
+    })
+</script>
+</html>

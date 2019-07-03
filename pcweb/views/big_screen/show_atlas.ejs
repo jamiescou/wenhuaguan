@@ -1,0 +1,27 @@
+<div class="swiper-container atlas-data-group" id="atlasSwiper">
+    <div class="swiper-wrapper">
+        <% if(atlasList.length > 0){ %>
+        <% atlasList.forEach(function (group) { %>
+        <div class="swiper-slide atlas-data-container">
+            <div class="row">
+                <% group.forEach(function(item){%>
+                <div class="col-2">
+                    <div class="media news">
+                        <div class="media-left">
+                            <img src="<%= item.pic %>" alt="<%= item.title %>" class="news-img">
+                        </div>
+                        <div class="media-center">
+                            <h3 class="news-title"><%= item.title %></h3>
+                            <p class="info-brief">
+                                <%= item.source %>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;<%= item.date %> &nbsp;&nbsp;&sdot;&nbsp;&nbsp;<%= item.author %>
+                              </p>
+                        </div>
+                    </div>
+                </div>
+                <% })%>
+            </div>
+        </div>
+        <%})}%>
+    </div>
+</div>
+<div class="swiper-pagination" id="atlasP"></div>

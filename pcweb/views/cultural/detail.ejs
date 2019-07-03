@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+      文化配送详情
+  </title>
+  <% include ../common/head %>
+    <link rel='stylesheet' href='/styles/cultural.min.css' />
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+
+  <div class="g-content">
+      <div class="crumbs">
+          <ul>
+              <li>
+                  <a href="/">首页&nbsp;&nbsp;></a>
+              </li>
+              <li>
+                  <a href="/cultural?">文化配送&nbsp;&nbsp;></a>
+              </li>
+              <li class="active">
+                    <a href="/cultural?">文化配送详情</a>  
+                </li>
+          </ul>
+      </div>
+      <div class="brief-media">
+          <div class="media">
+              <div class="media-left">
+                  <img src="<%= data.coverPic%>" alt="资讯图片" class="brief-img"/>
+              </div>
+              <div class="media-center">
+                  <h3 class="name">
+                      <%= data.title%>
+                  </h3>
+                  <p class="describe f-nowrap">
+                      <i class="iconfont icon-award"></i>
+                      <span>服务类型：<%= data.type%></span>
+                  </p>
+                  <% if(data.serveType=='team'){%>
+                    <p class="describe f-nowrap">
+                      <i class="iconfont icon-user"></i>
+                      <span>服务团队：<%= data.teamName%></span>
+                    </p>
+                  <%}%>
+                  <p class="describe f-nowrap">
+                      <i class="iconfont icon-time"></i>
+                      <span>服务时长：<%= data.serveTime%>小时</span>
+                  </p>
+                  <p class="describe f-nowrap">
+                      <i class="iconfont icon-phone"></i>
+                      <span>电话：<%= data.contactPhone%></span>
+                  </p>
+                  <p class="describe">
+                      <i class="iconfont icon-require"></i>
+                      <span>场地及设施要求：<%= data.site%></span>
+                  </p>
+              </div>
+          </div>
+          <div class="opres">
+                <%- include('../common/favoritedBtn.ejs',{ objectId:data.id,type:'CultureSupply',favorited:data.favorited }) %>
+                    <%- include('../common/bshare') %>
+          </div>
+      </div>
+      <div class="place-space"></div>
+      <div class="cultural-info-panel">
+          <div class="notice"  >
+              <div class="notice-title">预约须知</div>
+              <div class="notice-content"><%- data.notice%></div>
+          </div>
+          <div class="place-space"  ></div>
+          <div class="notice"  >
+              <div class="notice-title">配送服务内容</div>
+              <div class="notice-content"><%- data.desc%></div>
+          </div>
+          <div class="place-space"  ></div>
+          <div class="notice"  >
+              <div class="notice-title">服务团队介绍</div>
+              <div class="notice-content cimg"><%- data.teamIntro%></div>
+          </div>
+      </div>
+      <div class="place-space"></div>
+      <%-include('../common/comments',{comments:comments,type:'CultureSupply',objId:data.id,pagingUrl:'/cultural/detail/' + data.id+'' }) %>
+  </div>
+  <div class="place-space"></div>
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+<script>
+
+</script>
+
+</html>

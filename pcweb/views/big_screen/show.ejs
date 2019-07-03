@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        大屏
+    </title>
+    <% include ../common/head %>
+    <link type='text/css' rel='stylesheet' href='/styles/big_screen.min.css' />
+    <link rel='stylesheet' href='/javascripts/libs/swiper/swiper.min.3.4.2.css' />
+    <script src="/javascripts/libs/swiper/swiper.min3.4.2.js"></script>
+</head>
+
+<body>
+    <div class="bigScreen-frame">
+        <header class="header">
+            <div class="head-right">
+                <div class="time" id="time">
+                    <%= time %>
+                </div>
+                <div class="dt">
+                    <div id="dt">
+                        <%= date %>
+                    </div>
+                    <div id="week">
+                        <%= week %>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <section class="main-container">
+            <div class="data-container exhibition-loop">
+                <h2 class="heading">视频</h2>
+                <div class="block-content">
+                    <%- include('show_vod.ejs', {vodList: data.vodList}) %>
+                </div>
+            </div>
+            <div class="data-container exhibition-loop">
+                <h2 class="heading pic">图片</h2>
+                <div class="block-content">
+                    <%- include('show_pic.ejs', {picList: data.digitalRes}) %>
+                </div>
+            </div>
+            <div class="data-container exhibition-loop">
+                <h2 class="heading atlas">图文合集</h2>
+                <div class="block-content">
+                        <%- include('show_atlas.ejs', {atlasList: data.atlasList}) %>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script>
+        var now = new Date()
+        window.onload = function() {
+            setInterval(function() {
+                var dt = new Date()
+                if (now.getDate() !== dt.getDate()) {
+                    window.location.reload();
+                }
+            }, 1000);
+        };
+
+        $().ready(function() {
+            new Swiper('#vodSwiper', {
+                autoplay: 6000,
+                speed: 1000,
+                loop: true,
+                pagination: '#vodP'
+            });
+            setTimeout(() => {
+                new Swiper('#picSwiper', {
+                    autoplay: 6000,
+                    speed: 1000,
+                    loop: true,
+                    pagination: '#picP'
+                });
+            }, 1500);
+            setTimeout(() => {
+                new Swiper('#atlasSwiper', {
+                    // autoplay: 6000,
+                    // speed: 1000,
+                    loop: true,
+                    pagination: '#atlasP'
+                });
+            }, 1000);
+        })
+    </script>
+</body>
+
+</html>

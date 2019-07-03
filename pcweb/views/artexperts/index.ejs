@@ -1,0 +1,89 @@
+<%
+var region = query.region ? '&region=' + query.region : '';
+var artType = query.artType ? '&artType=' + query.artType : '';
+
+
+var regionPage = '/artexperts?' + artType;
+var artTypePage = '/artexperts?' + region;
+
+var paginatorPage = '/artexperts?'  + artType  + region;
+%>
+  <!DOCTYPE html>
+  <html>
+
+  <head>
+    <title>
+      培训
+    </title>
+    <% include ../common/head %>
+  </head>
+
+  <body>
+    <header>
+      <% include ../common/header %>
+    </header>
+    <div class="uict-content2">
+      <ol class="breadcrumb">
+        <li>
+          <a href="/">首页</a>
+        </li>
+        <li class="active">文艺人才</li>
+      </ol>
+
+      <div class="m-filter-pannel">
+        <div class="m-search-lst">
+          <div class="item">
+            <h4 class="tag-hd">区&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;域：</h4>
+            <div class="tag-wrap">
+              <a class="tag-item <% if(!query.region){ %>active<% } %>" href="<%- regionPage %>">全部</a>
+              <% regions.forEach(function (region) { %>
+                <a class="tag-item <% if(query.region&&query.region===region.code){ %>active<% } %>" href="<%- regionPage %>&region=<%=region.code%>">
+                  <%= region.name%>
+                </a>
+                <% }) %>
+            </div>
+          </div>
+          <div class="item">
+            <h4 class="tag-hd">艺术类别：</h4>
+            <div class="tag-wrap">
+              <a class="tag-item <% if(!query.artType){ %>active<% } %>" href="<%- artTypePage %>">全部</a>
+              <% artists.forEach(function (type) { %>
+                <a class="tag-item <% if(query.artType&&query.artType===type.code){ %>active<% } %>" href="<%- artTypePage %>&artType=<%=type.code%>">
+                  <%= type.value%>
+                </a>
+                <% }) %>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="uict-listContent">
+        <div class="content">
+          <% data.content.forEach(function (item) { %>
+            <div class="item">
+              <a class="coverPicBorder" href="/artexperts/artexpertsdetail/<%= item.id %>">
+                <img  src="<%=item.coverPic%>" alt="人才图片">
+              </a>
+              <div class="itemHeaderCenter">
+                <%= item.name %>
+              </div>
+              <div class="itemInfoCenter">
+               <p> <%= item.artTypeStr %></p>
+              </div>
+              <div class="itemInfo">
+                 <p> <%-item.brief %></p>
+              </div>
+            </div>
+            <% }) %>
+        </div>
+
+        <%- include('../common/paginator.ejs', {page : data.number + 1, totalPages : data.totalPages, pageUrl : paginatorPage, totalElements: data.totalElements}) %>
+      </div>
+    </div>
+    <footer>
+      <% include ../common/footer %>
+    </footer>
+  </body>
+
+  </html>

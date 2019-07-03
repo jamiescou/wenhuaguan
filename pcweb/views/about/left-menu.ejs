@@ -1,0 +1,45 @@
+
+
+<div class="left-menu">
+    <div class="left-head">
+        <p>关于我们</p>
+        <p>Guan &nbsp;Yu &nbsp; Wo &nbsp; Men</p>
+    </div>
+    <a class="left-item active"  href='gwgk'>
+        <span>馆务概况</span>
+        <i class="iconfont icon-right-angle"></i>
+    </a>
+    <a class="left-item"  href='zzjg'>
+        <span>组织机构</span>
+        <i class="iconfont icon-right-angle"></i>
+    </a>
+    <a class="left-item"  href='bzjs'>
+        <span>班子介绍</span>
+        <i class="iconfont icon-right-angle"></i>
+    </a>
+    <a class="left-item"  href='yjfk'>
+        <span>意见反馈</span>
+        <i class="iconfont icon-right-angle"></i>
+    </a>
+    <a class="left-item"  href='wzdt'>
+        <span>网站地图</span>
+        <i class="iconfont icon-right-angle"></i>
+    </a>
+    <a class="left-item noborder"  href='whgjq'>
+        <span>馆站导航</span>
+        <i class="iconfont icon-right-angle"></i>
+    </a>
+    <a class="left-item noborder"  href='contactUs'>
+        <span>联系我们</span>
+        <i class="iconfont icon-right-angle"></i>
+    </a>
+</div>
+<script>
+        var curModel = window.location.pathname.split('/')[2];
+        $('.left-menu a').each(function (index) {
+            $(this).removeClass('active');
+            if ($(this).attr('href') == curModel) {
+                $(this).addClass('active');
+            }
+        })
+</script>

@@ -1,0 +1,52 @@
+//----------------------------------------------------------------
+// 步骤条
+@mixin step($name:'m-step', $step-count:3, $step-pd-lr:50px, $step-item-w:100px, $bg-c:#fff, $base-color: #E94E58, $round-wh: 40px, $label-size: 16px, $bar-color: #ddd) {
+    .#{$name} {
+        // $step-pd-lr 左右padding
+        // $step-item-w 每项宽度
+        $step-width: 1200px;
+        $bar-width: ($step-width - ($step-pd-lr * 2) - ($step-count * $step-item-w)) / ($step-count - 1);
+        padding: 30px $step-pd-lr;
+        overflow: hidden;
+        background-color: $bg-c;
+        .step-content {
+            width: 100%;
+            text-align: center;
+            @include clearfix;
+            .step-item {
+                float: left;
+                width: $step-item-w;
+                .step-txt {
+                    display: block;
+                    font-size: $label-size;
+                    line-height: 30px;
+                    margin: 10px 0 0;
+                }
+                .step-dot {
+                    width: $round-wh;
+                    height: $round-wh;
+                    display: inline-block;
+                    background-color: #BFBFBF;
+                    border: 10px solid #f1f1f1;
+                    border-radius: 100%;
+                }
+                &.active {
+                    color: $base-color;
+                    .step-dot {
+                        background: $base-color;
+                    }
+                }
+            }
+            .bar {
+                float: left;
+                width: $bar-width;
+                height: 1px;
+                margin: ($round-wh/2) 0;
+                background-color: $bar-color;
+                &.active {
+                    background-color: $base-color;
+                }
+            }
+        }
+    }
+}

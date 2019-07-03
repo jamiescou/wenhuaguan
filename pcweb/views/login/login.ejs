@@ -1,0 +1,116 @@
+<div class="login-content <%= locals.className ? className : '' %>" id='pswdlogin'>
+    <div class="qrcodecor">
+        <span></span>
+        <img src='/images/qrcode.png'>
+        <img src='/images/computer.png' class="fn-hide">
+    </div>
+
+
+    <form id="loginform" class="loginform" name="loginForm">
+        <div class="form-item item-gutter">
+            <i class="iconfont icon-user"></i>
+            <input type="text" id="mobile" class="u-form-control" name="mobile" placeholder="输入11位手机号码" maxlength="11" required>
+        </div>
+        <div class="form-item">
+            <i class="iconfont icon-key"></i>
+            <input type="password" id="password" name="password" class="u-form-control" minlength="6" placeholder="请输入登录密码" required>
+        </div>
+        <input type="submit" id="submitLogin" style="display:none;">
+        <button type="button" class="btn sub-btn" id="loginBtn">登录</button>
+        <div class="register clearfix">
+            <a href="/login/pswdforget" class="pull-left">忘记密码?</a>
+            <span class="pull-right">没有账号？
+                <a href="/login/register" class="emphasize">立即注册</a>
+            </span>
+        </div>
+    </form>
+    <div class="qrcode fn-hide" id='qrcodeLogin'>
+        <div class="qrcode" id="qrcode">
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+
+    
+
+    var wxlogin = '<%-wxLogin%>';
+    var wxloginObj = <%-JSON.stringify(wxLogin)%>;//JSON.parse(wxlogin);
+    
+    $(document).ready(function () {
+        // 提交
+        $('#loginBtn').on('click', function (event) {
+            event.stopPropagation();
+            event.preventDefault();
+            $("#submitLogin").click();
+        });
+        $('#password').on('keypress', function (event) {
+            event.stopPropagation();
+            if (event.keyCode == "13") {
+                $("#submitLogin").click(function(e){
+                    event.stopPropagation();
+                });
+            }
+        });
+        
+        $('#loginform').validate({
+            errorElement: 'div',
+            errorClass: 'v-error',
+            rules: {
+                mobile: "phoneType" //  手机格式验证【/javascripts/commons/custom-validate.js】
+            },
+            messages: {
+                mobile: {
+                    required: "请输入您的手机号码"
+                },
+                password: {
+                    required: "请输入您的登录密码"
+                }
+            },
+            submitHandler: function () {
+            
+                $.ajax({
+                    url: "/login/login",
+                    type: 'post',
+                    data: {
+                        mobile: $('#mobile').val(),
+                        password: $('#password').val()
+                    },
+                    success: function (res) {
+                        if (res.data.id != undefined) {
+                            if (window.location.pathname.indexOf('login') >= 0) {
+                                window.location.href = '/user';
+                            } else {
+                                window.location.reload();
+                            }
+                        } else {
+                            assist.showMsg(res.data.message);
+                        }
+                    },
+                    failure: function () {
+                        assist.showMsg('登录失败', 'error');
+
+                    }
+                })
+            }
+        });
+
+        $('.qrcodecor').click(function () {
+            $(this).children('img').toggleClass('fn-hide');
+            $('#loginform,#qrcodeLogin').toggleClass('fn-hide');
+            if (!$('#qrcodeLogin').hasClass('fn-hide')) {
+                var obj = new WxLogin({
+                    id: "qrcode",
+                    appid: wxloginObj.appID,
+                    scope: 'snsapi_login',
+                    redirect_uri: wxloginObj.redirect_uri,
+                    state: wxloginObj.state,
+                    style: "",
+                    href: ""
+                });
+            }
+        })
+    })
+</script>

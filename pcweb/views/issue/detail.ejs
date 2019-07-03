@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>资讯详情</title>
+  <% include ../common/head %>
+  <link rel='stylesheet' href='/styles/issue.min.css' />
+</head>
+
+<body>
+    <header>
+        <% include ../common/header %>
+    </header>
+    <div class="g-content">
+        <div class="crumbs">
+            <ul>
+                <li>
+                    <a href="/">首页&nbsp;&nbsp;></a>
+                </li>
+                <li>
+                    <a href="/issue">文化资讯&nbsp;&nbsp;></a>
+                </li>
+                <li>
+                    <a>资讯详情</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="article-detail">
+            <div class="article-detail-title">
+                <h3><%= data.title%></h3>
+                <span class="article-source">来源：<%= data.source%></span>
+                <span class="article-author">作者：<%= data.author%></span>
+                <span class="article-author">阅读量：<%= data.pageView%></span>
+                <p class="time"><%= data.date%></p>
+            </div>
+            <div class="opres">
+            		<%- include('../common/favoritedBtn.ejs',{ objectId:data.id,type:'Information',favorited:data.favorited }) %>		
+                <%- include('../common/bshare') %>
+            </div>
+            <div class="article-detail-content cimg">
+                <%- data.content%>
+            </div>
+            <% if(data.attachName){%>
+              <div><icon class="iconfont icon-file">资讯附件：</icon><a href='<%=data.attach%>'><%=data.attachName%></a></div>
+            <%}%>
+          
+        </div>
+        <div class="place-space"></div>
+
+        <div class="detail-block">
+            <div class="block-heading border">
+                <h4 class="title">相关推荐</h4>
+            </div>
+            <div class="detail-content list-content padding-content">
+                <% if ( tjres.content.length>0) { %>
+                   <% tjres.content.forEach(function (item) { %>
+                        <div class="media news news-border">
+                            <% if(item.coverPic){%>
+                            <div class="media-left">
+                                    <a href="/issue/detail/<%= item.id%>" >
+                                <img src="<%= item.coverPic%>" alt="" class="news-img">
+                                </a>
+                            </div>
+                            <%} %>
+                            <div class="media-center">
+                                <h3 class="news-title"><a href="/issue/detail/<%= item.id%>" ><%= item.title%></a></h3>
+                                <p class="info-meta">
+                                        <span ><%= item.date%></span>
+                                      <span >来源：<%= item.source%> </span> 
+                                      <span >作者：<%= item.author%></span>
+                                  </p>
+                  
+                                  <p class="info-brief">
+                                          <%= item.brief%>
+                                  </p>
+                            </div>
+                        </div>
+                        <% }) %>
+                <% } else { %>
+                <% include ../common/nodata %>
+                <% } %>
+            </div>
+        </div>
+        <div class="place-space"></div>
+        <%-include('../common/comments',{ comments: comments, type:'Information',objId:data.id, pagingUrl:'/issue/detail/' + data.id+'?'}) %>
+       
+        <div class="place-space"></div>
+
+    </div>
+
+    <footer>
+        <% include ../common/footer %>
+    </footer>
+</body>
+<script>
+    //console.log('相关推荐：<% - JSON.stringify(tjres.content.length) %>')
+</script>
+</html>

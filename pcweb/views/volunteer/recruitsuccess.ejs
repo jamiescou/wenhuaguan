@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    活动详情
+  </title>
+  <% include ../common/head %>
+
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+
+  <div class="uict-content2">
+    <ol class="breadcrumb">
+      <li>
+        <a href="/">首页</a>
+      </li>
+      <li>
+        <a href="/volunteer">志愿者</a>
+      </li>
+      <li class="active">活动详情</li>
+    </ol>
+
+
+    <div class="media card-media activity-media marb_15">
+      <div class="media-left">
+        <img src="<%= data.coverPic %>" alt="活动图片" />
+      </div>
+   
+      <div class="media-body">
+        <h4 class="u-title">
+          <%= data.name %>
+        </h4>
+        <div class="u-remark f-nowrap" title="<%= data.address %>">
+          <i class="iconfont icon-location"></i>地址：
+          <%= data.address %>
+        </div>
+        <div class="u-remark">
+          <i class="iconfont icon-phone"></i>电话：
+          <%= data.contactPhone %>
+        </div>
+        <div class="u-remark">
+          <i class="iconfont icon-timespan"></i>预计服务时长：
+          <%= data.lastTime %>
+        </div>
+      </div>
+    </div>
+       
+  
+    <div class="uict-content marginTop20 collect-success">
+        <p class="iconfont icon-check"></p>
+        <p>您已成功提交志愿者身份信息！</p>
+        <p>现在可报名参加平台中各个志愿者招募活动，您可以：</p>
+        <a href='/volunteer'>返回志愿者首页</a>  
+    </div>
+  
+  </div>
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+<script>
+  $(document).ready(function () {
+  })
+</script>
+
+</html>

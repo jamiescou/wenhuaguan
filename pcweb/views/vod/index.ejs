@@ -1,0 +1,134 @@
+<%
+var type = query.type ? '&type=' + query.type : '';
+var  region = query.region ? '&region=' + query.region : '';
+var  liverecordingdetail = query.liverecordingdetail ? '&liverecordingdetail=' + query.liverecordingdetail : '';
+ 
+var typePage = '/vod?' +region+liverecordingdetail;
+var directPage = '/vod?' + type +region;
+var regionPage = '/vod?' +type+liverecordingdetail;
+var pagingPage= '/vod?'  + type+liverecordingdetail;
+
+pagingPage=pagingPage.replace('?&','?');
+regionPage=regionPage.replace('?&','?');
+directPage=directPage.replace('?&','?');
+typePage=typePage.replace('?&','?');
+ 
+%>
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    直录播详情
+  </title>
+  <% include ../common/head %>
+  <link rel='stylesheet' href='/styles/vod.min.css' />
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+
+  <div class="g-content">
+      <div class="crumbs">
+          <ul>
+              <li><a href="/">首页&nbsp;&nbsp;></a></li>
+              <li><a href="">直播点播</a></li>
+          </ul>
+      </div>
+      <div class="m-filter-pannel">
+          <div class="m-search-lst">
+              <div class="item">
+                  <h4 class="tag-hd">视频分类：</h4>
+                  <div class="tag-wrap">
+                      <div class="u-tags">
+                          <a class="tag-item <% if(!query.type){ %>active<% } %>" href="<%- typePage %>">全部</a>
+                          <% data.forEach(function (type) { %>
+                            <a class="tag-item <% if(query.type&&query.type===type.code){ %>active<%}%>" href="<%-typePage %>&type=<%=type.code%>">
+                              <%= type.value%>
+                            </a>
+                            <% }) %>
+                      </div>
+                  </div>
+              </div>
+              <div class="item">
+                  <h4 class="tag-hd">是否直播：</h4>
+                  <div class="tag-wrap" style="width:800px">
+                      <div class="u-tags">
+                          <a class="tag-item <% if(query.liverecordingdetail=='demands'||query.liverecordingdetail==undefined){ %>active<% } %>" href="<%- directPage %>">点播</a>
+                          <a class="tag-item <% if(query.liverecordingdetail=='livevideos'){ %>active<% } %>" href="<%- directPage %>&liverecordingdetail=livevideos">直播</a>
+                      </div>
+                  </div>
+                  <div class="search-area">
+                    <input id="keysearchcontent" type="text" placeholder="关键词搜索..." value='<%=query.key%>'>
+                    <button id="keysearch" title="点击搜索">
+                        <i class="iconfont icon-search"></i>
+                    </button>
+                 </div>
+              </div>
+          </div>
+      </div>
+      <div class="list-content">
+        <div class="filterNav">
+            <ul class="filterlist">
+                <%if(query.liverecordingdetail=='demands'||query.liverecordingdetail==undefined){%>
+                  <li><a  class="tag-item <% if(!query.sorttime){ %>active<% } %>" href="<%- directPage %>"> 智能排序</a></li>  
+                  <li><a  class="tag-item <% if(query.sorttime=='new'){ %>active<% } %>" href="<%- directPage %>&liverecordingdetail=demands&sorttime=new"> 最新发布</a></li>
+                  
+                <%}else if(query.liverecordingdetail=='livevideos'){%>
+                  <li><a  class="tag-item <% if(!query.sorttime){ %>active<% } %>" href="<%- directPage%>&liverecordingdetail=livevideos"> 智能排序</a></li>
+                  <li> <a  class="tag-item <% if(query.sorttime=='new'){ %>active<% } %>" href="<%- directPage %>&liverecordingdetail=livevideos&sorttime=new"> 最新发布</a></li>
+                <%}%>
+            </ul>
+        </div>
+      <div class="content">
+        <%if(direct.content && direct.content.length){%>
+        <% direct.content.forEach(function (item) { %>
+        <div class="card col-4 border">
+            <a class="card-head" href='/vod/detail/<%= item.id %>?type=<%= item.itemType%>'>
+                <img class="img-top" src="<%=item.coverPic%>">
+            </a>
+            <div class="card-body">
+                <h5 class="card-title"> <%= item.name %></h5>
+                <div class="card-info">
+                    <p>
+                        <i class="icon iconfont icon-time"></i>
+                        <span><%= item.lastModifiedTime %></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+      <% }) %>
+      <% } else { %>
+      <% include ../common/nodata.ejs %>
+      <% } %>
+    </div>
+      </div>
+      <%- include('../common/paginator.ejs', {page : direct.number + 1, totalPages : direct.totalPages, pageUrl :pagingPage, totalElements: direct.totalElements}) %>
+  </div>
+  <div class="place-space"></div>
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+<script>
+$(function(){
+           $('#keysearch').click(function(){
+           var key=$('#keysearchcontent').val();
+           var paginatorPage='<%=pagingPage%>';
+              window.location.href=paginatorPage+'&key='+key; 
+           })
+           $('.sort a').each(function (index) {
+            var self = $(this)
+            $('.sort a').eq(0).addClass('active');
+            $('.sort a').click(function(){
+                self.removeClass('active');
+                $(this).addClass('active');
+            })
+        })
+
+    })
+</script>
+
+</html>

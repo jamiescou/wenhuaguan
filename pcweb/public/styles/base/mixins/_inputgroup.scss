@@ -1,0 +1,42 @@
+//  按钮与输入框紧挨着,不发光
+@mixin input-group($height, $form-control-h, $border-color:#66afe9) {
+    position: relative;
+    display: inline-table;
+    text-align: left;
+    margin-top: ($height - $form-control-h)/2;
+    margin-bottom: ($height - $form-control-h)/2;
+    // .u-form-control {
+    //     display: inline-block;
+    //     width: auto;
+    //     min-width: 200px;
+    // }
+    .u-group-btn,
+    .u-form-control {
+        display: table-cell;
+        height: $form-control-h;
+        border-radius: 0;
+        vertical-align: middle;
+    }
+    .u-form-control {
+        border-color: $border-color;
+        width: 100%;
+    }
+    .u-group-btn{
+        width: 1%;
+        white-space: nowrap;
+        &>button,&>.btn{
+            height: 100%;
+        }
+    }
+    // button {
+    //     background: $border-color;
+    //     color: #fff;
+    //     &.active,
+    //     &:active,
+    //     &:focus,
+    //     &:hover {
+    //         background: darken($border-color, 10%);
+    //         outline: none;
+    //     }
+    // }
+}

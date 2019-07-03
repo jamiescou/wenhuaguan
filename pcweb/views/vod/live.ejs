@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        文化视频详情
+    </title>
+    <% include ../common/head %>
+    <link rel='stylesheet' href='/styles/vod.min.css'/>
+    <!-- <link rel="stylesheet" href="/styles/libs/video-js.css"> -->
+    <script src="/javascripts/libs/socket.io.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/hls.js/latest/hls.min.js"></script> -->
+    <script src='/javascripts/libs/ckplayer/ckplayer.min.js'></script>
+    <!-- <script src='/javascripts/libs/reconnecting-websocket.min.js'></script> -->
+</head>
+
+<body>
+<header>
+    <% include ../common/header %>
+</header>
+
+<div class="g-content">
+    <div class="crumbs">
+        <ul>
+            <li>
+                <a href="/">首页&nbsp;&nbsp;></a>
+            </li>
+            <li>
+                <a href="/vod">直播点播&nbsp;&nbsp;></a>
+            </li>
+            <li>
+                <a href="">视频详情</a>
+            </li>
+        </ul>
+    </div>
+    <div class="live">
+        <!-- 播放器 -->
+        <div class="lives video">
+            <div class="title">
+                <%= data.name %>
+            </div>
+			<div class="favorite-opres">
+	          <%- include('../common/favoritedBtn.ejs',{ objectId:data.id,type:'LiveVideos',favorited:favorited }) %>
+              <%- include('../common/bshare') %>
+	        </div>
+            <div id="my-video" data-index='0' style="width:864px; height:476px">
+
+            </div>
+
+            <!-- <video id="my-video" data-index='0' poster="<%= data.coverPic %>" class="video-js" controls preload="auto" autoplay width="864" height="476" data-setup="{}">
+                                        <source id='videoSrc' src="<%= data.curPath %>">
+                                        <p class="vjs-no-js">
+                                                当前浏览器不支持h5视频播放，请升级浏览器
+                                                <a href="http://videojs.com/html5-video-support/" target="_blank">支持 HTML5 视频</a>
+                                        </p>
+                                </video> -->
+
+        </div>
+        <div class="videocomment">
+            <div class="livetime">
+                <i class="iconfont icon-time"></i>
+                <span id='liveSpan'>直播时间：
+                    <%= data.startTime %>
+                                        </span>
+            </div>
+            <div class="news">
+                <ul id='msglst'>
+                </ul>
+            </div>
+            <div class="newsBot">
+                <input type="text" id="content" placeholder="说点什么?">
+                <span id="commentSubmit" href='#loginModal'>评论</span>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<div class="g-content videodetail">
+    <div class="tab-wrapper">
+        <ul class="nav nav-tabs video-tabs" id="videoTabs">
+            <li class="active"><a href="#detail">直播内容</a></li>
+            <% if(data.content && data.content.length>0){ %>
+            <li><a href="#report">直播详情</a></li>
+            <%}%>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="detail">
+                <div class="list-bullet highlight-type">    
+                    <p class="list-item">直播分类：<%= data.artistTypes.join('、')%></p>
+                    <p class="list-item">直播时间：<%= data.startTime %></p>
+                    <!-- <p class="list-item">浏览量： <%= data.pageView || 0%></p> -->
+                    <p class="list-item">直播简介：<%= data.brief%></p>
+                </div>
+            </div>
+            <% if(data.content && data.content.length>0){ %>
+            <div class="tab-pane fade" id="report">
+                    <%- data.content %>
+                </div>
+            <%}%>
+        </div>
+    </div>
+</div>
+<div class="g-content ost">
+    <h4>相关推荐</h4>
+    <div class="cardlist list-content ">
+        <div class="content">
+            <% list.content.forEach(function(item, index){ %>
+            <div class="col-4">
+                <a class="img-card" href='/vod/detail/<%= item.id %>?type=livevideos'>
+                    <img src="<%= item.coverPic %>">
+                    <p class="caption">
+                        <%= item.name %>
+                    </p>
+                </a>
+            </div>
+            <% }) %>
+        </div>
+    </div>
+</div>
+<div class="place-space"></div>
+<footer>
+    <% include ../common/footer %>
+</footer>
+</body>
+
+<script>
+    var vodObj = <%- JSON.stringify(data) %>;
+    var titles = '<%= data.name %>';
+    // var vodObj = JSON.parse(assist.replaceTxtNLine(vodstr));
+    var vodId = '<%= data.id %>';
+
+	
+	$('#favorite').removeClass('btn').removeClass('angle').addClass('pull-right').css('padding-right', '20px').css(
+      'cursor', 'pointer');
+    $('#openShareBox').removeClass('btn').removeClass('angle').addClass('pull-right').css('padding-right', '20px').css(
+      'cursor', 'pointer');
+    $('.sharePanel').addClass('pull-right').css('padding-right', '10px').css('cursor', 'pointer').css('margin-top',
+      '15px');
+      
+      
+    $(function () {
+        $('#videoTabs').on('click', 'li>a', function(event) {
+            event.preventDefault()
+            var $parentNode = $(this).parent();
+            var activeClass = 'active';
+            if ($parentNode.hasClass(activeClass)) {
+                return;
+            }
+            $parentNode.siblings().removeClass(activeClass);
+            $parentNode.addClass(activeClass);
+            var selector = $(this).attr('href');
+            $(selector).addClass('in ' + activeClass);
+            $(selector).siblings().removeClass('in ' + activeClass);
+        });
+        /*
+           直播视频控制
+        */
+        var type = '<%- JSON.stringify(query.type) %>';
+        type = JSON.parse(type);
+        var dateNow = new Date();
+        var vodStartT = new Date(vodObj.startTime);
+        var vodEndT = new Date(vodObj.endTime);
+        var over = vodObj.isOver;
+        var player = {};
+        if (dateNow < vodStartT) {
+            setVideoSource(vodObj.curPath, 'preview');
+            var interval = setInterval(function () { //播放视频,到了直播时间，立刻切换直播地址
+                var d = new Date();
+                if (d > vodStartT) {
+                    player.removeListener('ended', nextVideo);
+                    startPlay();
+                    clearInterval(interval);
+                }
+            }, 1000)
+
+        } else {
+            startPlay();
+        }
+
+        function startPlay() {
+            setVideoStatus(vodObj);
+            getVodInfo();
+            setInterval(function () {
+                getVodInfo();
+            }, 10000)
+        }
+
+        function setVideoSource(videoPath, type) {
+            // videoPath='http://live.hkstv.hk.lxdns.com/live/hks/playlist.m3u8';
+            var videoObject = {
+                container: '#my-video', //容器的ID或className
+                variable: 'player',//播放函数名称
+                autoplay: 'true',//播放函数名称
+                flashplayer: false,
+                poster: vodObj.coverPic,//封面图片
+                video: videoPath
+            };
+            player = new ckplayer(videoObject);
+            if (type == 'preview') { //如果处于播放预告片的时段，需要重新绑定ended事件
+                player.addListener('ended', nextVideo)
+            }
+        }
+
+        /**@argument
+         * 播放下一个预告片
+         */
+        function nextVideo() {
+            var index = $('#my-video').data('index');
+            index = (index + 1) >= vodObj.dramas.length ? 0 : ++index;
+            var vodc = vodObj.dramas[index];
+            setVideoSource(vodc.file, 'preview');
+            $('#my-video').data('index', index);
+            $(".video .title").html(vodc.title);
+        }
+
+        function getVodInfo() {
+            $.ajax({
+                url: '/vod/live/' + vodObj.id,
+                success: function (res) {
+                    if (res.isOver == over) {
+                        return;
+                    }
+                    else {
+                        over = !over;
+                        setVideoStatus(res);
+                    }
+                },
+                failure: function () {
+                }
+            })
+        }
+
+        function setVideoStatus(obj) {
+            // obj.viewPath='http://120.77.202.162:8081/hlstest/tt/index.m3u8';
+            if (obj.isOver) {
+                if (obj.enablePayback == true) {
+                    $('#liveSpan').text('直播回放中....').addClass('red');
+                    setVideoSource(obj.file)
+                } else {
+                    $('#liveSpan').text('直播已结束...').removeClass('red');
+                    setVideoSource(obj.curPath)
+                }
+            }
+            else {
+                $('#liveSpan').text('直播中...').addClass('red');
+                setVideoSource(obj.viewPath)
+            }
+        }
+
+
+        // 评论\
+
+        $('#content').bind('keypress', function (event) {
+            if (event.keyCode == "13") {
+                $("#commentSubmit").click();
+            }
+        });
+        var userstr = '<%- JSON.stringify(user) %>';
+        var userObj = JSON.parse(userstr);
+      
+       var socket = io.connect('ws://' + window.location.host + '?roomid=' + vodObj.id);
+        socket.on('message', socketMsg);
+        socket.on('')
+
+        function socketMsg(msg) {
+            var coment = msg;
+            var d = new Date();
+            var dateStr = d.getFullYear() + '-' + assist.formateDateNumber(d.getMonth() + 1) + '-' +
+                assist.formateDateNumber(d.getDate()) + '  ' +
+                assist.formateDateNumber(d.getHours()) + ':' + d.getMinutes() + ':' + d.getSeconds();
+            var msgStr = ' <li> <div class="newsImg"> <img  onerror="nofind(this);" src="' + coment.headImg + '" alt=""> </div>';
+            msgStr += '<div class="newcontent"> <div class="newsTit"><span class="name">' + coment.userName + ' </span>';
+            msgStr +=' <span class="time">' +dateStr +'</span></div><div class="commentDetail">' +coment.msg +' </div> </div></li>';
+            $('#msglst').append(msgStr)
+            var scrollHeight = $("#msglst").height()
+            $(".news").scrollTop(scrollHeight + 81)
+        };
+        //      ws.onmessage =showMsg;
+        window.onbeforeunload = function (event) {
+            socket.close()
+        };
+
+
+        $('#commentSubmit').click(function () {
+
+            if (!userObj) {
+                $("#commentSubmit").colorbox({
+                    inline: true,
+                    slideshow: true,
+                    width: 570,
+                    height: 480,
+                    closeButton: false,
+                    overlayClose: true
+                });
+            } else {
+                var msg = $.trim($("#content").val());
+                if (msg.length <= 0) {
+                    assist.showMsg('请输入评论内容')
+                } else {
+                    socket.emit('message', JSON.stringify({
+                        msg: msg,
+                        roomId:vodObj.id,
+                        userName: userObj.nickname,
+                        headImg: userObj.pic
+                    }));
+                    $("#content").val('');
+                }
+            }
+        })
+    })
+
+    function nofind(img) {
+        $(img).attr('src', '/images/portrait.png')
+    }
+</script>
+</body>
+
+</html>

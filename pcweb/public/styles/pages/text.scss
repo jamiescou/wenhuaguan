@@ -1,0 +1,495 @@
+@import '../base/normalize';
+@import '../base/variables';
+@import '../base/mixins';
+@import '../base/base';
+@import '../components/filter-pannel';
+@import '../components/search';
+@import '../components/card';
+@import '../components/media';
+// 资讯
+.news.media {
+    background-color:$container-bg;
+    padding: 15px 30px 20px;
+    .news-title {
+        // 资讯标题
+        font-size: 20px;
+        line-height: 24px;
+        color: $font-color;
+        margin: 0 0 40px;
+    }
+    .news-img {
+        // 资讯图片
+        width: 190px;
+        height: 127px;
+        display: block;
+    }
+    .news-from,
+    .news-author {
+        // 资讯来源和作者
+        color: $gray-666;
+        font-size: $font-size16;
+    }
+    .time {
+        font-size: 14px;
+    }
+}
+
+// 非遗展厅
+.heritage.media {
+    background: $container-bg;
+    padding: 20px;
+    .media-left {
+        padding-right: 30px;
+    }
+    .heritage-img {
+        // 非遗图片
+        display: block;
+        width: 540px;
+        height: 360px;
+    }
+    .name {
+        // 非遗名称
+        height: 118px;
+        padding-top: 25px;
+        margin: 0;
+        font-size: $font-size24;
+        line-height: 24px;
+        color: $font-color;
+        font-weight: 400;
+    }
+    .describe {
+        // 地址等描述信息
+        color: $gray-666;
+        font-size: 14px;
+        .iconfont {
+            color: $red;
+        }
+        span {
+            margin: 0 5px;
+        }
+    }
+    .describe+.describe {
+        margin-top: 10px;
+    }
+    .intro {
+        //简介
+        margin-top: 30px;
+        color: $gray-666;
+        font-size: $font-size;
+        padding-right: 100px;
+    }
+}
+
+// 活动室
+.room {
+    position: relative;
+    .media {
+        background: $container-bg;
+        .media-left {
+            padding-right: 20px;
+        }
+        .room-img {
+            //简介
+            display: block;
+            width: 600px;
+            height: 400px;
+        }
+        .name {
+            // 活动室名称
+            height: 118px;
+            padding-top: 25px;
+            margin: 0;
+            font-size: $font-size24;
+            line-height: 24px;
+            color: $font-color;
+            font-weight: 400;
+        }
+        .capacity {
+            // 容量
+            margin-top: 15px;
+            font-size: $font-size;
+            line-height: 24px;
+            color: #999999;
+            &>span+span {
+                margin-left: 28px;
+            }
+        }
+        .describe {
+            // 地址、电话等描述信息
+            color: $gray-666;
+            font-size: $font-size16;
+            .iconfont {
+                color: $red;
+            }
+            span {
+                margin: 0 5px;
+            }
+        }
+        .describe+.describe {
+            margin-top: 10px;
+        }
+        .media-center {
+            // 活动室 预定等操作
+            position: relative;
+            .media-opres {
+                position: absolute;
+                bottom: 38px;
+                left: 20px;
+            }
+            .btn {
+                font-size: 20px;
+                line-height: 24px;
+                padding: 10px 36px;
+            }
+        }
+    }
+    .opres {
+        // 分享等操作
+        position: absolute;
+        top: 30%;
+        right: -6px;
+        .btn {
+            display: block;
+        }
+        .btn+.btn {
+            margin-top: 15px;
+        }
+    }
+}
+.room-change-padding{
+    padding: 20px 30px;
+    background-color: #fff; 
+}
+
+// 我的活动
+.my-activity {
+    position: relative;
+    background: $container-bg;
+    padding: 0 30px;
+    .order-number {
+        // 订单号
+        height: 60px;
+        line-height: 60px;
+        font-size: $font-size16;
+        color: $gray-666;
+        border-bottom: 1px solid $gray-f8;
+    }
+    .order-ticket {
+        // 订单票务信息
+        border-top: 1px solid $gray-f8;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        color: $red;
+        .ticket-status {
+            font-size: $font-size16;
+        }
+    }
+    .media {
+        padding: 12px 0px 20px;
+        .media-left {
+            padding-right: 20px;
+        }
+        .media-right {
+            // 我的活动退票等操作
+            vertical-align: middle;
+            .btn {
+                display: block;
+                width: 120px;
+                line-height: 1.5;
+            }
+            .btn+.btn {
+                margin-top: 15px;
+            }
+        }
+        .activity-img {
+            // 活动图片
+            display: block;
+            width: 250px;
+            height: 167px;
+        }
+        .name {
+            // 活动名称
+            margin-top: 0;
+            font-size: $font-size20;
+            line-height: 24px;
+            color: $font-color;
+            font-weight: 400;
+        }
+        .describe {
+            // 地址、电话等描述信息
+            color: $gray-666;
+            font-size: $font-size16;
+            .iconfont {
+                color: $red;
+            }
+            span {
+                margin: 0 5px;
+            }
+        }
+        .describe+.describe {
+            margin-top: 10px;
+        }
+    }
+}
+
+// 评论
+.comment-list {
+    padding: 0 30px;
+    background-color: $container-bg;
+}
+
+.comment.media {
+    padding: 20px 0;
+    border-bottom: 1px solid $gray-f8;
+    .avatar {
+        display: block;
+        width: 108px;
+        height: 108px;
+        border-radius: 100%;
+    }
+    .comment-hd {
+        margin-bottom: 20px;
+        .name {
+            font-size: $font-size24;
+            color: $font-color;
+        }
+        .time {
+            position: relative;
+            top: ( $font-size24 - $font-size);
+            font-size: $font-size;
+            color: $gray-999;
+        }
+    }
+    .comment-content {
+        font-size: $font-size;
+        line-height: 28px;
+        color: $gray-666;
+    }
+}
+
+// 成员列表
+.member-list {
+    padding: 30px 0px;
+    overflow: hidden;
+    background-color: $container-bg;
+    li {
+        width: 16.66%;
+        float: left;
+        text-align: center;
+        .avatar {
+            display: block;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto;
+        }
+        .member {
+            margin-top: 20px;
+            .name {
+                display: inline-block;
+                color: $black;
+                font-size: $font-size18;
+                vertical-align: middle;
+            }
+            .tag {
+                margin-left: 8px;
+                padding: 0px 8px;
+                border-radius: 5px;
+            }
+        }
+    }
+}
+
+.news {
+    width: 1200px;
+    margin: 0 auto;
+  // 首页导航
+    .nav {
+        position: relative;
+        .navlist {
+            overflow: hidden;
+            li {
+                float: left;
+                width: 14.28%;
+                text-align: center;
+                font-size: 20px;
+                color: $black;
+                line-height: 80px;
+            }
+            .active {
+                color: $red;
+                border-bottom: 2px solid $red;
+                box-sizing: border-box;
+            }
+            .squarebot {
+                @include arrow($position: bottom);
+                margin-left: 20px;
+                margin-bottom: 8px;
+            }
+            .squareleft {
+                @include arrow($position: right);
+                margin-left: 20px;
+                margin-bottom: 5px;
+            }
+        }
+        .more {
+            display: none;
+            position: absolute;
+            top: 80px;
+            right: 0px;
+            background: #fff;
+            padding-bottom: 30px;
+            z-index: 99;
+            li {
+                width: 170px;
+                text-align: center;
+                font-size: 20px;
+                color: $black;
+                margin-top: 30px;
+            }
+        }
+    } // 非遗导航
+    .heritageNav {
+        overflow: hidden;
+        li {
+            width: 25%;
+            text-align: center;
+            line-height: 80px;
+            font-size: 18px;
+            color: $black;
+            float: left
+        }
+        .active {
+            color: $red;
+        }
+    } // 筛选导航
+    .filterNav {
+        overflow: hidden;
+        padding: 20px;
+        .all {
+            color: $red;
+            font-size: 14px;
+            display: block;
+            float: left;
+            width: 80px;
+            font-size: 16px;
+        }
+        .filterlist {
+            float: left;
+            width: 900px;
+            overflow: hidden;
+            li {
+                margin-right: 30px;
+                color: $gray-666;
+                font-size: 16px;
+                float: left;
+            }
+        }
+    } //面包屑
+    .crumbs {
+        background: #f9f9f9;
+        padding: 20px 0;
+        overflow: hidden;
+        li {
+            float: left;
+            color: $gray-999;
+            font-size: 14px;
+            padding: 0 5px;
+            a {
+                display: block;
+            }
+        }
+    } // 直播评论
+    .live {
+        overflow: hidden;
+        .lives {
+            width: 864px;
+            height: 486px;
+            float: left;
+        }
+        .videocomment {
+            padding: 0 10px;
+            width: 306px;
+            float: right;
+            background: #fff;
+            margin-left: 10px;
+            .livetime {
+                line-height: 50px;
+                color: $gray-666;
+                font-size: 14px;
+                border-bottom: 1px solid #f8f8f8;
+                box-sizing: border-box;
+                span {
+                    margin-left: 10px;
+                }
+            }
+            .news {
+                height: 386px;
+                overflow-y: scroll;
+                width: 306px;
+                li {
+                    overflow: hidden;
+                    padding: 10px 0;
+                    .newsImg {
+                        float: left;
+                        img {
+                            display: block;
+                            width: 25px;
+                            height: 25px;
+                            border-radius: 50%;
+                        }
+                    }
+                    .newcontent {
+                        width: 250px;
+                        float: left;
+                        margin-left: 10px;
+                        .newsTit {
+                            overflow: hidden;
+                            .name {
+                                float: left;
+                                color: $gray-999;
+                                font-size: 14px;
+                            }
+                            .time {
+                                float: right;
+                                color: $gray-999;
+                                font-size: 12px;
+                            }
+                        }
+                        .commentDetail {
+                            margin-top: 10px;
+                            color: $gray-666;
+                            font-size: 12px;
+                            line-height: 30px;
+                            background: #f2f2f2;
+                            padding: 0 10px;
+                            border-radius: 5px;
+                        }
+                    }
+                }
+            }
+            .newsBot {
+                padding-bottom: 10px;
+                input {
+                    border: none;
+                    width: 216px;
+                    border: 1px solid #f8f8f8;
+                    padding-left: 20px;
+                    color: $gray-666;
+                    line-height: 36px;
+                    box-sizing: border-box;
+                }
+                span {
+                    display: inline-block;
+                    width: 70px;
+                    height: 36px;
+                    line-height: 36px;
+                    text-align: center;
+                    background: $red;
+                    color: #fff;
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    活动详情
+  </title>
+  <% include ../common/head %>
+  <link rel='stylesheet' href='/styles/activity.min.css' />
+
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+  <div class="g-content">
+    <div class="crumbs">
+      <ul>
+        <li>
+          <a href="/">首页&nbsp;&nbsp;></a>
+        </li>
+        <li>
+          <a href="/activity">活动列表&nbsp;&nbsp;></a>
+        </li>
+        <li class="active">
+          <a href="#">活动详情</a>
+        </li>
+      </ul>
+    </div>
+    <%- include('activity_media.ejs', {data: data}) %>
+      <div class="place-space"></div>
+      <div class="tab-wrapper">
+        <ul class="nav nav-tabs" id="activityTabs">
+          <li class="active">
+            <a href="#detail">活动详情</a>
+          </li>
+          <li>
+            <a href="#report">相关纪实</a>
+          </li>
+          <li>
+            <a href="#attach">相关附件</a>
+          </li>
+          <li>
+            <a href="#research">问卷调查</a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane fade in active cimg" id="detail">
+            <%- data.desc %>
+          </div>
+          <div class="tab-pane fade" id="report">
+            <% if(report){ %>
+              <div class="list-content">
+                <div class="content">
+                  <% report.forEach(function (item) { %>
+                   <div class="col-4 report-item">
+                    <% if(item.type=='pic'){%>
+                        <div class="img-card">
+                          <img src="<%= item.pic %>">
+                          <span class="card-title">
+                            <%= item.name %>
+                          </span>
+                        </div>
+                    <%} else if(item.type=='video'){%>
+                        <video class="img-card" poster="<%= item.pic %>" style="width:100%;height:200px;" controls>
+                          <source src="<%= item.file %>">
+                          <span class="card-title">
+                            <%= item.name %>
+                          </span>
+                        </video>
+                    <%} else {%>
+                        <audio class="img-card" src="<%= item.file %>"  controls>
+                            <img src="<%= item.pic %>">
+                          <source src="<%= item.file %>">
+                          <span class="card-title">
+                            <%= item.name %>
+                          </span>
+                        </audio>
+                    <%}%>
+                    </div>
+                    <% }) %>
+                </div>
+              </div>
+              <% } else { %>
+                <%- include('../common/nodata', {tip : '暂无活动纪实' })  %>
+                  <% } %>
+          </div>
+          <div class="tab-pane fade" id="attach">
+            <% if(data.attach && data.attachName){ %>
+              <a href="<%- data.attach %>" style="text-decoration:underline">
+                <%- data.attachName %>
+              </a>
+              <%} else {%>
+                <%- include('../common/nodata', {tip : '暂无相关附件' })  %>
+                  <%}%>
+          </div>
+          <div class="tab-pane fade" id="research">
+              <% if(researchs&&researchs.isPublished){%>
+                <%-  include('../common/research' ,{research : researchs,submitstatus:data.researchStatus,router:'/activity/research/answers/'+data.id}) %>
+              <% } else { %>
+                <%- include('../common/nodata', {tip : '暂无问卷调查' })  %>
+              <%}%>
+          </div>
+        </div>
+      </div>
+      <div class="place-space"></div>
+      <div class="detail-block">
+        <div class="block-heading border">
+          <h4 class="title">推荐活动</h4>
+          <% if ( tjdata.totalPages > 1 ) { %>
+            <div class="more">
+              <a href='#'>更多>></a>
+            </div>
+            <% } %>
+        </div>
+        <div class="detail-content list-content">
+          <% if ( tjdata.content.length ) { %>
+            <div class="content">
+              <% tjdata.content.forEach(function (item) { %>
+                <div class="card col-4 border">
+                  <a class="card-head" href="/activity/detail/<%= item.id %>">
+                    <img class="img-top" src="<%=item.coverPic%>" alt="活动图片">
+                    <span class="card-tag">
+                      <%= item.reserve === 1 ? '余票' + item.remainTicket : item.reserveMsg %>
+                    </span>
+                  </a>
+
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <%= item.name %>
+                    </h5>
+                    <div class="card-info">
+                      <p>
+                        <i class="icon iconfont icon-time"></i>
+                        <% if(item.holdStartDate==item.holdEndDate){%>
+                          <span><%= item.holdStartDate %></span>
+                          <%} else {%>
+                              <span><%= item.holdStartDate %>&nbsp; 至 &nbsp;<%= item.holdEndDate %></span>
+                      <%}%>
+                      </p>
+                      <p>
+                        <i class="icon iconfont icon-location"></i>
+                        <span>
+                          <%= item.address %>
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <% }) %>
+            </div>
+            <% } else { %>
+              <% include ../common/nodata %>
+                <% } %>
+        </div>
+      </div>
+      <div class="place-space"></div>
+      <%-include('../common/comments',{ comments: comments, type:'Activity',objId:data.id, pagingUrl:'/activity/detail/' + data.id}) %>
+      <div class="place-space"></div>
+  </div>
+
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+<script>
+  $(function() {
+    $('#activityTabs').on('click', 'li>a', function(event) {
+      event.preventDefault()
+      var $parentNode = $(this).parent();
+      var activeClass = 'active';
+      if ($parentNode.hasClass(activeClass)) {
+        return;
+      }
+
+      $parentNode.siblings().removeClass(activeClass);
+      $parentNode.addClass(activeClass);
+      var selector = $(this).attr('href');
+      $(selector).addClass('in ' + activeClass);
+      $(selector).siblings().removeClass('in ' + activeClass);
+    });
+  });
+</script>
+
+</html>

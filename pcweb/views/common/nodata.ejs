@@ -1,0 +1,37 @@
+<div class="no-data">
+    <i class="iconfont icon-nodata1 tip-icon"></i>
+    <div class="tip-msg" id="tipMsg">
+        <%= locals.tip ? tip : '' %>
+    </div>
+    <script>
+        $(function() {
+            var tipMsgs = [
+                '暂时没有内容呀～～',
+                '暂无相关结果',
+                'Whoops~你想访问的数据已不存在...',
+                '未找到相关内容',
+                '很抱歉，没有找到你要查询的数据',
+                // 'Error！数据查询失败了',
+                '暂无数据',
+                'Whoops~这儿什么都没有',
+                '没有找到相关内容o(︶︿︶)o',
+                '换个姿势再试试',
+            ];
+            var tips = $('.tip-msg');
+            if (tips.length > 0) {
+                for (var i = 0; i < tips.length; i++) {
+                        var element = tips[i];
+                    var msg = $(element).text();
+                    if ($.trim(msg).length === 0) {
+                        $(element).text(tipMsgs[Math.floor(Math.random() * 10)]);
+                    }
+                }
+            } else {
+                var msg = $('.tip-msg').text();
+                if ($.trim(msg).length === 0) {
+                    $('.tip-msg').text(tipMsgs[Math.floor(Math.random() * 10)]);
+                }
+            }
+        })
+    </script>
+</div>

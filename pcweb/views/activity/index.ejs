@@ -1,0 +1,188 @@
+<%
+var type = query.type ? '&type=' + query.type : '';
+var artType = query.artType ? '&artType=' + query.artType : '';
+var regionType = query.regionType ? '&regionType=' + query.regionType : '';
+var timeType = query.time ? '&time=' + query.time : '';
+
+var typePage = '/activity?' + artType + regionType+timeType;
+var artTypePage = '/activity?' + type + regionType+timeType;
+var reTypePage = '/activity?' + type + artType+timeType;
+var paginatorPage = '/activity?' + type + artType + regionType+timeType;
+var sortTypePage='/activity?'+type+artType+regionType+timeType;
+var timePage='/activity?'+type+artType+regionType;
+%>
+
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+        <title>
+            活动
+        </title>
+        <% include ../common/head %>
+            <link rel='stylesheet' href='/styles/activity.min.css' />
+            <link rel='stylesheet' href="/javascripts/libs/datarangepicker/daterangepicker.min.css" />
+            <script src="/javascripts/libs/datarangepicker/moment.min.js"></script>
+            <script src="/javascripts/libs/datarangepicker/jquery.daterangepicker.min.js"></script>
+    </head>
+
+    <body>
+        <header>
+            <% include ../common/header %>
+        </header>
+        <div class="g-content">
+            <div class="crumbs">
+                <ul>
+                    <li>
+                        <a href="/index">首页&nbsp;&nbsp;></a>
+                    </li>
+                    <li>
+                        <a href="">文化服务</a>
+                    </li>
+                </ul>
+            </div>
+            <%- include('../common/culture-sever-tab.ejs', {type: 'activity'}) %>
+        </div>
+        <div class="g-content">
+            
+            <div class="m-filter-pannel">
+                <div class="m-search-lst">
+                   <%- include('../common/queryRegion.ejs', {query :query, regions: regions, reTypePage : reTypePage}) %>
+                    <div class="item">
+                        <h4 class="tag-hd">活动类型：</h4>
+                        <div class="tag-wrap">
+                            <a class="tag-item <% if(!query.type){ %> active <% } %>" href="<%- typePage %>">全部</a>
+                            <% activityType.forEach(function(type) { %>
+                                <a class="tag-item <% if(query.type && query.type === type.code){ %> active <% } %>" href="<%- typePage %>&type=<%= type.code %>">
+                                    <%= type.value %>
+                                </a>
+                                <% }) %>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <h4 class="tag-hd">艺术类型：</h4>
+                        <div class="tag-wrap">
+                            <a class="tag-item <% if(!query.artType){ %> active <% } %>" href="<%- artTypePage %>">全部</a>
+                            <% artistClass.forEach(function (type) { %>
+                                <a class="tag-item <% if(query.artType && query.artType === type.code){ %> active <% } %>" href="<%- artTypePage %>&artType=<%= type.code %>">
+                                    <%= type.value %>
+                                </a>
+                                <% }) %>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <h4 class="tag-hd">活动时间:</h4>
+                        <div class="tag-wrap time-select"> 
+                             <a class="tag-item <% if(!query.time){ %> active <% } %>" href="<%- timePage %>">不限</a>
+                            <input class="tag-item timeselect" id='daterange' placeholder="时间选择"> <i class="iconfont icon-xiajianhao"></i></input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sortWrap m-search-lst clearfix">
+                <div class="item">
+                    <div class="tag-wrap">
+                           <a class=" tag-item <% if(!query.sortType||query.sortType=='default'){ %>active<% } %>" href="<%-sortTypePage%>&sortType=default">全部</a>
+                            <a class="tag-item <% if(query.sortType=='canenroll'){ %>active<% } %>" href="<%-sortTypePage%>&sortType=canenroll">可预约</a>
+                            <a class="tag-item <% if(query.sortType=='notstart'){ %>active<% } %>" href="<%-sortTypePage%>&sortType=notstart">即将开始</a>
+                            <a class="tag-item <% if(query.sortType=='closure'){ %>active<% } %>" href="<%-sortTypePage%>&sortType=closure">已经结束</a>
+                    </div>
+                    
+                </div>
+
+                <div class="search-area">
+                    <input id="keysearchcontent" type="text" placeholder="关键词搜索..." value='<%=query.key%>'>
+                    <button id="keysearch" title="点击搜索">
+                        <i class="iconfont icon-search"></i>
+                    </button>
+                </div>
+            </div>
+            <% if( data.content.length) { %>
+                <div class="list-content">
+                    <div class="content">
+                        <% data.content.forEach(function (item) { %>
+                            <div class="card col-4 border">
+                                <a class="card-head" href="/activity/detail/<%= item.id %>">
+                                    <img class="img-top" src="<%= item.coverPic %>" alt="活动图片">
+                                    <span class="card-tag">
+                                        <%= item.reserve === 1 ? '余票' + item.remainTicket : item.reserveMsg %>
+                                    </span>
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <%= item.name %>
+                                    </h5>
+                                    <div class="card-info">
+                                        <p>
+                                            <i class="icon iconfont icon-time"></i>
+                                            <% if(item.holdStartDate==item.holdEndDate){%>
+                                                <span><%= item.holdStartDate %></span>
+                                                <%} else {%>
+                                                <span><%= item.holdStartDate %>&nbsp; 至 &nbsp;<%= item.holdEndDate %></span>
+                                            <%}%>
+                                        </p>
+                                        <p>
+                                            <i class="icon iconfont icon-location"></i>
+                                            <span>
+                                                <%= item.address %>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }) %>
+                    </div>
+
+                </div>
+
+                <%- include('../common/paginator.ejs', {page : data.number + 1, totalPages : data.totalPages, pageUrl : paginatorPage, totalElements : data.totalElements}) %>
+        </div>
+        <div class="place-space"></div>
+        <% } else { %>
+            <% include ../common/nodata %>
+                <% } %>
+                    </div>
+                    <footer>
+                        <% include ../common/footer %>
+                    </footer>
+    </body>
+    <script>
+        $(function() {
+        
+            var options = {
+                language: 'cn',
+                separator: ' ~ '
+
+            }
+            var time = '<%=query.time%>';
+            if (time) {
+                var stime = time.split('~')[0];
+                var etime = time.split('~')[1];
+
+                if ($.trim(etime) == 'Invalid date') {
+                    time = stime;
+                }
+            }
+
+            var timeSelectUrl = '<%=timePage%>'
+            $('#daterange').dateRangePicker(options).bind('datepicker-apply', function(evt, timeobj) {
+
+                if (timeobj.date1 == 'Invalid Date' || timeobj.value.split('~')[0].trim() ==
+                    '1970-01-01') {
+                    return;
+                }
+                window.location.href = timeSelectUrl + '&time=' + timeobj.value;
+
+            });
+            $('#daterange').val(time);
+
+            $('#keysearch').click(function() {
+                var key = $('#keysearchcontent').val();
+                var paginatorPage = '<%=paginatorPage%>';
+                window.location.href = paginatorPage + '&key=' + key;
+            })
+
+        })
+    </script>
+
+    </html>

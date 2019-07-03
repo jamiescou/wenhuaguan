@@ -1,0 +1,551 @@
+@import '../libs/px2rem.scss';
+@import './_variable';
+@import './mixins';
+@import './mint'; // mintUI 样式覆盖
+@import '../fonts/iconfont'; // 图标字体
+@import '../components/flex'; // 弹性布局列表项
+@import '../components/block-heading'; // 标题
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+    line-height: 1.5;
+    font-size: px2rem(26);
+    color: $color-333;
+    letter-spacing: 1px; // background-color: $body-bg;
+    -webkit-user-select: none;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    outline: 0;
+}
+
+body {
+    width: 16rem;
+    margin: 0 auto;
+    padding: 0;
+}
+
+* {
+    box-sizing: border-box;
+    outline: 0;
+    -webkit-overflow-scrolling: touch;
+}
+
+p,
+ul,
+ol,
+h1,
+h2,
+h3 {
+    margin: 0;
+}
+
+a,
+a:hover,
+a:focus,
+a:visited {
+    color: inherit;
+    text-decoration: none;
+}
+
+input {
+    padding: 5px px2rem(30);
+    margin: 0;
+    border: 0;
+    color: $color-333;
+    background: none;
+    font-size: $f-size;
+    &::-webkit-input-placeholder {
+        color: $color-999;
+        font-size: $f-size12;
+    }
+    &:focus,
+    &:active {
+        border-color: rgba(0, 0, 0, .22);
+        outline: 0;
+        box-shadow: none;
+    }
+}
+
+img {
+    max-width: 100%;
+}
+
+.split {
+    width: 100%;
+    height: px2rem(20);
+}
+
+.border-bottom {
+    @include hairline(bottom, $border-color);
+}
+
+.border-top {
+    @include hairline(top, $border-color);
+}
+
+.v-line {
+    @include hairline(right, $border-color);
+}
+
+.v-line-left {
+    @include hairline(left, $border-color);
+}
+
+// 单行超出显示省略号
+.f-nowrap {
+    @include singleline-ellipsis;
+}
+
+.list-wraper {
+    position: relative;
+    overflow: hidden;
+    margin: 0 $gutter 0;
+    .active {
+        color: $color-org;
+    }
+    img[lazy=loading] {
+        width: 100%;
+        height: px2rem(434);
+        margin: auto;
+    }
+}
+
+.footer {
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+    left: 0;
+    height: $foot-height;
+    background-color: $content-bg;
+    box-shadow: 0px -1px 9px 0px rgba(0, 0, 0, 0.1);
+    .foot-content {
+        display: block;
+        width: 100%;
+        height: $foot-height;
+        padding-left: px2rem(20);
+        line-height: $foot-height;
+        color: $foot-color;
+    }
+    .btn {
+        display: block;
+        width: 100%;
+        height: $foot-height;
+        padding: 0;
+        line-height: $foot-height;
+        background-color: $foot-btn-bg;
+        color: $foot-btn-color;
+        font-size: $foot-btn-fs;
+        border-radius: 0;
+    }
+}
+
+.emphasize {
+    color: $active-color !important;
+}
+
+// 清除浮动
+.clearfix {
+    @extend %clearfix;
+}
+
+// 左浮动
+.pull-left {
+    @include float(left);
+}
+
+// 右浮动
+.pull-right {
+    @include float(right);
+}
+
+.btn {
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    outline: none;
+    cursor: pointer;
+    @include button-variant($btn-color, $btn-bg, $btn-border, true);
+    @include button-size($btn-padding-td, $btn-padding-lr, $line-height: $btn-line-height, $font-size:$f-size);
+    &.mint-button {
+        min-height: $btn-min-height;
+    }
+    &.outline {
+        // 线框按钮
+        color: $btn-outline-color;
+        background-image: none;
+        background-color: transparent;
+        border-color: $btn-outline-border;
+    }
+    &.link {
+        color: $btn-outline-color;
+        background-image: none;
+        background-color: transparent;
+        border-color: transparent;
+    }
+    &.end {
+        background-color: $btn-disabed;
+        border-color: darken($btn-disabed, 5%);
+    }
+    &.disabed{
+        background-color: lighten($btn-bg, 20%);
+        border-color: lighten($btn-border, 20%);
+    }
+}
+
+// 提示信息
+.toast-tip {
+    z-index: 2100;
+    font-size: $tip-toast-fs;
+    border-radius: $tip-toast-border-radius;
+    .mint-toast-text {
+        padding: $tip-toast-padding;
+        font-size: inherit;
+    }
+    .icon {
+        font-size: $tip-toast-icon-size;
+        display: inline-block;
+        vertical-align: middle;
+        padding-right: 4px;
+    }
+    &.is-success {
+        background: $color-success;
+    }
+    &.is-info {
+        background: $color-info;
+    }
+    &.is-warning {
+        background: $color-warning;
+    }
+    &.is-error {
+        background: $color-danger;
+    }
+}
+
+//
+.desc-list {
+    background-color: $content-bg;
+    padding: px2rem(30);
+    font-size: $f-size;
+    color: $color-666;
+    .icon {
+        font-size: $f-size18;
+        color: $color-999;
+    }
+    .addon .icon {
+        margin-right: px2rem(15);
+    }
+}
+
+// 收藏
+.favorited {
+    width: px2rem(210) !important;
+    color: $color-999;
+    font-size: $f-size !important;
+    text-align: center;
+    @include hairline(left, $border-color);
+    .icon {
+        display: block;
+        font-size: px2rem(38);
+        color: $color-bf;
+    }
+    .active {
+        color: $color-org;
+    }
+}
+
+// 轮播的pagination
+.swiper-container-horizontal>.round-bullets {
+    .swiper-pagination-bullet {
+        width: px2rem(8);
+        height: px2rem(8);
+        border-radius: px2rem(4);
+        margin: 0 px2rem(6);
+        background: #d9d3d3;
+        opacity: 1;
+    }
+    &.gray .swiper-pagination-bullet {
+        background-color: rgba(220, 220, 220, 0.8);
+    }
+    .bullet-active {
+        width: px2rem(20);
+        background: $color-red !important;
+    }
+}
+
+// 回到首页
+.to-home {
+    $icon-size:px2rem(64);
+    position: absolute;
+    z-index: 100;
+    top: px2rem(40);
+    right: px2rem(40);
+    width: $icon-size;
+    height: $icon-size;
+    line-height: $icon-size;
+    display: block;
+    background: rgba(51, 51, 51, 0.5);
+    border-radius: 100%;
+    text-align: center;
+    .icon {
+        font-size: $f-size18;
+        color: $color-e6;
+    }
+}
+
+.fixed-btn-bottom {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    z-index: 10;
+    .btn {
+        font-size: px2rem(38);
+        width: 100%;
+    }
+}
+
+.train-detail,
+.venue-detail,
+.activity-detail,
+.my-zoe {
+    padding-bottom: px2rem(100);
+}
+
+@import '../components/card'; // 图文组合
+@import '../pages/comment'; // 评论
+
+
+/* start 底部：评论，分享，收藏 */
+.iconNew-collectOn .path1:before {
+  color: $color-red;
+}
+.footBtnWrapWc {
+    height: px2rem(108);
+}
+.footBtnWrap {
+    width: px2rem(750);
+    height: px2rem(108);
+    background-color: #f8f8f8;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    z-index: 20;
+    left: 0;
+    .fBtn {
+        display: block;
+        width: px2rem(140);
+        float: left;
+        font-size: $f-size13;
+        color: #666;
+        text-align: center;
+        line-height: px2rem(108);
+        position: relative;
+        .iconNew {
+            font-size: $f-size15;
+            color: #999;
+            margin-right: px2rem(10);
+            position: relative;
+            top: px2rem(3);
+        }
+        &:before {
+            content: '';
+            display: block;
+            width: 1px;
+            height: px2rem(22);
+            background-color: #dcdcdc;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            margin-top: px2rem(-11);
+        }
+        /*&:first-child:before {
+            display: none;
+        }*/
+    }
+    .fOrder {
+        display: block;
+        float: right;
+        width: px2rem(285);
+        height: px2rem(108);
+        line-height: px2rem(108);
+        overflow: hidden;
+        font-size: $f-size18;
+        color: #fff;
+        background-color: $color-red;
+        text-align: center;
+        // 结束
+        &.end {
+            color: #666;
+            background-color: #b5b5b5;
+        }
+        // 实名认证
+        &.real {
+            font-size: $f-size;
+        }
+    }
+    .fTxt {
+        display: block;
+        float: right;
+        width: px2rem(405);
+        height: px2rem(62);
+        line-height: px2rem(62);
+        margin-right: px2rem(20);
+        border: none;
+        background: #eee;
+        font-size: $f-size;
+        color: #999;
+        padding: 0 px2rem(25);
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        margin-top: px2rem(23);
+        -webkit-border-radius: px2rem(31);
+        -moz-border-radius: px2rem(31);
+        border-radius: px2rem(31);
+    }
+}
+/* end 底部：评论，分享，收藏 */
+
+/* start 弹窗：请在微信浏览器中打开 */
+.wechat-popup {
+    font-size: $f-size;
+    color: #333;
+    padding: px2rem(60) px2rem(40);
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+/* end 弹窗：请在微信浏览器中打开 */
+
+.tagHollow, .tagBlack {
+    .item {
+        display: block;
+        float: left;
+        font-size: $f-size12;
+        color: $color-red;
+        text-align: center;
+        border: 1px solid rgba($color-red, .6);
+        height: px2rem(44);
+        line-height: px2rem(44);
+        overflow: hidden;
+        -webkit-border-radius: px2rem(4);
+        -moz-border-radius: px2rem(4);
+        border-radius: px2rem(4);
+        margin-right: px2rem(10);
+        margin-bottom: px2rem(10);
+        padding: 0 px2rem(16);
+    }
+}
+.tagBlack {
+    .item {
+        color: #fff;
+        background-color: rgba(#000, .6);
+        border: 1px solid #79797b;
+    }
+}
+
+/* start 左拉菜单 */
+#fixed-btn {
+  height: px2rem(100);
+  width: px2rem(100);
+  line-height: px2rem(150);
+  position: fixed;
+  right: px2rem(10);
+  bottom: px2rem(200);
+  background: url(/images/navFixed.png) no-repeat;
+  background-size: cover;
+  z-index: 999;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  text-align: center;
+}
+
+#right-bar-panel {
+  height: 100%;
+  width: 70%;
+  background: url(/images/rNavBg.png) repeat-y right top #f0f0f0;
+  .nav-panel {
+    overflow-y: scroll;
+    ul li {
+      list-style: none;
+      height: px2rem(80);
+      line-height: px2rem(80);
+      text-indent: px2rem(40);
+      position: relative;
+      a {
+        display: block;
+        font-size: $f-size15;
+        color: $color-000;
+      }
+      .iconNew-rNav {
+          display: inline-block;
+          vertical-align: middle;
+          font-size: px2rem(40);
+          color: $color-666;
+          margin-right: px2rem(40);
+      }
+      &.active-link {
+       /* color: $color-333;
+        background-color: #f0f0f0;
+        font-weight: 700;
+        i {
+          display: block !important;
+        }*/
+      }
+    }
+  }
+  .top-panel {
+    padding: px2rem(30) 0 px2rem(50) 0;
+    position: relative;
+  }
+  .face-panel {
+    .face {
+      display: block;
+      height: px2rem(153);
+      width: px2rem(153);
+      margin: 0 auto;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      border-radius: 50%;
+      overflow: hidden;
+      position: relative;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  .nick-name {
+    font-size: px2rem(48);
+    color: $color-000;
+    text-align: center;
+    height: px2rem(70);
+    line-height: px2rem(70);
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    margin-top: px2rem(10);
+  }
+  .fixed-close-btn {
+    position: absolute;
+    bottom: px2rem(60);
+    left: 0;
+    width: 100%;
+    height: px2rem(40);
+    text-align: center;
+    line-height: px2rem(40);
+    i {
+      font-size: px2rem(40);
+    }
+  }
+}
+/* end 左拉菜单 */

@@ -1,0 +1,80 @@
+<%
+var column = query.column ? '?column=' + query.column : '';
+var page = '/academy?';
+var paginatorPage = page + column;
+//console.log(academy)
+%>
+  <!DOCTYPE html>
+  <html>
+
+  <head>
+    <title>
+      群文学会
+    </title>
+    <% include ../common/head %>
+  </head>
+
+  <body>
+    <header>
+      <% include ../common/header %>
+    </header>
+
+    <div class="uict-content2">
+      <ol class="breadcrumb">
+        <li>
+          <a href="/">首页</a>
+        </li>
+        <li class="active">群文学会</li>
+      </ol>
+        
+        <div class='uict-academyheader'>
+          <div class='header'><%= academy ? academy.name : "" %></div>
+          <div class='descrip'><%- academy ? academy.brief : "" %></div>
+          <div class="btns margintop20">
+            <a class="btn btn-default btn-lg " title="学会概况" href='/academy/brief' role="button">学会概况</a>
+             <a class="btn btn-default btn-lg " title="学会章程"  href='/academy/regulations' role="button">学会章程</a>
+              <a class="btn btn-default btn-lg " title="理事会成员"  href='/academy/board' role="button">理事会成员</a>
+               <a class="btn btn-default btn-lg " title="学会构成" href='/academy/divisions/<%= academy ? academy.id : "" %>' role="button">学会构成</a>
+          </div>
+        </div>
+
+        <div class="uict-academyInfo marginTop20"> 
+           <div class='header'>学会动态</div>
+          <% if(childColumns&&childColumns.length){ %> 
+            <div class="m-filter-pannel news-filter">
+              <div class="m-search-lst" style="margin-bottom: 0;padding:10px;">
+                <div class="item">
+                  <div class="tag-wrap">
+                    <% childColumns.forEach(function (item) { %>
+                      <a class="tag-item nobg <% if(childid&&childid===item.id){ %>active<% } %>" href="<%- page %>column=<%= item.id %>">
+                        <%= item.name %>
+                      </a>
+                      <% }) %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% } %>
+          <div class="uict-venueslist">
+              <% if(data.content&&data.content.length!=0){%>
+                <% data.content.forEach(function (news) { %>
+                  <%- include('../news/new_media.ejs', {news: news}) %>
+                <% }) %>
+              <%} else {%>
+                <%- include('../common/nodata', {tip : '暂无学会动态' })%>
+              <%}%>
+          <%- include('../common/paginator.ejs', {page : data.number + 1, totalPages : data.totalPages, pageUrl : paginatorPage,totalElements:data.totalElements}) %>
+        </div>
+  </div>
+      
+
+    </div>
+    <footer>
+      <% include ../common/footer %>
+    </footer>
+  </body>
+  <script>
+    
+  </script>
+
+  </html>

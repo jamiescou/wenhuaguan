@@ -1,0 +1,57 @@
+<%
+var column = query.column ? '&column=' + query.column : '';
+var page = '/news';
+var paginatorPage = page + column;
+%>
+  <!DOCTYPE html>
+  <html>
+
+  <head>
+    <title>
+     原创作品欣赏
+    </title>
+    <% include ../common/head %>
+  </head>
+
+  <body>
+    <header>
+      <% include ../common/header %>
+    </header>
+    
+    <div class="uict-collectHeader marginTop20 marginBottom20">
+        <a>作品征集</a>
+        <a class="active">群文艺术赛事</a>
+        <a>原创作品欣赏</a>
+      </div>
+
+      <div class="uict-listContent marginTop20">
+          <div class="header"><span>线上展厅</span></div>
+              <div class="m-filter-pannel">
+                <div class="m-search-lst margin0 padding0">
+                  <div class="item">
+                    <div class="tag-wrap">
+                      <a class="tag-item <% if(!query.type){ %>active<% } %>" href="<%- typePageUrl %>">全部</a>
+                      <% codetype.forEach(function (type) { %>
+                        <a class="tag-item <% if(query.type&&query.type===type.code){ %>active<% } %>" href="<%- typePageUrl %>&type=<%=type.code%>">
+                          <%= type.value%>
+                        </a>
+                        <% }) %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          <div class="uict-venueslist">
+            <% data.content.forEach(function (news) { %>
+              <%- include('new_media.ejs', {news: news}) %>
+                <% }) %>
+         
+             <%- include('../common/paginator.ejs', {page : data.number + 1, totalPages : data.totalPages, pageUrl : paginatorPage,totalElements:data.totalElements}) %>
+    </div></div>
+    <footer>
+      <% include ../common/footer %>
+    </footer>
+  </body>
+  <script type='text/javascript'>
+  </script>
+
+  </html>

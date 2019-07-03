@@ -1,0 +1,27 @@
+{
+    "svn.delete.ignoredRulesForDeletedFiles": [
+        "public\\styles\\brand.min.css",
+        "public\\styles\\collect.min.css",
+        "public\\styles\\common.min.css",
+        "public\\styles\\cultural.min.css",
+        "public\\styles\\example.min.css",
+        "public\\styles\\exhibition.min.css",
+        "public\\styles\\gjs.min.css",
+        "public\\styles\\heritage.min.css",
+        "public\\styles\\index.min.css",
+        "public\\styles\\issue.min.css",
+        "public\\styles\\login.min.css",
+        "public\\styles\\magazine.min.css",
+        "public\\styles\\organization.min.css",
+        "public\\styles\\query_machine.min.css",
+        "public\\styles\\search.min.css",
+        "public\\styles\\team.min.css",
+        "public\\styles\\text.min.css",
+        "public\\styles\\train.min.css",
+        "public\\styles\\user-center.min.css",
+        "public\\styles\\venue.min.css",
+        "public\\styles\\vod.min.css",
+        "public\\styles\\volunrecruit.min.css",
+        "public\\styles\\volunteer.min.css"
+    ]
+}

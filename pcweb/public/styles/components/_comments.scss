@@ -1,0 +1,60 @@
+
+@import '../base/variables';
+    .detail-block{
+       position:relative;
+    }
+    .btn-comment{
+         @include pull-right();
+
+     
+    }
+    .content-c{
+        padding:0px 0 50px 0;
+        border-bottom:1px solid $card-border-color;
+        .content{
+            width:100%;
+            height:80px;
+            background: $gray-f8;
+            font-size:$font-size;
+            padding:10px;
+            margin-bottom:10px;
+            border:1px solid $card-border-color
+        }
+    }
+    .kk-pageinator{
+        margin:10px 0 0 !important;
+        width:100% !important;
+
+    }
+  
+ 
+.comment.media {
+    padding: 10px 0 10px 0;
+    border-bottom: 1px solid $gray-f8;
+    .avatar {
+        display: block;
+        width: 48px;
+        height:48px;
+        border-radius: 100%;
+    }
+    .comment-hd {
+        margin: 10px 0;
+        .name {
+            font-size: $font-size18;
+            color: $font-color;
+        }
+        .time {
+            position: relative;
+            top: ( $font-size24 - $font-size);
+            font-size: $font-size12;
+            color: $gray-666;
+        }
+    }
+    .comment-content {
+        font-size: $font-size;
+        line-height: 28px;
+        color: $gray-666;
+        word-break: break-all;
+    }
+}
+

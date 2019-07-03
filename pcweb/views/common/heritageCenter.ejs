@@ -1,0 +1,20 @@
+<div class="heritageNav">
+    <div>
+        <a data-status='' class="" href="/heritage/">非遗展厅</a>
+        <a data-status="heritageMap" href="/heritage/heritageMap">非遗地图</a>
+        <a data-status="heritagePrj" href="/heritage/heritagePrj">非遗名录</a>
+        <a data-status="heritageNews" href="/heritage/heritageNews">非遗资讯</a>
+    </div>
+</div>
+<div class="place-space"></div>
+
+<script>
+    var curModel = window.location.pathname.split('/')[2];
+    
+    $('.heritageNav a').each(function (index) {
+        if($(this).attr('data-status') == curModel||($(this).attr('data-status')==''&&!curModel)) {
+            $(this).addClass('active');
+        }
+    })
+  
+</script>

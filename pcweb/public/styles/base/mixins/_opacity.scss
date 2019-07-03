@@ -1,0 +1,17 @@
+// 透明度
+@mixin opacity($opacity:50) {
+    opacity: $opacity / 100;
+    @if $legacy-support-for-ie {
+        filter: alpha(opacity=$opacity);
+    }
+}
+
+@mixin semi-transparent-colors($attribute, $color, $background) {
+    $percent: alpha($color) * 100%; //获取颜色透明度值，并转换成百分比 
+    @if($percent !=100%) {
+        $opaque: opacify($color, 1); //使颜色不透明 
+        $solid-color: mix($opaque, $background, $percent);
+        #{$attribute}: $solid-color; //设置不透明的颜色，为不支持rgba颜色的浏览器服务 
+    }
+    #{$attribute}: $color;
+}

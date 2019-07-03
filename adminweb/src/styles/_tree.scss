@@ -1,0 +1,74 @@
+$treeH-h:40px;
+.tree-heading {
+    position: relative;
+    height: $treeH-h;
+    font-size: 0;
+    line-height: 1;
+    .v-line {
+        display: inline-block;
+        height: 16px;
+        width: 2px;
+        line-height: $treeH-h;
+        vertical-align: middle;
+        background-color: #1c8de0;
+        margin-right: 8px;
+    }
+    .u-title {
+        display: inline-block;
+        margin: 0;
+        line-height: $treeH-h;
+        font-size: 14px;
+        font-weight: 700;
+        vertical-align: middle;
+    }
+    .tree-opers {
+        $btn-h: 30px;
+        position: absolute;
+        top: ($treeH-h - $btn-h)/2;
+        right: 0;
+        overflow: hidden;
+        &>.el-button,
+        &>.u-btn {
+            height: $btn-h;
+            padding: 0 10px; //border-radius: 0;
+            font-size: 12px;
+        }
+        .el-button+.el-button,
+        .u-btn+.u-btn {
+            margin-left: 8px;
+        }
+    }
+}
+
+.tree-panel {
+    .search-box {
+        margin-bottom: -1px;
+        input {
+            border-radius: 0;
+        }
+    }
+    .u-tree-node {
+        font-size: 14px;
+        display: inline-block;
+        vertical-align: middle;
+        .sz-ico {
+            margin-right: 5px;
+            color: #97a8be;
+        }
+    }
+}
+
+.tree-content-panel {
+    .content-heading {
+        border-bottom: 1px solid #dfe6ec;
+        .tree-opers {
+            $btn-h: 30px;
+            top: ($treeH-h - $btn-h)/2;
+            &>.el-button,
+            &>.u-btn {
+                height: $btn-h;
+                padding: 0 10px;
+            }
+        }
+    }
+}

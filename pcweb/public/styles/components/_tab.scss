@@ -1,0 +1,46 @@
+.tab-wrapper {
+    background-color: $container-bg;
+    .nav-tabs {
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+        border-bottom: 1px solid $gray-f8;
+        height: 60px;
+        opacity: 1;
+        @include clearfix;
+        li {
+            float: left;
+            position: relative;
+            display: block;
+            a {
+                position: relative;
+                display: block;
+                line-height: 60px;
+                padding: 0 30px;
+                font-size: $font-size16;
+            }
+            &.active {
+                a {
+                    color: $red;
+                }
+            }
+        }
+    }
+    .tab-content {
+        box-sizing: border-box;
+        padding: 20px 30px;
+        &>.tab-pane {
+            display: none;
+        }
+        &>.active {
+            display: block;
+        }
+    }
+    .fade {
+        opacity: 0;
+        transition: opacity .15s linear;
+    }
+    .fade.in {
+        opacity: 1;
+    }
+}

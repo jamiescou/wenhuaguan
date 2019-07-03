@@ -1,0 +1,45 @@
+<div class="form-item u-input-group item-gutter">
+    <i class="iconfont icon-phone"></i>
+    <input type="text" class="u-form-control" id="mobile" name="mobile" placeholder="输入11位手机号码" maxlength="11" required>
+    <span class="u-group-btn">
+        <button class="btn" id="btnGetVcodes" type="button">获取验证码</button>
+    </span>
+</div>
+<script>
+    var state = '<%=mobile%>' //newMobile:用户注册，必须是未注册手机号；registedMobile:忘记密码，必须是已经注册的手机号码;mobile:可以是任意手机号码;unbindMobile:微信绑定的时候，必须是没有绑定过微信的已有账号
+    $(document).ready(function() {
+        $('#btnGetVcodes').click(function() {
+            var result = $('#mobile').valid();
+            if (!result) return;
+            var $btn = $(this);
+            if ($btn.hasClass('js_pause')) return;
+            if ($btn.hasClass('disabled')) return;
+            $btn.addClass('js_pause');
+            var mobile = $('#mobile').val();
+            var signStr = `mobile=${mobile}&flag=register`
+            $.ajax({
+                url: '/login/vcodes',
+                type: 'post',
+                data: {
+                    mobile: mobile,
+                    state: state,
+                    signStr: md5(signStr) // 加密串
+                },
+                success: function(res) {
+                    $btn.removeClass('js_pause');
+                    if (res.status == 200) {
+                        assist.showMsg('验证码已发送到您手机，请注意查收！', 'success');
+                        assist.count_down('#btnGetVcodes', 60000);
+                    } else {
+                        $btn.removeClass('disabled');
+                        assist.showMsg(res.message);
+                    }
+                },
+                failure: function(err) {
+                    assist.showMsg('验证码发送失败');
+                    $btn.removeClass('js_pause disabled');
+                }
+            })
+        })
+    })
+</script>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html style="height:100%;">
+
+<head>
+    <title>
+        用户登录
+    </title>
+    <% include ../common/head %>
+</head>
+
+<body class="login-wrapper">
+    <a class="brand" href="/">
+        <div class="logo">
+            <img src='/images/logo.png'>
+        </div>
+        <img src="/images/sgbj.png" alt="文化馆logo" />
+    </a>
+    <% include ./login %>
+    <script src="/javascripts/libs/validate/jquery.validate.min.js"></script>
+    <script src="/javascripts/libs/validate/additional-methods.min.js"></script>
+    <script src="/javascripts/libs/validate/messages_zh.js"></script>
+    <script src="/javascripts/commons/custom-validate.js"></script>
+</body>
+</html>

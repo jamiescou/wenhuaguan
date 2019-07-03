@@ -1,0 +1,250 @@
+@import '../libs/px2rem.scss';
+@import '../base/_variable';
+@import '../base/mixins';
+//.reserve-tip {
+.activity-detail {
+    font-size: $f-size12;
+    .remain-type {
+        font-size: $f-size;
+        color: #999;
+    }
+    .remain {
+        color: $color-org;
+    }
+    .remain-num {
+        font-size: $f-size24;
+    }
+    .card-title {
+        width: px2rem(580);
+    }
+}
+
+.card-scan {
+    font-size: $f-size10;
+    color: #999;
+    line-height: $card-title-lineheight;
+    position: absolute;
+    right: px2rem(36);
+    top: px2rem(20);
+    .iconNew-scan {
+        font-size: px2rem(26);
+        color: #999;
+        position: relative;
+        top: px2rem(4);
+        margin-right: px2rem(8);
+    }
+}
+
+.activity-container {
+    .favorite-reserve {
+        padding-top: px2rem(20);
+        line-height: px2rem(40);
+        .icon {
+            vertical-align: top;
+        }
+        .reserve-tip {
+            text-align: right;
+        }
+    }
+    .list-wraper .card {
+        margin-bottom: px2rem(20);
+        padding: px2rem(20) px2rem(20) px2rem(36);
+        .card-info+.card-info {
+            margin-top: px2rem(15);
+        }
+    }
+}
+
+// 活动详情
+.activity-detail {
+    padding-bottom: $foot-height;
+    .base-info {
+        .card-bd {
+            padding: px2rem(20) 0 px2rem(20) px2rem(36);
+        }
+        .card-title {
+            font-size: $f-size16;
+            padding-right: px2rem(8);
+        }
+        .reserve-tip {
+            color: $color-999;
+        }
+    }
+    .brief {
+        padding: px2rem(30) px2rem(40) px2rem(30) px2rem(36);
+        overflow: hidden;
+        background-color: $content-bg;
+    }
+    .attach {
+        color: $color-333;
+    }
+    .project-nav {
+        position: relative;
+        z-index: 10;
+    }
+    .activity-content {
+        position: relative;
+        background-color: $content-bg;
+        z-index: 1;
+        .remark {
+            padding: px2rem(30) px2rem(40) px2rem(30) px2rem(36);
+            overflow: hidden;
+        }
+    }
+    .digits-list {
+        padding: px2rem(15) px2rem(40) px2rem(30) px2rem(36);
+        @include make-grid-columns(2, 30px);
+        margin-bottom: px2rem(20);
+        .card {
+            padding-top: px2rem(30);
+            .card-hd img,
+            .card-hd video,
+            .card-bd audio {
+                width: 100%;
+                height: px2rem(220);
+            }
+            .card-title {
+                text-align: center;
+            }
+        }
+    }
+    .btn {
+        display: block;
+        width: 100%;
+        border-radius: 0;
+    }
+    .btn.end {
+        background-color: $color-999;
+        border-color: darken($color-999, 5%);
+    }
+    .btn.go {
+        background-color: $color-org;
+        border-color: darken($color-org, 5%);
+    }
+}
+
+// 活动预定
+.activity-pre {
+    padding: px2rem(25) $gutter $foot-height;
+    .detail {
+        background-color: $color-fff;
+        .media-bd {
+            height: px2rem(160);
+        }
+        .media-object>img {
+            width: px2rem(240);
+            height: px2rem(160);
+        }
+        .media-title {
+            margin-bottom: px2rem(20);
+        }
+        .icon {
+            font-size: inherit;
+        }
+        p {
+            margin: 0;
+        }
+        p+p {
+            margin-top: px2rem(8);
+        }
+    }
+    .txt-right {
+        text-align: right;
+    }
+    .title {
+        align-self: baseline;
+        line-height: px2rem(60);
+    }
+    .pre-info {
+        background: $content-bg;
+        padding: 0 px2rem(20);
+        .field-wrapper {
+            padding: px2rem(30) 0;
+        }
+        .form-field {
+            margin-bottom: 0;
+        }
+    }
+    .reserve-type {
+        color: $color-333;
+        padding: px2rem(30) 0;
+        .type {
+            color: $color-666;
+        }
+    }
+    .tick-count {
+        padding: px2rem(30) 0 px2rem(20);
+        .counts {
+            display: inline-block;
+        }
+        .tick-hint {
+            color: $color-999;
+            font-size: $f-size12;
+        }
+    }
+    .confirm-item {
+        color: $color-333;
+        padding: px2rem(30) 0;
+        .title {
+            color: $color-999;
+        }
+    }
+    .operations {
+        width: 100%;
+        text-align: center;
+        padding: px2rem(30) px2rem(30) px2rem(50);
+    }
+    .pre-footer {
+        background: none;
+        box-shadow: none;
+        height: auto;
+        .reserve-tip {
+            padding-left: px2rem(40);
+        }
+        .next-opreations {
+            background: $content-bg;
+        }
+    }
+    .protocol {
+        padding-bottom: px2rem(30);
+        overflow: hidden;
+        color: $color-999;
+        font-size: $f-size12;
+        .block-heading {
+            padding-left: 0;
+            padding-right: 0;
+            margin-bottom: px2rem(20);
+        }
+        li {
+            margin-bottom: px2rem(20);
+        }
+    }
+    .tag {
+        display: inline-block;
+        color: $color-red;
+        border: 1px dashed $color-red;
+        font-size: $f-size12;
+        padding: px2rem(10);
+        margin: px2rem(10);
+    }
+}
+
+// 问卷调查
+.research-container {
+    background-color: $content-bg;
+    padding: px2rem(30);
+    font-size: $f-size;
+    .question {
+        border-bottom: 1px solid #ccc;
+    }
+    .title {
+        padding: px2rem(30) 0 px2rem(10);
+    }
+    .textarea {
+        height: px2rem(180);
+        width: 100%;
+        border: 1px solid #eee;
+        padding: px2rem(20);
+        font-size: $f-size12;
+    }
+}

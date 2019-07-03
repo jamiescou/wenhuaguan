@@ -1,0 +1,15 @@
+{
+    "apps": [{
+        "name": "hunan-mobile-develop",
+        "script": "build/main.js",
+        "exec_mode": "cluster",
+        "instances": 4,
+        "max_memory_restart": "2024M",
+        "autorestart": true,
+        "node_args": [],
+        "args": [],
+        "env": {
+            "__ENV": "develop"
+        }
+  }]
+}

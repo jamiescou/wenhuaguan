@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    湖南省文化馆
+  </title>
+  <% include ../common/head %>
+</head>
+
+<body>
+  <header>
+    <% include ../common/header %>
+  </header>
+  <div class="uict-content2">
+      <ol class="breadcrumb">
+          <li>
+            <a href="/">首页</a>
+          </li>
+          <li>
+            <a href="/volunteer">志愿者</a>
+          </li>
+          <li class="active">志愿者团队列表</li>
+     </ol>
+    <div class="uict-listContent marginTop20">
+        <div class="header" style="position:relative;">
+          <span>志愿者团队</span>
+        </div>
+        <div class="content">
+          <% data.content.forEach(function (item) { %>
+            <div class="item">
+              <a class="ui-aca" href="/volunteer/volunteamsdetail/<%= item.id %>">
+                <img  class="coverPic" src="<%=item.coverPic%>" alt="活动图片">
+                <!-- <img class="coverPic" src="http://120.77.150.198:8080/whgstatic/img/2017/201705/20170525/51c67268730c489cbae12dca0d9c18fd.jpg"> -->
+              </a>
+              <div class="itemHeader">
+                <%= item.name %>
+              </div>
+              <div class="itemInfo">
+                <p>
+                  <i class="iconfont icon-time"></i>
+                  <%= item.contactPhone %>
+                </p>
+                <p>
+                  <i class="iconfont icon-location"></i>
+                  <%= item.detailAddress %>
+                </p>
+              </div>
+            </div>
+              <% }) %>
+            </div>
+        </div>
+      <%- include('../common/paginator.ejs', {page : data.number + 1, totalPages : data.totalPages, pageUrl : '/volunteer', totalElements : data.totalElements}) %>
+    </div>
+  </div>
+  <footer>
+    <% include ../common/footer %>
+  </footer>
+</body>
+<script>
+
+</script>
+
+</html>

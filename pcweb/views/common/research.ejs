@@ -1,0 +1,94 @@
+<form method="post" id="researchForm" class="research-form">
+    <% research.items.forEach(function(item,index){ %>
+        <div class="qitem">
+            <div class="q-title">
+                <%=(index+1)+'、'+item.title%>
+            </div>
+            <div class="q-content">
+                <% if(item.type!='question'){  item.contents.forEach(function(subItem,ind){%>
+                    <label class="q-option-item" for="options_<%=index%>_<%=ind%>">
+                        <input type="<%= item.type=='single'? 'radio':'checkbox' %>" name="options<%=index%>" id="options_<%=index%>_<%=ind%>" value="<%= ind %>"
+                            required>
+                        <%=subItem%>
+                    </label>
+                    <%}) } else { %>
+                        <textarea rows="3" class="u-form-control" name="area<%=index%>" required></textarea>
+                        <%}%>
+            </div>
+        </div>
+        <% }) %>
+            <div class="operate-btns">
+                <% if(submitstatus){%>
+                    <button class="btn disabled" title="您已提交问卷，不能重复提交">
+                         问卷已提交
+                    </button>
+                    <%}else{%>
+                        <input type="submit" id="submitResearch" style="display:none;">
+                        <button class="btn" id="submitResearchBtn" data-router="<%=router%>" href='#loginModal'>提交问卷</button>
+                        <%}%>
+            </div>
+</form>
+<script>
+    var userstr = '<%-JSON.stringify(user)%>';
+    var userObj = JSON.parse(userstr);
+    var researchTitles = '<%- JSON.stringify(research.titles) %>';
+    researchTitles = JSON.parse(researchTitles);
+    $(function() {
+        // 提交
+        $('#submitResearchBtn').on('click', function(event) {
+            // event.stopPropagation();
+            event.preventDefault();
+
+            if (!userObj) {
+                $(this).colorbox({
+                    inline: true,
+                    slideshow: true,
+                    width: 570,
+                    height: 480,
+                    closeButton: false,
+                    overlayClose: true
+                });
+                return;
+            } else {
+                $("#submitResearch").click();
+            }
+        });
+        $('#researchForm').validate({
+            errorElement: 'div',
+            errorClass: 'v-error',
+            submitHandler: function() {
+                var params = $("#researchForm").serializeArray();
+                var fields = {};
+                $.each(params, function() {
+                    if (fields[this.name]) {
+                        fields[this.name] += ',' + this.value;
+                    } else {
+                        fields[this.name] = this.value;
+                    }
+                });
+
+                var fieldsValue = [];
+                $.each(fields, function(i) {
+                    fieldsValue.push(fields[i]);
+                });
+
+                var router = $('#submitResearchBtn').attr('data-router');
+                var obj = {
+                    'titles': researchTitles,
+                    'results': fieldsValue
+                }
+                $.ajax({
+                    url: router,
+                    type: 'post',
+                    data: obj,
+                    success: function(res) {
+                        if (res == undefined) {
+                            assist.showMsg("提交成功", 'success')
+                            window.location.reload();
+                        }
+                    }
+                })
+            }
+        });
+    })
+</script>

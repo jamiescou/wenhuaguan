@@ -1,0 +1,158 @@
+<%
+var type = query.type ? '&type=' + query.type : '';
+var pagingUrl = '/exhibition?' + type;
+var typePageUrl = '/exhibition';
+%>
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+        <title>
+            数字展览
+        </title>
+        <% include ../common/head %>
+            <script src="/javascripts/libs/swiper/swiper.min.js"></script>
+            <link rel='stylesheet' href='/javascripts/libs/swiper/swiper.min.css' />
+            <link rel='stylesheet' href='/styles/exhibition.min.css' />
+    </head>
+
+    <body>
+        <header>
+            <% include ../common/header %>
+        </header>
+        <div class="g-content">
+            <div class="crumbs">
+                <ul>
+                    <li><a href="/">首页&nbsp;&nbsp;></a></li>
+                    <li><a href="javascript:void(0)">数字展览</a></li>
+                </ul>
+            </div>
+            <div class="g-content exhibition margin25px">
+                <div class="swiper-container exhibition-swiper" id="exhibitionSwiper">
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper">
+                        <!-- Slides -->
+                        <% figure.forEach(function (item) { %>
+
+                            <a class="swiper-slide" href="<%-item.url%>" style="background: url(<%=item.coverPic%>) center;background-size:cover;">
+                            </a>
+                            <% }) %>
+                    </div>
+                    <div class="pagination swiper-pagination j-exhibition-pagination"></div>
+                </div>
+            </div>
+            <div class="carousel slide section" data-ride="carousel">
+                <div class="carousel-inner" role="listbox" style="height:100%;">
+                </div>
+            </div>
+            <div class="detail-block">
+                <div class="block-heading border">
+                    <h4 class="title"> 近期展览</h4>
+                </div>
+                <div class=" detail-content list-content nopadding">
+                    <div class="content">
+                        <% if(data && data.content.length > 0){ %>
+                            <% data.content.forEach(function (item) { %>
+                                <a class="card col-4 border" href="/activity/detail/<%= item.id %>">
+                                    <div class="card-head">
+                                        <img class="img-top" src="<%= item.coverPic %>" alt="活动图片" onerror="noImg();">
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title  f-nowrap">
+                                            <%= item.name %>
+                                        </h5>
+                                        <div class="card-info">
+                                            <p>
+                                                <i class="icon iconfont icon-time"></i>
+                                                <span><%= item.holdStartDate %>&nbsp至&nbsp
+                                            <%= item.holdEndDate %></span>
+                                            </p>
+                                            <p>
+                                                <i class="icon iconfont icon-location"></i>
+                                                <span><%= item.address %> </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                                <% }) %>
+                                    <% }else {%>
+                                        <%- include('../common/nodata', {tip : '近期暂无展览' }) %>
+                                            <% }%>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="place-space"></div>
+            <div class=" detail-block">
+                <div class="block-heading">
+                    <h4 class="title">线上展厅</h4>
+                </div>
+                <div class="detail-content nopadding">
+                    <div class="m-filter-pannel">
+                        <div class="m-search-lst nopaddingB">
+                            <div class="item">
+                                <div class="tag-wrap">
+                                    <a class="tag-item tag-item-mco <% if(!query.type){ %>active<% } %>" href="<%- typePageUrl %>">全部</a>
+                                    <% codetype.forEach(function (type) { %>
+                                        <a class="tag-item tag-item-mco <% if(query.type && query.type === type.code){ %>active<% } %>" href="<%- typePageUrl %>?type=<%= type.code %>">
+                                            <%= type.value %>
+                                        </a>
+                                        <% }) %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-content">
+                        <div class="content">
+                            <% if(digital && digital.content.length > 0){ %>
+                                <% digital.content.forEach(function (item) { %>
+                                    <div class="card col-4 border">
+                                        <div class="card-head">
+                                            <a href="/exhibition/detail/<%= item.id %>">
+                        <img class="img-top" src="<%= item.coverPic %>">
+                    </a>
+                                        </div>
+                                        <div class="card-body">
+                                            <a href="/exhibition/detail/<%= item.id %>">
+                                                <h5 class="card-title f-nowrap">
+                                                    <%= item.title %>
+                                                </h5>
+                                            </a>
+                                            <div class="card-text">
+                                                <%- item.brief %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% }) %>
+                                        <% }else {%>
+                                            <%- include('../common/nodata', {tip : '暂无展览' }) %>
+                                                <% }%>
+                        </div>
+                    </div>
+                    <%- include('../common/paginator.ejs', {page : digital.number + 1, totalPages : digital.totalPages, pageUrl : pagingUrl, totalElements : digital.totalElements}) %>
+                </div>
+            </div>
+        </div>
+        <div class="place-space"></div>
+        <footer>
+            <% include ../common/footer %>
+        </footer>
+    </body>
+    <script>
+        $(function() {
+            $('#myStateButton').on('click', 'label', function() {
+                var status = $(this).find('input').data('status');
+
+            })
+            var exhibitionSwiper = new Swiper('#exhibitionSwiper', {
+                autoplay: 5000, // 可选选项，自动滑动
+                loop: true, //可选选项，开启循环
+                pagination: '.j-exhibition-pagination',
+                paginationClickable: true,
+                effect: 'fade'
+            });
+        });
+    </script>
+
+    </html>

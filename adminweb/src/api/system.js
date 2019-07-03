@@ -1,0 +1,116 @@
+import manager, { fileRequests as upload } from './modules/manager';
+import { picRequests, unitRequests } from './modules/units';
+import role from './modules/role';
+import store from './modules/storeitems'
+import devices from './modules/devices'
+export default {
+    // =========================  管理员账号管理  ============================
+    requestToken: manager.requestToken,
+    getLoginUserInfo: manager.getLoginUserInfo,
+    getAccountList: manager.getAccountList,
+    getAccountListall: manager.getAccountListall,
+    getAccountInfo: manager.getAccountInfo,
+    getMenuOfManager: manager.getMenuOfManager,
+    lockAccount: manager.lockAccount,
+    unlockAccount: manager.unlockAccount,
+    addAccount: manager.addAccount,
+    modifyAccount: manager.modifyAccountInfo,
+    modifyManage: manager.modifyManageInfo,
+    changeAccountRole: manager.changeAccountRole,
+    delAccount: manager.delAccount,
+    editPassword: manager.editPassword,
+    // =========================  组织管理  ============================
+    getLogoPic: picRequests.getLogoPic,
+    getCoverPic: picRequests.getCoverPic,
+
+    getUnits: unitRequests.getUnits,
+    getUnitInfo: unitRequests.getUnitInfo,
+    getUnitChildren: unitRequests.getUnitChildren,
+    getUnitChildrenForOrg: unitRequests.getUnitChildrenForOrg,
+    getUnitChildrenForDep: unitRequests.getUnitChildrenForDep,
+    getUnitsAndSelf: unitRequests.getUnitsAndSelf,
+    getUnitOrgAndPerson: unitRequests.getUnitOrgAndPerson,
+    addUnit: unitRequests.addUnit,
+    delUnit: unitRequests.delUnit,
+    modifyUnit: unitRequests.modifyUnitInfo,
+    getRegionList: unitRequests.getRegionList,
+    getRegion: unitRequests.getRegion,
+    getAllRegion: unitRequests.getAllRegion,
+    getUnitAllchildren: unitRequests.getUnitAllchildren,
+    // =========================  字典管理  ============================
+    getDictionaries: manager.getDictionaries,
+    getDictofCodes: manager.getDictofCodes,
+    getDicItem: manager.getDictofCodes,
+    editDicItem: manager.editDicItem,
+    // =========================  标签管理  ============================
+    getLabels: manager.getLabels,
+    addLabel: manager.addLabel,
+    editLabelItems: manager.editLabelItems,
+    delLabeItem: manager.delLabeItem,
+    getLabelitem: manager.getLabelitem,
+    // =========================  角色管理  ============================
+    getRoleList: role.getRoleList,
+    getRoleInfo: role.getRoleInfo,
+    addRoleItem: role.addRoleItem,
+    modifyRole: role.modifyRole,
+    delRole: role.delRole,
+    getRoleMenuAuth: role.getRoleMenuAuth,
+    modifyRoleMenuAuth: role.modifyRoleMenuAuth,
+    addManagerForRole: role.addManagerForRole,
+    delManagerForRole: role.delManagerForRole,
+    getManagerForRole: role.getManagerForRole,
+    setManagerForRole: role.setManagerForRole,
+    // =========================  文件上传  ============================
+    uploadFile: upload.uploadFile,
+    getFileUrl: upload.getFileUrl,
+    delFile: upload.delFile,
+    // =========================  题库管理  ============================
+    getStoreitems: store.getStoreitems,
+    addStoreitem: store.addStoreitem,
+    getStoreitem: store.getStoreitem,
+    modifyStoreitem: store.modifyStoreitem,
+    delStoreitem: store.delStoreitem,
+    // =========================  轮播图管理  ============================
+    getLoopPics: manager.getLoopPics,
+    getLoopContents: manager.getLoopContents,
+    getLoopContentDetail: manager.getLoopContentDetail,
+    deleteLoopContent: manager.deleteLoopContent,
+    saveLoopContents: manager.saveLoopContents,
+    loopContentTrue: manager.loopContentTrue,
+    loopContentFalse: manager.loopContentFalse,
+    updateLoopContent: manager.updateLoopContent,
+    // ========================= 文化品牌 =============================
+    createBrand: manager.createBrand,
+    delBrand: manager.delBrand,
+    getBrandInfoList: manager.getBrandInfoList,
+    createBrandInfo: manager.createBrandInfo,
+    modifyBrandInfo: manager.modifyBrandInfo,
+    delBrandInfo: manager.delBrandInfo,
+    getBrandInfo: manager.getBrandInfo,
+    modifyBrand: manager.modifyBrand,
+    getBrandList: manager.getBrandList,
+    getBrand: manager.getBrand,
+    setBrandPublish: manager.setBrandPublish,
+    setBrandUnPublish: manager.setBrandUnPublish,
+    // ========================= 漂浮广告 =============================
+    createAdvert: manager.createAdvert,
+    getAdvertList: manager.getAdvertList,
+    advertContentTrue: manager.advertContentTrue,
+    advertContentFalse: manager.advertContentFalse,
+    delAdvert: manager.delAdvert,
+    getAdvert: manager.getAdvert,
+    modifyAdvert: manager.modifyAdvert,
+    // ========================= 参数管理 =============================
+    getParamList: manager.getParamList,
+    setParamValue: manager.setParamValue,
+    // ========================= 设备管理 =============================
+    getDevicesList: devices.getDevicesList,
+    addDevice: devices.addDevice,
+    getDeviceInfo: devices.getDeviceInfo,
+    modifyDeviceInfo: devices.modifyDeviceInfo,
+    delDevice: devices.delDevice,
+    // ========================= 评论管理 =============================
+    auditComment: manager.auditComment,
+    delComment: manager.delComment,
+    getComments: manager.getComments
+}
