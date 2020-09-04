@@ -44,7 +44,7 @@
     "gulp-sass": "^3.1.0",
     "gulp-sequence": "^1.0.0",
     "ioredis": "^3.2.2",
-    "node-sass": "^4.5.3",
+    "node-sass": "^4.13.1",
     "nodemon": "^1.8.1",
     "npm-run-all": "^4.1.2"
   }
