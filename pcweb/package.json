@@ -25,7 +25,7 @@
     "koa-static": "^3.0.0",
     "koa-views": "^5.2.1",
     "koa2-connect": "^1.0.2",
-    "lodash": "^4.17.5",
+    "lodash": "^4.17.21",
     "lru-cache": "^5.1.1",
     "md5": "^2.2.1",
     "moment": "^2.20.1",
